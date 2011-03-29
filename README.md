@@ -40,6 +40,11 @@ Usage
 		$eur1->add($eur2)
 	);
 
+	<?php
+	$m = new Money(100, new Euro);
+	list($part1, $part2, $part3) = $m->allocate(array(1, 1, 1));
+	// $part1 is now 34 cent, the others are 33 cent
+
 Inspiration
 ===========
 
