@@ -26,19 +26,19 @@ subtle intricacies of handling money.
 Usage
 =====
 
-<?php
-use Verraes\Money\Money,
-    Verraes\Money\Usd,
-    Verraes\Money\Euro;
-
-// One EURO, expressed in cents
-$eur1 = new Money(100, new Euro);
-// Shortcut
-$eur2 = Money::euro(200);
-
-Money::euro(300)->equals(
-   $eur1->add($eur2)
-);
+	<?php
+	use Verraes\Money\Money,
+    	Verraes\Money\Usd,
+    	Verraes\Money\Euro;
+	
+	// One EURO, expressed in cents
+	$eur1 = new Money(100, new Euro);
+	// Shortcut
+	$eur2 = Money::euro(200);
+	
+	Money::euro(300)->equals(
+		$eur1->add($eur2)
+	);
 
 Inspiration
 ===========
