@@ -9,9 +9,9 @@
  */
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once __DIR__.'/../lib/MathiasVerraes/FowlerMoney/Currency.php';
-require_once __DIR__.'/../lib/MathiasVerraes/FowlerMoney/Euro.php';
-require_once __DIR__.'/../lib/MathiasVerraes/FowlerMoney/Exception.php';
-require_once __DIR__.'/../lib/MathiasVerraes/FowlerMoney/InvalidArgumentException.php';
-require_once __DIR__.'/../lib/MathiasVerraes/FowlerMoney/Money.php';
-require_once __DIR__.'/../lib/MathiasVerraes/FowlerMoney/Usd.php';
+require_once __DIR__.'/../lib/Verraes/Money/Currency.php';
+require_once __DIR__.'/../lib/Verraes/Money/Euro.php';
+require_once __DIR__.'/../lib/Verraes/Money/Exception.php';
+require_once __DIR__.'/../lib/Verraes/Money/InvalidArgumentException.php';
+require_once __DIR__.'/../lib/Verraes/Money/Money.php';
+require_once __DIR__.'/../lib/Verraes/Money/Usd.php';

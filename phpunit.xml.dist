@@ -7,13 +7,13 @@
          strict="true"
          verbose="true">
   <testsuites>
-    <testsuite name="fowler-money">
+    <testsuite name="verraes-money">
       <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
 
   <logging>
-    <log type="coverage-html" target="build/coverage" title="fowler-money"
+    <log type="coverage-html" target="build/coverage" title="verraes-money"
          charset="UTF-8" yui="true" highlight="true"
          lowUpperBound="35" highLowerBound="70"/>
     <log type="coverage-clover" target="build/logs/clover.xml"/>
