@@ -198,10 +198,20 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 		$this->assertMoneyEquals(new Money(34, new Euro), $part1);
 		$this->assertMoneyEquals(new Money(34, new Euro), $part2);
 		$this->assertMoneyEquals(new Money(33, new Euro), $part3);
+	}
+
+	public function testAllocationOrderIsImportant()
+	{
 
 		$m = new Money(5, new Euro);
 		list($part1, $part2) = $m->allocate(array(3, 7));
 		$this->assertMoneyEquals(new Money(2, new Euro), $part1);
 		$this->assertMoneyEquals(new Money(3, new Euro), $part2);
+
+
+		$m = new Money(5, new Euro);
+		list($part1, $part2) = $m->allocate(array(7, 3));
+		$this->assertMoneyEquals(new Money(4, new Euro), $part1);
+		$this->assertMoneyEquals(new Money(1, new Euro), $part2);
 	}
 }
