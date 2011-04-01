@@ -120,16 +120,16 @@ final class Money
 		return $this->currency;
 	}
 
-	public function add(Money $other)
+	public function add(Money $addend)
 	{
-		$this->assertSameCurrency($other);
-		return new self($this->units + $other->units, $this->currency);
+		$this->assertSameCurrency($addend);
+		return new self($this->units + $addend->units, $this->currency);
 	}
 
-	public function subtract(Money $other)
+	public function subtract(Money $subtrahend)
 	{
-		$this->assertSameCurrency($other);
-		return new self($this->units - $other->units, $this->currency);
+		$this->assertSameCurrency($subtrahend);
+		return new self($this->units - $subtrahend->units, $this->currency);
 	}
 
 	/**
@@ -152,22 +152,22 @@ final class Money
 		}
 	}
 
-	public function multiply($operand, $rounding_mode = self::ROUND_HALF_UP)
+	public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
 	{
-		$this->assertOperand($operand);
+		$this->assertOperand($multiplier);
 		$this->assertRoundingMode($rounding_mode);
 
-		$result = (int) round($this->units * $operand, 0, $rounding_mode);
-		return new Money($result, $this->currency);
+		$product = (int) round($this->units * $multiplier, 0, $rounding_mode);
+		return new Money($product, $this->currency);
 	}
 
-	public function divide($operand, $rounding_mode = self::ROUND_HALF_UP)
+	public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
 	{
-		$this->assertOperand($operand);
+		$this->assertOperand($divisor);
 		$this->assertRoundingMode($rounding_mode);
 
-		$result = (int) round($this->units / $operand, 0, $rounding_mode);
-		return new Money($result, $this->currency);
+		$quotient = (int) round($this->units / $divisor, 0, $rounding_mode);
+		return new Money($quotient, $this->currency);
 	}
 
 	/**
