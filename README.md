@@ -1,6 +1,8 @@
 Verraes\Money
 =============
 
+Also see http://blog.verraes.net/2011/04/fowler-money-pattern-in-php/
+
 This is a PHP implementation of the Money pattern, as described in [Fowler2002]:
 
 > A large proportion of the computers in this world manipulate money, so it's always puzzled me 
