@@ -12,7 +12,7 @@ namespace Verraes\Money;
 
 use Verraes\Money\InvalidArgumentException;
 
-final class Money
+class Money
 {
 	const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 	const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
