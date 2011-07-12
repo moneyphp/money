@@ -11,17 +11,17 @@
 require_once 'bootstrap.php';
 
 use Verraes\Money\Currency;
-use Verraes\Money\Euro;
-use Verraes\Money\Usd;
+use Verraes\Money\EUR;
+use Verraes\Money\USD;
 
 class CurrencyTest extends PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{
-		$this->euro1 = new Euro;
-		$this->euro2 = new Euro;
-		$this->usd1 = new Usd;
-		$this->usd2 = new Usd;
+		$this->euro1 = new EUR;
+		$this->euro2 = new EUR;
+		$this->usd1 = new USD;
+		$this->usd2 = new USD;
 	}
 
 	public function testDifferentInstancesAreEqual()

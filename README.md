@@ -27,7 +27,7 @@ down to 3 and 1 cent leaves me 1 cent. Apart from re-investing that cent in the 
 is to keep handing out the remainder until all money is spent. In other words:
 
 	<?php
-	$profit = new Money(5, new Euro);
+	$profit = new Money(5, new EUR);
 	list($my_cut, $investors_cut) = $profit->allocate(70, 30);
 	// $my_cut is 4 cents, $investors_cut is 1 cent
 
@@ -41,12 +41,12 @@ Immutability
 Jim and Hannah both want to buy a copy of book priced at EUR 25. 
 
 	<?php
-	$jim_price = $hannah_price = new Money(2500, new Euro);
+	$jim_price = $hannah_price = new Money(2500, new EUR);
 
 Jim has a coupon for EUR 5.
 	
 	<?php
-	$coupon = new Money(500, new Euro);
+	$coupon = new Money(500, new EUR);
 	$jim_price->subtract($coupon);
 
 Because $jim_price and $hannah_price are the same object, you'd expect Hannah to now have the reduced
@@ -60,7 +60,7 @@ The correct way of doing operations is:
 	
 	$jim_price = $jim_price->subtract($coupon);
 	$jim_price->lessThan($hannah_price); // true
-	$jim_price->equals(Money::euro(2000)); // true
+	$jim_price->equals(Money::EUR(2000)); // true
 	
 
 The goal

@@ -10,7 +10,7 @@
 
 namespace Verraes\Money;
 
-class Usd implements Currency
+class USD implements Currency
 {
 	/**
 	 * @return string

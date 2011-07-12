@@ -46,18 +46,18 @@ class Money
 	 * Convenience factory method for an amount in EURO
 	 * @return Money
 	 */
-	public static function euro($units)
+	public static function EUR($units)
 	{
-		return new Money($units, new Euro);
+		return new Money($units, new EUR);
 	}
 
 	/**
 	 * Convenience factory method for an amount in USD
 	 * @return Money
 	 */
-	public static function usd($units)
+	public static function USD($units)
 	{
-		return new Money($units, new Usd);
+		return new Money($units, new USD);
 	}
 
 	private function isSameCurrency(Money $other)
