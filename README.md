@@ -100,6 +100,7 @@ Inspiration
 * http://stackoverflow.com/questions/1679292/proof-that-fowlers-money-allocation-algorithm-is-correct
 * http://timeandmoney.sourceforge.net/
 * https://github.com/lucamarrocco/timeandmoney/blob/master/lib/money.rb
+* http://joda-money.sourceforge.net/
 
 Bibliography
 ============
