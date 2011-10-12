@@ -12,8 +12,6 @@ require_once 'bootstrap.php';
 
 use Verraes\Money\Money;
 use Verraes\Money\Currency;
-use Verraes\Money\USD;
-use Verraes\Money\EUR;
 
 class MoneyTest extends PHPUnit_Framework_TestCase
 {
