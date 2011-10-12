@@ -30,5 +30,11 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(Money::EUR(100), $eur);
 	}
 
-
+	/** @test */
+	public function ParsesIso()
+	{
+		$pair = CurrencyPair::createFromIso('EUR/USD 1.2500');
+		$expected = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+		$this->assertEquals($expected, $pair);
+	}
 }

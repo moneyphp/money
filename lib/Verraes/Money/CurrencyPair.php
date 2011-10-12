@@ -29,6 +29,25 @@ class CurrencyPair
 		$this->ratio = $ratio;
 	}
 
+	/**
+	 * @param string $iso String representation of the form "EUR/USD 1.2500"
+	 * @return CurrencyPair
+	 */
+	public static function createFromIso($iso)
+	{
+		$currency = "([A-Z]{2,3})";
+		$ratio = "([0-9]*\.?[0-9]+)"; // @see http://www.regular-expressions.info/floatingpoint.html
+		$pattern = '#'.$currency.'/'.$currency.' '.$ratio.'#';
+
+		$matches = array();
+		if(!preg_match($pattern, $iso, $matches)) {
+			// @todo better exception
+			throw new \Exception();
+		}
+
+		return new static(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
+	}
+
 	/** @return Money */
 	public function convert(Money $money)
 	{
