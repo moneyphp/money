@@ -94,13 +94,13 @@ Inspiration
 
 * https://github.com/RubyMoney/money
 * http://css.dzone.com/books/practical-php-patterns/basic/practical-php-patterns-value
-
 * http://www.codeproject.com/KB/recipes/MoneyTypeForCLR.aspx
 * http://www.michaelbrumm.com/money.html
 * http://stackoverflow.com/questions/1679292/proof-that-fowlers-money-allocation-algorithm-is-correct
 * http://timeandmoney.sourceforge.net/
 * https://github.com/lucamarrocco/timeandmoney/blob/master/lib/money.rb
 * http://joda-money.sourceforge.net/
+* http://en.wikipedia.org/wiki/Currency_pair
 
 Bibliography
 ============
