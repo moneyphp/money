@@ -23,7 +23,7 @@ Creation
 All amounts are represented in the smallest unit (eg. cents), so USD 5.00 is written as
 
 	<?php
-	$fiver = new Money(500, new USD);
+	$fiver = new Money(500, new Currency('USD'));
 	// or shorter:
 	$fiver = Money::USD(500);
 	 

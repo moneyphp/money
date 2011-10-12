@@ -10,21 +10,6 @@
 
 namespace Verraes\Money;
 
-class EUR implements Currency
+class UnknownCurrencyException extends \Exception implements Exception
 {
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return 'EUR';
-	}
-
-	/**
-	 * @return  bool
-	 */
-	public function equals(Currency $currency)
-	{
-		return $this->getName() == $currency->getName();
-	}
 }

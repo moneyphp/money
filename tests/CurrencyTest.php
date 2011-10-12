@@ -18,10 +18,10 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{
-		$this->euro1 = new EUR;
-		$this->euro2 = new EUR;
-		$this->usd1 = new USD;
-		$this->usd2 = new USD;
+		$this->euro1 = new Currency('EUR');
+		$this->euro2 = new Currency('EUR');
+		$this->usd1 = new Currency('USD');
+		$this->usd2 = new Currency('USD');
 	}
 
 	public function testDifferentInstancesAreEqual()
@@ -39,5 +39,14 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse(
 			$this->euro1->equals($this->usd1)
 		);
+	}
+
+	/**
+	 * @test
+	 * @expectedException Verraes\Money\UnknownCurrencyException
+	 */
+	public function testCantInstantiateUnknownCurrency()
+	{
+		new Currency('unknonw');
 	}
 }

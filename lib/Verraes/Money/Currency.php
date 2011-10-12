@@ -10,15 +10,37 @@
 
 namespace Verraes\Money;
 
-interface Currency
+class Currency
 {
+	/** @var string */
+	private $name;
+
+	const EUR = 'EUR';
+	const USD = 'USD';
+	const GBP = 'GBP';
+	const JPY = 'JPY';
+
+	public function __construct($name)
+	{
+		if(!defined("self::$name")) {
+			throw new UnknownCurrencyException($name);
+		}
+		$this->name = $name;
+	}
+
 	/**
 	 * @return string
 	 */
-	public function getName();
+	public function getName()
+	{
+		return $this->name;
+	}
 
 	/**
 	 * @return  bool
 	 */
-	public function equals(Currency $currency);
+	public function equals(Currency $other)
+	{
+		return $this->name === $other->name;
+	}
 }

@@ -10,8 +10,6 @@
 
 namespace Verraes\Money;
 
-use Verraes\Money\InvalidArgumentException;
-
 class Money
 {
 	const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
@@ -38,17 +36,18 @@ class Money
 		if(!is_int($units)) {
 			throw new InvalidArgumentException("The first parameter of Money must be an integer");
 		}
-		$this->units = $units;
+		$this->units = $units; // #todo rename to amount
 		$this->currency = $currency;
 	}
 
 	/**
+	 * @todo make generic using __callstatic?
 	 * Convenience factory method for an amount in EURO
 	 * @return Money
 	 */
 	public static function EUR($units)
 	{
-		return new Money($units, new EUR);
+		return new Money($units, new Currency('EUR'));
 	}
 
 	/**
@@ -57,7 +56,25 @@ class Money
 	 */
 	public static function USD($units)
 	{
-		return new Money($units, new USD);
+		return new Money($units, new Currency('USD'));
+	}
+
+	/**
+	 * Convenience factory method for an amount in GBP
+	 * @return Money
+	 */
+	public static function GBP($units)
+	{
+		return new Money($units, new Currency('GBP'));
+	}
+
+	/**
+	 * Convenience factory method for an amount in JPY
+	 * @return Money
+	 */
+	public static function JPY($units)
+	{
+		return new Money($units, new Currency('JPY'));
 	}
 
 	private function isSameCurrency(Money $other)
@@ -148,7 +165,7 @@ class Money
 	private function assertRoundingMode($rounding_mode)
 	{
 		if(!in_array($rounding_mode, array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP))) {
-			throw new InvalidArgumentException('Operand should be an integer or a float');
+			throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP');
 		}
 	}
 
