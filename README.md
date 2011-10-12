@@ -101,6 +101,8 @@ Inspiration
 * https://github.com/lucamarrocco/timeandmoney/blob/master/lib/money.rb
 * http://joda-money.sourceforge.net/
 * http://en.wikipedia.org/wiki/Currency_pair
+* https://github.com/RubyMoney/eu_central_bank
+* http://en.wikipedia.org/wiki/ISO_4217
 
 Bibliography
 ============
@@ -109,9 +111,3 @@ Bibliography
 Fowler, M., D. Rice, M. Foemmel, E. Hieatt, R. Mee, and R. Stafford, Patterns of Enterprise Application Architecture, Addison-Wesley, 2002.
 http://martinfowler.com/books.html#eaa
 
-http://en.wikipedia.org/wiki/ISO_4217
-
-Todo
-====
-
-* https://github.com/RubyMoney/eu_central_bank

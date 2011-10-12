@@ -10,6 +10,7 @@
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once __DIR__.'/../lib/Verraes/Money/Currency.php';
+require_once __DIR__.'/../lib/Verraes/Money/CurrencyPair.php';
 require_once __DIR__.'/../lib/Verraes/Money/Exception.php';
 require_once __DIR__.'/../lib/Verraes/Money/InvalidArgumentException.php';
 require_once __DIR__.'/../lib/Verraes/Money/UnknownCurrencyException.php';
