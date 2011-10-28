@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Verraes\Money library
+ * This file is part of the Money library
  *
  * Copyright (c) 2011 Mathias Verraes
  *
@@ -10,8 +10,8 @@
 
 require_once 'bootstrap.php';
 
-use Verraes\Money\Money;
-use Verraes\Money\Currency;
+use Money\Money;
+use Money\Currency;
 
 class MoneyTest extends PHPUnit_Framework_TestCase
 {
@@ -50,7 +50,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException Verraes\Money\InvalidArgumentException
+	 * @expectedException Money\InvalidArgumentException
 	 */
 	public function testDecimalsThrowException()
 	{
@@ -58,7 +58,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException Verraes\Money\InvalidArgumentException
+	 * @expectedException Money\InvalidArgumentException
 	 */
 	public function testStringThrowsException()
 	{
@@ -92,7 +92,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException Verraes\Money\InvalidArgumentException
+	 * @expectedException Money\InvalidArgumentException
 	 */
 	public function testDifferentCurrenciesCannotBeAdded()
 	{
@@ -116,7 +116,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException Verraes\Money\InvalidArgumentException
+	 * @expectedException Money\InvalidArgumentException
 	 */
 	public function testDifferentCurrenciesCannotBeSubtracted()
 	{
@@ -176,7 +176,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @expectedException Verraes\Money\InvalidArgumentException
+	 * @expectedException Money\InvalidArgumentException
 	 */
 	public function testDifferentCurrenciesCannotBeCompared()
 	{

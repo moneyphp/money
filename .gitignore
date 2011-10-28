@@ -2,3 +2,4 @@
 .buildpath
 .settings
 build/
+phpunit.xml

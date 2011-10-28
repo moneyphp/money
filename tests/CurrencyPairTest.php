@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Verraes\Money library
+ * This file is part of the Money library
  *
  * Copyright (c) 2011 Mathias Verraes
  *
@@ -10,9 +10,9 @@
 
 require_once 'bootstrap.php';
 
-use Verraes\Money\Money;
-use Verraes\Money\Currency;
-use Verraes\Money\CurrencyPair;
+use Money\Money;
+use Money\Currency;
+use Money\CurrencyPair;
 
 class CurrencyPairTest extends PHPUnit_Framework_TestCase
 {

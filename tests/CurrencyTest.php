@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Verraes\Money library
+ * This file is part of the Money library
  *
  * Copyright (c) 2011 Mathias Verraes
  *
@@ -10,7 +10,7 @@
 
 require_once 'bootstrap.php';
 
-use Verraes\Money\Currency;
+use Money\Currency;
 
 class CurrencyTest extends PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @test
-	 * @expectedException Verraes\Money\UnknownCurrencyException
+	 * @expectedException Money\UnknownCurrencyException
 	 */
 	public function testCantInstantiateUnknownCurrency()
 	{

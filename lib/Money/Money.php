@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Verraes\Money library
+ * This file is part of the Money library
  *
  * Copyright (c) 2011 Mathias Verraes
  *
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Verraes\Money;
+namespace Money;
 
 class Money
 {
@@ -22,14 +22,14 @@ class Money
 	 */
 	private $units;
 
-	/** @var Verraes\Money\Currency */
+	/** @var Money\Currency */
 	private $currency;
 
 	/**
 	 * Create a Money instance
 	 * @param integer $units Amount, expressed in the smallest units of $currency (eg cents)
-	 * @param Verraes\Money\Currency $currency
-	 * @throws Verraes\Money\InvalidArgumentException
+	 * @param Money\Currency $currency
+	 * @throws Money\InvalidArgumentException
 	 */
 	public function __construct($units, Currency $currency)
 	{
@@ -83,7 +83,7 @@ class Money
 	}
 
 	/**
-	 * @throws Verraes\Money\InvalidArgumentException
+	 * @throws Money\InvalidArgumentException
 	 */
 	private function assertSameCurrency(Money $other)
 	{
@@ -130,7 +130,7 @@ class Money
 	}
 
 	/**
-	 * @return Verraes\Money\Currency
+	 * @return Money\Currency
 	 */
 	public function getCurrency()
 	{
@@ -150,7 +150,7 @@ class Money
 	}
 
 	/**
-	 * @throws Verraes\Money\InvalidArgumentException
+	 * @throws Money\InvalidArgumentException
 	 */
 	private function assertOperand($operand)
 	{
@@ -160,7 +160,7 @@ class Money
 	}
 
 	/**
-	 * @throws Verraes\Money\InvalidArgumentException
+	 * @throws Money\InvalidArgumentException
 	 */
 	private function assertRoundingMode($rounding_mode)
 	{

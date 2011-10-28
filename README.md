@@ -1,4 +1,4 @@
-Verraes\Money
+Money
 =============
 
 Also see http://blog.verraes.net/2011/04/fowler-money-pattern-in-php/

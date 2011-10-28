@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Verraes\Money library
+ * This file is part of the Money library
  *
  * Copyright (c) 2011 Mathias Verraes
  *
@@ -8,8 +8,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Verraes\Money;
+namespace Money;
 
-class UnknownCurrencyException extends \Exception implements Exception
+class InvalidArgumentException extends \InvalidArgumentException implements Exception
 {
 }
