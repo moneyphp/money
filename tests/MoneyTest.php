@@ -197,4 +197,14 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(new Money(4, new Currency('EUR')), $part1);
 		$this->assertEquals(new Money(1, new Currency('EUR')), $part2);
 	}
+
+	public function testComparators()
+	{
+		$this->assertTrue(Money::EUR(0)->isZero());
+		$this->assertTrue(Money::EUR(-1)->isNegative());
+		$this->assertTrue(Money::EUR(1)->isPositive());
+		$this->assertFalse(Money::EUR(1)->isZero());
+		$this->assertFalse(Money::EUR(1)->isNegative());
+		$this->assertFalse(Money::EUR(-1)->isPositive());
+	}
 }

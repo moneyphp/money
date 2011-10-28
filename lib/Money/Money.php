@@ -211,5 +211,21 @@ class Money
 		return $results;
 	}
 
+	/** @return bool */
+	public function isZero()
+	{
+		return $this->units === 0;
+	}
 
+	/** @return bool */
+	public function isPositive()
+	{
+		return $this->units > 0;
+	}
+
+	/** @return bool */
+	public function isNegative()
+	{
+		return $this->units < 0;
+	}
 }

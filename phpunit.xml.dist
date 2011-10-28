@@ -5,6 +5,7 @@
          backupGlobals="false"
          backupStaticAttributes="false"
          strict="true"
+         colors="true"
          verbose="true">
   <testsuites>
     <testsuite name="verraes-money">
