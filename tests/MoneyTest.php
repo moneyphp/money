@@ -15,28 +15,13 @@ use Money\Currency;
 
 class MoneyTest extends PHPUnit_Framework_TestCase
 {
-
-	private function assertMoneyEquals(Money $expected, Money $actual, $message = null)
-	{
-		$str = sprintf(
-			"Failed asserting that <Money:%s %s> matches expected <Money:%s %s>",
-			$actual->getCurrency()->getName(), $actual->getUnits(),
-			$expected->getCurrency()->getName(), $expected->getUnits()
-		);
-
-		return $this->assertTrue(
-			$actual->equals($expected),
-			($message ? $message.PHP_EOL: '') . $str
-		);
-	}
-
 	public function testFactoryMethods()
 	{
-		$this->assertMoneyEquals(
+		$this->assertEquals(
 			Money::EUR(25),
 			Money::EUR(10)->add(Money::EUR(15))
 		);
-		$this->assertMoneyEquals(
+		$this->assertEquals(
 			Money::USD(25),
 			Money::USD(10)->add(Money::USD(15))
 		);
@@ -84,7 +69,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 		$sum = $m1->add($m2);
 		$expected = new Money(200, new Currency('EUR'));
 
-		$this->assertMoneyEquals($expected, $sum);
+		$this->assertEquals($expected, $sum);
 
 		// Should return a new instance
 		$this->assertNotSame($sum, $m1);
@@ -108,7 +93,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 		$diff = $m1->subtract($m2);
 		$expected = new Money(-100, new Currency('EUR'));
 
-		$this->assertMoneyEquals($expected, $diff);
+		$this->assertEquals($expected, $diff);
 
 		// Should return a new instance
 		$this->assertNotSame($diff, $m1);
@@ -128,11 +113,11 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	public function testMultiplication()
 	{
 		$m = new Money(1, new Currency('EUR'));
-		$this->assertMoneyEquals(
+		$this->assertEquals(
 			new Money(2, new Currency('EUR')),
 			$m->multiply(1.5)
 		);
-		$this->assertMoneyEquals(
+		$this->assertEquals(
 			new Money(1, new Currency('EUR')),
 			$m->multiply(1.5, Money::ROUND_HALF_DOWN)
 		);
@@ -143,15 +128,15 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	public function testDivision()
 	{
 		$m = new Money(10, new Currency('EUR'));
-		$this->assertMoneyEquals(
+		$this->assertEquals(
 			new Money(3, new Currency('EUR')),
 			$m->divide(3)
 		);
-		$this->assertMoneyEquals(
+		$this->assertEquals(
 			new Money(2, new Currency('EUR')),
 			$m->divide(4, Money::ROUND_HALF_EVEN)
 		);
-		$this->assertMoneyEquals(
+		$this->assertEquals(
 			new Money(3, new Currency('EUR')),
 			$m->divide(3, Money::ROUND_HALF_ODD)
 		);
@@ -187,15 +172,15 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 	{
 		$m = new Money(100, new Currency('EUR'));
 		list($part1, $part2, $part3) = $m->allocate(array(1, 1, 1));
-		$this->assertMoneyEquals(new Money(34, new Currency('EUR')), $part1);
-		$this->assertMoneyEquals(new Money(33, new Currency('EUR')), $part2);
-		$this->assertMoneyEquals(new Money(33, new Currency('EUR')), $part3);
+		$this->assertEquals(new Money(34, new Currency('EUR')), $part1);
+		$this->assertEquals(new Money(33, new Currency('EUR')), $part2);
+		$this->assertEquals(new Money(33, new Currency('EUR')), $part3);
 
 		$m = new Money(101, new Currency('EUR'));
 		list($part1, $part2, $part3) = $m->allocate(array(1, 1, 1));
-		$this->assertMoneyEquals(new Money(34, new Currency('EUR')), $part1);
-		$this->assertMoneyEquals(new Money(34, new Currency('EUR')), $part2);
-		$this->assertMoneyEquals(new Money(33, new Currency('EUR')), $part3);
+		$this->assertEquals(new Money(34, new Currency('EUR')), $part1);
+		$this->assertEquals(new Money(34, new Currency('EUR')), $part2);
+		$this->assertEquals(new Money(33, new Currency('EUR')), $part3);
 	}
 
 	public function testAllocationOrderIsImportant()
@@ -203,13 +188,13 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 
 		$m = new Money(5, new Currency('EUR'));
 		list($part1, $part2) = $m->allocate(array(3, 7));
-		$this->assertMoneyEquals(new Money(2, new Currency('EUR')), $part1);
-		$this->assertMoneyEquals(new Money(3, new Currency('EUR')), $part2);
+		$this->assertEquals(new Money(2, new Currency('EUR')), $part1);
+		$this->assertEquals(new Money(3, new Currency('EUR')), $part2);
 
 
 		$m = new Money(5, new Currency('EUR'));
 		list($part1, $part2) = $m->allocate(array(7, 3));
-		$this->assertMoneyEquals(new Money(4, new Currency('EUR')), $part1);
-		$this->assertMoneyEquals(new Money(1, new Currency('EUR')), $part2);
+		$this->assertEquals(new Money(4, new Currency('EUR')), $part1);
+		$this->assertEquals(new Money(1, new Currency('EUR')), $part2);
 	}
 }
