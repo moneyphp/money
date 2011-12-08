@@ -3,7 +3,7 @@ Money
 
 PHP 5.3+ library to make working with money safer, easier, and fun!
 
-In short: You cannot and should not represent monetary values by a float. Wherever 
+In short: You probably shouldn't represent monetary values by a float. Wherever 
 you need to represent money, use this Money value object.
 
     <?php
