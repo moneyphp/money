@@ -31,6 +31,9 @@ class Currency
 	/**
 	 * @return string
 	 */
+	/**
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
@@ -42,5 +45,13 @@ class Currency
 	public function equals(Currency $other)
 	{
 		return $this->name === $other->name;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->getName();
 	}
 }
