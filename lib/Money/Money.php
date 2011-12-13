@@ -77,7 +77,8 @@ class Money
 		return new Money($units, new Currency('JPY'));
 	}
 
-	private function isSameCurrency(Money $other)
+	/** @return bool */
+	public function isSameCurrency(Money $other)
 	{
 		return $this->currency->equals($other->currency);
 	}
