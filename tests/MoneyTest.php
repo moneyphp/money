@@ -207,4 +207,21 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse(Money::EUR(1)->isNegative());
 		$this->assertFalse(Money::EUR(-1)->isPositive());
 	}
+
+	public function testToString()
+	{
+		$money = Money::EUR(123);
+		setlocale(LC_MONETARY, 'en_GB');
+		$this->assertEquals('EUR 1,23', (string) $money);
+
+		setlocale(LC_MONETARY, 'de_DE');
+		$this->assertEquals('EUR 1,23', (string) $money);
+		
+		setlocale(LC_MONETARY, 'en_US');
+		if ( function_exists('money_format') ) {
+			$this->assertEquals('EUR 1.23', (string) $money);
+		} else {
+			$this->assertEquals('EUR 1,23', (string) $money);
+		}
+	}
 }
