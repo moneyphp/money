@@ -229,4 +229,16 @@ class Money
 	{
 		return $this->units < 0;
 	}
+
+	/** @return int */
+	public static function stringToUnits( $string )
+	{
+		if(!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $value, $matches)) {
+			throw new InvalidArgumentException("The value could not be parsed as money");
+		}
+		$units = $matches[1] == "-" ? "-" : "" . $matches[2];
+		$units .= isset($matches[4]) ? $matches[4] : "0";
+		$units .= isset($matches[5]) ? $matches[5] : "0";
+		return (int) $units;
+	}
 }
