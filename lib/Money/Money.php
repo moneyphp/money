@@ -229,4 +229,18 @@ class Money
 	{
 		return $this->units < 0;
 	}
+
+	/** @return int */
+	public static function stringToUnits( $string )
+	{
+		//@todo extend the regular expression with grouping characters and eventualy currencies
+		if(!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $string, $matches)) {
+			throw new InvalidArgumentException("The value could not be parsed as money");
+		}
+		$units = $matches[1] == "-" ? "-" : "";
+		$units .= $matches[2];
+		$units .= isset($matches[4]) ? $matches[4] : "0";
+		$units .= isset($matches[5]) ? $matches[5] : "0";
+		return (int) $units;
+	}
 }
