@@ -223,7 +223,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         setlocale(LC_MONETARY, 'de_DE.UTF8');
         $this->assertEquals($format, (string) $money);
         setlocale(LC_MONETARY, 'nl_BE.UTF-8');
-        $this->assertEquals('EUR 1,23', (string) $money)
+        $this->assertEquals('EUR 1,23', (string) $money);
         setlocale(LC_MONETARY, 'en_US.UTF-8');
         $this->assertEquals($format, (string) $money);
 	}
