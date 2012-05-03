@@ -232,6 +232,10 @@ class Money
 
 	public function __toString()
 	{
-		return sprintf('%s %s', $this->currency, number_format($this->units / 100, 2, ',', '.'));
+		if ( function_exists('money_format') ) {
+			return sprintf('%s %s', $this->currency, money_format('%!.2n', $this->units / 100));
+		} else {
+			return sprintf('%s %s', $this->currency, number_format($this->units / 100, 2, ',', '.'));
+		}
 	}
 }
