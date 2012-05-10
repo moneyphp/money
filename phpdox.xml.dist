@@ -1,0 +1,12 @@
+<phpdox xmlns="http://phpdox.de/config">
+ <project name="name-of-project" source="src" workdir="build/phpdox">
+  <collector publiconly="false">
+   <include mask="*.php" />
+   <exclude mask="*Autoload.php" />
+  </collector>
+
+  <generator output="build">
+   <build engine="html" enabled="true" output="api"/>
+  </generator>
+ </project>
+</phpdox>
