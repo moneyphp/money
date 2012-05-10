@@ -22,7 +22,7 @@
   <exec executable="phpunit" failonerror="true"/>
  </target>
 
- <target name="parallelTasks" description="Run the pdepend, phpmd, phpcpd, phpcs, phpdoc and phploc tasks in parallel using a maximum of 2 threads.">
+ <target name="parallelTasks" description="Run the pdepend, phpmd, phpcpd, phpcs, phpdox and phploc tasks in parallel using a maximum of 2 threads.">
   <parallel threadCount="2">
    <sequential>
     <antcall target="pdepend"/>
@@ -30,7 +30,7 @@
    </sequential>
    <antcall target="phpcpd"/>
    <antcall target="phpcs"/>
-   <antcall target="phpdoc"/>
+   <antcall target="phpdox"/>
    <antcall target="phploc"/>
   </parallel>
  </target>
