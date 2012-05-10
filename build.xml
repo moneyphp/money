@@ -74,10 +74,8 @@
   </exec>
  </target>
 
- <target name="phpdoc" description="Generate API documentation using PHPDocumentor">
-  <exec executable="phpdoc">
-   <arg line="-d ${source} -t ${basedir}/build/api" />
-  </exec>
+<target name="phpdox" description="Generate API documentation using phpDox">
+  <exec executable="phpdox"/>
  </target>
 
  <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
