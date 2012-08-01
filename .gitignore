@@ -4,3 +4,4 @@
 build/
 phpunit.xml
 _build/
+vendor

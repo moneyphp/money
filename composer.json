@@ -1,0 +1,18 @@
+{
+    "name": "mathiasverraes/money",
+    "description": "PHP implementation of Fowler's Money pattern",
+    "keywords": [ "Money", "Value Object", "Generic Sub-domain" ],
+    "homepage": "http://blog.verraes.net/2011/04/fowler-money-pattern-in-php/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mathias Verraes",
+            "email": "mathias@verraes.net"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Money": "lib"
+        }
+    }
+}

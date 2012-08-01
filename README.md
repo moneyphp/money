@@ -18,3 +18,23 @@ you need to represent money, use this Money value object.
 The documentation is available at http://money.readthedocs.org
 
 [![Build Status](https://secure.travis-ci.org/mathiasverraes/money.png)](http://travis-ci.org/mathiasverraes/money)
+
+Installation
+------------
+
+Install the library using [composer][1]. Add the following to your `composer.json`:
+
+```json
+{
+    "require": "mathiasverraes/money",
+    "minimum-stability": "dev"    
+}
+```
+
+Now run the `install` command.
+
+```sh
+$ composer.phar install
+```
+
+[1]: http://getcomposer.org/
