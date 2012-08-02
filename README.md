@@ -31,7 +31,9 @@ Install the library using [composer][1]. Add the following to your `composer.jso
 
 ```json
 {
-    "require": "mathiasverraes/money",
+    "require": {
+        "mathiasverraes/money": "dev-master"
+    },
     "minimum-stability": "dev"    
 }
 ```
