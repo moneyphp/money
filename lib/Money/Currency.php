@@ -12,46 +12,46 @@ namespace Money;
 
 class Currency
 {
-	/** @var string */
-	private $name;
+    /** @var string */
+    private $name;
 
-	const EUR = 'EUR';
-	const USD = 'USD';
-	const GBP = 'GBP';
-	const JPY = 'JPY';
+    const EUR = 'EUR';
+    const USD = 'USD';
+    const GBP = 'GBP';
+    const JPY = 'JPY';
 
-	public function __construct($name)
-	{
-		if(!defined("self::$name")) {
-			throw new UnknownCurrencyException($name);
-		}
-		$this->name = $name;
-	}
+    public function __construct($name)
+    {
+        if (!defined("self::$name")) {
+            throw new UnknownCurrencyException($name);
+        }
+        $this->name = $name;
+    }
 
-	/**
-	 * @return string
-	 */
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
+    /**
+     * @return string
+     */
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @return  bool
-	 */
-	public function equals(Currency $other)
-	{
-		return $this->name === $other->name;
-	}
+    /**
+     * @return bool
+     */
+    public function equals(Currency $other)
+    {
+        return $this->name === $other->name;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->getName();
-	}
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
