@@ -8,8 +8,9 @@
  * file that was distributed with this source code.
  */
 
-require_once 'bootstrap.php';
+namespace Money\Tests;
 
+use PHPUnit_Framework_TestCase;
 use Money\Currency;
 
 class CurrencyTest extends PHPUnit_Framework_TestCase
