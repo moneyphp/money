@@ -14,5 +14,6 @@
         "psr-0": {
             "Money": "lib"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
