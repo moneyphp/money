@@ -1,3 +1,6 @@
 {
-    "name": "marlon-be/money"
+    "name": "marlon-be/money",
+    "autoload": {
+        "psr-0": { "Money": "lib/" }
+    }
 }
