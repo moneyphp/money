@@ -15,10 +15,33 @@ class Currency
     /** @var string */
     private $name;
 
+    /** @var string */
+    private $decimalSeparator;
+
+    /** @var string */
+    private $thousandSeparator;
+
     const EUR = 'EUR';
     const USD = 'USD';
     const GBP = 'GBP';
     const JPY = 'JPY';
+    const BRL = 'BRL';
+
+    private  $decimalSeparators = array(
+        'EUR' => '.',
+        'USD' => '.',
+        'GBP' => '.',
+        // JPY?
+        'BRL' => ',',
+    );
+
+    private  $thousandSeparators = array(
+        'EUR' => ',',
+        'USD' => ',',
+        'GBP' => ',',
+        // JPY?
+        'BRL' => '.',
+    );
 
     public function __construct($name)
     {
@@ -26,6 +49,8 @@ class Currency
             throw new UnknownCurrencyException($name);
         }
         $this->name = $name;
+        $this->setDecimalSeparator();
+        $this->setThousandSeparator();
     }
 
     /**
@@ -53,5 +78,25 @@ class Currency
     public function __toString()
     {
         return $this->getName();
+    }
+
+    private function setDecimalSeparator()
+    {
+        $this->decimalSeparator = $this->decimalSeparators[$this->name];
+    }
+
+    public function getDecimalSeparator()
+    {
+        return $this->decimalSeparator;
+    }
+
+    private function setThousandSeparator()
+    {
+        $this->thousandSeparator = $this->thousandSeparators[$this->name];
+    }
+
+    public function getThousandSeparator()
+    {
+        return $this->thousandSeparator;
     }
 }
