@@ -256,4 +256,15 @@ class Money
 
         return (int) $units;
     }
+    
+    public function __toString() {
+        $currency = $this->getCurrency();
+        
+        return number_format(
+            $this->units / 100, 
+            $decimals=2,
+            $currency->getDecimalSeparator(),
+            $currency->getThousandSeparator()
+        );            
+    }
 }
