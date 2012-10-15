@@ -239,30 +239,35 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function testToString()
     {
         $this->assertEquals('0.00', Money::EUR(0));
-        $this->assertEquals('0,00', Money::BRL(0));                       
+        $this->assertEquals('0,00', Money::BRL(0));
+        $this->assertEquals('0',    Money::JPY(0));
         
-        $this->assertEquals('0.01', Money::USD(1));
         $this->assertEquals('0.01', Money::EUR(1));
-        $this->assertEquals('0.01', Money::GBP(1));
-        // JPY
         $this->assertEquals('0,01', Money::BRL(1));
+        $this->assertEquals('1',    Money::JPY(1));
         
         $this->assertEquals('0.10', Money::EUR(10));
         $this->assertEquals('0,10', Money::BRL(10));
+        $this->assertEquals('10',   Money::JPY(10));
         
         $this->assertEquals('1.00', Money::EUR(100));
-        $this->assertEquals('1,00', Money::BRL(100));        
+        $this->assertEquals('1,00', Money::BRL(100));
+        $this->assertEquals('100',  Money::JPY(100));
     
         $this->assertEquals('10.00', Money::EUR(1000));
-        $this->assertEquals('10,00', Money::BRL(1000));                
+        $this->assertEquals('10,00', Money::BRL(1000));
+        $this->assertEquals('1000',  Money::JPY(1000));
     
         $this->assertEquals('100.00', Money::EUR(10000));
-        $this->assertEquals('100,00', Money::BRL(10000));        
+        $this->assertEquals('100,00', Money::BRL(10000));
+        $this->assertEquals('10000',  Money::JPY(10000));
 
         $this->assertEquals('1,000.00', Money::EUR(100000));
         $this->assertEquals('1.000,00', Money::BRL(100000));               
-        
+        $this->assertEquals('100000',   Money::JPY(100000));
+
         $this->assertEquals('1,000,000.00', Money::EUR(100000000));
-        $this->assertEquals('1.000.000,00', Money::BRL(100000000));                       
+        $this->assertEquals('1.000.000,00', Money::BRL(100000000));
+        $this->assertEquals('1000000',      Money::JPY(1000000));
     }
 }

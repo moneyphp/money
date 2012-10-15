@@ -10,10 +10,15 @@
 
 namespace Money;
 
+use Money\Currencies;
+
 class Currency
 {
     /** @var string */
     private $name;
+
+    /** @var string */
+    private $symbol;
 
     /** @var string */
     private $decimalSeparator;
@@ -27,41 +32,48 @@ class Currency
     const JPY = 'JPY';
     const BRL = 'BRL';
 
-    private  $decimalSeparators = array(
-        'EUR' => '.',
-        'USD' => '.',
-        'GBP' => '.',
-        // JPY?
-        'BRL' => ',',
-    );
-
-    private  $thousandSeparators = array(
-        'EUR' => ',',
-        'USD' => ',',
-        'GBP' => ',',
-        // JPY?
-        'BRL' => '.',
-    );
-
     public function __construct($name)
     {
-        if (!defined("self::$name")) {
+        if (! Currencies::exist($name)) {
             throw new UnknownCurrencyException($name);
         }
+
         $this->name = $name;
-        $this->setDecimalSeparator();
-        $this->setThousandSeparator();
+        $this->symbol = Currencies::getSymbol($name);
+        $this->decimalSeparator = Currencies::getDecimalSeparator($name);
+        $this->thousandSeparator = Currencies::getThousandSeparator($name);
     }
 
-    /**
-     * @return string
-     */
     /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSymbol()
+    {
+        return $this->symbol;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDecimalSeparator()
+    {
+        return $this->decimalSeparator;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThousandSeparator()
+    {
+        return $this->thousandSeparator;
     }
 
     /**
@@ -78,25 +90,5 @@ class Currency
     public function __toString()
     {
         return $this->getName();
-    }
-
-    private function setDecimalSeparator()
-    {
-        $this->decimalSeparator = $this->decimalSeparators[$this->name];
-    }
-
-    public function getDecimalSeparator()
-    {
-        return $this->decimalSeparator;
-    }
-
-    private function setThousandSeparator()
-    {
-        $this->thousandSeparator = $this->thousandSeparators[$this->name];
-    }
-
-    public function getThousandSeparator()
-    {
-        return $this->thousandSeparator;
     }
 }
