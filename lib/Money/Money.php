@@ -77,6 +77,15 @@ class Money
         return new Money($units, new Currency('JPY'));
     }
 
+    /**
+     * Convenience factory method for an amount in BRL
+     * @return Money
+     */
+    public static function BRL($units)
+    {
+        return new Money($units, new Currency('BRL'));
+    }
+
     /** @return bool */
     public function isSameCurrency(Money $other)
     {
@@ -246,5 +255,17 @@ class Money
         $units .= isset($matches[5]) ? $matches[5] : "0";
 
         return (int) $units;
+    }
+
+    public function __toString()
+    {
+        $currency = $this->getCurrency();
+        
+        return number_format(
+            $this->units / 100, 
+            $decimals=2,
+            $currency->getDecimalSeparator(),
+            $currency->getThousandSeparator()
+        );            
     }
 }
