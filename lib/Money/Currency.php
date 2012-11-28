@@ -19,6 +19,8 @@ class Currency
     const USD = 'USD';
     const GBP = 'GBP';
     const JPY = 'JPY';
+    const AZN = 'AZN';
+    const TL  = 'TL';
 
     public function __construct($name)
     {
