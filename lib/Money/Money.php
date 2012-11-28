@@ -27,16 +27,16 @@ class Money
 
     /**
      * Create a Money instance
-     * @param  integer                        $units    Amount, expressed in the smallest units of $currency (eg cents)
+     * @param  integer                        $amount    Amount, expressed in the smallest units of $currency (eg cents)
      * @param  Money\Currency                 $currency
      * @throws Money\InvalidArgumentException
      */
-    public function __construct($units, Currency $currency)
+    public function __construct($amount, Currency $currency)
     {
-        if (!is_int($units)) {
+        if (!is_int($amount)) {
             throw new InvalidArgumentException("The first parameter of Money must be an integer");
         }
-        $this->units = $units; // #todo rename to amount
+        $this->units = $amount;
         $this->currency = $currency;
     }
 

@@ -26,7 +26,7 @@ class CurrencyPair
     {
         $this->counterCurrency = $counterCurrency;
         $this->baseCurrency = $baseCurrency;
-        $this->ratio = $ratio;
+        $this->ratio = (float) $ratio;
     }
 
     /**
