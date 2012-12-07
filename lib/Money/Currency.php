@@ -15,6 +15,8 @@ class Currency
     /** @var string */
     private $name;
 
+    private static $currencies;
+
     const EUR = 'EUR';
     const USD = 'USD';
     const GBP = 'GBP';
@@ -22,15 +24,17 @@ class Currency
 
     public function __construct($name)
     {
-        if (!defined("self::$name")) {
+        if(!isset(static::$currencies)) {
+           static::$currencies = require __DIR__.'/currencies.php';
+        }
+
+        if (!array_key_exists($name, static::$currencies)) {
             throw new UnknownCurrencyException($name);
         }
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
+
     /**
      * @return string
      */

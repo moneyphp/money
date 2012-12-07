@@ -42,10 +42,10 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException Money\UnknownCurrencyException
+     * @expectedException \Money\UnknownCurrencyException
      */
     public function testCantInstantiateUnknownCurrency()
     {
-        new Currency('unknonw');
+        new Currency('unknown');
     }
 }
