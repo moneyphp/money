@@ -41,40 +41,13 @@ class Money
     }
 
     /**
-     * @todo make generic using __callstatic?
-     * Convenience factory method for an amount in EURO
+     * Convenience factory method for a Money object
+     * @example $fiveDollar = Money::USD(500);
      * @return Money
      */
-    public static function EUR($units)
+    public static function __callStatic($method, $arguments)
     {
-        return new Money($units, new Currency('EUR'));
-    }
-
-    /**
-     * Convenience factory method for an amount in USD
-     * @return Money
-     */
-    public static function USD($units)
-    {
-        return new Money($units, new Currency('USD'));
-    }
-
-    /**
-     * Convenience factory method for an amount in GBP
-     * @return Money
-     */
-    public static function GBP($units)
-    {
-        return new Money($units, new Currency('GBP'));
-    }
-
-    /**
-     * Convenience factory method for an amount in JPY
-     * @return Money
-     */
-    public static function JPY($units)
-    {
-        return new Money($units, new Currency('JPY'));
+        return new Money($arguments[0], new Currency($method));
     }
 
     /** @return bool */
@@ -236,7 +209,7 @@ class Money
     /** @return int */
     public static function stringToUnits( $string )
     {
-        //@todo extend the regular expression with grouping characters and eventualy currencies
+        //@todo extend the regular expression with grouping characters and eventually currencies
         if (!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $string, $matches)) {
             throw new InvalidArgumentException("The value could not be parsed as money");
         }

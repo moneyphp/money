@@ -17,11 +17,6 @@ class Currency
 
     private static $currencies;
 
-    const EUR = 'EUR';
-    const USD = 'USD';
-    const GBP = 'GBP';
-    const JPY = 'JPY';
-
     public function __construct($name)
     {
         if(!isset(static::$currencies)) {
