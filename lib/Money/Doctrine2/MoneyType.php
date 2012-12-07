@@ -28,9 +28,9 @@ class MoneyType extends Type
             return null;
         }
 
-        list($currency, $units) = explode(' ', $value, 2);
+        list($currency, $amount) = explode(' ', $value, 2);
 
-        return new Money((int) $units, new Currency($currency));
+        return new Money((int) $amount, new Currency($currency));
 
     }
 
@@ -41,7 +41,7 @@ class MoneyType extends Type
         }
 
         if ($value instanceof Money) {
-            return (string) $value->getCurrency() . ' '. $value->getUnits();
+            return (string) $value->getCurrency() . ' '. $value->getAmount();
         }
 
         throw ConversionException::conversionFailed($value, self::NAME);

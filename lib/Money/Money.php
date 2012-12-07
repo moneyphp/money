@@ -20,23 +20,23 @@ class Money
     /**
      * @var int
      */
-    private $units;
+    private $amount;
 
     /** @var Money\Currency */
     private $currency;
 
     /**
      * Create a Money instance
-     * @param  integer                        $units    Amount, expressed in the smallest units of $currency (eg cents)
+     * @param  integer                        $amount    Amount, expressed in the smallest units of $currency (eg cents)
      * @param  Money\Currency                 $currency
      * @throws Money\InvalidArgumentException
      */
-    public function __construct($units, Currency $currency)
+    public function __construct($amount, Currency $currency)
     {
-        if (!is_int($units)) {
-            throw new InvalidArgumentException("The first parameter of Money must be an integer");
+        if (!is_int($amount)) {
+            throw new InvalidArgumentException("The first parameter of Money must be an integer. It's the amount, expressed in the smallest units of currency (eg cents)");
         }
-        $this->units = $units; // #todo rename to amount
+        $this->amount = $amount;
         $this->currency = $currency;
     }
 
@@ -70,15 +70,15 @@ class Money
     {
         return
             $this->isSameCurrency($other)
-            && $this->units == $other->units;
+            && $this->amount == $other->amount;
     }
 
     public function compare(Money $other)
     {
         $this->assertSameCurrency($other);
-        if ($this->units < $other->units) {
+        if ($this->amount < $other->amount) {
             return -1;
-        } elseif ($this->units == $other->units) {
+        } elseif ($this->amount == $other->amount) {
             return 0;
         } else {
             return 1;
@@ -96,11 +96,20 @@ class Money
     }
 
     /**
+     * @deprecated Use getAmount() instead
      * @return int
      */
     public function getUnits()
     {
-        return $this->units;
+        return $this->amount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAmount()
+    {
+        return $this->amount;
     }
 
     /**
@@ -115,14 +124,14 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->units + $addend->units, $this->currency);
+        return new self($this->amount + $addend->amount, $this->currency);
     }
 
     public function subtract(Money $subtrahend)
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new self($this->units - $subtrahend->units, $this->currency);
+        return new self($this->amount - $subtrahend->amount, $this->currency);
     }
 
     /**
@@ -150,7 +159,7 @@ class Money
         $this->assertOperand($multiplier);
         $this->assertRoundingMode($rounding_mode);
 
-        $product = (int) round($this->units * $multiplier, 0, $rounding_mode);
+        $product = (int) round($this->amount * $multiplier, 0, $rounding_mode);
 
         return new Money($product, $this->currency);
     }
@@ -160,7 +169,7 @@ class Money
         $this->assertOperand($divisor);
         $this->assertRoundingMode($rounding_mode);
 
-        $quotient = (int) round($this->units / $divisor, 0, $rounding_mode);
+        $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
 
         return new Money($quotient, $this->currency);
     }
@@ -171,17 +180,17 @@ class Money
      */
     public function allocate(array $ratios)
     {
-        $remainder = $this->units;
+        $remainder = $this->amount;
         $results = array();
         $total = array_sum($ratios);
 
         foreach ($ratios as $ratio) {
-            $share = (int) floor($this->units * $ratio / $total);
+            $share = (int) floor($this->amount * $ratio / $total);
             $results[] = new Money($share, $this->currency);
             $remainder -= $share;
         }
         for ($i = 0; $remainder > 0; $i++) {
-            $results[$i]->units++;
+            $results[$i]->amount++;
             $remainder--;
         }
 
@@ -191,19 +200,19 @@ class Money
     /** @return bool */
     public function isZero()
     {
-        return $this->units === 0;
+        return $this->amount === 0;
     }
 
     /** @return bool */
     public function isPositive()
     {
-        return $this->units > 0;
+        return $this->amount > 0;
     }
 
     /** @return bool */
     public function isNegative()
     {
-        return $this->units < 0;
+        return $this->amount < 0;
     }
 
     /** @return int */

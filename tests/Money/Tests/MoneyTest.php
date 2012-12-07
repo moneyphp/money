@@ -31,7 +31,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function testGetters()
     {
         $m = new Money(100, $euro = new Currency('EUR'));
-        $this->assertEquals(100, $m->getUnits());
+        $this->assertEquals(100, $m->getAmount());
         $this->assertEquals($euro, $m->getCurrency());
     }
 
