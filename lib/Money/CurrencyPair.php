@@ -24,9 +24,13 @@ class CurrencyPair
 
     public function __construct(Currency $counterCurrency, Currency $baseCurrency, $ratio)
     {
+        if(!is_numeric($ratio)) {
+            throw new InvalidArgumentException("Ratio must be numeric");
+        }
+
         $this->counterCurrency = $counterCurrency;
         $this->baseCurrency = $baseCurrency;
-        $this->ratio = $ratio;
+        $this->ratio = (float) $ratio;
     }
 
     /**
