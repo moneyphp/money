@@ -120,11 +120,21 @@ class Money
         return $this->currency;
     }
 
-    public function add(Money $addend)
+    /**
+     * Add two moneys with same currencies
+     * @param Money $money
+     * @throws InvalidArgumentException if currencies doesn't same
+     */
+    public function add(Money $money)
     {
-        $this->assertSameCurrency($addend);
-
-        return new self($this->amount + $addend->amount, $this->currency);
+    	if($this->isSameCurrency($money))
+    	{
+    		$this->amount += $money->amount;
+    	}
+    	else
+    	{
+    		throw new InvalidArgumentException("You can't add money with different currencies");
+    	}
     }
 
     public function subtract(Money $subtrahend)
