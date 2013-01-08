@@ -1,9 +1,11 @@
 Money
 =====
 
+[![Build Status](https://secure.travis-ci.org/mathiasverraes/money.png)](http://travis-ci.org/mathiasverraes/money)
+
 PHP 5.3+ library to make working with money safer, easier, and fun!
 
-In short: You probably shouldn't represent monetary values by a float. Wherever 
+In short: You probably shouldn't represent monetary values by a float. Wherever
 you need to represent money, use this Money value object.
 
 ```php
@@ -22,7 +24,6 @@ assert($part3->equals(Money::EUR(333)));
 
 The documentation is available at http://money.readthedocs.org
 
-[![Build Status](https://secure.travis-ci.org/mathiasverraes/money.png)](http://travis-ci.org/mathiasverraes/money)
 
 Installation
 ------------

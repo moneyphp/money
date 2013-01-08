@@ -10,10 +10,21 @@
             "email": "mathias@verraes.net"
         }
     ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+
     "autoload": {
         "psr-0": {
             "Money": "lib"
         }
+    },
+
+    "config": {
+        "bin-dir": "bin"
     },
     "suggest": {
         "pink-tie/money-bundle": "For Symfony integration."

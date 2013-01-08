@@ -1,8 +1,10 @@
 .project
 .buildpath
 .settings
-build/
-phpunit.xml
-_build/
-vendor
 .idea/
+
+build/
+_build/
+phpunit.xml
+vendor/
+bin/
