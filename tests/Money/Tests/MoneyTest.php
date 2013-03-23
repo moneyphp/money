@@ -237,13 +237,4 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($units, Money::stringToUnits($string));
     }
 
-    /** @test */
-    public function zeroMoneysAreEqualIndependentOfCurrency()
-    {
-        $this->assertTrue(
-            Money::EUR(0)->equals(
-                Money::USD(0)
-            )
-        );
-    }
 }
