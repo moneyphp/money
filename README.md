@@ -1,7 +1,7 @@
 Money
 =====
 
-[![Build Status](https://secure.travis-ci.org/mathiasverraes/money.png)](http://travis-ci.org/mathiasverraes/money)
+[![Build Status](https://api.travis-ci.org/mathiasverraes/money.png?branch=master)](http://travis-ci.org/mathiasverraes/money)
 
 PHP 5.3+ library to make working with money safer, easier, and fun!
 
