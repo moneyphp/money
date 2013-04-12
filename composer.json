@@ -32,7 +32,8 @@
         "bin-dir": "bin"
     },
     "suggest": {
-        "pink-tie/money-bundle": "For Symfony integration."
+        "pink-tie/money-bundle": "Pink-Tie's Symfony2 integration with Money library",
+        "Sylius/SyliusMoneyBundle": "Sylius' Symfony2 integration with Money library"
     },
     "minimum-stability": "dev"
 }
