@@ -2,7 +2,7 @@
 /**
  * This file is part of the Money library
  *
- * Copyright (c) 2011 Mathias Verraes
+ * Copyright (c) 2011-2013 Mathias Verraes
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -22,14 +22,14 @@ class Money
      */
     private $amount;
 
-    /** @var Money\Currency */
+    /** @var \Money\Currency */
     private $currency;
 
     /**
      * Create a Money instance
-     * @param  integer                        $amount    Amount, expressed in the smallest units of $currency (eg cents)
-     * @param  Money\Currency                 $currency
-     * @throws Money\InvalidArgumentException
+     * @param  integer $amount    Amount, expressed in the smallest units of $currency (eg cents)
+     * @param  \Money\Currency $currency
+     * @throws \Money\InvalidArgumentException
      */
     public function __construct($amount, Currency $currency)
     {
@@ -43,21 +43,26 @@ class Money
     /**
      * Convenience factory method for a Money object
      * @example $fiveDollar = Money::USD(500);
-     * @return Money
+     * @param string $method
+     * @param array $arguments
+     * @return \Money\Money
      */
     public static function __callStatic($method, $arguments)
     {
         return new Money($arguments[0], new Currency($method));
     }
 
-    /** @return bool */
+    /**
+     * @param \Money\Money $other
+     * @return bool
+     */
     public function isSameCurrency(Money $other)
     {
         return $this->currency->equals($other->currency);
     }
 
     /**
-     * @throws Money\InvalidArgumentException
+     * @throws \Money\InvalidArgumentException
      */
     private function assertSameCurrency(Money $other)
     {
@@ -66,6 +71,10 @@ class Money
         }
     }
 
+    /**
+     * @param \Money\Money $other
+     * @return bool
+     */
     public function equals(Money $other)
     {
         return
@@ -75,6 +84,10 @@ class Money
             ;
     }
 
+    /**
+     * @param \Money\Money $other
+     * @return int
+     */
     public function compare(Money $other)
     {
         $this->assertSameCurrency($other);
@@ -87,11 +100,19 @@ class Money
         }
     }
 
+    /**
+     * @param \Money\Money $other
+     * @return bool
+     */
     public function greaterThan(Money $other)
     {
         return 1 == $this->compare($other);
     }
 
+    /**
+     * @param \Money\Money $other
+     * @return bool
+     */
     public function lessThan(Money $other)
     {
         return -1 == $this->compare($other);
@@ -115,13 +136,17 @@ class Money
     }
 
     /**
-     * @return Money\Currency
+     * @return \Money\Currency
      */
     public function getCurrency()
     {
         return $this->currency;
     }
 
+    /**
+     * @param \Money\Money $addend
+     *@return \Money\Money 
+     */
     public function add(Money $addend)
     {
         $this->assertSameCurrency($addend);
@@ -129,6 +154,10 @@ class Money
         return new self($this->amount + $addend->amount, $this->currency);
     }
 
+    /**
+     * @param \Money\Money $subtrahend
+     * @return \Money\Money
+     */
     public function subtract(Money $subtrahend)
     {
         $this->assertSameCurrency($subtrahend);
@@ -137,7 +166,7 @@ class Money
     }
 
     /**
-     * @throws Money\InvalidArgumentException
+     * @throws \Money\InvalidArgumentException
      */
     private function assertOperand($operand)
     {
@@ -147,7 +176,7 @@ class Money
     }
 
     /**
-     * @throws Money\InvalidArgumentException
+     * @throws \Money\InvalidArgumentException
      */
     private function assertRoundingMode($rounding_mode)
     {
@@ -156,6 +185,11 @@ class Money
         }
     }
 
+    /**
+     * @param $multiplier
+     * @param int $rounding_mode
+     * @return \Money\Money
+     */
     public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
@@ -166,6 +200,11 @@ class Money
         return new Money($product, $this->currency);
     }
 
+    /**
+     * @param $divisor
+     * @param int $rounding_mode
+     * @return \Money\Money
+     */
     public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($divisor);
@@ -179,6 +218,7 @@ class Money
     /**
      * Allocate the money according to a list of ratio's
      * @param array $ratios List of ratio's
+     * @return \Money\Money
      */
     public function allocate(array $ratios)
     {
@@ -217,7 +257,11 @@ class Money
         return $this->amount < 0;
     }
 
-    /** @return int */
+    /**
+     * @param $string
+     * @throws \Money\InvalidArgumentException
+     * @return int
+     */
     public static function stringToUnits( $string )
     {
         //@todo extend the regular expression with grouping characters and eventually currencies

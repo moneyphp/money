@@ -1,8 +1,9 @@
 {
     "name": "mathiasverraes/money",
     "description": "PHP implementation of Fowler's Money pattern",
+    "type": "library",
     "keywords": [ "Money", "Value Object", "Generic Sub-domain" ],
-    "homepage": "http://blog.verraes.net/2011/04/fowler-money-pattern-in-php/",
+    "homepage": "http://verraes.net/2011/04/fowler-money-pattern-in-php/",
     "license": "MIT",
     "authors": [
         {
@@ -16,7 +17,11 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
-
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.3.x-dev"
+        }
+    },
     "autoload": {
         "psr-0": {
             "Money": "lib"
