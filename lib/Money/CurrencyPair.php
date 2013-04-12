@@ -2,7 +2,7 @@
 /**
  * This file is part of the Money library
  *
- * Copyright (c) 2011 Mathias Verraes
+ * Copyright (c) 2011-2013 Mathias Verraes
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -22,6 +22,12 @@ class CurrencyPair
     /** @var float */
     private $ratio;
 
+    /**
+     * @param \Money\Currency $counterCurrency
+     * @param \Money\Currency $baseCurrency
+     * @param float $ratio
+     * @throws \Money\InvalidArgumentException
+     */
     public function __construct(Currency $counterCurrency, Currency $baseCurrency, $ratio)
     {
         if(!is_numeric($ratio)) {
@@ -34,8 +40,9 @@ class CurrencyPair
     }
 
     /**
-     * @param  string       $iso String representation of the form "EUR/USD 1.2500"
-     * @return CurrencyPair
+     * @param  string $iso String representation of the form "EUR/USD 1.2500"
+     * @throws \Exception
+     * @return \Money\CurrencyPair
      */
     public static function createFromIso($iso)
     {
@@ -52,7 +59,11 @@ class CurrencyPair
         return new static(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
     }
 
-    /** @return Money */
+    /**
+     * @param \Money\Money $money
+     * @throws InvalidArgumentException
+     * @return \Money\Money
+     */
     public function convert(Money $money)
     {
         if (!$money->getCurrency()->equals($this->counterCurrency)) {
@@ -63,13 +74,13 @@ class CurrencyPair
         return new Money((int) round($money->getAmount() * $this->ratio), $this->baseCurrency);
     }
 
-    /** @return Currency */
+    /** @return \Money\Currency */
     public function getCounterCurrency()
     {
         return $this->counterCurrency;
     }
 
-    /** @return Currency */
+    /** @return \Money\Currency */
     public function getBaseCurrency()
     {
         return $this->baseCurrency;
