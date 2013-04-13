@@ -40,10 +40,16 @@ class Money
         if($amount != 0 && !$currency instanceof Currency) {
             throw new InvalidArgumentException("You must provide a Currency (for all non-zero amounts)");
         }
+        if($amount != 0 && $currency instanceof NullCurrency) {
+            throw new InvalidArgumentException("You can't use NullCurrency for a non-zero amount");
+        }
+
 
         $this->amount = $amount;
 
-        if($amount != 0) {
+        if($amount == 0) {
+            $this->currency = new NullCurrency();
+        } else {
             $this->currency = $currency;
         }
     }
@@ -173,7 +179,7 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        $currency = $this->currency ?: $addend->currency;
+        $currency = $this->currency instanceof NullCurrency ? $addend->currency : $this->currency;
         return new self($this->amount + $addend->amount, $currency);
     }
 

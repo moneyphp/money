@@ -11,17 +11,25 @@
 namespace Money\Tests;
 
 use Money\Money;
+use Money\NullCurrency;
 
 final class ZeroTest extends \PHPUnit_Framework_TestCase
 {
 
     /** @test */
-    public function zeroMoneysDoesntStoreCurrency()
+    public function zeroMoneysHasANullCurrency()
     {
-        $zero = Money::EUR(0);
-        $this->assertNull(
-            $zero->getCurrency()
+        $this->assertEquals(
+            new NullCurrency,
+            Money::EUR(0)->getCurrency()
         );
+    }
+
+    /** @test */
+    public function cantUseNullCurrencyWhenNonZeroAmount()
+    {
+        $this->setExpectedException('\Money\InvalidArgumentException');
+        new Money(5, new NullCurrency);
     }
 
     /** @test */
