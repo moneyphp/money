@@ -86,6 +86,11 @@ final class ZeroTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
+            Money::EUR(-200),
+            Money::EUR(0)->subtract(Money::EUR(200))
+        );
+
+        $this->assertEquals(
             Money::EUR(0),
             Money::EUR(5)->multiply(0)
         );
@@ -94,7 +99,6 @@ final class ZeroTest extends \PHPUnit_Framework_TestCase
             Money::EUR(0),
             Money::EUR(0)->divide(5)
         );
-
     }
 
     /** @test */

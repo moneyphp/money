@@ -23,7 +23,7 @@ class Money
     private $amount;
 
     /** @var \Money\Currency */
-    private $currency = null;
+    private $currency;
 
     /**
      * Create a Money instance
@@ -179,8 +179,18 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        $currency = $this->currency instanceof NullCurrency ? $addend->currency : $this->currency;
+        $currency = $this->pickCurrency($addend);
         return new self($this->amount + $addend->amount, $currency);
+    }
+
+    /**
+     * If the current Currency is a NullCurrency, use the other one's Currency
+     * @param \Money\Money $other
+     * @return Currency|NullCurrency
+     */
+    private function pickCurrency(Money $other)
+    {
+        return $this->currency instanceof NullCurrency ? $other->currency : $this->currency;
     }
 
     /**
@@ -190,8 +200,8 @@ class Money
     public function subtract(Money $subtrahend)
     {
         $this->assertSameCurrency($subtrahend);
-
-        return new self($this->amount - $subtrahend->amount, $this->currency);
+        $currency = $this->pickCurrency($subtrahend);
+        return new self($this->amount - $subtrahend->amount, $currency);
     }
 
     /**
