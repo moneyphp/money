@@ -52,8 +52,7 @@ class CurrencyPair
 
         $matches = array();
         if (!preg_match($pattern, $iso, $matches)) {
-            // @todo better exception
-            throw new \Exception();
+            throw new InvalidArgumentException('ISO does not match accepted currency patterns');
         }
 
         return new static(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);

@@ -38,4 +38,42 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $expected = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
         $this->assertEquals($expected, $pair);
     }
+
+    /** @test */
+    public function CurrencyPairThrowsExceptionOnRatioNonNumeric()
+    {
+        $this->setExpectedException(
+            'Money\InvalidArgumentException',
+            'Ratio must be numeric'
+        );
+
+        $ratio = 'foo';
+
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
+    }
+
+    /** @test */
+    public function CreateFromIsoThrowsExceptionOnIsoNotMatchCurrencyPattern()
+    {
+        $this->setExpectedException(
+            'Money\InvalidArgumentException',
+            'ISO does not match accepted currency patterns'
+        );
+
+        $pair = CurrencyPair::createFromIso('foo/bam 1.2500');
+    }
+
+    /** @test */
+    public function ConvertThrowsExceptionOnWrongCurrencyType()
+    {
+        $this->setExpectedException(
+            'Money\InvalidArgumentException',
+            'The Money has the wrong currency'
+        );
+
+        $eur = Money::EUR(100);
+        $currentPair = new CurrencyPair(new Currency('USD'), new Currency('EUR'), 1.2500);
+
+        $currentPair->convert($eur);
+    }
 }
