@@ -23,6 +23,11 @@ final class ZeroTest extends \PHPUnit_Framework_TestCase
                 Money::USD(0)
             )
         );
+
+        $this->assertEquals(
+            Money::zero(),
+            Money::zero()
+        );
     }
 
     /** @test */
@@ -35,11 +40,27 @@ final class ZeroTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
+    public function nonZeroMoneyCanNotBeInstantiatedWithoutCurrency()
+    {
+        $this->setExpectedException('\Money\InvalidArgumentException');
+        new Money(5);
+    }
+
+    /** @test */
     public function operationsWithZeroMoney()
     {
         $this->assertEquals(
+            Money::zero(),
+            Money::zero()->add(Money::zero())
+        );
+        $this->assertEquals(
             Money::EUR(5),
             Money::EUR(5)->add(Money::zero())
+        );
+
+        $this->assertEquals(
+            Money::USD(5),
+            Money::zero()->add(Money::USD(5))
         );
 
         $this->assertEquals(
@@ -49,12 +70,12 @@ final class ZeroTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             Money::EUR(0),
-            Money::EUR(5)->multiply(Money::zero())
+            Money::EUR(5)->multiply(0)
         );
 
         $this->assertEquals(
             Money::EUR(0),
-            Money::EUR(0)->divide(Money::EUR(5))
+            Money::EUR(0)->divide(5)
         );
 
     }
@@ -63,7 +84,7 @@ final class ZeroTest extends \PHPUnit_Framework_TestCase
     public function divisionByZero()
     {
         $this->setExpectedException('\Money\DivisionByZeroException');
-        Money::EUR(5)->divide(Money::zero());
+        Money::EUR(5)->divide(0);
     }
 
 

@@ -31,11 +31,16 @@ class Money
      * @param  \Money\Currency $currency
      * @throws \Money\InvalidArgumentException
      */
-    public function __construct($amount, Currency $currency)
+    public function __construct($amount, Currency $currency = null)
     {
         if (!is_int($amount)) {
             throw new InvalidArgumentException("The first parameter of Money must be an integer. It's the amount, expressed in the smallest units of currency (eg cents)");
         }
+
+        if($amount != 0 && !$currency instanceof Currency) {
+            throw new InvalidArgumentException("You must provide a Currency (for all non-zero amounts)");
+        }
+
         $this->amount = $amount;
         $this->currency = $currency;
     }
@@ -53,12 +58,25 @@ class Money
     }
 
     /**
+     * Create an instance of Money with a zero amount and no Currency
+     * @return \Money\Money
+     */
+    public static function zero()
+    {
+        static $zero;
+        if(!isset($zero)) {
+            $zero = new Money(0);
+        }
+        return $zero;
+    }
+
+    /**
      * @param \Money\Money $other
      * @return bool
      */
     public function isSameCurrency(Money $other)
     {
-        return $this->currency->equals($other->currency);
+        return $this->isZero() || $other->isZero() || $this->currency->equals($other->currency);
     }
 
     /**
@@ -66,9 +84,10 @@ class Money
      */
     private function assertSameCurrency(Money $other)
     {
-        if (!$this->isSameCurrency($other)) {
-            throw new InvalidArgumentException('Different currencies');
+        if ($this->isZero() || $other->isZero() || $this->isSameCurrency($other)) {
+            return;
         }
+        throw new InvalidArgumentException('Different currencies');
     }
 
     /**
@@ -145,13 +164,14 @@ class Money
 
     /**
      * @param \Money\Money $addend
-     *@return \Money\Money 
+     * @return \Money\Money
      */
     public function add(Money $addend)
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->amount + $addend->amount, $this->currency);
+        $currency = $this->currency ?: $addend->currency;
+        return new self($this->amount + $addend->amount, $currency);
     }
 
     /**
@@ -203,12 +223,17 @@ class Money
     /**
      * @param $divisor
      * @param int $rounding_mode
+     * @throws DivisionByZeroException
      * @return \Money\Money
      */
     public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($divisor);
         $this->assertRoundingMode($rounding_mode);
+        if($divisor == 0) {
+            throw new DivisionByZeroException("Can't divide Money by zero");
+        }
+
 
         $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
 
