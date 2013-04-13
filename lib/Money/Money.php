@@ -23,7 +23,7 @@ class Money
     private $amount;
 
     /** @var \Money\Currency */
-    private $currency;
+    private $currency = null;
 
     /**
      * Create a Money instance
@@ -42,7 +42,10 @@ class Money
         }
 
         $this->amount = $amount;
-        $this->currency = $currency;
+
+        if($amount != 0) {
+            $this->currency = $currency;
+        }
     }
 
     /**
@@ -155,7 +158,7 @@ class Money
     }
 
     /**
-     * @return \Money\Currency
+     * @return null|\Money\Currency
      */
     public function getCurrency()
     {

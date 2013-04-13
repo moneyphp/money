@@ -16,6 +16,15 @@ final class ZeroTest extends \PHPUnit_Framework_TestCase
 {
 
     /** @test */
+    public function zeroMoneysDoesntStoreCurrency()
+    {
+        $zero = Money::EUR(0);
+        $this->assertNull(
+            $zero->getCurrency()
+        );
+    }
+
+    /** @test */
     public function zeroMoneysAreEqualIndependentOfCurrency()
     {
         $this->assertTrue(
