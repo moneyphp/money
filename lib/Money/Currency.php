@@ -10,13 +10,12 @@
 
 namespace Money;
 
+use Symfony\Component\Intl\Intl;
+
 class Currency
 {
     /** @var string */
     private $name;
-
-    /** @var array */
-    private static $currencies;
 
     /**
      * @param string $name
@@ -24,11 +23,7 @@ class Currency
      */
     public function __construct($name)
     {
-        if(!isset(static::$currencies)) {
-           static::$currencies = require __DIR__.'/currencies.php';
-        }
-
-        if (!array_key_exists($name, static::$currencies)) {
+        if (null === Intl::getCurrencyBundle()->getCurrencyName($name)) {
             throw new UnknownCurrencyException($name);
         }
         $this->name = $name;
