@@ -15,27 +15,33 @@ use Symfony\Component\Intl\Intl;
 class Currency
 {
     /** @var string */
-    private $name;
+    private $code;
 
     /**
-     * @param string $name
+     * @param string $code
      * @throws UnknownCurrencyException
      */
-    public function __construct($name)
+    public function __construct($code)
     {
-        if (null === Intl::getCurrencyBundle()->getCurrencyName($name)) {
-            throw new UnknownCurrencyException($name);
+        if (null === Intl::getCurrencyBundle()->getCurrencyName($code)) {
+            throw new UnknownCurrencyException($code);
         }
-        $this->name = $name;
+        $this->code = $code;
     }
-
 
     /**
      * @return string
      */
-    public function getName()
+    public function getName() {
+        return Intl::getCurrencyBundle()->getCurrencyName($this->code);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
     {
-        return $this->name;
+        return $this->code;
     }
 
     /**
@@ -44,7 +50,7 @@ class Currency
      */
     public function equals(Currency $other)
     {
-        return $this->name === $other->name;
+        return $this->code === $other->code;
     }
 
     /**
