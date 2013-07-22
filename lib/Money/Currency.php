@@ -45,6 +45,13 @@ class Currency
     }
 
     /**
+     * @return string
+     */
+    public function getSymbol() {
+        return Intl::getCurrencyBundle()->getCurrencySymbol($this->code);
+    }
+
+    /**
      * @param \Money\Currency $other
      * @return bool
      */

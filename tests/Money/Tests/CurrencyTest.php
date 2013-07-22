@@ -72,6 +72,17 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetSymbol() {
+        $this->assertSame(
+            Intl::getCurrencyBundle()->getCurrencySymbol('EUR'),
+            $this->euro1->getSymbol()
+        );
+        $this->assertSame(
+            Intl::getCurrencyBundle()->getCurrencySymbol('USD'),
+            $this->usd1->getSymbol()
+        );
+    }
+
     public function testToString() {
         $this->assertSame(
             Intl::getCurrencyBundle()->getCurrencyName('EUR'),
