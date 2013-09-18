@@ -5,7 +5,9 @@ Money
 
 PHP 5.3+ library to make working with money safer, easier, and fun!
 
-In short: You probably shouldn't represent monetary values by a float. Wherever
+> "If I had a dime for every time I've seen someone use FLOAT to store currency, I'd have $999.997634" -- [Bill Karwin](https://twitter.com/billkarwin/status/347561901460447232)
+
+In short: You shouldn't represent monetary values by a float. Wherever
 you need to represent money, use this Money value object.
 
 ```php
