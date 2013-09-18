@@ -174,41 +174,37 @@ class Money
     }
 
     /**
-     * @throws \Money\InvalidArgumentException
-     */
-    private function assertRoundingMode($rounding_mode)
-    {
-        if (!in_array($rounding_mode, array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP))) {
-            throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP');
-        }
-    }
-
-    /**
      * @param $multiplier
-     * @param int $rounding_mode
+     * @param int|\Money\RoundingMode $rounding_mode
      * @return \Money\Money
      */
     public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
-        $this->assertRoundingMode($rounding_mode);
+        
+        if (!$rounding_mode instanceof RoundingMode) {
+            $rounding_mode = new RoundingMode($rounding_mode);
+        }
 
-        $product = (int) round($this->amount * $multiplier, 0, $rounding_mode);
+        $product = (int) round($this->amount * $multiplier, 0, $rounding_mode->getRoundingMode());
 
         return new Money($product, $this->currency);
     }
 
     /**
      * @param $divisor
-     * @param int $rounding_mode
+     * @param int|\Money\RoundingMode $rounding_mode
      * @return \Money\Money
      */
     public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($divisor);
-        $this->assertRoundingMode($rounding_mode);
 
-        $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
+        if (!$rounding_mode instanceof RoundingMode) {
+            $rounding_mode = new RoundingMode($rounding_mode);
+        }
+
+        $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode->getRoundingMode());
 
         return new Money($quotient, $this->currency);
     }
@@ -260,7 +256,7 @@ class Money
      * @throws \Money\InvalidArgumentException
      * @return int
      */
-    public static function stringToUnits( $string )
+    public static function stringToUnits($string)
     {
         //@todo extend the regular expression with grouping characters and eventually currencies
         if (!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $string, $matches)) {
