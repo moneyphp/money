@@ -38,4 +38,14 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $expected = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
         $this->assertEquals($expected, $pair);
     }
+
+    /**
+     * @test
+     * @expectedException \Money\InvalidArgumentException
+     * @expectedExceptionMessage Can't create currency pair from ISO string '1.2500', format of string is invalid
+     */
+    public function ParsesIsoWithException()
+    {
+        CurrencyPair::createFromIso('1.2500');
+    }
 }
