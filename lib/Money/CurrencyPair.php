@@ -52,8 +52,12 @@ class CurrencyPair
 
         $matches = array();
         if (!preg_match($pattern, $iso, $matches)) {
-            // @todo better exception
-            throw new \Exception();
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Can't create currency pair from ISO string '%s', format of string is invalid",
+                    $iso
+                )
+            );
         }
 
         return new static(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
