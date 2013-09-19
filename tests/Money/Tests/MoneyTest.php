@@ -208,7 +208,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Money::EUR(-1)->isPositive());
     }
 
-    public static function provideStrings()
+    public static function provideAmountStrings()
     {
         return array(
             array("1000", 100000),
@@ -230,10 +230,18 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideStrings
+     * @dataProvider provideAmountStrings
      */
-    public function testStringToUnits($string, $units)
+    public function testStringToAmount($string, $amount)
     {
-        $this->assertEquals($units, Money::stringToUnits($string));
+        $this->assertEquals($amount, Money::stringToAmount($string));
+    }
+
+    /**
+     * @dataProvider provideAmountStrings
+     */
+    public function testStringToMoney($string, $amount)
+    {
+        $this->assertEquals(new Money($amount, new Currency("USD")), Money::stringToMoney($string . " USD"));
     }
 }
