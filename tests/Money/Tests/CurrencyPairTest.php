@@ -40,7 +40,6 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Money\InvalidArgumentException
      * @expectedExceptionMessage Can't create currency pair from ISO string '1.2500', format of string is invalid
      */
@@ -50,7 +49,6 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Money\InvalidArgumentException
      * @expectedExceptionMessage Ratio must be numeric
      * @dataProvider dataProviderNonNumericRatio
@@ -60,9 +58,6 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         new CurrencyPair(new Currency('EUR'), new Currency('USD'), $nonNumericRatio);
     }
 
-    /**
-     * @test
-     */
     public function testGetRatio()
     {
         $ratio = 1.2500;
@@ -71,9 +66,6 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($ratio, $pair->getRatio());
     }
 
-    /**
-     * @test
-     */
     public function testGetBaseCurrency()
     {
         $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
@@ -81,9 +73,6 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(new Currency('EUR'), $pair->getBaseCurrency());
     }
 
-    /**
-     * @test
-     */
     public function testGetCounterCurrency()
     {
         $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
@@ -92,7 +81,6 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Money\InvalidArgumentException
      * @expectedExceptionMessage The Money has the wrong currency
      */
