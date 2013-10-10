@@ -51,7 +51,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Money\InvalidArgumentException
      * @expectedExceptionMessage Ratio must be numeric
-     * @dataProvider dataProviderNonNumericRatio
+     * @dataProvider provideNonNumericRatio
      */
     public function testConstructorWithNonNumericRatio($nonNumericRatio)
     {
@@ -92,7 +92,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $pair->convert($money);
     }
 
-    public function dataProviderNonNumericRatio()
+    public function provideNonNumericRatio()
     {
         return array(
             array('NonNumericRatio'),
