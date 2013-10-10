@@ -40,12 +40,64 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Money\InvalidArgumentException
      * @expectedExceptionMessage Can't create currency pair from ISO string '1.2500', format of string is invalid
      */
     public function ParsesIsoWithException()
     {
         CurrencyPair::createFromIso('1.2500');
+    }
+
+    /**
+     * @expectedException \Money\InvalidArgumentException
+     * @expectedExceptionMessage Ratio must be numeric
+     * @dataProvider dataProviderNonNumericRatio
+     */
+    public function testConstructorWithNonNumericRatio($nonNumericRatio)
+    {
+        new CurrencyPair(new Currency('EUR'), new Currency('USD'), $nonNumericRatio);
+    }
+
+    public function testGetRatio()
+    {
+        $ratio = 1.2500;
+        $pair  = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
+
+        $this->assertEquals($ratio, $pair->getRatio());
+    }
+
+    public function testGetBaseCurrency()
+    {
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+
+        $this->assertEquals(new Currency('EUR'), $pair->getBaseCurrency());
+    }
+
+    public function testGetCounterCurrency()
+    {
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+
+        $this->assertEquals(new Currency('USD'), $pair->getCounterCurrency());
+    }
+
+    /**
+     * @expectedException \Money\InvalidArgumentException
+     * @expectedExceptionMessage The Money has the wrong currency
+     */
+    public function testConvertWithInvalidCurrency()
+    {
+        $money = new Money(100, new Currency('JPY'));
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+
+        $pair->convert($money);
+    }
+
+    public function dataProviderNonNumericRatio()
+    {
+        return array(
+            array('NonNumericRatio'),
+            array('16AlsoIncorrect'),
+            array('10.00ThisIsToo')
+        );
     }
 }
