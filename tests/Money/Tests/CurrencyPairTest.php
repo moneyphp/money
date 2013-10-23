@@ -102,20 +102,29 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     
     public function provideEqualityComparisonPairs()
     {
+        $usd = new Currency('USD');
+        $eur = new Currency('EUR');
+        $gbp = new Currency('GBP');
+        
         return array(
             array(
-                new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500),
-                new CurrencyPair(new Currency('USD'), new Currency('EUR'), 0.8000),
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($gbp, $usd, 1.2500),
                 false
             ),
             array(
-                new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500),
-                new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.5000),
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($eur, $gbp, 1.2500),
                 false
             ),
             array(
-                new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500),
-                new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500),
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($eur, $usd, 1.5000),
+                false
+            ),
+            array(
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($eur, $usd, 1.2500),
                 true
             ),
         );
