@@ -103,9 +103,9 @@ class CurrencyPair
     public function equals(CurrencyPair $other)
     {
         return (
-            $this->baseCurrency       ==  $other->baseCurrency
-            && $this->counterCurrency ==  $other->counterCurrency
-            && $this->ratio           === $other->ratio
+            $this->baseCurrency->equals($other->baseCurrency)
+            && $this->counterCurrency->equals($other->counterCurrency)
+            && $this->ratio === $other->ratio
         );
     }
 }
