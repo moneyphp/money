@@ -107,22 +107,22 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $gbp = new Currency('GBP');
         
         return array(
-            array(
+            'Base Mismatch EUR != GBP' => array(
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($gbp, $usd, 1.2500),
                 false
             ),
-            array(
+            'Counter Mismatch USD != GBP' => array(
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($eur, $gbp, 1.2500),
                 false
             ),
-            array(
+            'Ratio Mismatch 1.2500 != 1.5000' => array(
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($eur, $usd, 1.5000),
                 false
             ),
-            array(
+            'Full Equality EUR/USD 1.2500' => array(
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($eur, $usd, 1.2500),
                 true
