@@ -4,6 +4,7 @@ php:
   - 5.4
 
 before_script:
+	- composer self-update
     - composer --dev install
 
 script: vendor/bin/phpunit
