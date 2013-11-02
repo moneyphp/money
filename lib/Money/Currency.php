@@ -10,7 +10,9 @@
 
 namespace Money;
 
-class Currency
+use Money\Contracts\CurrencyInterface;
+
+class Currency implements CurrencyInterface
 {
     /** @var string */
     private $name;
@@ -36,7 +38,7 @@ class Currency
 
 
     /**
-     * @return string
+     * @{inheritDoc}
      */
     public function getName()
     {
@@ -44,10 +46,9 @@ class Currency
     }
 
     /**
-     * @param \Money\Currency $other
-     * @return bool
+     * @{inheritDoc}
      */
-    public function equals(Currency $other)
+    public function equals(CurrencyInterface $other)
     {
         return $this->name === $other->name;
     }

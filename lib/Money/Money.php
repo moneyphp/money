@@ -10,13 +10,11 @@
 
 namespace Money;
 
-class Money
-{
-    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
-    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
-    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
-    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+use Money\Contracts\MoneyInterface;
+use Money\Contracts\CurrencyInterface;
 
+class Money implements MoneyInterface
+{
     /**
      * @var int
      */
@@ -26,12 +24,9 @@ class Money
     private $currency;
 
     /**
-     * Create a Money instance
-     * @param  integer $amount    Amount, expressed in the smallest units of $currency (eg cents)
-     * @param  \Money\Currency $currency
-     * @throws \Money\InvalidArgumentException
+     * @{inheritDoc}
      */
-    public function __construct($amount, Currency $currency)
+    public function __construct($amount, CurrencyInterface $currency)
     {
         if (!is_int($amount)) {
             throw new InvalidArgumentException("The first parameter of Money must be an integer. It's the amount, expressed in the smallest units of currency (eg cents)");
@@ -53,10 +48,9 @@ class Money
     }
 
     /**
-     * @param \Money\Money $other
-     * @return bool
+     * @{inheritDoc}
      */
-    public function isSameCurrency(Money $other)
+    public function isSameCurrency(MoneyInterface $other)
     {
         return $this->currency->equals($other->currency);
     }
@@ -64,7 +58,7 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    private function assertSameCurrency(Money $other)
+    private function assertSameCurrency(MoneyInterface $other)
     {
         if (!$this->isSameCurrency($other)) {
             throw new InvalidArgumentException('Different currencies');
@@ -72,10 +66,9 @@ class Money
     }
 
     /**
-     * @param \Money\Money $other
-     * @return bool
+     * @{inheritDoc}
      */
-    public function equals(Money $other)
+    public function equals(MoneyInterface $other)
     {
         return
             $this->isSameCurrency($other)
@@ -83,10 +76,9 @@ class Money
     }
 
     /**
-     * @param \Money\Money $other
-     * @return int
+     * @{inheritDoc}
      */
-    public function compare(Money $other)
+    public function compare(MoneyInterface $other)
     {
         $this->assertSameCurrency($other);
         if ($this->amount < $other->amount) {
@@ -99,26 +91,23 @@ class Money
     }
 
     /**
-     * @param \Money\Money $other
-     * @return bool
+     * @{inheritDoc}
      */
-    public function greaterThan(Money $other)
+    public function greaterThan(MoneyInterface $other)
     {
         return 1 == $this->compare($other);
     }
 
     /**
-     * @param \Money\Money $other
-     * @return bool
+     * @{inheritDoc}
      */
-    public function lessThan(Money $other)
+    public function lessThan(MoneyInterface $other)
     {
         return -1 == $this->compare($other);
     }
 
     /**
-     * @deprecated Use getAmount() instead
-     * @return int
+     * @{inheritDoc}
      */
     public function getUnits()
     {
@@ -126,7 +115,7 @@ class Money
     }
 
     /**
-     * @return int
+     * @{inheritDoc}
      */
     public function getAmount()
     {
@@ -134,7 +123,7 @@ class Money
     }
 
     /**
-     * @return \Money\Currency
+     * @{inheritDoc}
      */
     public function getCurrency()
     {
@@ -142,10 +131,9 @@ class Money
     }
 
     /**
-     * @param \Money\Money $addend
-     *@return \Money\Money 
+     * @{inheritDoc}
      */
-    public function add(Money $addend)
+    public function add(MoneyInterface $addend)
     {
         $this->assertSameCurrency($addend);
 
@@ -153,10 +141,9 @@ class Money
     }
 
     /**
-     * @param \Money\Money $subtrahend
-     * @return \Money\Money
+     * @{inheritDoc}
      */
-    public function subtract(Money $subtrahend)
+    public function subtract(MoneyInterface $subtrahend)
     {
         $this->assertSameCurrency($subtrahend);
 
@@ -184,9 +171,7 @@ class Money
     }
 
     /**
-     * @param $multiplier
-     * @param int $rounding_mode
-     * @return \Money\Money
+     * @{inheritDoc}
      */
     public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
     {
@@ -199,9 +184,7 @@ class Money
     }
 
     /**
-     * @param $divisor
-     * @param int $rounding_mode
-     * @return \Money\Money
+     * @{inheritDoc}
      */
     public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
     {
@@ -214,11 +197,9 @@ class Money
     }
 
     /**
-     * Allocate the money according to a list of ratio's
-     * @param array $ratios List of ratio's
-     * @return \Money\Money
+     * @{inheritDoc}
      */
-    public function allocate(array $ratios)
+    public function allocate(array $ratios = array())
     {
         $remainder = $this->amount;
         $results = array();
@@ -237,28 +218,32 @@ class Money
         return $results;
     }
 
-    /** @return bool */
+    /**
+     * @{inheritDoc}
+     */
     public function isZero()
     {
         return $this->amount === 0;
     }
 
-    /** @return bool */
+    /**
+     * @{inheritDoc}
+     */
     public function isPositive()
     {
         return $this->amount > 0;
     }
 
-    /** @return bool */
+    /**
+     * @{inheritDoc}
+     */
     public function isNegative()
     {
         return $this->amount < 0;
     }
 
     /**
-     * @param $string
-     * @throws \Money\InvalidArgumentException
-     * @return int
+     * @{inheritDoc}
      */
     public static function stringToUnits( $string )
     {
