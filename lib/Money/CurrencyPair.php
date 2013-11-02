@@ -10,8 +10,12 @@
 
 namespace Money;
 
+use Money\Contracts\CurrencyPairInterface;
+use Money\Contracts\CurrencyInterface;
+use Money\Contracts\MoneyInterface;
+
 /** @see http://en.wikipedia.org/wiki/Currency_pair */
-class CurrencyPair
+class CurrencyPair implements CurrencyPairInterface
 {
     /** @var Currency */
     private $baseCurrency;
@@ -23,12 +27,9 @@ class CurrencyPair
     private $ratio;
 
     /**
-     * @param \Money\Currency $baseCurrency
-     * @param \Money\Currency $counterCurrency
-     * @param float $ratio
-     * @throws \Money\InvalidArgumentException
+     * @{inheritDoc}
      */
-    public function __construct(Currency $baseCurrency, Currency $counterCurrency, $ratio)
+    public function __construct(CurrencyInterface $baseCurrency, CurrencyInterface $counterCurrency, $ratio)
     {
         if(!is_numeric($ratio)) {
             throw new InvalidArgumentException("Ratio must be numeric");
@@ -40,9 +41,7 @@ class CurrencyPair
     }
 
     /**
-     * @param  string $iso String representation of the form "EUR/USD 1.2500"
-     * @throws \Exception
-     * @return \Money\CurrencyPair
+     * @{inheritDoc}
      */
     public static function createFromIso($iso)
     {
@@ -64,11 +63,9 @@ class CurrencyPair
     }
 
     /**
-     * @param \Money\Money $money
-     * @throws InvalidArgumentException
-     * @return \Money\Money
+     * @{inheritDoc}
      */
-    public function convert(Money $money)
+    public function convert(MoneyInterface $money)
     {
         if (!$money->getCurrency()->equals($this->baseCurrency)) {
             throw new InvalidArgumentException("The Money has the wrong currency");
@@ -78,19 +75,25 @@ class CurrencyPair
         return new Money((int) round($money->getAmount() * $this->ratio), $this->counterCurrency);
     }
 
-    /** @return \Money\Currency */
+    /**
+     * @{inheritDoc}
+     */
     public function getCounterCurrency()
     {
         return $this->counterCurrency;
     }
 
-    /** @return \Money\Currency */
+    /**
+     * @{inheritDoc}
+     */
     public function getBaseCurrency()
     {
         return $this->baseCurrency;
     }
 
-    /** @return float */
+    /**
+     * @{inheritDoc}
+     */
     public function getRatio()
     {
         return $this->ratio;
