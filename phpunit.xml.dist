@@ -14,6 +14,7 @@
   </testsuites>
 
   <logging>
+    <log type="coverage-text"/>
     <log type="coverage-html" target="build/coverage" title="money"
          charset="UTF-8" yui="true" highlight="true"
          lowUpperBound="35" highLowerBound="70"/>
