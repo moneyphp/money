@@ -10,7 +10,7 @@
 
 namespace Money\Contracts;
 
-class MoneyInterface
+interface MoneyInterface
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -41,7 +41,7 @@ class MoneyInterface
      * @param \Money\Contracts\MoneyInterface $other
      * @return int
      */
-    public function compare(MoneyInterface $other)
+    public function compare(MoneyInterface $other);
 
     /**
      * @param \Money\Contracts\MoneyInterface $other
@@ -53,7 +53,7 @@ class MoneyInterface
      * @param \Money\Contracts\MoneyInterface $other
      * @return bool
      */
-    public function lessThan(MoneyInterface $other)
+    public function lessThan(MoneyInterface $other);
 
     /**
      * @deprecated Use getAmount() instead

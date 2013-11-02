@@ -199,7 +199,7 @@ class Money implements MoneyInterface
     /**
      * @{inheritDoc}
      */
-    public function allocate(array $ratios)
+    public function allocate(array $ratios = array())
     {
         $remainder = $this->amount;
         $results = array();
