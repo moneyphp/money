@@ -40,6 +40,12 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testToString()
+    {
+        $this->assertEquals('USD', (string) $this->usd1);
+        $this->assertEquals('EUR', (string) $this->euro1);
+    }
+
     /**
      * @test
      * @expectedException \Money\UnknownCurrencyException

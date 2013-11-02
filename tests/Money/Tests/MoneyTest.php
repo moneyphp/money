@@ -124,6 +124,9 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertNotSame($m, $m->multiply(2));
+
+        $this->setExpectedException('InvalidArgumentException', 'Operand should be an integer or a float');
+        $m->multiply('two');
     }
 
     public function testDivision()
@@ -143,6 +146,9 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         );
 
         $this->assertNotSame($m, $m->divide(2));
+
+        $this->setExpectedException('InvalidArgumentException', 'Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP');
+        $m->divide(2, 10000000);
     }
 
     public function testComparison()
@@ -235,5 +241,8 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function testStringToUnits($string, $units)
     {
         $this->assertEquals($units, Money::stringToUnits($string));
+
+        $this->setExpectedException('InvalidArgumentException', 'The value could not be parsed as money');
+        Money::stringToUnits('Chips?');
     }
 }
