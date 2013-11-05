@@ -84,7 +84,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $pair->convert($money);
     }
 
-    protected function provideNonNumericRatio()
+    public function provideNonNumericRatio()
     {
         return array(
             array('NonNumericRatio'),
