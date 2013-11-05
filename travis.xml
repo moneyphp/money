@@ -12,12 +12,8 @@
     </testsuite>
   </testsuites>
 
-  <logging>
-    <log type="coverage-text"/>
-  </logging>
-
   <filter>
-    <whitelist addUncoveredFilesFromWhitelist="true">
+    <whitelist processUncoveredFilesFromWhitelist="true">
       <directory suffix=".php">lib</directory>
       <exclude>
 	      <directory suffix=".php">lib/Money/Doctrine2</directory>

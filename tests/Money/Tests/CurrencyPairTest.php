@@ -17,8 +17,7 @@ use Money\CurrencyPair;
 
 class CurrencyPairTest extends PHPUnit_Framework_TestCase
 {
-    /** @test */
-    public function ConvertsEurToUsdAndBack()
+    public function testConvertsEurToUsdAndBack()
     {
         $eur = Money::EUR(100);
 
@@ -31,7 +30,6 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Money::EUR(100), $eur);
     }
 
-    /** @test */
     public function testParseIso()
     {
         $pair = CurrencyPair::createFromIso('EUR/USD 1.2500');
@@ -86,7 +84,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $pair->convert($money);
     }
 
-    public function provideNonNumericRatio()
+    protected function provideNonNumericRatio()
     {
         return array(
             array('NonNumericRatio'),
