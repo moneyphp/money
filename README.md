@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/mathiasverraes/money.png?label=ready)](https://waffle.io/mathiasverraes/money)
 Money
 =====
 
