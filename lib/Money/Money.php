@@ -119,6 +119,7 @@ class Money
     /**
      * @deprecated Use getAmount() instead
      * @return int
+     * @codeCoverageIgnore
      */
     public function getUnits()
     {
