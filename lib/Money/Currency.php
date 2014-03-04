@@ -10,37 +10,45 @@
 
 namespace Money;
 
+use Symfony\Component\Intl\Intl;
+
 class Currency
 {
     /** @var string */
-    private $name;
-
-    /** @var array */
-    private static $currencies;
+    private $code;
 
     /**
-     * @param string $name
+     * @param string $code
      * @throws UnknownCurrencyException
      */
-    public function __construct($name)
+    public function __construct($code)
     {
-        if(!isset(static::$currencies)) {
-           static::$currencies = require __DIR__.'/currencies.php';
+        if (null === Intl::getCurrencyBundle()->getCurrencyName($code)) {
+            throw new UnknownCurrencyException($code);
         }
-
-        if (!array_key_exists($name, static::$currencies)) {
-            throw new UnknownCurrencyException($name);
-        }
-        $this->name = $name;
+        $this->code = $code;
     }
-
 
     /**
      * @return string
      */
-    public function getName()
+    public function getName() {
+        return Intl::getCurrencyBundle()->getCurrencyName($this->code);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCode()
     {
-        return $this->name;
+        return $this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSymbol() {
+        return Intl::getCurrencyBundle()->getCurrencySymbol($this->code);
     }
 
     /**
@@ -49,7 +57,7 @@ class Currency
      */
     public function equals(Currency $other)
     {
-        return $this->name === $other->name;
+        return $this->code === $other->code;
     }
 
     /**
