@@ -236,4 +236,5 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($units, Money::stringToUnits($string));
     }
+
 }
