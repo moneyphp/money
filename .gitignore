@@ -2,7 +2,7 @@
 .buildpath
 .settings
 .idea/
-
+composer.lock
 build/
 _build/
 phpunit.xml
