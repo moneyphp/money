@@ -11,4 +11,4 @@ before_script:
   - composer --dev install
     
 script:
-  - phpunit -c phpunit.xml.dist --coverage-text
+  - phpunit -c phpunit.xml.dist
