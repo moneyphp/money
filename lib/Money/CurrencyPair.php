@@ -95,4 +95,17 @@ class CurrencyPair
     {
         return $this->ratio;
     }
+    
+    /**
+     * @param \Money\CurrencyPair $other the currency pair to compare
+     * @return boolean
+     */
+    public function equals(CurrencyPair $other)
+    {
+        return (
+            $this->baseCurrency->equals($other->baseCurrency)
+            && $this->counterCurrency->equals($other->counterCurrency)
+            && $this->ratio === $other->ratio
+        );
+    }
 }
