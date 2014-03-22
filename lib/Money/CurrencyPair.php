@@ -10,6 +10,9 @@
 
 namespace Money;
 
+use Money\Currency;
+use Money\InvalidArgumentException;
+
 /** @see http://en.wikipedia.org/wiki/Currency_pair */
 class CurrencyPair
 {
@@ -23,10 +26,10 @@ class CurrencyPair
     private $ratio;
 
     /**
-     * @param \Money\Currency $baseCurrency
-     * @param \Money\Currency $counterCurrency
+     * @param Currency $baseCurrency
+     * @param Currency $counterCurrency
      * @param float $ratio
-     * @throws \Money\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(Currency $baseCurrency, Currency $counterCurrency, $ratio)
     {
@@ -67,7 +70,7 @@ class CurrencyPair
      * @param \Money\Money $money
      * @param              $rounding_mode
      * @return \Money\Money
-     * @throws \Money\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function convert(Money $money, RoundingMode $rounding_mode = null)
     {
@@ -83,13 +86,13 @@ class CurrencyPair
         );
     }
 
-    /** @return \Money\Currency */
+    /** @return Currency */
     public function getCounterCurrency()
     {
         return $this->counterCurrency;
     }
 
-    /** @return \Money\Currency */
+    /** @return Currency */
     public function getBaseCurrency()
     {
         return $this->baseCurrency;
@@ -100,17 +103,17 @@ class CurrencyPair
     {
         return $this->ratio;
     }
-    
+
     /**
-     * @param \Money\CurrencyPair $other the currency pair to compare
+     * @param CurrencyPair $other
      * @return boolean
      */
     public function equals(CurrencyPair $other)
     {
-        return (
+        return
             $this->baseCurrency->equals($other->baseCurrency)
             && $this->counterCurrency->equals($other->counterCurrency)
             && $this->ratio === $other->ratio
-        );
+        ;
     }
 }

@@ -44,7 +44,7 @@ class Currency
     }
 
     /**
-     * @param \Money\Currency $other
+     * @param Currency $other
      * @return bool
      */
     public function equals(Currency $other)

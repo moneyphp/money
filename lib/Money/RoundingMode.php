@@ -52,7 +52,7 @@ class RoundingMode
     }
 
     /**
-     * @return \Money\RoundingMode
+     * @return RoundingMode
      */
     public static function halfUp()
     {
@@ -60,7 +60,7 @@ class RoundingMode
     }
 
     /**
-     * @return \Money\RoundingMode
+     * @return RoundingMode
      */
     public static function halfDown()
     {
@@ -68,7 +68,7 @@ class RoundingMode
     }
 
     /**
-     * @return \Money\RoundingMode
+     * @return RoundingMode
      */
     public static function halfEven()
     {
@@ -76,7 +76,7 @@ class RoundingMode
     }
 
     /**
-     * @return \Money\RoundingMode
+     * @return RoundingMode
      */
     public static function halfOdd()
     {
