@@ -65,17 +65,22 @@ class CurrencyPair
 
     /**
      * @param \Money\Money $money
-     * @throws InvalidArgumentException
+     * @param              $rounding_mode
      * @return \Money\Money
+     * @throws \Money\InvalidArgumentException
      */
-    public function convert(Money $money)
+    public function convert(Money $money, RoundingMode $rounding_mode = null)
     {
         if (!$money->getCurrency()->equals($this->baseCurrency)) {
             throw new InvalidArgumentException("The Money has the wrong currency");
         }
 
-        // @todo add rounding mode?
-        return new Money((int) round($money->getAmount() * $this->ratio), $this->counterCurrency);
+        $rounding_mode = $rounding_mode ?: RoundingMode::halfUp();
+        
+        return new Money(
+            (int) round($money->getAmount() * $this->ratio, 0, $rounding_mode->getRoundingMode()),
+            $this->counterCurrency
+        );
     }
 
     /** @return \Money\Currency */

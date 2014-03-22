@@ -10,6 +10,7 @@
 
 namespace Money\Tests;
 
+use Money\RoundingMode;
 use PHPUnit_Framework_TestCase;
 use Money\Money;
 use Money\Currency;
@@ -29,6 +30,20 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $pair = new CurrencyPair(new Currency('USD'), new Currency('EUR'), 0.8000);
         $eur = $pair->convert($usd);
         $this->assertEquals(Money::EUR(100), $eur);
+    }
+    
+    /** @test */
+    public function ConvertsEurToUsdWithModes()
+    {
+        $eur = Money::EUR(10);
+
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+        $usd = $pair->convert($eur);
+        $this->assertEquals(Money::USD(13), $usd);
+
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+        $usd = $pair->convert($eur, new RoundingMode(RoundingMode::ROUND_HALF_DOWN));
+        $this->assertEquals(Money::USD(12), $usd);
     }
 
     /** @test */
