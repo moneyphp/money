@@ -91,6 +91,44 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
 
         $pair->convert($money);
     }
+    
+    /**
+     * @dataProvider provideEqualityComparisonPairs
+     */
+    public function testEqualityComparisons($pair1, $pair2, $equal)
+    {
+        $this->assertSame($equal, $pair1->equals($pair2));
+    }
+    
+    public function provideEqualityComparisonPairs()
+    {
+        $usd = new Currency('USD');
+        $eur = new Currency('EUR');
+        $gbp = new Currency('GBP');
+        
+        return array(
+            'Base Mismatch EUR != GBP' => array(
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($gbp, $usd, 1.2500),
+                false
+            ),
+            'Counter Mismatch USD != GBP' => array(
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($eur, $gbp, 1.2500),
+                false
+            ),
+            'Ratio Mismatch 1.2500 != 1.5000' => array(
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($eur, $usd, 1.5000),
+                false
+            ),
+            'Full Equality EUR/USD 1.2500' => array(
+                new CurrencyPair($eur, $usd, 1.2500),
+                new CurrencyPair($eur, $usd, 1.2500),
+                true
+            ),
+        );
+    }
 
     public function provideNonNumericRatio()
     {
