@@ -258,13 +258,23 @@ class Money
     /**
      * @param $string
      * @throws \Money\InvalidArgumentException
+     * @deprecated Use stringToAmount() instead
      * @return int
      */
-    public static function stringToUnits( $string )
+    public static function stringToUnits($string)
     {
-        //@todo extend the regular expression with grouping characters and eventually currencies
+        return self::stringToAmount($string);
+    }
+
+    /**
+     * @param $string
+     * @throws \Money\InvalidArgumentException
+     * @return int
+     */
+    public static function stringToAmount($string)
+    {
         if (!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $string, $matches)) {
-            throw new InvalidArgumentException("The value could not be parsed as money");
+            throw new InvalidArgumentException("The value could not be parsed an amount string");
         }
         $units = $matches[1] == "-" ? "-" : "";
         $units .= $matches[2];
@@ -272,5 +282,21 @@ class Money
         $units .= isset($matches[5]) ? $matches[5] : "0";
 
         return (int) $units;
+    }
+
+    /**
+     * A string in the format "([\d.-]+) ([A-Z]{3})" or "UNITS CURRENCY_CODE"
+     * e.g. "1000 NZD", "1000.00 USD"
+     * @param $string
+     * @return Money
+     * @throws InvalidArgumentException
+     */
+    public static function stringToMoney($string)
+    {
+        if (!preg_match("/([\d.-]+) ([A-Z]{3})/", $string, $matches)) {
+            throw new InvalidArgumentException("The value could not be parsed as a money string");
+        }
+        
+        return new self(self::stringToAmount($matches[1]), new Currency($matches[2]));
     }
 }
