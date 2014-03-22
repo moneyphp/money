@@ -2,9 +2,7 @@ Money Changelog
 ===============
 
 
-2.0.0.dev
----------
-
+- 2014-03-22 CurrencyPair has an equals() method
 - 2013-10-13 Base currency and counter currency in CurrencyPair named correctly.
 - 2013-01-08 Removed the Doctrine2\MoneyType helper, to be replaced by something better in the future. It's available
              at https://gist.github.com/4485025 in case you need it.
