@@ -10,6 +10,8 @@
 
 namespace Money;
 
+use InvalidArgumentException;
+
 class Money
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;

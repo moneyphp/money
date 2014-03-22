@@ -1,6 +1,7 @@
 Money Changelog
 ===============
 
+- 2014-03-22 Removed \Money\InvalidArgumentException in favour of plain old InvalidArgumentException
 - 2014-03-22 Introduce RoundingMode object, used to specify desired rounding
 - 2014-03-22 Introduced RoundingMode backwards compatible API changes to Money::multiply and Money::divide
 - 2014-03-22 Allow RoundingMode to be specified when converting currencies

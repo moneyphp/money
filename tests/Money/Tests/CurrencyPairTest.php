@@ -10,6 +10,7 @@
 
 namespace Money\Tests;
 
+use InvalidArgumentException;
 use Money\RoundingMode;
 use PHPUnit_Framework_TestCase;
 use Money\Money;
@@ -55,7 +56,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Can't create currency pair from ISO string '1.2500', format of string is invalid
      */
     public function ParsesIsoWithException()
@@ -64,7 +65,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Ratio must be numeric
      * @dataProvider provideNonNumericRatio
      */
@@ -96,7 +97,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage The Money has the wrong currency
      */
     public function testConvertWithInvalidCurrency()

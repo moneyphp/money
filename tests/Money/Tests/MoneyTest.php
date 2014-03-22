@@ -10,6 +10,7 @@
 
 namespace Money\Tests;
 
+use InvalidArgumentException;
 use PHPUnit_Framework_TestCase;
 use Money\Money;
 use Money\Currency;
@@ -36,7 +37,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testDecimalsThrowException()
     {
@@ -44,7 +45,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testStringThrowsException()
     {
@@ -78,7 +79,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeAdded()
     {
@@ -102,7 +103,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeSubtracted()
     {
@@ -162,7 +163,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeCompared()
     {

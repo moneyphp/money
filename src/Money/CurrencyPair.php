@@ -10,8 +10,8 @@
 
 namespace Money;
 
+use InvalidArgumentException;
 use Money\Currency;
-use Money\InvalidArgumentException;
 
 /** @see http://en.wikipedia.org/wiki/Currency_pair */
 class CurrencyPair

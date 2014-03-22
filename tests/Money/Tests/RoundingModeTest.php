@@ -10,6 +10,7 @@
 
 namespace Money\Tests;
 
+use InvalidArgumentException;
 use Money\RoundingMode;
 use PHPUnit_Framework_TestCase;
 
@@ -26,7 +27,7 @@ class RoundingModeTest extends \PHPUnit_Framework_TestCase
     }
     /**
      * @test
-     * @expectedException \Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Rounding mode should be RoundingMode::ROUND_HALF_DOWN | RoundingMode::ROUND_HALF_EVEN | RoundingMode::ROUND_HALF_ODD | RoundingMode::ROUND_HALF_UP
      */
     public function ExceptionCheck()

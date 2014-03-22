@@ -10,6 +10,8 @@
 
 namespace Money;
 
+use InvalidArgumentException;
+
 class RoundingMode
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
