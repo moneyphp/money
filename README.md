@@ -15,7 +15,7 @@ you need to represent money, use this Money value object.
 
 use Money\Money;
 
-$fiveEur = Money::EUR(500);
+$fiveEur = Money::EUR(1000);
 $tenEur = $fiveEur->add($fiveEur);
 
 list($part1, $part2, $part3) = $tenEur->allocate(array(1, 1, 1));
