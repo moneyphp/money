@@ -20,10 +20,10 @@ class Money
     /**
      * @var int
      */
-    private $amount;
+    protected $amount;
 
     /** @var \Money\Currency */
-    private $currency;
+    protected $currency;
 
     /**
      * Create a Money instance
@@ -64,7 +64,7 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    private function assertSameCurrency(Money $other)
+    protected function assertSameCurrency(Money $other)
     {
         if (!$this->isSameCurrency($other)) {
             throw new InvalidArgumentException('Different currencies');
@@ -166,7 +166,7 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    private function assertOperand($operand)
+    protected function assertOperand($operand)
     {
         if (!is_int($operand) && !is_float($operand)) {
             throw new InvalidArgumentException('Operand should be an integer or a float');
@@ -176,7 +176,7 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    private function assertRoundingMode($rounding_mode)
+    protected function assertRoundingMode($rounding_mode)
     {
         if (!in_array($rounding_mode, array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP))) {
             throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP');

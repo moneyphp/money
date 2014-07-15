@@ -14,13 +14,13 @@ namespace Money;
 class CurrencyPair
 {
     /** @var Currency */
-    private $baseCurrency;
+    protected $baseCurrency;
 
     /** @var Currency */
-    private $counterCurrency;
+    protected $counterCurrency;
 
     /** @var float */
-    private $ratio;
+    protected $ratio;
 
     /**
      * @param \Money\Currency $baseCurrency
