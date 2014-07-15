@@ -13,10 +13,10 @@ namespace Money;
 class Currency
 {
     /** @var string */
-    private $name;
+    protected $name;
 
     /** @var array */
-    private static $currencies;
+    protected static $currencies;
 
     /**
      * @param string $name
