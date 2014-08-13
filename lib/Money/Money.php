@@ -20,10 +20,10 @@ class Money
     /**
      * @var int
      */
-    private $amount;
+    protected $amount;
 
     /** @var \Money\Currency */
-    private $currency;
+    protected $currency;
 
     /**
      * Create a Money instance
@@ -64,7 +64,7 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    private function assertSameCurrency(Money $other)
+    protected final function assertSameCurrency(Money $other)
     {
         if (!$this->isSameCurrency($other)) {
             throw new InvalidArgumentException('Different currencies');
@@ -149,7 +149,7 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->amount + $addend->amount, $this->currency);
+        return new static($this->amount + $addend->amount, $this->currency);
     }
 
     /**
@@ -160,13 +160,13 @@ class Money
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new self($this->amount - $subtrahend->amount, $this->currency);
+        return new static($this->amount - $subtrahend->amount, $this->currency);
     }
 
     /**
      * @throws \Money\InvalidArgumentException
      */
-    private function assertOperand($operand)
+    protected final function assertOperand($operand)
     {
         if (!is_int($operand) && !is_float($operand)) {
             throw new InvalidArgumentException('Operand should be an integer or a float');
@@ -176,7 +176,7 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    private function assertRoundingMode($rounding_mode)
+    protected final  function assertRoundingMode($rounding_mode)
     {
         if (!in_array($rounding_mode, array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP))) {
             throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP');
@@ -195,7 +195,7 @@ class Money
 
         $product = (int) round($this->amount * $multiplier, 0, $rounding_mode);
 
-        return new Money($product, $this->currency);
+        return new static($product, $this->currency);
     }
 
     /**
@@ -210,7 +210,7 @@ class Money
 
         $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
 
-        return new Money($quotient, $this->currency);
+        return new static($quotient, $this->currency);
     }
 
     /**
