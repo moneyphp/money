@@ -20,10 +20,10 @@ class Money
     /**
      * @var int
      */
-    protected $amount;
+    private $amount;
 
     /** @var \Money\Currency */
-    protected $currency;
+    private $currency;
 
     /**
      * Create a Money instance
@@ -64,7 +64,7 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    protected final function assertSameCurrency(Money $other)
+    private function assertSameCurrency(Money $other)
     {
         if (!$this->isSameCurrency($other)) {
             throw new InvalidArgumentException('Different currencies');
@@ -149,7 +149,7 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return new static($this->amount + $addend->amount, $this->currency);
+        return new Money($this->amount + $addend->amount, $this->currency);
     }
 
     /**
@@ -160,13 +160,13 @@ class Money
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new static($this->amount - $subtrahend->amount, $this->currency);
+        return new Money($this->amount - $subtrahend->amount, $this->currency);
     }
 
     /**
      * @throws \Money\InvalidArgumentException
      */
-    protected final function assertOperand($operand)
+    private function assertOperand($operand)
     {
         if (!is_int($operand) && !is_float($operand)) {
             throw new InvalidArgumentException('Operand should be an integer or a float');
@@ -176,9 +176,9 @@ class Money
     /**
      * @throws \Money\InvalidArgumentException
      */
-    protected final  function assertRoundingMode($rounding_mode)
+    private function assertRoundingMode($rounding_mode)
     {
-        if (!in_array($rounding_mode, array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP))) {
+        if (!in_array($rounding_mode, array(Money::ROUND_HALF_DOWN, Money::ROUND_HALF_EVEN, Money::ROUND_HALF_ODD, Money::ROUND_HALF_UP))) {
             throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP');
         }
     }
@@ -188,14 +188,14 @@ class Money
      * @param int $rounding_mode
      * @return \Money\Money
      */
-    public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
+    public function multiply($multiplier, $rounding_mode = Money::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
         $this->assertRoundingMode($rounding_mode);
 
         $product = (int) round($this->amount * $multiplier, 0, $rounding_mode);
 
-        return new static($product, $this->currency);
+        return new Money($product, $this->currency);
     }
 
     /**
@@ -203,14 +203,14 @@ class Money
      * @param int $rounding_mode
      * @return \Money\Money
      */
-    public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
+    public function divide($divisor, $rounding_mode = Money::ROUND_HALF_UP)
     {
         $this->assertOperand($divisor);
         $this->assertRoundingMode($rounding_mode);
 
         $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
 
-        return new static($quotient, $this->currency);
+        return new Money($quotient, $this->currency);
     }
 
     /**
