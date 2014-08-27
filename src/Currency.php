@@ -25,7 +25,7 @@ class Currency
      *
      * @var string
      */
-    private $name;
+    private $code;
 
     /**
      * Known currencies
@@ -35,11 +35,11 @@ class Currency
     private static $currencies;
 
     /**
-     * @param string $name
+     * @param string $code
      *
      * @throws UnknownCurrencyException If currency is not known
      */
-    public function __construct($name)
+    public function __construct($code)
     {
         // @codeCoverageIgnoreStart
         if(!isset(static::$currencies)) {
@@ -47,10 +47,22 @@ class Currency
         }
         // @codeCoverageIgnoreEnd
 
-        if (!array_key_exists($name, static::$currencies)) {
-            throw new UnknownCurrencyException($name);
+        if (!array_key_exists($code, static::$currencies)) {
+            throw new UnknownCurrencyException($code);
         }
-        $this->name = $name;
+        $this->code = $code;
+    }
+
+    /**
+     * Returns the ISO 4217 currency code
+     *
+     * @return string
+     *
+     * @deprecated Should be removed in next major release
+     */
+    public function getName()
+    {
+        return $this->code;
     }
 
     /**
@@ -58,9 +70,9 @@ class Currency
      *
      * @return string
      */
-    public function getName()
+    public function getCode()
     {
-        return $this->name;
+        return $this->code;
     }
 
     /**
@@ -72,7 +84,7 @@ class Currency
      */
     public function equals(Currency $other)
     {
-        return $this->name === $other->name;
+        return $this->code === $other->code;
     }
 
     /**
@@ -80,6 +92,6 @@ class Currency
      */
     public function __toString()
     {
-        return $this->getName();
+        return $this->getCode();
     }
 }
