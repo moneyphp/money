@@ -1,7 +1,6 @@
 {
     "name": "mathiasverraes/money",
     "description": "PHP implementation of Fowler's Money pattern",
-    "type": "library",
     "keywords": [ "Money", "Value Object", "Generic Sub-domain", "domain-driven design", "DDD" ],
     "homepage": "http://verraes.net/2011/04/fowler-money-pattern-in-php/",
     "license": "MIT",
@@ -24,13 +23,14 @@
         }
     },
     "autoload": {
-        "psr-0": {
-            "Money": "src"
+        "psr-4": {
+            "Money\\": "src/"
         }
     },
-
-    "config": {
-        "bin-dir": "bin"
+    "autoload-dev": {
+        "psr-4": {
+            "Money\\": "tests/"
+        }
     },
     "suggest": {
         "TheBigBrainsCompany/TbbcMoneyBundle": "Very complete Symfony2 bundle with support for Twig, Doctrine, Forms, ...", 

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *
@@ -8,14 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Money\Tests;
+namespace Money;
 
-use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
-use Money\Money;
-use Money\Currency;
-
-class MoneyTest extends PHPUnit_Framework_TestCase
+class MoneyTest extends \PHPUnit_Framework_TestCase
 {
     public function testFactoryMethods()
     {

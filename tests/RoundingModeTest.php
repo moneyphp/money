@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *
@@ -8,11 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Money\Tests;
-
-use InvalidArgumentException;
-use Money\RoundingMode;
-use PHPUnit_Framework_TestCase;
+namespace Money;
 
 class RoundingModeTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +19,7 @@ class RoundingModeTest extends \PHPUnit_Framework_TestCase
     public function Get()
     {
         $rounding_mode = new RoundingMode(RoundingMode::ROUND_HALF_DOWN);
-        
+
         $this->assertEquals(RoundingMode::ROUND_HALF_DOWN, $rounding_mode->getRoundingMode());
     }
     /**

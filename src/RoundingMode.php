@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *
@@ -20,14 +21,16 @@ class RoundingMode
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
     /**
-     * @var
+     * Rounding mode
+     *
+     * @var integer
      */
     private $roundingMode;
 
     /**
-     * Create a rounding mode
-     * @param int $rounding_mode
-     * @throws InvalidArgumentException
+     * @param integer $rounding_mode
+     *
+     * @throws InvalidArgumentException If $rounding_mode is not valid
      */
     public function __construct($rounding_mode)
     {
@@ -41,12 +44,14 @@ class RoundingMode
                 'RoundingMode::ROUND_HALF_UP'
             );
         }
-        
+
         $this->roundingMode = $rounding_mode;
     }
 
     /**
-     * @return int
+     * Returns the rounding mode
+     *
+     * @return integer
      */
     public function getRoundingMode()
     {
@@ -54,6 +59,8 @@ class RoundingMode
     }
 
     /**
+     * Creates a new HALF UP instance
+     *
      * @return RoundingMode
      */
     public static function halfUp()
@@ -62,6 +69,8 @@ class RoundingMode
     }
 
     /**
+     * Creates a new HALF DOWN instance
+     *
      * @return RoundingMode
      */
     public static function halfDown()
@@ -70,6 +79,8 @@ class RoundingMode
     }
 
     /**
+     * Creates a new HALF EVEN instance
+     *
      * @return RoundingMode
      */
     public static function halfEven()
@@ -78,6 +89,8 @@ class RoundingMode
     }
 
     /**
+     * Creates a new HALF ODD instance
+     *
      * @return RoundingMode
      */
     public static function halfOdd()

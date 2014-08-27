@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *
@@ -8,19 +9,94 @@
  * file that was distributed with this source code.
  */
 
-namespace Money\Tests;
+namespace Money;
 
-use InvalidArgumentException;
-use Money\RoundingMode;
-use PHPUnit_Framework_TestCase;
-use Money\Money;
-use Money\Currency;
-use Money\CurrencyPair;
-
-class CurrencyPairTest extends PHPUnit_Framework_TestCase
+/**
+ * @coversDefaultClass Money\CurrencyPair
+ * @uses Money\Currency
+ * @uses Money\Money
+ * @uses Money\RoundingMode
+ * @uses Money\CurrencyPair
+ */
+class CurrencyPairTest extends \PHPUnit_Framework_TestCase
 {
-    /** @test */
-    public function ConvertsEurToUsdAndBack()
+    /**
+     * @covers ::__construct
+     */
+    public function testConstructor()
+    {
+        $eur = new Currency('EUR');
+        $usd = new Currency('USD');
+        $ratio = 1.0;
+
+        $pair = new CurrencyPair($eur, $usd, $ratio);
+
+        $this->assertSame($eur, $pair->getBaseCurrency());
+        $this->assertSame($usd, $pair->getCounterCurrency());
+        $this->assertEquals($ratio, $pair->getConversionRatio());
+    }
+
+    /**
+     * @covers ::__construct
+     * @dataProvider provideNonNumericRatio
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Conversion ratio must be numeric
+     */
+    public function testConstructorWithNonNumericRatio($nonNumericRatio)
+    {
+        new CurrencyPair(new Currency('EUR'), new Currency('USD'), $nonNumericRatio);
+    }
+
+    /**
+     * @covers ::getRatio
+     * @covers ::getConversionRatio
+     */
+    public function testGetRatio()
+    {
+        $ratio = 1.2500;
+        $pair  = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
+
+        $this->assertEquals($ratio, $pair->getRatio());
+        $this->assertEquals($ratio, $pair->getConversionRatio());
+    }
+
+    /**
+     * @covers ::getBaseCurrency
+     */
+    public function testGetBaseCurrency()
+    {
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+
+        $this->assertEquals(new Currency('EUR'), $pair->getBaseCurrency());
+    }
+
+    /**
+     * @covers ::getCounterCurrency
+     */
+    public function testGetCounterCurrency()
+    {
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+
+        $this->assertEquals(new Currency('USD'), $pair->getCounterCurrency());
+    }
+
+    /**
+     * @covers ::convert
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage The Money has the wrong currency
+     */
+    public function testConvertWithInvalidCurrency()
+    {
+        $money = new Money(100, new Currency('JPY'));
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+
+        $pair->convert($money);
+    }
+
+    /**
+     * @covers ::convert
+     */
+    public function testConvertsEurToUsdAndBack()
     {
         $eur = Money::EUR(100);
 
@@ -32,9 +108,11 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $eur = $pair->convert($usd);
         $this->assertEquals(Money::EUR(100), $eur);
     }
-    
-    /** @test */
-    public function ConvertsEurToUsdWithModes()
+
+    /**
+     * @covers ::convert
+     */
+    public function testConvertsEurToUsdWithModes()
     {
         $eur = Money::EUR(10);
 
@@ -47,8 +125,19 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Money::USD(12), $usd);
     }
 
-    /** @test */
-    public function ParsesIso()
+    /**
+     * @covers ::equals
+     * @dataProvider provideEqualityComparisonPairs
+     */
+    public function testEqualityComparisons($pair1, $pair2, $equal)
+    {
+        $this->assertSame($equal, $pair1->equals($pair2));
+    }
+
+    /**
+     * @covers ::createFromIso
+     */
+    public function testParsesIso()
     {
         $pair = CurrencyPair::createFromIso('EUR/USD 1.2500');
         $expected = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
@@ -56,72 +145,21 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::createFromIso
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Can't create currency pair from ISO string '1.2500', format of string is invalid
      */
-    public function ParsesIsoWithException()
+    public function testParsesIsoWithException()
     {
         CurrencyPair::createFromIso('1.2500');
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Ratio must be numeric
-     * @dataProvider provideNonNumericRatio
-     */
-    public function testConstructorWithNonNumericRatio($nonNumericRatio)
-    {
-        new CurrencyPair(new Currency('EUR'), new Currency('USD'), $nonNumericRatio);
-    }
-
-    public function testGetRatio()
-    {
-        $ratio = 1.2500;
-        $pair  = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
-
-        $this->assertEquals($ratio, $pair->getRatio());
-    }
-
-    public function testGetBaseCurrency()
-    {
-        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
-
-        $this->assertEquals(new Currency('EUR'), $pair->getBaseCurrency());
-    }
-
-    public function testGetCounterCurrency()
-    {
-        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
-
-        $this->assertEquals(new Currency('USD'), $pair->getCounterCurrency());
-    }
-
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The Money has the wrong currency
-     */
-    public function testConvertWithInvalidCurrency()
-    {
-        $money = new Money(100, new Currency('JPY'));
-        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
-
-        $pair->convert($money);
-    }
-    
-    /**
-     * @dataProvider provideEqualityComparisonPairs
-     */
-    public function testEqualityComparisons($pair1, $pair2, $equal)
-    {
-        $this->assertSame($equal, $pair1->equals($pair2));
-    }
-    
     public function provideEqualityComparisonPairs()
     {
         $usd = new Currency('USD');
         $eur = new Currency('EUR');
         $gbp = new Currency('GBP');
-        
+
         return array(
             'Base Mismatch EUR != GBP' => array(
                 new CurrencyPair($eur, $usd, 1.2500),

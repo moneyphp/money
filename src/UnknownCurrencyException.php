@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *
@@ -10,6 +11,11 @@
 
 namespace Money;
 
-class UnknownCurrencyException extends \Exception implements Exception
+/**
+ * Thrown when a Currency instance can't recognise an ISO code
+ *
+ * @author Mathias Verraes
+ */
+class UnknownCurrencyException extends \Exception
 {
 }
