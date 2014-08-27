@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *
@@ -13,23 +14,47 @@ namespace Money;
 use InvalidArgumentException;
 use Money\Currency;
 
-/** @see http://en.wikipedia.org/wiki/Currency_pair */
+/**
+ * Currency Pair
+ *
+ * @author Mathias Verraes
+ * @see http://en.wikipedia.org/wiki/Currency_pair
+ */
 class CurrencyPair
 {
-    /** @var Currency */
+    /**
+     * Base currency
+     *
+     * Currency to convert from
+     *
+     * @var Currency
+     */
     private $baseCurrency;
 
-    /** @var Currency */
+    /**
+     * Counter currency
+     *
+     * Currency to convert to
+     *
+     * @var Currency
+     */
     private $counterCurrency;
 
-    /** @var float */
+    /**
+     * Conversion ratio
+     *
+     * @var float
+     */
     private $ratio;
 
     /**
+     * Creates a new Currency Pair instance
+     *
      * @param Currency $baseCurrency
      * @param Currency $counterCurrency
-     * @param float $ratio
-     * @throws InvalidArgumentException
+     * @param float    $ratio
+     *
+     * @throws InvalidArgumentException If ratio is not numeric
      */
     public function __construct(Currency $baseCurrency, Currency $counterCurrency, $ratio)
     {
@@ -43,9 +68,13 @@ class CurrencyPair
     }
 
     /**
-     * @param  string $iso String representation of the form "EUR/USD 1.2500"
-     * @throws \Exception
-     * @return \Money\CurrencyPair
+     * Creates a new Currency Pair based on "EUR/USD 1.2500" form representation
+     *
+     * @param string $iso String representation of the form "EUR/USD 1.2500"
+     *
+     * @return CurrencyPair
+     *
+     * @throws InvalidArgumentException Format of $iso is invalid
      */
     public static function createFromIso($iso)
     {
@@ -67,10 +96,14 @@ class CurrencyPair
     }
 
     /**
-     * @param \Money\Money $money
-     * @param              $rounding_mode
-     * @return \Money\Money
-     * @throws InvalidArgumentException
+     * Converts Money from base to counter currency
+     *
+     * @param Money   $money
+     * @param integer $rounding_mode
+     *
+     * @return Money
+     *
+     * @throws InvalidArgumentException If $money's currency is not equal to base currency
      */
     public function convert(Money $money, RoundingMode $rounding_mode = null)
     {
@@ -86,26 +119,41 @@ class CurrencyPair
         );
     }
 
-    /** @return Currency */
+    /**
+     * Returns the counter currency
+     *
+     * @return Currency
+     */
     public function getCounterCurrency()
     {
         return $this->counterCurrency;
     }
 
-    /** @return Currency */
+    /**
+     * Returns the base currency
+     *
+     * @return Currency
+     */
     public function getBaseCurrency()
     {
         return $this->baseCurrency;
     }
 
-    /** @return float */
+    /**
+     * Returns the conversion ratio
+     *
+     * @return float
+     */
     public function getRatio()
     {
         return $this->ratio;
     }
 
     /**
+     * Checks if an other CurrencyPair has the same parameters as this
+     *
      * @param CurrencyPair $other
+     *
      * @return boolean
      */
     public function equals(CurrencyPair $other)

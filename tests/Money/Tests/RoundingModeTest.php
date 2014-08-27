@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
  * Copyright (c) 2011-2014 Mathias Verraes
  *
@@ -10,17 +11,35 @@
 
 namespace Money;
 
+/**
+ * Currency Value Object
+ *
+ * Holds Currency specific data
+ *
+ * @author Mathias Verraes
+ */
 class Currency
 {
-    /** @var string */
+    /**
+     * ISO 4217 currency code
+     *
+     * @var string
+     */
     private $name;
 
-    /** @var array */
+    /**
+     * Known currencies
+     *
+     * @var array
+     */
     private static $currencies;
 
     /**
+     * Creates a new Currency instance
+     *
      * @param string $name
-     * @throws UnknownCurrencyException
+     *
+     * @throws UnknownCurrencyException If currency is not known
      */
     public function __construct($name)
     {
@@ -34,8 +53,9 @@ class Currency
         $this->name = $name;
     }
 
-
     /**
+     * Returns the ISO 4217 currency code
+     *
      * @return string
      */
     public function getName()
@@ -44,8 +64,11 @@ class Currency
     }
 
     /**
+     * Checks whether this currency is the same as an other
+     *
      * @param Currency $other
-     * @return bool
+     *
+     * @return boolean
      */
     public function equals(Currency $other)
     {
@@ -53,6 +76,8 @@ class Currency
     }
 
     /**
+     * Alias to getName()
+     *
      * @return string
      */
     public function __toString()
