@@ -46,7 +46,7 @@ class Money
     public function __construct($amount, Currency $currency)
     {
         if (!is_int($amount)) {
-            throw new InvalidArgumentException("The first parameter of Money must be an integer. It's the amount, expressed in the smallest units of currency (eg cents)");
+            throw new InvalidArgumentException('Amount must be an integer');
         }
 
         $this->amount = $amount;
@@ -102,7 +102,7 @@ class Money
     private function assertSameCurrency(Money $other)
     {
         if (!$this->isSameCurrency($other)) {
-            throw new InvalidArgumentException('Different currencies');
+            throw new InvalidArgumentException('Currencies must be identical');
         }
     }
 
@@ -352,7 +352,7 @@ class Money
     {
         //@todo extend the regular expression with grouping characters and eventually currencies
         if (!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $string, $matches)) {
-            throw new InvalidArgumentException("The value could not be parsed as money");
+            throw new InvalidArgumentException('The value could not be parsed as money');
         }
 
         $units = $matches[1] == "-" ? "-" : "";
