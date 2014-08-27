@@ -58,7 +58,7 @@ class Currency
      *
      * @return string
      *
-     * @deprecated Should be removed in next major release
+     * @deprecated Use getCode() instead
      */
     public function getName()
     {

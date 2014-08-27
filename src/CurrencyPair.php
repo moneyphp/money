@@ -135,7 +135,7 @@ class CurrencyPair
      *
      * @return float
      *
-     * @deprecated Remove in next release
+     * @deprecated Use getConversionRatio() instead
      */
     public function getRatio()
     {
