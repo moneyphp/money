@@ -41,9 +41,11 @@ class Currency
      */
     public function __construct($name)
     {
+        // @codeCoverageIgnoreStart
         if(!isset(static::$currencies)) {
            static::$currencies = require __DIR__.'/currencies.php';
         }
+        // @codeCoverageIgnoreEnd
 
         if (!array_key_exists($name, static::$currencies)) {
             throw new UnknownCurrencyException($name);

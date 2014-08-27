@@ -11,6 +11,13 @@
 
 namespace Money;
 
+/**
+ * @coversDefaultClass Money\Currency
+ * @uses Money\Currency
+ * @uses Money\Money
+ * @uses Money\RoundingMode
+ * @uses Money\CurrencyPair
+ */
 class CurrencyTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -21,29 +28,49 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->usd2 = new Currency('USD');
     }
 
-    public function testDifferentInstancesAreEqual()
+    /**
+     * @covers ::__construct
+     */
+    public function testConstructor()
     {
-        $this->assertTrue(
-            $this->euro1->equals($this->euro2)
-        );
-        $this->assertTrue(
-            $this->usd1->equals($this->usd2)
-        );
-    }
+        $currency = new Currency('EUR');
 
-    public function testDifferentCurrenciesAreNotEqual()
-    {
-        $this->assertFalse(
-            $this->euro1->equals($this->usd1)
-        );
+        $this->assertEquals('EUR', $currency->getName());
     }
 
     /**
-     * @test
-     * @expectedException \Money\UnknownCurrencyException
+     * @covers ::__construct
+     * @expectedException Money\UnknownCurrencyException
      */
     public function testCantInstantiateUnknownCurrency()
     {
         new Currency('unknown');
+    }
+
+    /**
+     * @covers ::getName
+     * @covers ::__toString
+     */
+    public function testName()
+    {
+        $this->assertEquals('EUR', $this->euro1->getName());
+        $this->assertEquals('EUR', (string) $this->euro1);
+    }
+
+    /**
+     * @covers ::equals
+     */
+    public function testDifferentInstancesAreEqual()
+    {
+        $this->assertTrue($this->euro1->equals($this->euro2));
+        $this->assertTrue($this->usd1->equals($this->usd2));
+    }
+
+    /**
+     * @covers ::equals
+     */
+    public function testDifferentCurrenciesAreNotEqual()
+    {
+        $this->assertFalse($this->euro1->equals($this->usd1));
     }
 }
