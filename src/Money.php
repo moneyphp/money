@@ -346,7 +346,7 @@ class Money
      *
      * @param array $ratios
      *
-     * @return Money
+     * @return Money[]
      */
     public function allocate(array $ratios)
     {
