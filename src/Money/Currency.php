@@ -74,8 +74,6 @@ class Currency
     }
 
     /**
-     * Alias to getName()
-     *
      * @return string
      */
     public function __toString()
