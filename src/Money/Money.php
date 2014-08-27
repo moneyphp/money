@@ -183,7 +183,7 @@ class Money
     public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
-        
+
         if (!$rounding_mode instanceof RoundingMode) {
             $rounding_mode = new RoundingMode($rounding_mode);
         }

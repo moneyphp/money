@@ -22,7 +22,7 @@ class RoundingModeTest extends \PHPUnit_Framework_TestCase
     public function Get()
     {
         $rounding_mode = new RoundingMode(RoundingMode::ROUND_HALF_DOWN);
-        
+
         $this->assertEquals(RoundingMode::ROUND_HALF_DOWN, $rounding_mode->getRoundingMode());
     }
     /**

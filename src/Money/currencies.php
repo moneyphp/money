@@ -9,7 +9,7 @@ return array(
 	"AOA" => "Angolan Kwanza",
 	"ARS" => "Argentine Peso",
 	"AUD" => "Australian Dollar",
-	"AWG" => "Aruban Florin", 
+	"AWG" => "Aruban Florin",
 	"AZN" => "Azerbaijani Manat",
 	"BAM" => "Bosnia-Herzegovina Convertible Mark",
 	"BBD" => "Barbadian Dollar",

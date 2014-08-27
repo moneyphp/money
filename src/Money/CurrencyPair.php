@@ -79,7 +79,7 @@ class CurrencyPair
         }
 
         $rounding_mode = $rounding_mode ?: RoundingMode::halfUp();
-        
+
         return new Money(
             (int) round($money->getAmount() * $this->ratio, 0, $rounding_mode->getRoundingMode()),
             $this->counterCurrency

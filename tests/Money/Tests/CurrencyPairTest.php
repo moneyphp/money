@@ -32,7 +32,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $eur = $pair->convert($usd);
         $this->assertEquals(Money::EUR(100), $eur);
     }
-    
+
     /** @test */
     public function ConvertsEurToUsdWithModes()
     {
@@ -107,7 +107,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
 
         $pair->convert($money);
     }
-    
+
     /**
      * @dataProvider provideEqualityComparisonPairs
      */
@@ -115,13 +115,13 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
     {
         $this->assertSame($equal, $pair1->equals($pair2));
     }
-    
+
     public function provideEqualityComparisonPairs()
     {
         $usd = new Currency('USD');
         $eur = new Currency('EUR');
         $gbp = new Currency('GBP');
-        
+
         return array(
             'Base Mismatch EUR != GBP' => array(
                 new CurrencyPair($eur, $usd, 1.2500),

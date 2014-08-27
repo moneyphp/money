@@ -41,7 +41,7 @@ class RoundingMode
                 'RoundingMode::ROUND_HALF_UP'
             );
         }
-        
+
         $this->roundingMode = $rounding_mode;
     }
 
