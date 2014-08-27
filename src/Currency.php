@@ -28,28 +28,24 @@ class Currency
     private $code;
 
     /**
-     * Known currencies
-     *
-     * @var array
+     * @var Currencies
      */
-    private static $currencies;
+    private static $defaultCurrencies;
 
     /**
-     * @param string $code
+     * @param string          $code
+     * @param Currencies|null $currencies
      *
-     * @throws UnknownCurrencyException If currency is not known
+     * @throws UnknownCurrencyException If currency does not exists
      */
-    public function __construct($code)
+    public function __construct($code, Currencies $currencies = null)
     {
-        // @codeCoverageIgnoreStart
-        if(!isset(static::$currencies)) {
-           static::$currencies = require __DIR__.'/currencies.php';
+        if ($currencies === null) {
+            $currencies = static::getDefaultCurrencies();
         }
-        // @codeCoverageIgnoreEnd
 
-        if (!array_key_exists($code, static::$currencies)) {
-            throw new UnknownCurrencyException($code);
-        }
+        $currencies->assertExists($code);
+
         $this->code = $code;
     }
 
@@ -93,5 +89,23 @@ class Currency
     public function __toString()
     {
         return $this->getCode();
+    }
+
+    /**
+     * Returns the already loaded default currency repository or loads it
+     *
+     * @return Currencies
+     *
+     * @codeCoverageIgnore
+     */
+    public static function getDefaultCurrencies()
+    {
+        if(!isset(static::$defaultCurrencies)) {
+            $currencies = require __DIR__.'/currencies.php';
+
+            return static::$defaultCurrencies = new Currencies($currencies);
+        }
+
+        return static::$defaultCurrencies;
     }
 }
