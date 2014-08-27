@@ -22,8 +22,6 @@ use InvalidArgumentException;
 class CurrencyPair
 {
     /**
-     * Base currency
-     *
      * Currency to convert from
      *
      * @var Currency
@@ -31,8 +29,6 @@ class CurrencyPair
     private $baseCurrency;
 
     /**
-     * Counter currency
-     *
      * Currency to convert to
      *
      * @var Currency
@@ -40,28 +36,26 @@ class CurrencyPair
     private $counterCurrency;
 
     /**
-     * Conversion ratio
-     *
      * @var float
      */
-    private $ratio;
+    private $conversionRatio;
 
     /**
      * @param Currency $baseCurrency
      * @param Currency $counterCurrency
-     * @param float    $ratio
+     * @param float    $conversionRatio
      *
-     * @throws InvalidArgumentException If ratio is not numeric
+     * @throws InvalidArgumentException If conversion ratio is not numeric
      */
-    public function __construct(Currency $baseCurrency, Currency $counterCurrency, $ratio)
+    public function __construct(Currency $baseCurrency, Currency $counterCurrency, $conversionRatio)
     {
-        if(!is_numeric($ratio)) {
-            throw new InvalidArgumentException("Ratio must be numeric");
+        if(!is_numeric($conversionRatio)) {
+            throw new InvalidArgumentException("Conversion ratio must be numeric");
         }
 
         $this->counterCurrency = $counterCurrency;
         $this->baseCurrency = $baseCurrency;
-        $this->ratio = (float) $ratio;
+        $this->conversionRatio = (float) $conversionRatio;
     }
 
     /**
@@ -111,7 +105,7 @@ class CurrencyPair
         $rounding_mode = $rounding_mode ?: RoundingMode::halfUp();
 
         return new Money(
-            (int) round($money->getAmount() * $this->ratio, 0, $rounding_mode->getRoundingMode()),
+            (int) round($money->getAmount() * $this->conversionRatio, 0, $rounding_mode->getRoundingMode()),
             $this->counterCurrency
         );
     }
@@ -140,10 +134,22 @@ class CurrencyPair
      * Returns the conversion ratio
      *
      * @return float
+     *
+     * @deprecated Remove in next release
      */
     public function getRatio()
     {
-        return $this->ratio;
+        return $this->conversionRatio;
+    }
+
+    /**
+     * Returns the conversion ratio
+     *
+     * @return float
+     */
+    public function getConversionRatio()
+    {
+        return $this->conversionRatio;
     }
 
     /**
@@ -158,7 +164,7 @@ class CurrencyPair
         return
             $this->baseCurrency->equals($other->baseCurrency)
             && $this->counterCurrency->equals($other->counterCurrency)
-            && $this->ratio === $other->ratio
+            && $this->conversionRatio === $other->conversionRatio
         ;
     }
 }

@@ -67,7 +67,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
 
     /**
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Ratio must be numeric
+     * @expectedExceptionMessage Conversion ratio must be numeric
      * @dataProvider provideNonNumericRatio
      */
     public function testConstructorWithNonNumericRatio($nonNumericRatio)
@@ -81,6 +81,7 @@ class CurrencyPairTest extends PHPUnit_Framework_TestCase
         $pair  = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
 
         $this->assertEquals($ratio, $pair->getRatio());
+        $this->assertEquals($ratio, $pair->getConversionRatio());
     }
 
     public function testGetBaseCurrency()
