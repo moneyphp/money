@@ -11,63 +11,46 @@
 
 namespace Money;
 
+/**
+ * @coversDefaultClass Money\CurrencyPair
+ * @uses Money\Currency
+ * @uses Money\Money
+ * @uses Money\RoundingMode
+ * @uses Money\CurrencyPair
+ */
 class CurrencyPairTest extends \PHPUnit_Framework_TestCase
 {
-    /** @test */
-    public function ConvertsEurToUsdAndBack()
-    {
-        $eur = Money::EUR(100);
-
-        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
-        $usd = $pair->convert($eur);
-        $this->assertEquals(Money::USD(125), $usd);
-
-        $pair = new CurrencyPair(new Currency('USD'), new Currency('EUR'), 0.8000);
-        $eur = $pair->convert($usd);
-        $this->assertEquals(Money::EUR(100), $eur);
-    }
-
-    /** @test */
-    public function ConvertsEurToUsdWithModes()
-    {
-        $eur = Money::EUR(10);
-
-        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
-        $usd = $pair->convert($eur);
-        $this->assertEquals(Money::USD(13), $usd);
-
-        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
-        $usd = $pair->convert($eur, new RoundingMode(RoundingMode::ROUND_HALF_DOWN));
-        $this->assertEquals(Money::USD(12), $usd);
-    }
-
-    /** @test */
-    public function ParsesIso()
-    {
-        $pair = CurrencyPair::createFromIso('EUR/USD 1.2500');
-        $expected = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
-        $this->assertEquals($expected, $pair);
-    }
-
     /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Can't create currency pair from ISO string '1.2500', format of string is invalid
+     * @covers ::__construct
      */
-    public function ParsesIsoWithException()
+    public function testConstructor()
     {
-        CurrencyPair::createFromIso('1.2500');
+        $eur = new Currency('EUR');
+        $usd = new Currency('USD');
+        $ratio = 1.0;
+
+        $pair = new CurrencyPair($eur, $usd, $ratio);
+
+        $this->assertSame($eur, $pair->getBaseCurrency());
+        $this->assertSame($usd, $pair->getCounterCurrency());
+        $this->assertEquals($ratio, $pair->getConversionRatio());
     }
 
     /**
+     * @covers ::__construct
+     * @dataProvider provideNonNumericRatio
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage Conversion ratio must be numeric
-     * @dataProvider provideNonNumericRatio
      */
     public function testConstructorWithNonNumericRatio($nonNumericRatio)
     {
         new CurrencyPair(new Currency('EUR'), new Currency('USD'), $nonNumericRatio);
     }
 
+    /**
+     * @covers ::getRatio
+     * @covers ::getConversionRatio
+     */
     public function testGetRatio()
     {
         $ratio = 1.2500;
@@ -77,6 +60,9 @@ class CurrencyPairTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($ratio, $pair->getConversionRatio());
     }
 
+    /**
+     * @covers ::getBaseCurrency
+     */
     public function testGetBaseCurrency()
     {
         $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
@@ -84,6 +70,9 @@ class CurrencyPairTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Currency('EUR'), $pair->getBaseCurrency());
     }
 
+    /**
+     * @covers ::getCounterCurrency
+     */
     public function testGetCounterCurrency()
     {
         $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
@@ -92,6 +81,7 @@ class CurrencyPairTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::convert
      * @expectedException InvalidArgumentException
      * @expectedExceptionMessage The Money has the wrong currency
      */
@@ -104,11 +94,64 @@ class CurrencyPairTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::convert
+     */
+    public function testConvertsEurToUsdAndBack()
+    {
+        $eur = Money::EUR(100);
+
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+        $usd = $pair->convert($eur);
+        $this->assertEquals(Money::USD(125), $usd);
+
+        $pair = new CurrencyPair(new Currency('USD'), new Currency('EUR'), 0.8000);
+        $eur = $pair->convert($usd);
+        $this->assertEquals(Money::EUR(100), $eur);
+    }
+
+    /**
+     * @covers ::convert
+     */
+    public function testConvertsEurToUsdWithModes()
+    {
+        $eur = Money::EUR(10);
+
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+        $usd = $pair->convert($eur);
+        $this->assertEquals(Money::USD(13), $usd);
+
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+        $usd = $pair->convert($eur, new RoundingMode(RoundingMode::ROUND_HALF_DOWN));
+        $this->assertEquals(Money::USD(12), $usd);
+    }
+
+    /**
+     * @covers ::equals
      * @dataProvider provideEqualityComparisonPairs
      */
     public function testEqualityComparisons($pair1, $pair2, $equal)
     {
         $this->assertSame($equal, $pair1->equals($pair2));
+    }
+
+    /**
+     * @covers ::createFromIso
+     */
+    public function testParsesIso()
+    {
+        $pair = CurrencyPair::createFromIso('EUR/USD 1.2500');
+        $expected = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+        $this->assertEquals($expected, $pair);
+    }
+
+    /**
+     * @covers ::createFromIso
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Can't create currency pair from ISO string '1.2500', format of string is invalid
+     */
+    public function testParsesIsoWithException()
+    {
+        CurrencyPair::createFromIso('1.2500');
     }
 
     public function provideEqualityComparisonPairs()
