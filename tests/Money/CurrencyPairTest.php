@@ -9,16 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Money\Tests;
+namespace Money;
 
-use InvalidArgumentException;
-use Money\RoundingMode;
-use PHPUnit_Framework_TestCase;
-use Money\Money;
-use Money\Currency;
-use Money\CurrencyPair;
-
-class CurrencyPairTest extends PHPUnit_Framework_TestCase
+class CurrencyPairTest extends \PHPUnit_Framework_TestCase
 {
     /** @test */
     public function ConvertsEurToUsdAndBack()

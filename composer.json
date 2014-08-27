@@ -24,7 +24,12 @@
     },
     "autoload": {
         "psr-0": {
-            "Money": "src"
+            "Money\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "Money\\": "tests/"
         }
     },
     "suggest": {

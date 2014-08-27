@@ -9,11 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Money\Tests;
-
-use InvalidArgumentException;
-use Money\RoundingMode;
-use PHPUnit_Framework_TestCase;
+namespace Money;
 
 class RoundingModeTest extends \PHPUnit_Framework_TestCase
 {
