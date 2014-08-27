@@ -355,7 +355,7 @@ class Money
         $total = array_sum($ratios);
 
         foreach ($ratios as $ratio) {
-            $share = $this->castInteger(floor($this->amount * $ratio / $total));
+            $share = $this->castInteger($this->amount * $ratio / $total);
             $results[] = $this->newInstance($share);
             $remainder -= $share;
         }
