@@ -234,7 +234,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testAllocation()
     {
         $m = new Money(100, new Currency('EUR'));
-        list($part1, $part2, $part3) = $m->allocate(array(1, 1, 1));
+        list($part1, $part2, $part3) = $m->allocate(1, 1, 1);
         $this->assertEquals(new Money(34, new Currency('EUR')), $part1);
         $this->assertEquals(new Money(33, new Currency('EUR')), $part2);
         $this->assertEquals(new Money(33, new Currency('EUR')), $part3);
