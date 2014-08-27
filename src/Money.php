@@ -70,6 +70,18 @@ class Money
     }
 
     /**
+     * Returns a new Money instance based on the current one using the Currency
+     *
+     * @param integer $amount
+     *
+     * @return Money
+     */
+    private function newInstance($amount)
+    {
+        return new Money($amount, $this->currency);
+    }
+
+    /**
      * Checks whether a Money has the same Currency as this
      *
      * @param Money $other
@@ -196,7 +208,7 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->amount + $addend->amount, $this->currency);
+        return $this->newInstance($this->amount + $addend->amount);
     }
 
     /**
@@ -211,7 +223,7 @@ class Money
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new self($this->amount - $subtrahend->amount, $this->currency);
+        return $this->newInstance($this->amount - $subtrahend->amount);
     }
 
     /**
@@ -245,7 +257,7 @@ class Money
 
         $product = (int) round($this->amount * $multiplier, 0, $rounding_mode->getRoundingMode());
 
-        return new Money($product, $this->currency);
+        return $this->newInstance($product);
     }
 
     /**
@@ -267,7 +279,7 @@ class Money
 
         $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode->getRoundingMode());
 
-        return new Money($quotient, $this->currency);
+        return $this->newInstance($quotient);
     }
 
     /**
@@ -285,7 +297,7 @@ class Money
 
         foreach ($ratios as $ratio) {
             $share = (int) floor($this->amount * $ratio / $total);
-            $results[] = new Money($share, $this->currency);
+            $results[] = $this->newInstance($share);
             $remainder -= $share;
         }
         for ($i = 0; $remainder > 0; $i++) {
