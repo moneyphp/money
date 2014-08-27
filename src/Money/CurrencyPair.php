@@ -12,7 +12,6 @@
 namespace Money;
 
 use InvalidArgumentException;
-use Money\Currency;
 
 /**
  * Currency Pair
