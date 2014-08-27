@@ -33,8 +33,6 @@ class Money
     private $amount;
 
     /**
-     * Currency object
-     *
      * @var Currency
      */
     private $currency;
