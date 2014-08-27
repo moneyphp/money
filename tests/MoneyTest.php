@@ -11,8 +11,18 @@
 
 namespace Money;
 
+/**
+ * @coversDefaultClass Money\Money
+ * @uses Money\Currency
+ * @uses Money\Money
+ * @uses Money\RoundingMode
+ * @uses Money\CurrencyPair
+ */
 class MoneyTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers ::__callStatic
+     */
     public function testFactoryMethods()
     {
         $this->assertEquals(
@@ -25,6 +35,10 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @covers ::getAmount
+     * @covers ::getCurrency
+     */
     public function testGetters()
     {
         $m = new Money(100, $euro = new Currency('EUR'));
@@ -33,6 +47,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::__construct
      * @expectedException InvalidArgumentException
      */
     public function testDecimalsThrowException()
@@ -41,6 +56,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::__construct
      * @expectedException InvalidArgumentException
      */
     public function testStringThrowsException()
@@ -48,6 +64,9 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $money = new Money('100', new Currency('EUR'));
     }
 
+    /**
+     * @covers ::equals
+     */
     public function testEquality()
     {
         $m1 = new Money(100, new Currency('EUR'));
@@ -84,6 +103,9 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $m1->add($m2);
     }
 
+    /**
+     * @covers ::subtract
+     */
     public function testSubtraction()
     {
         $m1 = new Money(100, new Currency('EUR'));
@@ -123,6 +145,36 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($m, $m->multiply(2));
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidMultiplicationOperand()
+    {
+        $m = new Money(1, new Currency('EUR'));
+        $m->multiply('operand');
+    }
+
+    /**
+     * @expectedException OverflowException
+     */
+    public function testMultiplicationOverflow()
+    {
+        $m = new Money(PHP_INT_MAX, new Currency('EUR'));
+        $m->multiply(2);
+    }
+
+    /**
+     * @expectedException UnderflowException
+     */
+    public function testMultiplicationUnderflow()
+    {
+        $m = new Money(~PHP_INT_MAX, new Currency('EUR'));
+        $m->multiply(2);
+    }
+
+    /**
+     * @covers ::divide
+     */
     public function testDivision()
     {
         $m = new Money(10, new Currency('EUR'));
@@ -166,6 +218,9 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         Money::EUR(1)->compare(Money::USD(1));
     }
 
+    /**
+     * @covers ::allocate
+     */
     public function testAllocation()
     {
         $m = new Money(100, new Currency('EUR'));
@@ -181,9 +236,11 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Money(33, new Currency('EUR')), $part3);
     }
 
+    /**
+     * @covers ::allocate
+     */
     public function testAllocationOrderIsImportant()
     {
-
         $m = new Money(5, new Currency('EUR'));
         list($part1, $part2) = $m->allocate(array(3, 7));
         $this->assertEquals(new Money(2, new Currency('EUR')), $part1);
@@ -195,6 +252,11 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Money(1, new Currency('EUR')), $part2);
     }
 
+    /**
+     * @covers ::isZero
+     * @covers ::isNegative
+     * @covers ::isPositive
+     */
     public function testComparators()
     {
         $this->assertTrue(Money::EUR(0)->isZero());
@@ -227,10 +289,20 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::stringToUnits
      * @dataProvider provideStrings
      */
     public function testStringToUnits($string, $units)
     {
         $this->assertEquals($units, Money::stringToUnits($string));
+    }
+
+    /**
+     * @covers ::stringToUnits
+     * @expectedException InvalidArgumentException
+     */
+    public function testCannotConvertStringToUnits()
+    {
+        Money::stringToUnits('THIS_IS_NOT_CONVERTABLE_TO_UNIT');
     }
 }
