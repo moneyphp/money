@@ -114,9 +114,7 @@ class Money
      */
     public function equals(Money $other)
     {
-        return
-            $this->isSameCurrency($other)
-            && $this->amount == $other->amount;
+        return $this->isSameCurrency($other) && $this->amount == $other->amount;
     }
 
     /**
