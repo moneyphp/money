@@ -36,6 +36,5 @@
         "TheBigBrainsCompany/TbbcMoneyBundle": "Very complete Symfony2 bundle with support for Twig, Doctrine, Forms, ...", 
         "pink-tie/money-bundle": "Pink-Tie's Symfony2 integration with Money library",
         "Sylius/SyliusMoneyBundle": "Sylius' Symfony2 integration with Money library"
-    },
-    "minimum-stability": "dev"
+    }
 }
