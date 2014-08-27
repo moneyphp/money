@@ -23,12 +23,12 @@
         }
     },
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Money\\": "src/"
         }
     },
     "autoload-dev": {
-        "psr-0": {
+        "psr-4": {
             "Money\\": "tests/"
         }
     },
