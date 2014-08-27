@@ -35,8 +35,6 @@ class Currency
     private static $currencies;
 
     /**
-     * Creates a new Currency instance
-     *
      * @param string $name
      *
      * @throws UnknownCurrencyException If currency is not known

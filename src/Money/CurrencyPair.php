@@ -47,8 +47,6 @@ class CurrencyPair
     private $ratio;
 
     /**
-     * Creates a new Currency Pair instance
-     *
      * @param Currency $baseCurrency
      * @param Currency $counterCurrency
      * @param float    $ratio

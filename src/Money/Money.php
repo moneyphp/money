@@ -40,9 +40,7 @@ class Money
     private $currency;
 
     /**
-     * Creates a new Money instance
-     *
-     * @param integer $amount    Amount, expressed in the smallest units of $currency (eg cents)
+     * @param integer  $amount   Amount, expressed in the smallest units of $currency (eg cents)
      * @param Currency $currency
      *
      * @throws InvalidArgumentException If amount is not integer

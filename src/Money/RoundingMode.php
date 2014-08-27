@@ -28,8 +28,6 @@ class RoundingMode
     private $roundingMode;
 
     /**
-     * Creates a new rounding mode
-     *
      * @param integer $rounding_mode
      *
      * @throws InvalidArgumentException If $rounding_mode is not valid
