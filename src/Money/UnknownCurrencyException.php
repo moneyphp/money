@@ -16,6 +16,6 @@ namespace Money;
  *
  * @author Mathias Verraes
  */
-class UnknownCurrencyException extends \Exception implements Exception
+class UnknownCurrencyException extends \Exception
 {
 }
