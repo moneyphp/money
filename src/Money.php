@@ -12,6 +12,8 @@
 namespace Money;
 
 use InvalidArgumentException;
+use OverflowException;
+use UnderflowException;
 
 /**
  * Money Value Object
@@ -239,6 +241,38 @@ class Money
     }
 
     /**
+     * Asserts that an integer value didn't become something else
+     * (after some arithmetic operation)
+     *
+     * @param numeric $amount
+     *
+     * @throws OverflowException If integer overflow occured
+     * @throws UnderflowException If integer underflow occured
+     */
+    private function assertIntegerBounds($amount)
+    {
+        if ($amount > PHP_INT_MAX) {
+            throw new OverflowException;
+        } elseif ($amount < ~PHP_INT_MAX) {
+            throw new UnderflowException;
+        }
+    }
+
+    /**
+     * Casts an amount to integer ensuring that an overflow/underflow did not occur
+     *
+     * @param numeric $amount
+     *
+     * @return integer
+     */
+    private function castInteger($amount)
+    {
+        $this->assertIntegerBounds($amount);
+
+        return intval($amount);
+    }
+
+    /**
      * Returns a new Money object that represents
      * the multiplied value by the given factor
      *
@@ -255,7 +289,9 @@ class Money
             $rounding_mode = new RoundingMode($rounding_mode);
         }
 
-        $product = (int) round($this->amount * $multiplier, 0, $rounding_mode->getRoundingMode());
+        $product = round($this->amount * $multiplier, 0, $rounding_mode->getRoundingMode());
+
+        $product = $this->castInteger($product);
 
         return $this->newInstance($product);
     }
@@ -277,7 +313,9 @@ class Money
             $rounding_mode = new RoundingMode($rounding_mode);
         }
 
-        $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode->getRoundingMode());
+        $quotient = round($this->amount / $divisor, 0, $rounding_mode->getRoundingMode());
+
+        $quotient = $this->castInteger($quotient);
 
         return $this->newInstance($quotient);
     }
@@ -296,7 +334,7 @@ class Money
         $total = array_sum($ratios);
 
         foreach ($ratios as $ratio) {
-            $share = (int) floor($this->amount * $ratio / $total);
+            $share = $this->castInteger(floor($this->amount * $ratio / $total));
             $results[] = $this->newInstance($share);
             $remainder -= $share;
         }
