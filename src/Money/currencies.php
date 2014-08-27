@@ -1,5 +1,6 @@
 <?php
 // From http://openexchangerates.org/currencies.json
+// @codeCoverageIgnoreStart
 return array(
 	"AED" => "United Arab Emirates Dirham",
 	"AFN" => "Afghan Afghani",
@@ -162,3 +163,4 @@ return array(
 	"ZMK" => "Zambian Kwacha",
 	"ZWL" => "Zimbabwean Dollar",
 );
+// @codeCoverageIgnoreEnd
