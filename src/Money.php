@@ -14,6 +14,7 @@ namespace Money;
 use InvalidArgumentException;
 use OverflowException;
 use UnderflowException;
+use UnexpectedValueException;
 
 /**
  * Money Value Object
@@ -199,6 +200,18 @@ class Money
     }
 
     /**
+     * Asserts that integer remains integer after arithmetic operations
+     *
+     * @param  numeric $amount
+     */
+    public function assertInteger($amount)
+    {
+        if (!is_int($amount)) {
+            throw new UnexpectedValueException('The result of arithmetic operation is not an integer');
+        }
+    }
+
+    /**
      * Returns a new Money object that represents
      * the sum of this and an other Money object
      *
@@ -210,7 +223,11 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return $this->newInstance($this->amount + $addend->amount);
+        $amount = $this->amount + $addend->amount;
+
+        $this->assertInteger($amount);
+
+        return $this->newInstance($amount);
     }
 
     /**
@@ -225,7 +242,11 @@ class Money
     {
         $this->assertSameCurrency($subtrahend);
 
-        return $this->newInstance($this->amount - $subtrahend->amount);
+        $amount = $this->amount - $subtrahend->amount;
+
+        $this->assertInteger($amount);
+
+        return $this->newInstance($amount);
     }
 
     /**

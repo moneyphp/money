@@ -104,6 +104,16 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testResultNotAnInteger()
+    {
+        $m1 = new Money(PHP_INT_MAX, new Currency('EUR'));
+        $m2 = new Money(1, new Currency('EUR'));
+        $m1->add($m2);
+    }
+
+    /**
      * @covers ::subtract
      */
     public function testSubtraction()
