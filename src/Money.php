@@ -48,6 +48,7 @@ class Money
         if (!is_int($amount)) {
             throw new InvalidArgumentException("The first parameter of Money must be an integer. It's the amount, expressed in the smallest units of currency (eg cents)");
         }
+
         $this->amount = $amount;
         $this->currency = $currency;
     }
@@ -129,6 +130,7 @@ class Money
     public function compare(Money $other)
     {
         $this->assertSameCurrency($other);
+
         if ($this->amount < $other->amount) {
             return -1;
         } elseif ($this->amount == $other->amount) {
@@ -298,6 +300,7 @@ class Money
             $results[] = $this->newInstance($share);
             $remainder -= $share;
         }
+
         for ($i = 0; $remainder > 0; $i++) {
             $results[$i]->amount++;
             $remainder--;
@@ -351,6 +354,7 @@ class Money
         if (!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $string, $matches)) {
             throw new InvalidArgumentException("The value could not be parsed as money");
         }
+
         $units = $matches[1] == "-" ? "-" : "";
         $units .= $matches[2];
         $units .= isset($matches[4]) ? $matches[4] : "0";
