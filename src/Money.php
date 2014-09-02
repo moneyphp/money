@@ -369,6 +369,35 @@ class Money
     }
 
     /**
+     * Allocate the money among N targets
+     *
+     * @param integer $n
+     *
+     * @return Money[]
+     *
+     * @throws InvalidArgumentException If number of targets is not an integer
+     */
+    public function allocateTo($n)
+    {
+        if (!is_int($n)) {
+            throw new InvalidArgumentException('Number of targets must be an integer');
+        }
+
+        $amount = intval($this->amount / $n);
+        $results = array();
+
+        for ($i = 0; $i < $n; $i++) {
+            $results[$i] = $this->newInstance($amount);
+        }
+
+        for ($i = 0; $i < $this->amount % $n; $i++) {
+            $results[$i]->amount++;
+        }
+
+        return $results;
+    }
+
+    /**
      * Checks if the value represented by this object is zero
      *
      * @return boolean

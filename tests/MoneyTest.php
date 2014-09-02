@@ -263,6 +263,33 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::allocateTo
+     */
+    public function testAllocationTo($value='')
+    {
+        $m = new Money(15, new Currency('EUR'));
+        list($part1, $part2) = $m->allocateTo(2);
+        $this->assertEquals(new Money(8, new Currency('EUR')), $part1);
+        $this->assertEquals(new Money(7, new Currency('EUR')), $part2);
+
+        $m = new Money(10, new Currency('EUR'));
+        list($part1, $part2) = $m->allocateTo(2);
+        $this->assertEquals(new Money(5, new Currency('EUR')), $part1);
+        $this->assertEquals(new Money(5, new Currency('EUR')), $part2);
+    }
+
+    /**
+     * @covers ::allocateTo
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Number of targets must be an integer
+     */
+    public function testAllocationToInvalidTargets()
+    {
+        $m = new Money(15, new Currency('EUR'));
+        $m->allocateTo('target');
+    }
+
+    /**
      * @covers ::isZero
      * @covers ::isNegative
      * @covers ::isPositive
