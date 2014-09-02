@@ -20,6 +20,7 @@ class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::__construct
+     * @covers ::contains
      */
     public function testConstructor()
     {

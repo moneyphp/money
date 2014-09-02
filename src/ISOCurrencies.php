@@ -16,10 +16,25 @@ namespace Money;
  *
  * @author Mathias Verraes
  */
-final class ISOCurrencies extends Currencies
+final class ISOCurrencies implements AvailableCurrencies
 {
+    /**
+     * List of known currencies
+     *
+     * @var array
+     */
+    private $currencies;
+
     public function __construct()
     {
         $this->currencies = require __DIR__.'/currencies.php';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function contains(Currency $currency)
+    {
+        return array_key_exists($currency->getCode(), $this->currencies);
     }
 }
