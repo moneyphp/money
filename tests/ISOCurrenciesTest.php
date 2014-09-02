@@ -14,15 +14,10 @@ namespace Money;
 /**
  * @coversDefaultClass Money\ISOCurrencies
  * @uses Money\Currency
- * @uses Money\ISOCurrencies
+ * @uses Money\Currencies
  */
 class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-        $this->currencies = new ISOCurrencies;
-    }
-
     /**
      * @covers ::__construct
      */
@@ -32,14 +27,5 @@ class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($currencies->exists(new Currency('EUR')));
         $this->assertFalse($currencies->exists(new Currency('ASD')));
-    }
-
-    /**
-     * @covers ::exists
-     */
-    public function testExists()
-    {
-        $this->assertTrue($this->currencies->exists(new Currency('EUR')));
-        $this->assertFalse($this->currencies->exists(new Currency('ASD')));
     }
 }
