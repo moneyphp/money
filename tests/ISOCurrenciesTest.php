@@ -14,7 +14,6 @@ namespace Money;
 /**
  * @coversDefaultClass Money\ISOCurrencies
  * @uses Money\Currency
- * @uses Money\Currencies
  */
 class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
 {
