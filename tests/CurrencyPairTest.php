@@ -14,7 +14,6 @@ namespace Money;
 /**
  * @coversDefaultClass Money\CurrencyPair
  * @uses Money\Currency
- * @uses Money\Currencies
  * @uses Money\Money
  * @uses Money\RoundingMode
  * @uses Money\CurrencyPair

@@ -14,7 +14,6 @@ namespace Money;
 /**
  * @coversDefaultClass Money\Currency
  * @uses Money\Currency
- * @uses Money\Currencies
  * @uses Money\Money
  * @uses Money\RoundingMode
  * @uses Money\CurrencyPair
@@ -36,16 +35,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
     {
         $currency = new Currency('EUR');
 
-        $this->assertEquals('EUR', $currency->getName());
-    }
-
-    /**
-     * @covers ::__construct
-     * @expectedException Money\UnknownCurrencyException
-     */
-    public function testCantInstantiateUnknownCurrency()
-    {
-        new Currency('unknown');
+        $this->assertEquals('EUR', $currency->getCode());
     }
 
     /**

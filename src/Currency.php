@@ -21,36 +21,26 @@ namespace Money;
 class Currency
 {
     /**
-     * ISO 4217 currency code
+     * Currency code
      *
      * @var string
      */
     private $code;
 
     /**
-     * @var Currencies
+     * @param string $code
      */
-    private static $defaultCurrencies;
-
-    /**
-     * @param string          $code
-     * @param Currencies|null $currencies
-     *
-     * @throws UnknownCurrencyException If currency does not exists
-     */
-    public function __construct($code, Currencies $currencies = null)
+    public function __construct($code)
     {
-        if ($currencies === null) {
-            $currencies = static::getDefaultCurrencies();
+        if (!is_string($code)) {
+            throw new \InvalidArgumentException('Cuurency code should be string');
         }
-
-        $currencies->assertExists($code);
 
         $this->code = $code;
     }
 
     /**
-     * Returns the ISO 4217 currency code
+     * Returns the currency code
      *
      * @return string
      *
@@ -62,7 +52,7 @@ class Currency
     }
 
     /**
-     * Returns the ISO 4217 currency code
+     * Returns the currency code
      *
      * @return string
      */
@@ -84,28 +74,22 @@ class Currency
     }
 
     /**
+     * Checks whether this currency is available in the passed context
+     *
+     * @param AvailableCurrencies $currencies
+     *
+     * @return boolean
+     */
+    public function isAvailableWithin(AvailableCurrencies $currencies)
+    {
+        return $currencies->exists($this);
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
         return $this->getCode();
-    }
-
-    /**
-     * Returns the already loaded default currency repository or loads it
-     *
-     * @return Currencies
-     *
-     * @codeCoverageIgnore
-     */
-    public static function getDefaultCurrencies()
-    {
-        if(!isset(static::$defaultCurrencies)) {
-            $currencies = require __DIR__.'/currencies.php';
-
-            return static::$defaultCurrencies = new Currencies($currencies);
-        }
-
-        return static::$defaultCurrencies;
     }
 }
