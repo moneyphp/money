@@ -25,5 +25,5 @@ interface AvailableCurrencies
      *
      * @return boolean
      */
-    public function exists(Currency $currency);
+    public function contains(Currency $currency);
 }

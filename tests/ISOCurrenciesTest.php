@@ -25,7 +25,7 @@ class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
     {
         $currencies = new ISOCurrencies;
 
-        $this->assertTrue($currencies->exists(new Currency('EUR')));
-        $this->assertFalse($currencies->exists(new Currency('ASD')));
+        $this->assertTrue($currencies->contains(new Currency('EUR')));
+        $this->assertFalse($currencies->contains(new Currency('ASD')));
     }
 }

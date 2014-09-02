@@ -36,18 +36,18 @@ class CurrenciesTest extends \PHPUnit_Framework_TestCase
             "USD" => "United States Dollar",
         ));
 
-        $this->assertTrue($currencies->exists(new Currency('EUR')));
-        $this->assertTrue($currencies->exists(new Currency('USD')));
-        $this->assertFalse($currencies->exists(new Currency('ASD')));
+        $this->assertTrue($currencies->contains(new Currency('EUR')));
+        $this->assertTrue($currencies->contains(new Currency('USD')));
+        $this->assertFalse($currencies->contains(new Currency('ASD')));
     }
 
     /**
-     * @covers ::exists
+     * @covers ::contains
      */
-    public function testExists()
+    public function testContains()
     {
-        $this->assertTrue($this->currencies->exists(new Currency('EUR')));
-        $this->assertTrue($this->currencies->exists(new Currency('USD')));
-        $this->assertFalse($this->currencies->exists(new Currency('ASD')));
+        $this->assertTrue($this->currencies->contains(new Currency('EUR')));
+        $this->assertTrue($this->currencies->contains(new Currency('USD')));
+        $this->assertFalse($this->currencies->contains(new Currency('ASD')));
     }
 }

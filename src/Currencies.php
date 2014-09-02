@@ -36,7 +36,7 @@ class Currencies implements AvailableCurrencies
     /**
      * {@inheritdoc}
      */
-    public function exists(Currency $currency)
+    public function contains(Currency $currency)
     {
         return array_key_exists($currency->getCode(), $this->currencies);
     }
