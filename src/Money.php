@@ -204,7 +204,7 @@ class Money
      *
      * @param  numeric $amount
      */
-    public function assertInteger($amount)
+    private function assertInteger($amount)
     {
         if (!is_int($amount)) {
             throw new UnexpectedValueException('The result of arithmetic operation is not an integer');
