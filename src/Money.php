@@ -344,16 +344,12 @@ class Money
     /**
      * Allocate the money according to a list of ratios
      *
-     * @param mixed $ratios
+     * @param array $ratios
      *
      * @return Money[]
      */
-    public function allocate($ratios)
+    public function allocate(array $ratios)
     {
-        if (!is_array($ratios)) {
-            $ratios = func_get_args();
-        }
-
         $remainder = $this->amount;
         $results = array();
         $total = array_sum($ratios);
