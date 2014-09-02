@@ -12,6 +12,9 @@
 namespace Money;
 
 use InvalidArgumentException;
+use OverflowException;
+use UnderflowException;
+use UnexpectedValueException;
 
 /**
  * Money Value Object
@@ -46,8 +49,9 @@ class Money
     public function __construct($amount, Currency $currency)
     {
         if (!is_int($amount)) {
-            throw new InvalidArgumentException("The first parameter of Money must be an integer. It's the amount, expressed in the smallest units of currency (eg cents)");
+            throw new InvalidArgumentException('Amount must be an integer');
         }
+
         $this->amount = $amount;
         $this->currency = $currency;
     }
@@ -101,7 +105,7 @@ class Money
     private function assertSameCurrency(Money $other)
     {
         if (!$this->isSameCurrency($other)) {
-            throw new InvalidArgumentException('Different currencies');
+            throw new InvalidArgumentException('Currencies must be identical');
         }
     }
 
@@ -114,9 +118,7 @@ class Money
      */
     public function equals(Money $other)
     {
-        return
-            $this->isSameCurrency($other)
-            && $this->amount == $other->amount;
+        return $this->isSameCurrency($other) && $this->amount == $other->amount;
     }
 
     /**
@@ -131,6 +133,7 @@ class Money
     public function compare(Money $other)
     {
         $this->assertSameCurrency($other);
+
         if ($this->amount < $other->amount) {
             return -1;
         } elseif ($this->amount == $other->amount) {
@@ -197,6 +200,18 @@ class Money
     }
 
     /**
+     * Asserts that integer remains integer after arithmetic operations
+     *
+     * @param  numeric $amount
+     */
+    private function assertInteger($amount)
+    {
+        if (!is_int($amount)) {
+            throw new UnexpectedValueException('The result of arithmetic operation is not an integer');
+        }
+    }
+
+    /**
      * Returns a new Money object that represents
      * the sum of this and an other Money object
      *
@@ -208,7 +223,11 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return $this->newInstance($this->amount + $addend->amount);
+        $amount = $this->amount + $addend->amount;
+
+        $this->assertInteger($amount);
+
+        return $this->newInstance($amount);
     }
 
     /**
@@ -223,7 +242,11 @@ class Money
     {
         $this->assertSameCurrency($subtrahend);
 
-        return $this->newInstance($this->amount - $subtrahend->amount);
+        $amount = $this->amount - $subtrahend->amount;
+
+        $this->assertInteger($amount);
+
+        return $this->newInstance($amount);
     }
 
     /**
@@ -236,6 +259,38 @@ class Money
         if (!is_int($operand) && !is_float($operand)) {
             throw new InvalidArgumentException('Operand should be an integer or a float');
         }
+    }
+
+    /**
+     * Asserts that an integer value didn't become something else
+     * (after some arithmetic operation)
+     *
+     * @param numeric $amount
+     *
+     * @throws OverflowException If integer overflow occured
+     * @throws UnderflowException If integer underflow occured
+     */
+    private function assertIntegerBounds($amount)
+    {
+        if ($amount > PHP_INT_MAX) {
+            throw new OverflowException;
+        } elseif ($amount < ~PHP_INT_MAX) {
+            throw new UnderflowException;
+        }
+    }
+
+    /**
+     * Casts an amount to integer ensuring that an overflow/underflow did not occur
+     *
+     * @param numeric $amount
+     *
+     * @return integer
+     */
+    private function castInteger($amount)
+    {
+        $this->assertIntegerBounds($amount);
+
+        return intval($amount);
     }
 
     /**
@@ -255,7 +310,9 @@ class Money
             $rounding_mode = new RoundingMode($rounding_mode);
         }
 
-        $product = (int) round($this->amount * $multiplier, 0, $rounding_mode->getRoundingMode());
+        $product = round($this->amount * $multiplier, 0, $rounding_mode->getRoundingMode());
+
+        $product = $this->castInteger($product);
 
         return $this->newInstance($product);
     }
@@ -277,7 +334,9 @@ class Money
             $rounding_mode = new RoundingMode($rounding_mode);
         }
 
-        $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode->getRoundingMode());
+        $quotient = round($this->amount / $divisor, 0, $rounding_mode->getRoundingMode());
+
+        $quotient = $this->castInteger($quotient);
 
         return $this->newInstance($quotient);
     }
@@ -287,7 +346,7 @@ class Money
      *
      * @param array $ratios
      *
-     * @return Money
+     * @return Money[]
      */
     public function allocate(array $ratios)
     {
@@ -296,10 +355,11 @@ class Money
         $total = array_sum($ratios);
 
         foreach ($ratios as $ratio) {
-            $share = (int) floor($this->amount * $ratio / $total);
+            $share = $this->castInteger($this->amount * $ratio / $total);
             $results[] = $this->newInstance($share);
             $remainder -= $share;
         }
+
         for ($i = 0; $remainder > 0; $i++) {
             $results[$i]->amount++;
             $remainder--;
@@ -351,8 +411,9 @@ class Money
     {
         //@todo extend the regular expression with grouping characters and eventually currencies
         if (!preg_match("/(-)?(\d+)([.,])?(\d)?(\d)?/", $string, $matches)) {
-            throw new InvalidArgumentException("The value could not be parsed as money");
+            throw new InvalidArgumentException('The value could not be parsed as money');
         }
+
         $units = $matches[1] == "-" ? "-" : "";
         $units .= $matches[2];
         $units .= isset($matches[4]) ? $matches[4] : "0";
