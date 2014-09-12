@@ -21,40 +21,26 @@ namespace Money;
 class Currency
 {
     /**
-     * ISO 4217 currency code
+     * Currency code
      *
      * @var string
      */
     private $code;
 
     /**
-     * Known currencies
-     *
-     * @var array
-     */
-    private static $currencies;
-
-    /**
      * @param string $code
-     *
-     * @throws UnknownCurrencyException If currency is not known
      */
     public function __construct($code)
     {
-        // @codeCoverageIgnoreStart
-        if(!isset(static::$currencies)) {
-           static::$currencies = require __DIR__.'/currencies.php';
+        if (!is_string($code)) {
+            throw new \InvalidArgumentException('Cuurency code should be string');
         }
-        // @codeCoverageIgnoreEnd
 
-        if (!array_key_exists($code, static::$currencies)) {
-            throw new UnknownCurrencyException($code);
-        }
         $this->code = $code;
     }
 
     /**
-     * Returns the ISO 4217 currency code
+     * Returns the currency code
      *
      * @return string
      *
@@ -66,7 +52,7 @@ class Currency
     }
 
     /**
-     * Returns the ISO 4217 currency code
+     * Returns the currency code
      *
      * @return string
      */
@@ -85,6 +71,18 @@ class Currency
     public function equals(Currency $other)
     {
         return $this->code === $other->code;
+    }
+
+    /**
+     * Checks whether this currency is available in the passed context
+     *
+     * @param AvailableCurrencies $currencies
+     *
+     * @return boolean
+     */
+    public function isAvailableWithin(AvailableCurrencies $currencies)
+    {
+        return $currencies->exists($this);
     }
 
     /**

@@ -35,16 +35,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
     {
         $currency = new Currency('EUR');
 
-        $this->assertEquals('EUR', $currency->getName());
-    }
-
-    /**
-     * @covers ::__construct
-     * @expectedException Money\UnknownCurrencyException
-     */
-    public function testCantInstantiateUnknownCurrency()
-    {
-        new Currency('unknown');
+        $this->assertEquals('EUR', $currency->getCode());
     }
 
     /**
