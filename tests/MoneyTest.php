@@ -15,7 +15,6 @@ namespace Money;
  * @coversDefaultClass Money\Money
  * @uses Money\Currency
  * @uses Money\Money
- * @uses Money\RoundingMode
  * @uses Money\CurrencyPair
  */
 class MoneyTest extends \PHPUnit_Framework_TestCase
@@ -162,6 +161,16 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Money(1, new Currency('EUR'));
         $m->multiply('operand');
+    }
+
+    /**
+     * @covers ::assertRoundingMode
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidRoundingMode()
+    {
+        $m = new Money(1, new Currency('EUR'));
+        $m->multiply(1.2345, 'ROUNDING_MODE');
     }
 
     /**

@@ -15,7 +15,6 @@ namespace Money;
  * @coversDefaultClass Money\Currency
  * @uses Money\Currency
  * @uses Money\Money
- * @uses Money\RoundingMode
  * @uses Money\CurrencyPair
  */
 class CurrencyTest extends \PHPUnit_Framework_TestCase
