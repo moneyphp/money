@@ -23,10 +23,10 @@ use UnexpectedValueException;
  */
 class Money
 {
-    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    const ROUND_HALF_UP   = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
-    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    const ROUND_HALF_ODD  = PHP_ROUND_HALF_ODD;
 
     /**
      * Internal value
@@ -294,23 +294,42 @@ class Money
     }
 
     /**
+     * Asserts that rounding mode is a valid integer value
+     *
+     * @param integer $roundingMode
+     *
+     * @throws InvalidArgumentException If $roundingMode is not valid
+     */
+    private function assertRoundingMode($roundingMode)
+    {
+        if (!in_array(
+            $roundingMode,
+            array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP)
+        )) {
+            throw new InvalidArgumentException(
+                'Rounding mode should be Money::ROUND_HALF_DOWN | ' .
+                'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | ' .
+                'Money::ROUND_HALF_UP'
+            );
+        }
+    }
+
+    /**
      * Returns a new Money object that represents
      * the multiplied value by the given factor
      *
      * @param numeric $multiplier
-     * @param integer $rounding_mode
+     * @param integer $roundingMode
      *
      * @return Money
      */
-    public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
+    public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
 
-        if (!$rounding_mode instanceof RoundingMode) {
-            $rounding_mode = new RoundingMode($rounding_mode);
-        }
+        $this->assertRoundingMode($roundingMode);
 
-        $product = round($this->amount * $multiplier, 0, $rounding_mode->getRoundingMode());
+        $product = round($this->amount * $multiplier, 0, $roundingMode);
 
         $product = $this->castInteger($product);
 
@@ -322,19 +341,17 @@ class Money
      * the divided value by the given factor
      *
      * @param numeric $divisor
-     * @param integer $rounding_mode
+     * @param integer $roundingMode
      *
      * @return Money
      */
-    public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
+    public function divide($divisor, $roundingMode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($divisor);
 
-        if (!$rounding_mode instanceof RoundingMode) {
-            $rounding_mode = new RoundingMode($rounding_mode);
-        }
+        $this->assertRoundingMode($roundingMode);
 
-        $quotient = round($this->amount / $divisor, 0, $rounding_mode->getRoundingMode());
+        $quotient = round($this->amount / $divisor, 0, $roundingMode);
 
         $quotient = $this->castInteger($quotient);
 

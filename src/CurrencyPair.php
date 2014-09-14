@@ -87,25 +87,46 @@ class CurrencyPair
     }
 
     /**
+     * Asserts that rounding mode is a valid integer value
+     *
+     * @param integer $roundingMode
+     *
+     * @throws InvalidArgumentException If $roundingMode is not valid
+     */
+    private function assertRoundingMode($roundingMode)
+    {
+        if (!in_array(
+            $roundingMode,
+            array(Money::ROUND_HALF_DOWN, Money::ROUND_HALF_EVEN, Money::ROUND_HALF_ODD, Money::ROUND_HALF_UP)
+        )) {
+            throw new InvalidArgumentException(
+                'Rounding mode should be Money::ROUND_HALF_DOWN | ' .
+                'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | ' .
+                'Money::ROUND_HALF_UP'
+            );
+        }
+    }
+
+    /**
      * Converts Money from base to counter currency
      *
      * @param Money   $money
-     * @param integer $rounding_mode
+     * @param integer $roundingMode
      *
      * @return Money
      *
      * @throws InvalidArgumentException If $money's currency is not equal to base currency
      */
-    public function convert(Money $money, RoundingMode $rounding_mode = null)
+    public function convert(Money $money, $roundingMode = Money::ROUND_HALF_UP)
     {
         if (!$money->getCurrency()->equals($this->baseCurrency)) {
             throw new InvalidArgumentException("The Money has the wrong currency");
         }
 
-        $rounding_mode = $rounding_mode ?: RoundingMode::halfUp();
+        $this->assertRoundingMode($roundingMode);
 
         return new Money(
-            (int) round($money->getAmount() * $this->conversionRatio, 0, $rounding_mode->getRoundingMode()),
+            (int) round($money->getAmount() * $this->conversionRatio, 0, $roundingMode),
             $this->counterCurrency
         );
     }
