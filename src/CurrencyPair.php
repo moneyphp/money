@@ -90,7 +90,7 @@ class CurrencyPair
      * Converts Money from base to counter currency
      *
      * @param Money   $money
-     * @param integer $roundingMode
+     * @param int $roundingMode
      *
      * @return Money
      *
@@ -102,9 +102,7 @@ class CurrencyPair
             throw new InvalidArgumentException("The Money has the wrong currency");
         }
 
-        $m = $money->multiply($this->conversionRatio, $roundingMode);
-
-        return new Money($m->getAmount(), $this->counterCurrency);
+        return $money->convert($this->counterCurrency, $this->conversionRatio, $roundingMode);
     }
 
     /**

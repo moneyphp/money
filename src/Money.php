@@ -31,7 +31,7 @@ class Money
     /**
      * Internal value
      *
-     * @var integer
+     * @var int
      */
     private $amount;
 
@@ -41,7 +41,7 @@ class Money
     private $currency;
 
     /**
-     * @param integer  $amount   Amount, expressed in the smallest units of $currency (eg cents)
+     * @param int  $amount   Amount, expressed in the smallest units of $currency (eg cents)
      * @param Currency $currency
      *
      * @throws InvalidArgumentException If amount is not integer
@@ -76,7 +76,7 @@ class Money
     /**
      * Returns a new Money instance based on the current one using the Currency
      *
-     * @param integer $amount
+     * @param int $amount
      *
      * @return Money
      */
@@ -128,7 +128,7 @@ class Money
      *
      * @param Money $other
      *
-     * @return integer
+     * @return int
      */
     public function compare(Money $other)
     {
@@ -172,7 +172,7 @@ class Money
      *
      * @deprecated Use getAmount() instead
      *
-     * @return integer
+     * @return int
      */
     public function getUnits()
     {
@@ -182,7 +182,7 @@ class Money
     /**
      * Returns the value represented by this object
      *
-     * @return integer
+     * @return int
      */
     public function getAmount()
     {
@@ -284,7 +284,7 @@ class Money
      *
      * @param numeric $amount
      *
-     * @return integer
+     * @return int
      */
     private function castInteger($amount)
     {
@@ -296,7 +296,7 @@ class Money
     /**
      * Asserts that rounding mode is a valid integer value
      *
-     * @param integer $roundingMode
+     * @param int $roundingMode
      *
      * @throws InvalidArgumentException If $roundingMode is not valid
      */
@@ -319,7 +319,7 @@ class Money
      * the multiplied value by the given factor
      *
      * @param numeric $multiplier
-     * @param integer $roundingMode
+     * @param int $roundingMode
      *
      * @return Money
      */
@@ -337,11 +337,25 @@ class Money
     }
 
     /**
+     * @param Currency $targetCurrency
+     * @param float|int $conversionRate
+     * @param int $roundingMode
+     * @return Money
+     */
+    public function convert(Currency $targetCurrency, $conversionRate, $roundingMode = Money::ROUND_HALF_UP)
+    {
+        $this->assertRoundingMode($roundingMode);
+        $amount = round($this->amount * $conversionRate, 0, $roundingMode);
+        $amount = $this->castInteger($amount);
+        return new Money($amount, $targetCurrency);
+    }
+
+    /**
      * Returns a new Money object that represents
      * the divided value by the given factor
      *
      * @param numeric $divisor
-     * @param integer $roundingMode
+     * @param int $roundingMode
      *
      * @return Money
      */
@@ -388,7 +402,7 @@ class Money
     /**
      * Allocate the money among N targets
      *
-     * @param integer $n
+     * @param int $n
      *
      * @return Money[]
      *
@@ -449,7 +463,7 @@ class Money
      *
      * @param string $string
      *
-     * @return integer
+     * @return int
      *
      * @throws InvalidArgumentException If $string cannot be parsed
      */
