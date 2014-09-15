@@ -90,7 +90,7 @@ class CurrencyPair
      * Converts Money from base to counter currency
      *
      * @param Money   $money
-     * @param integer $roundingMode
+     * @param int $roundingMode
      *
      * @return Money
      *
