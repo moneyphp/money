@@ -102,9 +102,7 @@ class CurrencyPair
             throw new InvalidArgumentException("The Money has the wrong currency");
         }
 
-        $m = $money->multiply($this->conversionRatio, $roundingMode);
-
-        return new Money($m->getAmount(), $this->counterCurrency);
+        return $money->convert($this->counterCurrency, $this->conversionRatio, $roundingMode);
     }
 
     /**

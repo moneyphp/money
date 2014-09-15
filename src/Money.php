@@ -337,6 +337,20 @@ class Money
     }
 
     /**
+     * @param Currency $targetCurrency
+     * @param float $conversionRate
+     * @param int $roundingMode
+     * @return Money
+     */
+    public function convert(Currency $targetCurrency, $conversionRate, $roundingMode = Money::ROUND_HALF_UP)
+    {
+        $this->assertRoundingMode($roundingMode);
+        $amount = round($this->amount * $conversionRate, 0, $roundingMode);
+        $amount = $this->castInteger($amount);
+        return new Money($amount, $targetCurrency);
+    }
+
+    /**
      * Returns a new Money object that represents
      * the divided value by the given factor
      *
