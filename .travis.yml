@@ -7,8 +7,6 @@ php:
   - 5.6
   - hhvm
 
-before_script:
-  - composer --dev install
-    
-script:
-  - phpunit -c phpunit.xml.dist --coverage-text
+before_script: composer install
+
+script: vendor/bin/phpunit --coverage-text

@@ -1,21 +1,30 @@
 <?php
+
 /**
- * This file is part of the Money library
+ * This file is part of the Money library.
  *
- * Copyright (c) 2011-2013 Mathias Verraes
+ * Copyright (c) 2011-2014 Mathias Verraes
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Money\Tests;
+namespace Money;
 
-use PHPUnit_Framework_TestCase;
-use Money\Money;
-use Money\Currency;
+use InvalidArgumentException;
+use UnexpectedValueException;
 
-class MoneyTest extends PHPUnit_Framework_TestCase
+/**
+ * @coversDefaultClass Money\Money
+ * @uses Money\Currency
+ * @uses Money\Money
+ * @uses Money\CurrencyPair
+ */
+class MoneyTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers ::__callStatic
+     */
     public function testFactoryMethods()
     {
         $this->assertEquals(
@@ -28,6 +37,10 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @covers ::getAmount
+     * @covers ::getCurrency
+     */
     public function testGetters()
     {
         $m = new Money(100, $euro = new Currency('EUR'));
@@ -36,7 +49,8 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @covers ::__construct
+     * @expectedException InvalidArgumentException
      */
     public function testDecimalsThrowException()
     {
@@ -44,13 +58,17 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @covers ::__construct
+     * @expectedException InvalidArgumentException
      */
     public function testStringThrowsException()
     {
         $money = new Money('100', new Currency('EUR'));
     }
 
+    /**
+     * @covers ::equals
+     */
     public function testEquality()
     {
         $m1 = new Money(100, new Currency('EUR'));
@@ -78,7 +96,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeAdded()
     {
@@ -87,6 +105,19 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $m1->add($m2);
     }
 
+    /**
+     * @expectedException UnexpectedValueException
+     */
+    public function testResultNotAnInteger()
+    {
+        $m1 = new Money(PHP_INT_MAX, new Currency('EUR'));
+        $m2 = new Money(1, new Currency('EUR'));
+        $m1->add($m2);
+    }
+
+    /**
+     * @covers ::subtract
+     */
     public function testSubtraction()
     {
         $m1 = new Money(100, new Currency('EUR'));
@@ -102,7 +133,7 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeSubtracted()
     {
@@ -126,6 +157,46 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame($m, $m->multiply(2));
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidMultiplicationOperand()
+    {
+        $m = new Money(1, new Currency('EUR'));
+        $m->multiply('operand');
+    }
+
+    /**
+     * @covers ::assertRoundingMode
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidRoundingMode()
+    {
+        $m = new Money(1, new Currency('EUR'));
+        $m->multiply(1.2345, 'ROUNDING_MODE');
+    }
+
+    /**
+     * @expectedException OverflowException
+     */
+    public function testMultiplicationOverflow()
+    {
+        $m = new Money(PHP_INT_MAX, new Currency('EUR'));
+        $m->multiply(2);
+    }
+
+    /**
+     * @expectedException UnderflowException
+     */
+    public function testMultiplicationUnderflow()
+    {
+        $m = new Money(~PHP_INT_MAX, new Currency('EUR'));
+        $m->multiply(2);
+    }
+
+    /**
+     * @covers ::divide
+     */
     public function testDivision()
     {
         $m = new Money(10, new Currency('EUR'));
@@ -162,13 +233,16 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Money\InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeCompared()
     {
         Money::EUR(1)->compare(Money::USD(1));
     }
 
+    /**
+     * @covers ::allocate
+     */
     public function testAllocation()
     {
         $m = new Money(100, new Currency('EUR'));
@@ -184,9 +258,11 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(new Money(33, new Currency('EUR')), $part3);
     }
 
+    /**
+     * @covers ::allocate
+     */
     public function testAllocationOrderIsImportant()
     {
-
         $m = new Money(5, new Currency('EUR'));
         list($part1, $part2) = $m->allocate(array(3, 7));
         $this->assertEquals(new Money(2, new Currency('EUR')), $part1);
@@ -198,6 +274,38 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(new Money(1, new Currency('EUR')), $part2);
     }
 
+    /**
+     * @covers ::allocateTo
+     */
+    public function testAllocationTo($value='')
+    {
+        $m = new Money(15, new Currency('EUR'));
+        list($part1, $part2) = $m->allocateTo(2);
+        $this->assertEquals(new Money(8, new Currency('EUR')), $part1);
+        $this->assertEquals(new Money(7, new Currency('EUR')), $part2);
+
+        $m = new Money(10, new Currency('EUR'));
+        list($part1, $part2) = $m->allocateTo(2);
+        $this->assertEquals(new Money(5, new Currency('EUR')), $part1);
+        $this->assertEquals(new Money(5, new Currency('EUR')), $part2);
+    }
+
+    /**
+     * @covers ::allocateTo
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Number of targets must be an integer
+     */
+    public function testAllocationToInvalidTargets()
+    {
+        $m = new Money(15, new Currency('EUR'));
+        $m->allocateTo('target');
+    }
+
+    /**
+     * @covers ::isZero
+     * @covers ::isNegative
+     * @covers ::isPositive
+     */
     public function testComparators()
     {
         $this->assertTrue(Money::EUR(0)->isZero());
@@ -230,10 +338,20 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::stringToUnits
      * @dataProvider provideStrings
      */
     public function testStringToUnits($string, $units)
     {
         $this->assertEquals($units, Money::stringToUnits($string));
+    }
+
+    /**
+     * @covers ::stringToUnits
+     * @expectedException InvalidArgumentException
+     */
+    public function testCannotConvertStringToUnits()
+    {
+        Money::stringToUnits('THIS_IS_NOT_CONVERTABLE_TO_UNIT');
     }
 }
