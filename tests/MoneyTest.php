@@ -11,6 +11,9 @@
 
 namespace Money;
 
+use InvalidArgumentException;
+use UnexpectedValueException;
+
 /**
  * @coversDefaultClass Money\Money
  * @uses Money\Currency
