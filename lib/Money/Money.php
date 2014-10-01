@@ -273,4 +273,9 @@ class Money
 
         return (int) $units;
     }
+    
+    public function __toString()
+    {
+        return sprintf("%d:%s", $this->amount, $this->currency);
+    }
 }
