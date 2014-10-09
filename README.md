@@ -50,9 +50,11 @@ $ composer.phar install
 Integration
 -----------
 
-See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3].
+See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3] or [`DoctrineMoneyModule`][5] for [`Zend Framework 2`][6].
 
 [1]: http://getcomposer.org/
 [2]: https://github.com/pink-tie/MoneyBundle/
 [3]: http://symfony.com/
 [4]: https://github.com/TheBigBrainsCompany/TbbcMoneyBundle
+[5]: https://github.com/zfbrasil/doctrine-money-module
+[6]: http://framework.zend.com/
