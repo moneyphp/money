@@ -113,8 +113,7 @@ class Money
      */
     public function greaterThanOrEqual(Money $other)
     {
-        return 1 == $this->compare($other) 
-            or 0 == $this->compare($other);
+        return 0 >= $this->compare($other);
     }
 
     /**
@@ -132,8 +131,7 @@ class Money
      */
     public function lessThanOrEqual(Money $other)
     {
-        return -1 == $this->compare($other) 
-            or 0 == $this->compare($other);
+        return 0 <= $this->compare($other);
     }
 
     /**
