@@ -106,6 +106,15 @@ class Money
     {
         return 1 == $this->compare($other);
     }
+    
+    /**
+     * @param \Money\Money $other
+     * @return bool
+     */
+    public function greaterThanOrEqual(Money $other)
+    {
+        return 0 >= $this->compare($other);
+    }
 
     /**
      * @param \Money\Money $other
@@ -114,6 +123,15 @@ class Money
     public function lessThan(Money $other)
     {
         return -1 == $this->compare($other);
+    }
+    
+    /**
+     * @param \Money\Money $other
+     * @return bool
+     */
+    public function lessThanOrEqual(Money $other)
+    {
+        return 0 <= $this->compare($other);
     }
 
     /**
