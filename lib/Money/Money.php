@@ -278,13 +278,14 @@ class Money
      * @throws \Money\InvalidArgumentException
      * @return int
      */
-    public static function stringToUnits( $string )
+    public static function stringToUnits($string)
     {
         $sign = "(?P<sign>[-\+])?";
         $digits = "(?P<digits>\d*)";
         $separator = "(?P<separator>[.,])?";
         $decimals = "(?P<decimal1>\d)?(?P<decimal2>\d)?";
-        $pattern = "/^".$sign.$digits.$separator.$decimals."$/";
+        $zeroes = "0*";
+        $pattern = "/^" . $sign . $digits . $separator . $decimals . $zeroes . "$/";
 
         if (!preg_match($pattern, trim($string), $matches)) {
             throw new InvalidArgumentException("The value could not be parsed as money");
@@ -295,6 +296,6 @@ class Money
         $units .= isset($matches['decimal1']) ? $matches['decimal1'] : "0";
         $units .= isset($matches['decimal2']) ? $matches['decimal2'] : "0";
 
-        return (int) $units;
+        return (int)$units;
     }
 }
