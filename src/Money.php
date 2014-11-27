@@ -156,14 +156,17 @@ class Money
     }
 
     /**
-     * @param \Money\Money $other
-     * @return bool
+     * Checks whether the value represented by this object is greater than or equal to the other
+     *
+     * @param Money $other
+     *
+     * @return boolean
      */
     public function greaterThanOrEqual(Money $other)
     {
         return 0 >= $this->compare($other);
     }
-    
+
     /**
      * Checks whether the value represented by this object is less than the other
      *
@@ -175,9 +178,12 @@ class Money
     {
         return -1 == $this->compare($other);
     }
-    
+
     /**
-     * @param \Money\Money $other
+     * Checks whether the value represented by this object is less than or equals to the other
+     *
+     * @param Money $other
+     *
      * @return bool
      */
     public function lessThanOrEqual(Money $other)
