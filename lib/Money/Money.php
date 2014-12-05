@@ -41,6 +41,19 @@ class Money extends MoneyFactory
     }
 
     /**
+     * Convenience factory method for a Money object
+     * For a IDE friendlier alternative, use MoneyFactory
+     * @example $fiveDollar = Money::USD(500);
+     * @param string $method
+     * @param array $arguments
+     * @return \Money\Money
+     */
+    public static function __callStatic($method, $arguments)
+    {
+        return new Money($arguments[0], new Currency($method));
+    }
+
+    /**
      * @param \Money\Money $other
      * @return bool
      */
