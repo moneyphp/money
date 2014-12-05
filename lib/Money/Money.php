@@ -10,7 +10,7 @@
 
 namespace Money;
 
-class Money extends MoneyFactory
+class Money
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
