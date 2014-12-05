@@ -10,7 +10,7 @@
 
 namespace Money;
 
-class Money
+class Money extends MoneyFactory
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -38,18 +38,6 @@ class Money
         }
         $this->amount = $amount;
         $this->currency = $currency;
-    }
-
-    /**
-     * Convenience factory method for a Money object
-     * @example $fiveDollar = Money::USD(500);
-     * @param string $method
-     * @param array $arguments
-     * @return \Money\Money
-     */
-    public static function __callStatic($method, $arguments)
-    {
-        return new Money($arguments[0], new Currency($method));
     }
 
     /**
@@ -234,7 +222,7 @@ class Money
     /**
      * Allocate the money according to a list of ratio's
      * @param array $ratios List of ratio's
-     * @return \Money\Money
+     * @return \Money\Money[]
      */
     public function allocate(array $ratios)
     {
