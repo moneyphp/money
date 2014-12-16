@@ -13,6 +13,47 @@ namespace Money;
 class MoneyFactory
 {
     /**
+     * @var int
+     */
+    protected $precision;
+
+    /**
+     * @var string
+     */
+    protected $defaultCurrency;
+
+    /**
+     * @param int $precision
+     * @param string $defaultCurrency
+     */
+    public function __construct($precision, $defaultCurrency) {
+        $this->precision = $precision;
+        $this->defaultCurrency = $defaultCurrency;
+    }
+
+    /**
+     * @param Money|string $amount
+     * @return Money
+     */
+    public function toMoney($amount)
+    {
+        if($amount instanceof Money)
+            return $amount;
+
+        return Money::fromDecimal($amount, new Currency($this->defaultCurrency), $this->precision);
+    }
+
+
+    /**
+     * @param int $amount
+     * @return Money
+     */
+    public function IntToMoney($amount)
+    {
+        return new Money($amount, new Currency($this->defaultCurrency), $this->precision);
+    }
+
+    /**
      * Convenience factory method for a AED Money object
      * @param int $amount
      * @return \Money\Money
