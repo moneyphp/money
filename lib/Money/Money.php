@@ -292,6 +292,7 @@ class Money
 
     /**
      * Allocate the money according to a list of ratio's
+     * The resulting array of money objects has the same keys of the ratios array
      * @param array $ratios List of ratio's
      * @param int $precision
      * @return \Money\Money[]
@@ -304,15 +305,17 @@ class Money
         $results = array();
         $total = array_sum($ratios);
 
-        foreach ($ratios as $ratio) {
+        foreach ($ratios as $key => $ratio) {
             $share = (int) floor($amount * $ratio / $total);
-            $results[] = new Money($share, $this->currency, $precision);;
+            $results[$key] = new Money($share, $this->currency, $precision);;
             $remainder -= $share;
         }
 
-        for ($i = 0; $remainder > 0; $i++) {
-            $results[$i]->amount++;
-            $remainder--;
+        foreach($results as &$result) {
+            if($remainder > 0) {
+                $result->amount++;
+                $remainder--;
+            } else break;
         }
 
         return $results;
