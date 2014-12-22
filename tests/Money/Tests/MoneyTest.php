@@ -198,6 +198,14 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(new Money(1, new Currency('EUR')), $part2);
     }
 
+    public function testAllocationKeysAreImportantToo()
+    {
+        $m = new Money(50, new Currency('EUR'));
+        $ratios = array( 'key1' => 10, 'key2' => 20 );
+        $allocated = $m->allocate($ratios);
+        $this->assertEquals(array_keys($ratios), array_keys($allocated));
+    }
+
     public function testComparators()
     {
         $this->assertTrue(Money::EUR(0)->isZero());

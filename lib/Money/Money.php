@@ -108,7 +108,10 @@ class Money
      */
     public static function __callStatic($method, $arguments)
     {
-        return new Money($arguments[0], new Currency($method), @$arguments[1]);
+
+        return  is_int(@$arguments[1]) ?
+                new Money($arguments[0], new Currency($method), $arguments[1]) :
+                new Money($arguments[0], new Currency($method));
     }
 
     /**
