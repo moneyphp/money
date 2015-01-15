@@ -97,6 +97,14 @@ class Money
         return $this->precision;
     }
 
+    /**
+     * @return Money
+     */
+    public function copy()
+    {
+        return new Money($this->amount, $this->currency, $this->precision);
+    }
+
 
     /**
      * Convenience factory method for a Money object
@@ -151,9 +159,10 @@ class Money
     public function compare(Money $other)
     {
         $this->assertSameCurrency($other);
-        if ($this->amount < $other->amount) {
+        $otherAmount = $other->toPrecision($this->precision)->amount;
+        if ($this->amount < $otherAmount) {
             return -1;
-        } elseif ($this->amount == $other->amount) {
+        } elseif ($this->amount == $otherAmount) {
             return 0;
         } else {
             return 1;
@@ -229,7 +238,7 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->amount + $addend->amount, $this->currency, $this->precision);
+        return new self($this->amount + $addend->toPrecision($this->precision)->amount, $this->currency, $this->precision);
     }
 
     /**
@@ -240,7 +249,7 @@ class Money
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new self($this->amount - $subtrahend->amount, $this->currency, $this->precision);
+        return new self($this->amount - $subtrahend->toPrecision($this->precision)->amount, $this->currency, $this->precision);
     }
 
     /**
