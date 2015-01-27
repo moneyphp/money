@@ -22,6 +22,7 @@ return array(
 	"BOB" => "Bolivian Boliviano",
 	"BRL" => "Brazilian Real",
 	"BSD" => "Bahamian Dollar",
+	"BTC" => "Bitcoin",
 	"BTN" => "Bhutanese Ngultrum",
 	"BWP" => "Botswanan Pula",
 	"BYR" => "Belarusian Ruble",
