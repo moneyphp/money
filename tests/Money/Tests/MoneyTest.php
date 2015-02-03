@@ -238,4 +238,9 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     {
         $this->assertEquals($units, Money::stringToUnits($string));
     }
+
+    public function testJsonEncoding()
+    {
+        $this->assertEquals('{"amount":350,"currency":"USD"}', json_encode(Money::USD(350)));
+    }
 }
