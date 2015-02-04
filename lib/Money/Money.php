@@ -303,11 +303,11 @@ class Money implements \JsonSerializable
      *
      * @return array
      */
-    function jsonSerialize()
+    public function jsonSerialize()
     {
         return array(
             'amount' => $this->amount,
-            'currency' => strval($this->currency),
+            'currency' => $this->currency,
         );
     }
 }

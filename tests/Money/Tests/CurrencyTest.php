@@ -48,4 +48,9 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
     {
         new Currency('unknown');
     }
+
+    public function testJsonEncoding()
+    {
+        $this->assertEquals('"USD"', json_encode(new Currency('USD')));
+    }
 }
