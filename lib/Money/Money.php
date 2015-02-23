@@ -10,7 +10,7 @@
 
 namespace Money;
 
-class Money
+class Money implements \JsonSerializable
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -106,7 +106,7 @@ class Money
     {
         return 1 == $this->compare($other);
     }
-    
+
     /**
      * @param \Money\Money $other
      * @return bool
@@ -124,7 +124,7 @@ class Money
     {
         return -1 == $this->compare($other);
     }
-    
+
     /**
      * @param \Money\Money $other
      * @return bool
@@ -161,7 +161,7 @@ class Money
 
     /**
      * @param \Money\Money $addend
-     *@return \Money\Money 
+     *@return \Money\Money
      */
     public function add(Money $addend)
     {
@@ -302,5 +302,18 @@ class Money
         $units .= isset($matches['decimal2']) ? $matches['decimal2'] : "0";
 
         return (int) $units;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+        );
     }
 }

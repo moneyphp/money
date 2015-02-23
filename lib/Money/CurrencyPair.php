@@ -11,7 +11,7 @@
 namespace Money;
 
 /** @see http://en.wikipedia.org/wiki/Currency_pair */
-class CurrencyPair
+class CurrencyPair implements \JsonSerializable
 {
     /** @var Currency */
     private $baseCurrency;
@@ -94,5 +94,19 @@ class CurrencyPair
     public function getRatio()
     {
         return $this->ratio;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'baseCurrency' => $this->baseCurrency,
+            'counterCurrency' => $this->counterCurrency,
+            'ratio' => $this->ratio,
+        );
     }
 }

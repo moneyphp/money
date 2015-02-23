@@ -10,7 +10,7 @@
 
 namespace Money;
 
-class Currency
+class Currency implements \JsonSerializable
 {
     /** @var string */
     private $name;
@@ -56,6 +56,16 @@ class Currency
      * @return string
      */
     public function __toString()
+    {
+        return $this->getName();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function jsonSerialize()
     {
         return $this->getName();
     }
