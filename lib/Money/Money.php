@@ -26,22 +26,89 @@ class Money
     private $currency;
 
     /**
-     * Create a Money instance
-     * @param  integer $amount    Amount, expressed in the smallest units of $currency (eg cents)
-     * @param  \Money\Currency $currency
-     * @throws \Money\InvalidArgumentException
+     * @var int
      */
-    public function __construct($amount, Currency $currency)
+    private $precision;
+
+    /**
+     * Create a Money instance
+     * @param  integer $amount Amount, expressed in the smallest units of $currency (eg cents)
+     * @param  \Money\Currency $currency
+     * @param int $precision
+     * @throws InvalidArgumentException
+     */
+    public function __construct($amount, Currency $currency, $precision = 2)
     {
         if (!is_int($amount)) {
             throw new InvalidArgumentException("The first parameter of Money must be an integer. It's the amount, expressed in the smallest units of currency (eg cents)");
         }
+        if (!is_int($precision)) {
+            throw new InvalidArgumentException("The second parameter of Money must be an integer. It's the precision, or the number of significant decimal places (eg 2, or 4)");
+        }
         $this->amount = $amount;
         $this->currency = $currency;
+        $this->precision = $precision;
     }
 
     /**
+     * @param string $decimalAmount
+     * @param Currency $currency
+     * @param int $precision
+     * @return Money
+     */
+    public static function fromDecimal($decimalAmount, Currency $currency, $precision = 2) {
+        bcscale($precision);
+        return new Money((int)(bcmul( bcpow(10, $precision) , $decimalAmount)), $currency, $precision);
+    }
+
+    /**
+     * @return string
+     */
+    public function toDecimal()
+    {
+        bcscale($this->precision);
+        return bcdiv($this->getAmount(), bcpow(10, $this->precision));
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+        return $this->toDecimal().' '.$this->getCurrency()->getName();
+    }
+
+    /**
+     * @param int $precision
+     * @return Money
+     */
+    public function toPrecision($precision=null)
+    {
+        if($this->precision == $precision || $precision === null)
+            return $this;
+
+        return self::fromDecimal($this->toDecimal(), $this->currency, $precision);
+    }
+
+    /**
+     * @return int
+     */
+    public function getPrecision()
+    {
+        return $this->precision;
+    }
+
+    /**
+     * @return Money
+     */
+    public function copy()
+    {
+        return new Money($this->amount, $this->currency, $this->precision);
+    }
+
+
+    /**
      * Convenience factory method for a Money object
+     * For a IDE friendlier alternative, use MoneyFactory
      * @example $fiveDollar = Money::USD(500);
      * @param string $method
      * @param array $arguments
@@ -49,7 +116,10 @@ class Money
      */
     public static function __callStatic($method, $arguments)
     {
-        return new Money($arguments[0], new Currency($method));
+
+        return  is_int(@$arguments[1]) ?
+                new Money($arguments[0], new Currency($method), $arguments[1]) :
+                new Money($arguments[0], new Currency($method));
     }
 
     /**
@@ -89,9 +159,10 @@ class Money
     public function compare(Money $other)
     {
         $this->assertSameCurrency($other);
-        if ($this->amount < $other->amount) {
+        $otherAmount = $other->toPrecision($this->precision)->amount;
+        if ($this->amount < $otherAmount) {
             return -1;
-        } elseif ($this->amount == $other->amount) {
+        } elseif ($this->amount == $otherAmount) {
             return 0;
         } else {
             return 1;
@@ -167,7 +238,7 @@ class Money
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->amount + $addend->amount, $this->currency);
+        return new self($this->amount + $addend->toPrecision($this->precision)->amount, $this->currency, $this->precision);
     }
 
     /**
@@ -178,7 +249,7 @@ class Money
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new self($this->amount - $subtrahend->amount, $this->currency);
+        return new self($this->amount - $subtrahend->toPrecision($this->precision)->amount, $this->currency, $this->precision);
     }
 
     /**
@@ -215,7 +286,7 @@ class Money
 
         $product = (int) round($this->amount * $multiplier, 0, $rounding_mode);
 
-        return new Money($product, $this->currency);
+        return new Money($product, $this->currency, $this->precision);
     }
 
     /**
@@ -234,28 +305,35 @@ class Money
 
         $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
 
-        return new Money($quotient, $this->currency);
+        return new Money($quotient, $this->currency, $this->precision);
     }
 
     /**
      * Allocate the money according to a list of ratio's
+     * The resulting array of money objects has the same keys of the ratios array
      * @param array $ratios List of ratio's
-     * @return \Money\Money
+     * @param int $precision
+     * @return \Money\Money[]
      */
-    public function allocate(array $ratios)
+    public function allocate(array $ratios, $precision = null)
     {
-        $remainder = $this->amount;
+        $precision = $precision ? $precision : $this->precision;
+        $amount = $remainder = $this->toPrecision($precision)->getAmount();
+
         $results = array();
         $total = array_sum($ratios);
 
-        foreach ($ratios as $ratio) {
-            $share = (int) floor($this->amount * $ratio / $total);
-            $results[] = new Money($share, $this->currency);
+        foreach ($ratios as $key => $ratio) {
+            $share = (int) floor($amount * $ratio / $total);
+            $results[$key] = new Money($share, $this->currency, $precision);;
             $remainder -= $share;
         }
-        for ($i = 0; $remainder > 0; $i++) {
-            $results[$i]->amount++;
-            $remainder--;
+
+        foreach($results as &$result) {
+            if($remainder > 0) {
+                $result->amount++;
+                $remainder--;
+            } else break;
         }
 
         return $results;
