@@ -20,7 +20,7 @@ use JsonSerializable;
  * @author Mathias Verraes
  * @see http://en.wikipedia.org/wiki/Currency_pair
  */
-class CurrencyPair implements JsonSerializable
+final class CurrencyPair implements JsonSerializable
 {
     /**
      * Currency to convert from

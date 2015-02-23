@@ -20,7 +20,7 @@ use UnexpectedValueException;
  * @uses Money\Money
  * @uses Money\CurrencyPair
  */
-class MoneyTest extends \PHPUnit_Framework_TestCase
+final class MoneyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::__callStatic

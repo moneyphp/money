@@ -17,7 +17,7 @@ namespace Money;
  * @uses Money\Money
  * @uses Money\CurrencyPair
  */
-class CurrencyTest extends \PHPUnit_Framework_TestCase
+final class CurrencyTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
