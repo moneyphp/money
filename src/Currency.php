@@ -20,7 +20,7 @@ use JsonSerializable;
  *
  * @author Mathias Verraes
  */
-class Currency implements JsonSerializable
+final class Currency implements JsonSerializable
 {
     /**
      * Currency code

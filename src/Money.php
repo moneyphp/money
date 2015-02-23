@@ -22,7 +22,7 @@ use UnexpectedValueException;
  *
  * @author Mathias Verraes
  */
-class Money implements JsonSerializable
+final class Money implements JsonSerializable
 {
     const ROUND_HALF_UP   = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
