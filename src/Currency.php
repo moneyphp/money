@@ -11,6 +11,8 @@
 
 namespace Money;
 
+use JsonSerializable;
+
 /**
  * Currency Value Object
  *
@@ -18,7 +20,7 @@ namespace Money;
  *
  * @author Mathias Verraes
  */
-class Currency
+class Currency implements JsonSerializable
 {
     /**
      * Currency code
@@ -91,5 +93,15 @@ class Currency
     public function __toString()
     {
         return $this->getCode();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    public function jsonSerialize()
+    {
+        return $this->code;
     }
 }

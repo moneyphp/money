@@ -153,6 +153,14 @@ class CurrencyPairTest extends \PHPUnit_Framework_TestCase
         CurrencyPair::createFromIso('1.2500');
     }
 
+    public function testJsonEncoding()
+    {
+        $expected_json = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":1.25}';
+        $actual_json = json_encode(new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.25));
+
+        $this->assertEquals($expected_json, $actual_json);
+    }
+
     public function provideEqualityComparisonPairs()
     {
         $usd = new Currency('USD');

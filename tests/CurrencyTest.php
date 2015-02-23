@@ -65,4 +65,9 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->euro1->equals($this->usd1));
     }
+
+    public function testJsonEncoding()
+    {
+        $this->assertEquals('"USD"', json_encode(new Currency('USD')));
+    }
 }
