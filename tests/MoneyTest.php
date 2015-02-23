@@ -363,4 +363,14 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     {
         Money::stringToUnits('THIS_IS_NOT_CONVERTABLE_TO_UNIT');
     }
+
+    public function testJsonEncoding()
+    {
+        $this->assertEquals(
+            '{"amount":350,"currency":"USD"}',
+            json_encode(Money::USD(350))
+        );
+    }
+
+
 }

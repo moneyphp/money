@@ -12,6 +12,7 @@
 namespace Money;
 
 use InvalidArgumentException;
+use JsonSerializable;
 
 /**
  * Currency Pair
@@ -19,7 +20,7 @@ use InvalidArgumentException;
  * @author Mathias Verraes
  * @see http://en.wikipedia.org/wiki/Currency_pair
  */
-class CurrencyPair
+class CurrencyPair implements JsonSerializable
 {
     /**
      * Currency to convert from
@@ -161,5 +162,19 @@ class CurrencyPair
             && $this->counterCurrency->equals($other->counterCurrency)
             && $this->conversionRatio === $other->conversionRatio
         ;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'baseCurrency' => $this->baseCurrency,
+            'counterCurrency' => $this->counterCurrency,
+            'ratio' => $this->conversionRatio,
+        );
     }
 }

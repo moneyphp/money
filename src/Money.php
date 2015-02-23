@@ -12,6 +12,7 @@
 namespace Money;
 
 use InvalidArgumentException;
+use JsonSerializable;
 use OverflowException;
 use UnderflowException;
 use UnexpectedValueException;
@@ -21,7 +22,7 @@ use UnexpectedValueException;
  *
  * @author Mathias Verraes
  */
-class Money
+class Money implements JsonSerializable
 {
     const ROUND_HALF_UP   = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -506,5 +507,18 @@ class Money
         $units .= isset($matches['decimal2']) ? $matches['decimal2'] : "0";
 
         return (int) $units;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'amount' => $this->amount,
+            'currency' => $this->currency,
+        );
     }
 }
