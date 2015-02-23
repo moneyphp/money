@@ -182,12 +182,18 @@ class Money
     }
 
     /**
+     * @param int|float $operand
+     * @param bool $isDivision
      * @throws \Money\InvalidArgumentException
      */
-    private function assertOperand($operand)
+    private function assertOperand($operand, $isDivision = false)
     {
         if (!is_int($operand) && !is_float($operand)) {
             throw new InvalidArgumentException('Operand should be an integer or a float');
+        }
+
+        if ($isDivision && ($operand === 0 || $operand === 0.0)){
+            throw new InvalidArgumentException('Division by zero');
         }
     }
 
@@ -223,7 +229,7 @@ class Money
      */
     public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
     {
-        $this->assertOperand($divisor);
+        $this->assertOperand($divisor, true);
         $this->assertRoundingMode($rounding_mode);
 
         $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
