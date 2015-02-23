@@ -33,7 +33,7 @@ class Currency
     public function __construct($code)
     {
         if (!is_string($code)) {
-            throw new \InvalidArgumentException('Cuurency code should be string');
+            throw new \InvalidArgumentException('Currency code should be string');
         }
 
         $this->code = $code;
