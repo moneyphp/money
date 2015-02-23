@@ -380,8 +380,11 @@ class Money
     public function divide($divisor, $roundingMode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($divisor);
-
         $this->assertRoundingMode($roundingMode);
+
+        if ($divisor === 0 || $divisor === 0.0) {
+            throw new InvalidArgumentException('Division by zero');
+        }
 
         $quotient = round($this->amount / $divisor, 0, $roundingMode);
 

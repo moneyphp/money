@@ -216,6 +216,13 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($m, $m->divide(2));
     }
 
+    public function testDivisionByZero()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $m = new Money(10, new Currency('EUR'));
+        $m->divide(0);
+    }
+
     public function testComparison()
     {
         $euro1 = new Money(1, new Currency('EUR'));
