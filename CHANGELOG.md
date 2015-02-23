@@ -1,6 +1,7 @@
 Money Changelog
 ===============
 
+- 2015-03-23 Minimum php version is now 5.4
 - 2015-03-23 JsonSerializable
 - (... missing changelog because who remembers to document stuff anyway?)
 - 2014-03-22 Removed \Money\InvalidArgumentException in favour of plain old InvalidArgumentException
