@@ -41,11 +41,18 @@ class CurrencyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @test
      * @expectedException \Money\UnknownCurrencyException
      */
     public function testCantInstantiateUnknownCurrency()
     {
         new Currency('unknown');
+    }
+    
+    public function testCastToString()
+    {
+        $name = 'CAD';
+        $currency = new Currency($name);
+        
+        $this->assertSame((string)$currency, $name);
     }
 }
