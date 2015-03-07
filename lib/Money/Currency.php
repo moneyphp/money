@@ -24,9 +24,7 @@ class Currency
      */
     public function __construct($name)
     {
-        if(!isset(static::$currencies)) {
-           static::$currencies = require __DIR__.'/currencies.php';
-        }
+        static::getCurrencies();
 
         if (!array_key_exists($name, static::$currencies)) {
             throw new UnknownCurrencyException($name);
@@ -34,6 +32,17 @@ class Currency
         $this->name = $name;
     }
 
+    /**
+     * @return array
+     */
+    public static function getCurrencies()
+    {
+        if(!isset(static::$currencies)) {
+            static::$currencies = require __DIR__.'/currencies.php';
+        }
+        
+        return static::$currencies;
+    }
 
     /**
      * @return string
