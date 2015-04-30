@@ -29,4 +29,8 @@
       </exclude>
     </whitelist>
   </filter>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <ini name="date.timezone" value="Europe/Berlin"/>
+  </php>
 </phpunit>
