@@ -160,6 +160,7 @@ return array(
 	"XPF" => "CFP Franc",
 	"YER" => "Yemeni Rial",
 	"ZAR" => "South African Rand",
-	"ZMK" => "Zambian Kwacha",
+	"ZMK" => "Zambian Kwacha (until 2013)",
+	"ZMW" => "Zambian Kwacha",
 	"ZWL" => "Zimbabwean Dollar",
 );
