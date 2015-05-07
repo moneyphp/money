@@ -20,7 +20,7 @@ use JsonSerializable;
  *
  * @author Mathias Verraes
  */
-final class Currency implements JsonSerializable
+final class Currency implements CurrencyInterface
 {
     /**
      * Currency code
@@ -70,9 +70,9 @@ final class Currency implements JsonSerializable
      *
      * @return boolean
      */
-    public function equals(Currency $other)
+    public function equals(CurrencyInterface $other)
     {
-        return $this->code === $other->code;
+        return $this->code === $other->getCode();
     }
 
     /**
