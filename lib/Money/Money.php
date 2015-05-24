@@ -106,7 +106,7 @@ class Money
     {
         return 1 == $this->compare($other);
     }
-    
+
     /**
      * @param \Money\Money $other
      * @return bool
@@ -124,7 +124,7 @@ class Money
     {
         return -1 == $this->compare($other);
     }
-    
+
     /**
      * @param \Money\Money $other
      * @return bool
@@ -161,7 +161,7 @@ class Money
 
     /**
      * @param \Money\Money $addend
-     *@return \Money\Money 
+     *@return \Money\Money
      */
     public function add(Money $addend)
     {
@@ -291,6 +291,9 @@ class Money
         $separator = "(?P<separator>[.,])?";
         $decimals = "(?P<decimal1>\d)?(?P<decimal2>\d)?";
         $pattern = "/^".$sign.$digits.$separator.$decimals."$/";
+
+        // Remove any currency symbols before attempting to parse.
+        $string = preg_replace('@\p{Sc}*@u', '', $string);
 
         if (!preg_match($pattern, trim($string), $matches)) {
             throw new InvalidArgumentException("The value could not be parsed as money");
