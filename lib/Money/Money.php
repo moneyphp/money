@@ -16,6 +16,8 @@ class Money
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    const ROUND_UP = 5;
+    const ROUND_DOWN = 6;
 
     /**
      * @var int
@@ -198,8 +200,10 @@ class Money
      */
     private function assertRoundingMode($rounding_mode)
     {
-        if (!in_array($rounding_mode, array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP))) {
-            throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP');
+        if (!in_array($rounding_mode, array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN))) {
+            throw new InvalidArgumentException(
+                'Rounding mode should be Money::ROUND_HALF_DOWN | Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'
+            );
         }
     }
 
@@ -211,9 +215,8 @@ class Money
     public function multiply($multiplier, $rounding_mode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
-        $this->assertRoundingMode($rounding_mode);
 
-        $product = (int) round($this->amount * $multiplier, 0, $rounding_mode);
+        $product = (int) $this->round($this->amount * $multiplier, $rounding_mode);
 
         return new Money($product, $this->currency);
     }
@@ -230,9 +233,8 @@ class Money
         }
 
         $this->assertOperand($divisor, true);
-        $this->assertRoundingMode($rounding_mode);
 
-        $quotient = (int) round($this->amount / $divisor, 0, $rounding_mode);
+        $quotient = (int) $this->round($this->amount / $divisor, $rounding_mode);
 
         return new Money($quotient, $this->currency);
     }
@@ -259,6 +261,26 @@ class Money
         }
 
         return $results;
+    }
+
+    /**
+     * @param int|float $amount
+     * @param $rounding_mode
+     * @return int
+     */
+    private function round ($amount, $rounding_mode)
+    {
+        $this->assertRoundingMode($rounding_mode);
+
+        if ($rounding_mode === self::ROUND_UP) {
+            return (int) ceil($amount);
+        }
+
+        if ($rounding_mode === self::ROUND_DOWN) {
+            return (int) floor($amount);
+        }
+
+        return round($amount, 0, $rounding_mode);
     }
 
     /** @return bool */
