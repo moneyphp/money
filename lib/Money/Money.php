@@ -216,7 +216,7 @@ class Money
     {
         $this->assertOperand($multiplier);
 
-        $product = (int) $this->round($this->amount * $multiplier, $rounding_mode);
+        $product = $this->round($this->amount * $multiplier, $rounding_mode);
 
         return new Money($product, $this->currency);
     }
@@ -234,7 +234,7 @@ class Money
 
         $this->assertOperand($divisor, true);
 
-        $quotient = (int) $this->round($this->amount / $divisor, $rounding_mode);
+        $quotient = $this->round($this->amount / $divisor, $rounding_mode);
 
         return new Money($quotient, $this->currency);
     }
@@ -280,7 +280,7 @@ class Money
             return (int) floor($amount);
         }
 
-        return round($amount, 0, $rounding_mode);
+        return (int) round($amount, 0, $rounding_mode);
     }
 
     /** @return bool */
