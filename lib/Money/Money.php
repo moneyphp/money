@@ -268,7 +268,7 @@ class Money
      * @param $rounding_mode
      * @return int
      */
-    private function round ($amount, $rounding_mode)
+    private function round($amount, $rounding_mode)
     {
         $this->assertRoundingMode($rounding_mode);
 
