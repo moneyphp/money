@@ -27,3 +27,9 @@ You'll need an autoloader. Money is PSR-0 compatible, so if you are using the Sy
    ));
    $loader->register();
       
+Classes to require:
+
+.. code-block:: php
+   use Money\Money;
+   use Money\Currency;
+
