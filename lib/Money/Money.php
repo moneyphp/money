@@ -225,7 +225,7 @@ class Money
      */
     public function divide($divisor, $rounding_mode = self::ROUND_HALF_UP)
     {
-        if ($divisor === 0 || $divisor === 0.0){
+        if ($divisor == 0){
             throw new InvalidArgumentException('Division by zero');
         }
 
