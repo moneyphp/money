@@ -284,7 +284,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ::allocateTo
      */
-    public function testAllocationTo($value='')
+    public function testAllocationTo()
     {
         $m = new Money(15, new Currency('EUR'));
         list($part1, $part2) = $m->allocateTo(2);
