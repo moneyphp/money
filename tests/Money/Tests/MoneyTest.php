@@ -254,6 +254,11 @@ class MoneyTest extends PHPUnit_Framework_TestCase
             array("+1", 100),
             array(".99", 99),
             array("-.99", -99),
+            array("$100", 10000),
+            array("$100.00", 10000),
+            array("$$100.00", 10000),
+            array("$100.00¢", 10000),
+            array("€100", 10000),
         );
     }
 
