@@ -28,6 +28,8 @@ final class Money implements JsonSerializable
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
     const ROUND_HALF_ODD  = PHP_ROUND_HALF_ODD;
+    const ROUND_UP  = 5;
+    const ROUND_DOWN  = 6;
 
     /**
      * Internal value
@@ -322,13 +324,15 @@ final class Money implements JsonSerializable
     private function assertRoundingMode($roundingMode)
     {
         if (!in_array(
-            $roundingMode,
-            array(self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD, self::ROUND_HALF_UP)
+            $roundingMode, [
+                self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD,
+                self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN
+            ]
         )) {
             throw new InvalidArgumentException(
                 'Rounding mode should be Money::ROUND_HALF_DOWN | ' .
                 'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | ' .
-                'Money::ROUND_HALF_UP'
+                'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'
             );
         }
     }
@@ -348,9 +352,7 @@ final class Money implements JsonSerializable
 
         $this->assertRoundingMode($roundingMode);
 
-        $product = round($this->amount * $multiplier, 0, $roundingMode);
-
-        $product = $this->castInteger($product);
+        $product = $this->round($this->amount * $multiplier, $roundingMode);
 
         return $this->newInstance($product);
     }
@@ -387,9 +389,7 @@ final class Money implements JsonSerializable
             throw new InvalidArgumentException('Division by zero');
         }
 
-        $quotient = round($this->amount / $divisor, 0, $roundingMode);
-
-        $quotient = $this->castInteger($quotient);
+        $quotient = $this->round($this->amount / $divisor, $roundingMode);
 
         return $this->newInstance($quotient);
     }
@@ -448,6 +448,24 @@ final class Money implements JsonSerializable
         }
 
         return $results;
+    }
+
+    /**
+     * @param int|float $amount
+     * @param $rounding_mode
+     * @return int
+     */
+    private function round($amount, $rounding_mode)
+    {
+        $this->assertRoundingMode($rounding_mode);
+        if ($rounding_mode === self::ROUND_UP) {
+            return $this->castInteger(ceil($amount));
+        }
+        if ($rounding_mode === self::ROUND_DOWN) {
+            return $this->castInteger(floor($amount));
+        }
+
+        return $this->castInteger(round($amount, 0, $rounding_mode));
     }
 
     /**
