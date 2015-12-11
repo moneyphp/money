@@ -56,6 +56,15 @@ final class CurrencyTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->euro1->equals($this->euro2));
         $this->assertTrue($this->usd1->equals($this->usd2));
+
+        $anotherEur = $this->getMock('Money\CurrencyInterface');
+        $anotherEur
+            ->expects($this->once())
+            ->method('getCode')
+            ->will($this->returnValue('EUR'))
+        ;
+
+        $this->assertTrue($this->euro1->equals($anotherEur));
     }
 
     /**
