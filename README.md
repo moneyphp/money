@@ -52,6 +52,8 @@ Integration
 
 See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3] or [`DoctrineMoneyModule`][5] for [`Zend Framework 2`][6].
 
+A description of how to use Doctrine with the library is available under the ``doc`` directory.
+
 [1]: http://getcomposer.org/
 [2]: https://github.com/pink-tie/MoneyBundle/
 [3]: http://symfony.com/
