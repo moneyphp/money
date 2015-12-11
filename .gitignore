@@ -7,4 +7,3 @@ build/
 _build/
 phpunit.xml
 vendor/
-bin/

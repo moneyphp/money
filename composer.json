@@ -15,6 +15,7 @@
         "php": ">=5.4"
     },
     "require-dev": {
+        "kriswallsmith/buzz": "~0.15",
         "phpunit/phpunit": "4.*"
     },
     "extra": {
