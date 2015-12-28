@@ -1,9 +1,4 @@
-.project
-.buildpath
-.settings
-.idea/
-composer.lock
 build/
-_build/
-phpunit.xml
 vendor/
+composer.lock
+phpunit.xml
