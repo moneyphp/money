@@ -3,14 +3,14 @@
 namespace Money;
 
 /**
- * List of supported ISO 4217 currency codes and names
+ * List of supported ISO 4217 currency codes and names.
  *
  * @author Mathias Verraes
  */
 final class ISOCurrencies implements AvailableCurrencies
 {
     /**
-     * List of known currencies
+     * List of known currencies.
      *
      * @var array
      */

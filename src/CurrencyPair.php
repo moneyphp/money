@@ -6,22 +6,23 @@ use InvalidArgumentException;
 use JsonSerializable;
 
 /**
- * Currency Pair
+ * Currency Pair.
  *
  * @author Mathias Verraes
+ *
  * @see http://en.wikipedia.org/wiki/Currency_pair
  */
 final class CurrencyPair implements JsonSerializable
 {
     /**
-     * Currency to convert from
+     * Currency to convert from.
      *
      * @var Currency
      */
     private $baseCurrency;
 
     /**
-     * Currency to convert to
+     * Currency to convert to.
      *
      * @var Currency
      */
@@ -41,8 +42,8 @@ final class CurrencyPair implements JsonSerializable
      */
     public function __construct(Currency $baseCurrency, Currency $counterCurrency, $conversionRatio)
     {
-        if(!is_numeric($conversionRatio)) {
-            throw new InvalidArgumentException("Conversion ratio must be numeric");
+        if (!is_numeric($conversionRatio)) {
+            throw new InvalidArgumentException('Conversion ratio must be numeric');
         }
 
         $this->counterCurrency = $counterCurrency;
@@ -51,7 +52,7 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * Creates a new Currency Pair based on "EUR/USD 1.2500" form representation
+     * Creates a new Currency Pair based on "EUR/USD 1.2500" form representation.
      *
      * @param string $iso String representation of the form "EUR/USD 1.2500"
      *
@@ -61,11 +62,11 @@ final class CurrencyPair implements JsonSerializable
      */
     public static function createFromIso($iso)
     {
-        $currency = "([A-Z]{2,3})";
+        $currency = '([A-Z]{2,3})';
         $ratio = "([0-9]*\.?[0-9]+)"; // @see http://www.regular-expressions.info/floatingpoint.html
         $pattern = '#'.$currency.'/'.$currency.' '.$ratio.'#';
 
-        $matches = array();
+        $matches = [];
         if (!preg_match($pattern, $iso, $matches)) {
             throw new InvalidArgumentException(
                 sprintf(
@@ -79,10 +80,10 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * Converts Money from base to counter currency
+     * Converts Money from base to counter currency.
      *
-     * @param Money   $money
-     * @param int $roundingMode
+     * @param Money $money
+     * @param int   $roundingMode
      *
      * @return Money
      *
@@ -91,14 +92,14 @@ final class CurrencyPair implements JsonSerializable
     public function convert(Money $money, $roundingMode = Money::ROUND_HALF_UP)
     {
         if (!$money->getCurrency()->equals($this->baseCurrency)) {
-            throw new InvalidArgumentException("The Money has the wrong currency");
+            throw new InvalidArgumentException('The Money has the wrong currency');
         }
 
         return $money->convert($this->counterCurrency, $this->conversionRatio, $roundingMode);
     }
 
     /**
-     * Returns the counter currency
+     * Returns the counter currency.
      *
      * @return Currency
      */
@@ -108,7 +109,7 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * Returns the base currency
+     * Returns the base currency.
      *
      * @return Currency
      */
@@ -118,7 +119,7 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * Returns the conversion ratio
+     * Returns the conversion ratio.
      *
      * @return float
      *
@@ -130,7 +131,7 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * Returns the conversion ratio
+     * Returns the conversion ratio.
      *
      * @return float
      */
@@ -140,11 +141,11 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * Checks if an other CurrencyPair has the same parameters as this
+     * Checks if an other CurrencyPair has the same parameters as this.
      *
      * @param CurrencyPair $other
      *
-     * @return boolean
+     * @return bool
      */
     public function equals(CurrencyPair $other)
     {
@@ -156,16 +157,16 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return array
      */
     public function jsonSerialize()
     {
-        return array(
+        return [
             'baseCurrency' => $this->baseCurrency,
             'counterCurrency' => $this->counterCurrency,
             'ratio' => $this->conversionRatio,
-        );
+        ];
     }
 }

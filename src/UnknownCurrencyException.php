@@ -3,7 +3,7 @@
 namespace Money;
 
 /**
- * Thrown when a Currency instance can't recognise an ISO code
+ * Thrown when a Currency instance can't recognise an ISO code.
  *
  * @author Mathias Verraes
  */
