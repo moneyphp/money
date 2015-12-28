@@ -5,7 +5,7 @@ namespace Money;
 use JsonSerializable;
 
 /**
- * Currency Value Object
+ * Currency Value Object.
  *
  * Holds Currency specific data
  *
@@ -14,7 +14,7 @@ use JsonSerializable;
 final class Currency implements JsonSerializable
 {
     /**
-     * Currency code
+     * Currency code.
      *
      * @var string
      */
@@ -33,7 +33,7 @@ final class Currency implements JsonSerializable
     }
 
     /**
-     * Returns the currency code
+     * Returns the currency code.
      *
      * @return string
      *
@@ -45,7 +45,7 @@ final class Currency implements JsonSerializable
     }
 
     /**
-     * Returns the currency code
+     * Returns the currency code.
      *
      * @return string
      */
@@ -55,11 +55,11 @@ final class Currency implements JsonSerializable
     }
 
     /**
-     * Checks whether this currency is the same as an other
+     * Checks whether this currency is the same as an other.
      *
      * @param Currency $other
      *
-     * @return boolean
+     * @return bool
      */
     public function equals(Currency $other)
     {
@@ -67,11 +67,11 @@ final class Currency implements JsonSerializable
     }
 
     /**
-     * Checks whether this currency is available in the passed context
+     * Checks whether this currency is available in the passed context.
      *
      * @param AvailableCurrencies $currencies
      *
-     * @return boolean
+     * @return bool
      */
     public function isAvailableWithin(AvailableCurrencies $currencies)
     {
@@ -87,7 +87,7 @@ final class Currency implements JsonSerializable
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @return string
      */
