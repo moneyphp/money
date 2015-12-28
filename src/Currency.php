@@ -69,13 +69,13 @@ final class Currency implements JsonSerializable
     /**
      * Checks whether this currency is available in the passed context.
      *
-     * @param AvailableCurrencies $currencies
+     * @param Currencies $currencies
      *
      * @return bool
      */
-    public function isAvailableWithin(AvailableCurrencies $currencies)
+    public function isAvailableWithin(Currencies $currencies)
     {
-        return $currencies->exists($this);
+        return $currencies->contains($this);
     }
 
     /**

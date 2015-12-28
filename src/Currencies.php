@@ -7,7 +7,7 @@ namespace Money;
  *
  * @author Mathias Verraes
  */
-interface AvailableCurrencies
+interface Currencies
 {
     /**
      * Checks whether a currency is available in the current context.

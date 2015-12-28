@@ -7,7 +7,7 @@ namespace Money;
  *
  * @author Mathias Verraes
  */
-final class ISOCurrencies implements AvailableCurrencies
+final class ISOCurrencies implements Currencies
 {
     /**
      * List of known currencies.
