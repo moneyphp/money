@@ -41,7 +41,7 @@ The following two yaml files for Money and Currency turned out working well:
       table: 'money_currency' # the persistence table name you'd like to use
 
       fields:
-        'name':
+        'code':
           type: string
           nullable: false
           length: 3
