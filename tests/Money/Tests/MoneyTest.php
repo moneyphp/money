@@ -194,7 +194,6 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 
     public function testAllocationOrderIsImportant()
     {
-
         $m = new Money(5, new Currency('EUR'));
         list($part1, $part2) = $m->allocate(array(3, 7));
         $this->assertEquals(new Money(2, new Currency('EUR')), $part1);
