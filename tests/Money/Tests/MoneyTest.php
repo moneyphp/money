@@ -161,7 +161,6 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $m->divide(0);
     }
 
-
     public function testComparison()
     {
         $euro1 = new Money(1, new Currency('EUR'));
@@ -212,7 +211,6 @@ class MoneyTest extends PHPUnit_Framework_TestCase
 
     public function testAllocationOrderIsImportant()
     {
-
         $m = new Money(5, new Currency('EUR'));
         list($part1, $part2) = $m->allocate(array(3, 7));
         $this->assertEquals(new Money(2, new Currency('EUR')), $part1);
@@ -234,6 +232,9 @@ class MoneyTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Money::EUR(-1)->isPositive());
     }
 
+    /**
+     * @return array
+     */
     public static function provideStrings()
     {
         return array(
@@ -268,5 +269,13 @@ class MoneyTest extends PHPUnit_Framework_TestCase
     public function testStringToUnits($string, $units)
     {
         $this->assertEquals($units, Money::stringToUnits($string));
+    }
+    
+    /**
+     * @expectedException \Money\InvalidArgumentException
+     */
+    public function testInvalidStringToUnit()
+    {
+        Money::stringToUnits('This should be an invalid string');
     }
 }
