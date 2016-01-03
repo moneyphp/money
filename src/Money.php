@@ -1,12 +1,8 @@
 <?php
-
 namespace Money;
 
 use InvalidArgumentException;
 use JsonSerializable;
-use Money\Calculator\BcMathCalculator;
-use Money\Calculator\GmpCalculator;
-use Money\Calculator\PhpCalculator;
 
 /**
  * Money Value Object.

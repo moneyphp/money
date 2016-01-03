@@ -10,6 +10,8 @@ use Money\Calculator;
 final class PhpCalculator implements Calculator
 {
     /**
+     * {@inheritdoc}
+     *
      * @return bool
      */
     public static function supported()
@@ -18,6 +20,8 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param int $a
      * @param int $b
      * @return int
@@ -28,6 +32,8 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param int $amount
      * @param int $addend
      * @return int
@@ -42,9 +48,11 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param $amount
      * @param $subtrahend
-     * @return mixed
+     * @return int
      */
     public function subtract($amount, $subtrahend)
     {
@@ -56,9 +64,11 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param $amount
      * @param $multiplier
-     * @return mixed
+     * @return int
      */
     public function multiply($amount, $multiplier)
     {
@@ -70,9 +80,11 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param $amount
      * @param $divisor
-     * @return mixed
+     * @return int
      */
     public function divide($amount, $divisor)
     {
@@ -84,8 +96,10 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param $number
-     * @return float
+     * @return int
      */
     public function ceil($number)
     {
@@ -93,8 +107,10 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param $number
-     * @return float
+     * @return int
      */
     public function floor($number)
     {
@@ -102,9 +118,11 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param $number
      * @param $roundingMode
-     * @return float
+     * @return int
      */
     public function round($number, $roundingMode)
     {
@@ -112,6 +130,8 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @param $amount
      * @param $ratio
      * @param $total
@@ -126,7 +146,7 @@ final class PhpCalculator implements Calculator
      * Asserts that an integer value didn't become something else
      * (after some arithmetic operation)
      *
-     * @param numeric $amount
+     * @param int $amount
      *
      * @throws \OverflowException If integer overflow occured
      * @throws \UnderflowException If integer underflow occured
@@ -143,7 +163,7 @@ final class PhpCalculator implements Calculator
     /**
      * Casts an amount to integer ensuring that an overflow/underflow did not occur
      *
-     * @param numeric $amount
+     * @param int $amount
      *
      * @return int
      */
@@ -157,7 +177,7 @@ final class PhpCalculator implements Calculator
     /**
      * Asserts that integer remains integer after arithmetic operations
      *
-     * @param  numeric $amount
+     * @param int $amount
      */
     private function assertInteger($amount)
     {
