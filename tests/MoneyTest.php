@@ -58,15 +58,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::__construct
-     * @expectedException InvalidArgumentException
-     */
-    public function testStringThrowsException()
-    {
-        $money = new Money('100', new Currency('EUR'));
-    }
-
-    /**
      * @covers ::equals
      */
     public function testEquality()
@@ -102,16 +93,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     {
         $m1 = new Money(100, new Currency('EUR'));
         $m2 = new Money(100, new Currency('USD'));
-        $m1->add($m2);
-    }
-
-    /**
-     * @expectedException UnexpectedValueException
-     */
-    public function testResultNotAnInteger()
-    {
-        $m1 = new Money(PHP_INT_MAX, new Currency('EUR'));
-        $m2 = new Money(1, new Currency('EUR'));
         $m1->add($m2);
     }
 
@@ -174,24 +155,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     {
         $m = new Money(1, new Currency('EUR'));
         $m->multiply(1.2345, 'ROUNDING_MODE');
-    }
-
-    /**
-     * @expectedException OverflowException
-     */
-    public function testMultiplicationOverflow()
-    {
-        $m = new Money(PHP_INT_MAX, new Currency('EUR'));
-        $m->multiply(2);
-    }
-
-    /**
-     * @expectedException UnderflowException
-     */
-    public function testMultiplicationUnderflow()
-    {
-        $m = new Money(~PHP_INT_MAX, new Currency('EUR'));
-        $m->multiply(2);
     }
 
     /**
