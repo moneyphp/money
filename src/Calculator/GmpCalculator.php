@@ -13,8 +13,6 @@ final class GmpCalculator implements Calculator
 {
     /**
      * {@inheritdoc}
-     *
-     * @return bool
      */
     public static function supported()
     {
@@ -23,10 +21,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $a
-     * @param $b
-     * @return int
      */
     public function compare($a, $b)
     {
@@ -35,10 +29,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $addend
-     * @return string
      */
     public function add($amount, $addend)
     {
@@ -47,10 +37,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $subtrahend
-     * @return string
      */
     public function subtract($amount, $subtrahend)
     {
@@ -59,10 +45,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $multiplier
-     * @return string
      */
     public function multiply($amount, $multiplier)
     {
@@ -90,10 +72,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $divisor
-     * @return string
      */
     public function divide($amount, $divisor)
     {
@@ -102,9 +80,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $number
-     * @return string
      */
     public function ceil($number)
     {
@@ -120,9 +95,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $number
-     * @return string
      */
     public function floor($number)
     {
@@ -136,10 +108,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $number
-     * @param $roundingMode
-     * @return string
      */
     public function round($number, $roundingMode)
     {
@@ -194,11 +162,6 @@ final class GmpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $ratio
-     * @param $total
-     * @return string
      */
     public function share($amount, $ratio, $total)
     {

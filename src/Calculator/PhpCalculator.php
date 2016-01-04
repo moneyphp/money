@@ -11,8 +11,6 @@ final class PhpCalculator implements Calculator
 {
     /**
      * {@inheritdoc}
-     *
-     * @return bool
      */
     public static function supported()
     {
@@ -21,10 +19,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param int $a
-     * @param int $b
-     * @return int
      */
     public function compare($a, $b)
     {
@@ -33,10 +27,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param int $amount
-     * @param int $addend
-     * @return int
      */
     public function add($amount, $addend)
     {
@@ -49,10 +39,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $subtrahend
-     * @return int
      */
     public function subtract($amount, $subtrahend)
     {
@@ -65,10 +51,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $multiplier
-     * @return int
      */
     public function multiply($amount, $multiplier)
     {
@@ -81,10 +63,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $divisor
-     * @return int
      */
     public function divide($amount, $divisor)
     {
@@ -97,9 +75,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $number
-     * @return int
      */
     public function ceil($number)
     {
@@ -108,9 +83,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $number
-     * @return int
      */
     public function floor($number)
     {
@@ -119,10 +91,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $number
-     * @param $roundingMode
-     * @return int
      */
     public function round($number, $roundingMode)
     {
@@ -131,11 +99,6 @@ final class PhpCalculator implements Calculator
 
     /**
      * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $ratio
-     * @param $total
-     * @return int
      */
     public function share($amount, $ratio, $total)
     {
