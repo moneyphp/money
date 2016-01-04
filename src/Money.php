@@ -1,4 +1,5 @@
 <?php
+
 namespace Money;
 
 use InvalidArgumentException;
@@ -483,7 +484,7 @@ final class Money implements JsonSerializable
      */
     public static function registerCalculator(Calculator $calculator)
     {
-        self::$calculators = $calculator + self::$calculators;
+        array_unshift(self::$calculators, $calculator);
     }
 
     /**
@@ -491,9 +492,9 @@ final class Money implements JsonSerializable
      */
     private static function initializeCalculator()
     {
-        /** @var Calculator[] $calculators */
         $calculators = self::$calculators;
         foreach ($calculators as $calculator) {
+            /** @var Calculator $calculator */
             if ($calculator::supported()) {
                 return new $calculator;
             }

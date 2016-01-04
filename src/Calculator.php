@@ -2,13 +2,16 @@
 namespace Money;
 
 /**
- * Interface Calculator
- * @package Money
+ * Calculator Interface
+ * @author Frederik Bosch
  */
 interface Calculator
 {
 
     /**
+     * Returns whether the calculator is supported in
+     * the current server environment
+     *
      * @return bool
      */
     public static function supported();
