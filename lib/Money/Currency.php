@@ -24,16 +24,26 @@ class Currency
      */
     public function __construct($name)
     {
-        if(!isset(static::$currencies)) {
-           static::$currencies = require __DIR__.'/currencies.php';
-        }
+        $currencies = static::getCurrencies();
 
-        if (!array_key_exists($name, static::$currencies)) {
+        if (!array_key_exists($name, $currencies)) {
             throw new UnknownCurrencyException($name);
         }
+        
         $this->name = $name;
     }
 
+    /**
+     * @return array
+     */
+    public static function getCurrencies()
+    {
+        if(!isset(static::$currencies)) {
+            static::$currencies = require __DIR__.'/currencies.php';
+        }
+
+        return static::$currencies;
+    }
 
     /**
      * @return string
