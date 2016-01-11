@@ -12,10 +12,10 @@
         }
     ],
     "require": {
-        "php": ">=5.4"
+        "php": ">=5.4",
+        "umpirsky/currency-list": "^1.0"
     },
     "require-dev": {
-        "kriswallsmith/buzz": "~0.15",
         "phpunit/phpunit": "^4.5",
         "ext-bcmath": "*",
         "ext-gmp": "*"
