@@ -10,6 +10,7 @@
  */
 
 namespace Money;
+use Prophecy\Argument;
 
 /**
  * @coversDefaultClass Money\Currency
@@ -69,5 +70,13 @@ final class CurrencyTest extends \PHPUnit_Framework_TestCase
     public function testJsonEncoding()
     {
         $this->assertEquals('"USD"', json_encode(new Currency('USD')));
+    }
+
+    public function testCurrencyIsAvailableWithinCurrencies()
+    {
+        $currencies = $this->prophesize('\Money\Currencies');
+        $currencies->contains(Argument::type('\Money\Currency'))->willReturn(true);
+
+        $this->assertSame(true, $this->euro1->isAvailableWithin($currencies->reveal()));
     }
 }
