@@ -18,7 +18,7 @@ final class ISOCurrencies implements AvailableCurrencies
 
     public function __construct()
     {
-        $this->currencies = require __DIR__.'/../data/currencies.php';
+        $this->currencies = require __DIR__.'/../vendor/umpirsky/currency-list/data/en/currency.php';
     }
 
     /**
