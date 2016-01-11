@@ -75,7 +75,7 @@ final class Currency implements JsonSerializable
      */
     public function isAvailableWithin(AvailableCurrencies $currencies)
     {
-        return $currencies->exists($this);
+        return $currencies->contains($this);
     }
 
     /**
