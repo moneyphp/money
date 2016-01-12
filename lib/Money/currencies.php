@@ -136,6 +136,7 @@ return array(
 	"SLL" => "Sierra Leonean Leone",
 	"SOS" => "Somali Shilling",
 	"SRD" => "Surinamese Dollar",
+	"SSP" => "South Sudanese Pound",
 	"STD" => "São Tomé and Príncipe Dobra",
 	"SVC" => "Salvadoran Colón",
 	"SYP" => "Syrian Pound",
