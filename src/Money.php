@@ -35,7 +35,7 @@ final class Money implements JsonSerializable
     /**
      * @var Calculator
      */
-    private $calculator;
+    private static $calculator;
 
     /**
      * @var array
@@ -302,7 +302,6 @@ final class Money implements JsonSerializable
     public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
     {
         $this->assertOperand($multiplier);
-
         $this->assertRoundingMode($roundingMode);
 
         $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
@@ -321,6 +320,7 @@ final class Money implements JsonSerializable
     {
         $this->assertRoundingMode($roundingMode);
         $amount = $this->getCalculator()->round($this->getCalculator()->multiply($this->amount, $conversionRate), $roundingMode);
+
         return new Money($amount, $targetCurrency);
     }
 
@@ -514,10 +514,10 @@ final class Money implements JsonSerializable
      */
     private function getCalculator()
     {
-        if ($this->calculator === null) {
-            $this->calculator = self::initializeCalculator();
+        if (self::$calculator === null) {
+            self::$calculator = self::initializeCalculator();
         }
 
-        return $this->calculator;
+        return self::$calculator;
     }
 }
