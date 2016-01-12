@@ -1,8 +1,10 @@
 <?php
+
 namespace Money;
 
 /**
  * Calculator Interface
+ *
  * @author Frederik Bosch
  */
 interface Calculator
@@ -94,5 +96,4 @@ interface Calculator
      * @return int|string
      */
     public function share($amount, $ratio, $total);
-
 }
