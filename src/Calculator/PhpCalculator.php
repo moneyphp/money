@@ -34,7 +34,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertInteger($result);
 
-        return $result;
+        return (string) $result;
     }
 
     /**
@@ -46,7 +46,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertInteger($result);
 
-        return $result;
+        return (string) $result;
     }
 
     /**
@@ -58,7 +58,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertIntegerBounds($result);
 
-        return $result;
+        return (string) $result;
     }
 
     /**
@@ -70,7 +70,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertIntegerBounds($result);
 
-        return $result;
+        return (string) $result;
     }
 
     /**
@@ -134,7 +134,7 @@ final class PhpCalculator implements Calculator
     {
         $this->assertIntegerBounds($amount);
 
-        return intval($amount);
+        return (string) intval($amount);
     }
 
     /**
@@ -144,7 +144,7 @@ final class PhpCalculator implements Calculator
      */
     private function assertInteger($amount)
     {
-        if (!is_int($amount)) {
+        if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
             throw new \UnexpectedValueException('The result of arithmetic operation is not an integer');
         }
     }

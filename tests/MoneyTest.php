@@ -66,10 +66,12 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $m2 = new Money(100, new Currency('EUR'));
         $m3 = new Money(100, new Currency('USD'));
         $m4 = new Money(50, new Currency('EUR'));
+        $m5 = new Money('100', new Currency('EUR'));
 
         $this->assertTrue($m1->equals($m2));
         $this->assertFalse($m1->equals($m3));
         $this->assertFalse($m1->equals($m4));
+        $this->assertTrue($m1->equals($m5));
     }
 
     public function testAddition()
@@ -296,8 +298,11 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testComparators()
     {
         $this->assertTrue(Money::EUR(0)->isZero());
+        $this->assertTrue(Money::EUR('0')->isZero());
         $this->assertTrue(Money::EUR(-1)->isNegative());
+        $this->assertTrue(Money::EUR('-1')->isNegative());
         $this->assertTrue(Money::EUR(1)->isPositive());
+        $this->assertTrue(Money::EUR('1')->isPositive());
         $this->assertFalse(Money::EUR(1)->isZero());
         $this->assertFalse(Money::EUR(1)->isNegative());
         $this->assertFalse(Money::EUR(-1)->isPositive());
@@ -347,7 +352,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testJsonEncoding()
     {
         $this->assertEquals(
-            '{"amount":350,"currency":"USD"}',
+            '{"amount":"350","currency":"USD"}',
             json_encode(Money::USD(350))
         );
     }
