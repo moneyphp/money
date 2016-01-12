@@ -164,7 +164,7 @@ final class Money implements JsonSerializable
      */
     public function greaterThanOrEqual(Money $other)
     {
-        return 0 >= $this->compare($other);
+        return 0 <= $this->compare($other);
     }
 
     /**
@@ -186,7 +186,7 @@ final class Money implements JsonSerializable
      */
     public function lessThanOrEqual(Money $other)
     {
-        return 0 <= $this->compare($other);
+        return 0 >= $this->compare($other);
     }
 
     /**

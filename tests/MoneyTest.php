@@ -198,12 +198,21 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     {
         $euro1 = new Money(1, new Currency('EUR'));
         $euro2 = new Money(2, new Currency('EUR'));
+        $euro3 = new Money(3, new Currency('EUR'));
         $usd = new Money(1, new Currency('USD'));
 
         $this->assertTrue($euro2->greaterThan($euro1));
         $this->assertFalse($euro1->greaterThan($euro2));
         $this->assertTrue($euro1->lessThan($euro2));
         $this->assertFalse($euro2->lessThan($euro1));
+
+        $this->assertTrue($euro2->greaterThanOrEqual($euro1));
+        $this->assertTrue($euro2->greaterThanOrEqual($euro2));
+        $this->assertFalse($euro2->greaterThanOrEqual($euro3));
+
+        $this->assertFalse($euro2->lessThanOrEqual($euro1));
+        $this->assertTrue($euro2->lessThanOrEqual($euro2));
+        $this->assertTrue($euro2->lessThanOrEqual($euro3));
 
         $this->assertEquals(-1, $euro1->compare($euro2));
         $this->assertEquals(1, $euro2->compare($euro1));
