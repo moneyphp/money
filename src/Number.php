@@ -1,9 +1,9 @@
 <?php
+
 namespace Money;
 
 /**
  * Class Number
- * @package Money
  */
 final class Number
 {
@@ -94,5 +94,4 @@ final class Number
     {
         return $this->number;
     }
-
 }
