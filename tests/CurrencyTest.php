@@ -39,7 +39,6 @@ final class CurrencyTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers ::getCode
-     * @covers ::getName
      * @covers ::__toString
      */
     public function testCode()

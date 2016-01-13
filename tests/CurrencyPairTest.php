@@ -47,7 +47,6 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getRatio
      * @covers ::getConversionRatio
      */
     public function testGetRatio()
