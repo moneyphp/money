@@ -47,7 +47,7 @@ final class Money implements JsonSerializable
     ];
 
     /**
-     * @param int      $amount   Amount, expressed in the smallest units of $currency (eg cents)
+     * @param int|string $amount   Amount, expressed in the smallest units of $currency (eg cents)
      * @param Currency $currency
      *
      * @throws InvalidArgumentException If amount is not integer
@@ -58,7 +58,7 @@ final class Money implements JsonSerializable
             throw new InvalidArgumentException('Amount must be an integer');
         }
 
-        $this->amount = $amount;
+        $this->amount = (string) $amount;
         $this->currency = $currency;
     }
 
@@ -84,7 +84,7 @@ final class Money implements JsonSerializable
     /**
      * Returns a new Money instance based on the current one using the Currency.
      *
-     * @param int $amount
+     * @param int|string $amount
      *
      * @return Money
      *
@@ -196,7 +196,7 @@ final class Money implements JsonSerializable
     /**
      * Returns the value represented by this object.
      *
-     * @return int
+     * @return string
      */
     public function getAmount()
     {
@@ -282,7 +282,7 @@ final class Money implements JsonSerializable
      * Returns a new Money object that represents
      * the multiplied value by the given factor.
      *
-     * @param numeric $multiplier
+     * @param float|int|string $multiplier
      * @param int     $roundingMode
      *
      * @return Money
@@ -316,7 +316,7 @@ final class Money implements JsonSerializable
      * Returns a new Money object that represents
      * the divided value by the given factor.
      *
-     * @param numeric $divisor
+     * @param float|int|string $divisor
      * @param int     $roundingMode
      *
      * @return Money
@@ -384,7 +384,7 @@ final class Money implements JsonSerializable
      * @param int|float $amount
      * @param $rounding_mode
      *
-     * @return int
+     * @return string
      */
     private function round($amount, $rounding_mode)
     {
@@ -434,7 +434,7 @@ final class Money implements JsonSerializable
      *
      * @param string $string
      *
-     * @return int
+     * @return string
      *
      * @throws InvalidArgumentException If $string cannot be parsed
      */
@@ -455,7 +455,7 @@ final class Money implements JsonSerializable
         $units .= isset($matches['decimal1']) ? $matches['decimal1'] : '0';
         $units .= isset($matches['decimal2']) ? $matches['decimal2'] : '0';
 
-        return (int) $units;
+        return (string) $units;
     }
 
     /**
