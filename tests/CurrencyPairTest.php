@@ -47,7 +47,6 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::getRatio
      * @covers ::getConversionRatio
      */
     public function testGetRatio()
@@ -55,7 +54,6 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
         $ratio = 1.2500;
         $pair  = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
 
-        $this->assertEquals($ratio, $pair->getRatio());
         $this->assertEquals($ratio, $pair->getConversionRatio());
     }
 

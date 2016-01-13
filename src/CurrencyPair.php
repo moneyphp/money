@@ -122,18 +122,6 @@ final class CurrencyPair implements JsonSerializable
      * Returns the conversion ratio.
      *
      * @return float
-     *
-     * @deprecated Use getConversionRatio() instead
-     */
-    public function getRatio()
-    {
-        return $this->conversionRatio;
-    }
-
-    /**
-     * Returns the conversion ratio.
-     *
-     * @return float
      */
     public function getConversionRatio()
     {

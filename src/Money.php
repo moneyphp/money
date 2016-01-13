@@ -196,18 +196,6 @@ final class Money implements JsonSerializable
     /**
      * Returns the value represented by this object.
      *
-     * @deprecated Use getAmount() instead
-     *
-     * @return int
-     */
-    public function getUnits()
-    {
-        return $this->amount;
-    }
-
-    /**
-     * Returns the value represented by this object.
-     *
      * @return int
      */
     public function getAmount()
