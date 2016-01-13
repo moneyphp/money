@@ -21,8 +21,8 @@ interface Calculator
     /**
      * Compare a to b
      *
-     * @param int|string $a
-     * @param int|string $b
+     * @param string $a
+     * @param string $b
      * @return int
      */
     public function compare($a, $b);
@@ -30,70 +30,70 @@ interface Calculator
     /**
      * Add added to amount
      *
-     * @param int|string $amount
-     * @param int|string $addend
-     * @return int|string
+     * @param string $amount
+     * @param string $addend
+     * @return string
      */
     public function add($amount, $addend);
 
     /**
      * Subtract subtrahend from amount
-     * @param int|string $amount
-     * @param int|string $subtrahend
-     * @return int|string
+     * @param string $amount
+     * @param string $subtrahend
+     * @return string
      */
     public function subtract($amount, $subtrahend);
 
     /**
      * Multiply amount with multiplier
      *
-     * @param int|string $amount
-     * @param int|float $multiplier
-     * @return int|string
+     * @param string $amount
+     * @param int|float|string $multiplier
+     * @return string
      */
     public function multiply($amount, $multiplier);
 
     /**
      * Divide amount with divisor
      *
-     * @param int|string $amount
-     * @param int|float $divisor
-     * @return int|string
+     * @param string $amount
+     * @param int|float|string $divisor
+     * @return string
      */
     public function divide($amount, $divisor);
 
     /**
      * Round number to following integer
      *
-     * @param int|string|float $number
-     * @return int|string
+     * @param string $number
+     * @return string
      */
     public function ceil($number);
 
     /**
      * Round number to preceding integer
      *
-     * @param int|string|float $number
-     * @return int|string
+     * @param string $number
+     * @return string
      */
     public function floor($number);
 
     /**
      * Round number, use rounding mode for tie-breaker
      *
-     * @param int|string|float $number
-     * @param int|string $roundingMode
-     * @return int|string
+     * @param string $number
+     * @param int $roundingMode
+     * @return string
      */
     public function round($number, $roundingMode);
 
     /**
      * Share amount among ratio / total portions
      *
-     * @param int|string $amount
+     * @param string $amount
      * @param int|float $ratio
      * @param int|float $total
-     * @return int|string
+     * @return string
      */
     public function share($amount, $ratio, $total);
 }
