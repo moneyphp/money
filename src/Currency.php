@@ -36,18 +36,6 @@ final class Currency implements JsonSerializable
      * Returns the currency code.
      *
      * @return string
-     *
-     * @deprecated Use getCode() instead
-     */
-    public function getName()
-    {
-        return $this->code;
-    }
-
-    /**
-     * Returns the currency code.
-     *
-     * @return string
      */
     public function getCode()
     {

@@ -45,7 +45,6 @@ final class CurrencyTest extends \PHPUnit_Framework_TestCase
     public function testCode()
     {
         $this->assertEquals('EUR', $this->euro1->getCode());
-        $this->assertEquals('EUR', $this->euro1->getName());
         $this->assertEquals('EUR', (string) $this->euro1);
     }
 
