@@ -18,14 +18,16 @@
     "require-dev": {
         "phpunit/phpunit": "^4.5",
         "ext-bcmath": "*",
-        "ext-gmp": "*"
+        "ext-gmp": "*",
+        "ext-intl": "*"
     },
     "suggest": {
         "TheBigBrainsCompany/TbbcMoneyBundle": "Very complete Symfony2 bundle with support for Twig, Doctrine, Forms, ...",
         "pink-tie/money-bundle": "Pink-Tie's Symfony2 integration with Money library",
         "Sylius/SyliusMoneyBundle": "Sylius' Symfony2 integration with Money library",
         "ext-bcmath": "Calculate without integer limits",
-        "ext-gmp": "Calculate without integer limits"
+        "ext-gmp": "Calculate without integer limits",
+        "ext-intl": "Format Money objects with intl"
     },
     "autoload": {
         "psr-4": {
