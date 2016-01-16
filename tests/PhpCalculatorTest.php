@@ -1,13 +1,12 @@
 <?php
 
-namespace Money\Tests;
+namespace Tests\Money;
 
 use Money\Calculator\PhpCalculator;
 use Money\Money;
 
 class PhpCalculatorTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCompare()
     {
         $calculator = new PhpCalculator();
@@ -101,5 +100,4 @@ class PhpCalculatorTest extends \PHPUnit_Framework_TestCase
         $calculator = new PhpCalculator();
         $calculator->add(PHP_INT_MAX, 1);
     }
-
 }

@@ -107,24 +107,24 @@ final class PhpCalculator implements Calculator
 
     /**
      * Asserts that an integer value didn't become something else
-     * (after some arithmetic operation)
+     * (after some arithmetic operation).
      *
      * @param int $amount
      *
-     * @throws \OverflowException If integer overflow occured
+     * @throws \OverflowException  If integer overflow occured
      * @throws \UnderflowException If integer underflow occured
      */
     private function assertIntegerBounds($amount)
     {
         if ($amount > PHP_INT_MAX) {
-            throw new \OverflowException;
+            throw new \OverflowException();
         } elseif ($amount < ~PHP_INT_MAX) {
-            throw new \UnderflowException;
+            throw new \UnderflowException();
         }
     }
 
     /**
-     * Casts an amount to integer ensuring that an overflow/underflow did not occur
+     * Casts an amount to integer ensuring that an overflow/underflow did not occur.
      *
      * @param int $amount
      *
@@ -138,7 +138,7 @@ final class PhpCalculator implements Calculator
     }
 
     /**
-     * Asserts that integer remains integer after arithmetic operations
+     * Asserts that integer remains integer after arithmetic operations.
      *
      * @param int $amount
      */
@@ -148,5 +148,4 @@ final class PhpCalculator implements Calculator
             throw new \UnexpectedValueException('The result of arithmetic operation is not an integer');
         }
     }
-
 }

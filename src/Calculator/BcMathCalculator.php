@@ -53,6 +53,7 @@ final class BcMathCalculator implements Calculator
      *
      * @param $amount
      * @param $subtrahend
+     *
      * @return string
      */
     public function subtract($amount, $subtrahend)
@@ -140,6 +141,7 @@ final class BcMathCalculator implements Calculator
 
     /**
      * @param $number
+     *
      * @return string
      */
     private function roundDigit(Number $number)
@@ -158,5 +160,4 @@ final class BcMathCalculator implements Calculator
     {
         return $this->floor(bcdiv(bcmul($amount, $ratio, $this->scale), $total, $this->scale));
     }
-
 }

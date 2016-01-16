@@ -44,7 +44,7 @@ final class Money implements \JsonSerializable
 
     /**
      * @param int|string $amount   Amount, expressed in the smallest units of $currency (eg cents)
-     * @param Currency $currency
+     * @param Currency   $currency
      *
      * @throws \InvalidArgumentException If amount is not integer
      */
@@ -279,7 +279,7 @@ final class Money implements \JsonSerializable
      * the multiplied value by the given factor.
      *
      * @param float|int|string $multiplier
-     * @param int     $roundingMode
+     * @param int              $roundingMode
      *
      * @return Money
      */
@@ -305,7 +305,7 @@ final class Money implements \JsonSerializable
         $this->assertRoundingMode($roundingMode);
         $amount = $this->getCalculator()->round($this->getCalculator()->multiply($this->amount, $conversionRate), $roundingMode);
 
-        return new Money($amount, $targetCurrency);
+        return new self($amount, $targetCurrency);
     }
 
     /**
@@ -313,7 +313,7 @@ final class Money implements \JsonSerializable
      * the divided value by the given factor.
      *
      * @param float|int|string $divisor
-     * @param int     $roundingMode
+     * @param int              $roundingMode
      *
      * @return Money
      */
@@ -350,7 +350,7 @@ final class Money implements \JsonSerializable
             $remainder = $this->getCalculator()->subtract($remainder, $share);
         }
 
-        for ($i = 0; $this->getCalculator()->compare($remainder, 0) === 1; $i++) {
+        for ($i = 0; $this->getCalculator()->compare($remainder, 0) === 1; ++$i) {
             $results[$i]->amount = $this->getCalculator()->add($results[$i]->amount, 1);
             $remainder = $this->getCalculator()->subtract($remainder, 1);
         }
@@ -486,7 +486,7 @@ final class Money implements \JsonSerializable
         foreach ($calculators as $calculator) {
             /** @var Calculator $calculator */
             if ($calculator::supported()) {
-                return new $calculator;
+                return new $calculator();
             }
         }
 

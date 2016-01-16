@@ -19,7 +19,8 @@
         "phpunit/phpunit": "^4.5",
         "ext-bcmath": "*",
         "ext-gmp": "*",
-        "ext-intl": "*"
+        "ext-intl": "*",
+        "fabpot/php-cs-fixer": "^1.11"
     },
     "suggest": {
         "TheBigBrainsCompany/TbbcMoneyBundle": "Very complete Symfony2 bundle with support for Twig, Doctrine, Forms, ...",
@@ -36,7 +37,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Money\\": "tests/"
+            "Tests\\Money\\": "tests/"
         }
     },
     "scripts": {

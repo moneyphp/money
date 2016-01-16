@@ -1,12 +1,11 @@
 <?php
 
-namespace Money\Tests;
+namespace Tests\Money;
 
 use Money\Number;
 
 class NumberTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testDecimal()
     {
         $number = new Number(10);
@@ -66,5 +65,4 @@ class NumberTest extends \PHPUnit_Framework_TestCase
         $number = new Number('3.500');
         $this->assertFalse($number->isCurrentEven());
     }
-
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace Money\Tests;
+namespace Tests\Money;
 
 use Money\Calculator\GmpCalculator;
 use Money\Money;
 
 class GmpCalculatorTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCompare()
     {
         $calculator = new GmpCalculator();
@@ -79,5 +78,4 @@ class GmpCalculatorTest extends \PHPUnit_Framework_TestCase
         $calculator = new GmpCalculator();
         $this->assertEquals('5', $calculator->share(10, 2, 4));
     }
-
 }

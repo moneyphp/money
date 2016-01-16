@@ -1,9 +1,14 @@
 <?php
 
-namespace Money;
+namespace Tests\Money;
+
+use Money\Currency;
+use Money\CurrencyPair;
+use Money\Money;
 
 /**
  * @coversDefaultClass Money\CurrencyPair
+ *
  * @uses Money\Currency
  * @uses Money\Money
  * @uses Money\CurrencyPair
@@ -43,7 +48,7 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
     public function testGetRatio()
     {
         $ratio = 1.2500;
-        $pair  = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
+        $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), $ratio);
 
         $this->assertEquals($ratio, $pair->getConversionRatio());
     }
@@ -156,36 +161,36 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
         $eur = new Currency('EUR');
         $gbp = new Currency('GBP');
 
-        return array(
-            'Base Mismatch EUR != GBP' => array(
+        return [
+            'Base Mismatch EUR != GBP' => [
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($gbp, $usd, 1.2500),
-                false
-            ),
-            'Counter Mismatch USD != GBP' => array(
+                false,
+            ],
+            'Counter Mismatch USD != GBP' => [
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($eur, $gbp, 1.2500),
-                false
-            ),
-            'Ratio Mismatch 1.2500 != 1.5000' => array(
+                false,
+            ],
+            'Ratio Mismatch 1.2500 != 1.5000' => [
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($eur, $usd, 1.5000),
-                false
-            ),
-            'Full Equality EUR/USD 1.2500' => array(
+                false,
+            ],
+            'Full Equality EUR/USD 1.2500' => [
                 new CurrencyPair($eur, $usd, 1.2500),
                 new CurrencyPair($eur, $usd, 1.2500),
-                true
-            ),
-        );
+                true,
+            ],
+        ];
     }
 
     public function provideNonNumericRatio()
     {
-        return array(
-            array('NonNumericRatio'),
-            array('16AlsoIncorrect'),
-            array('10.00ThisIsToo')
-        );
+        return [
+            ['NonNumericRatio'],
+            ['16AlsoIncorrect'],
+            ['10.00ThisIsToo'],
+        ];
     }
 }

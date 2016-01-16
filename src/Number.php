@@ -67,11 +67,13 @@ final class Number
     public function isCurrentEven()
     {
         if ($this->isDecimal() === false) {
-            $firstDigitBeforeDecimal = $this->number[strlen($this->number)- 1];
+            $firstDigitBeforeDecimal = $this->number[strlen($this->number) - 1];
+
             return $firstDigitBeforeDecimal % 2 === 0;
         }
 
         $firstDigitBeforeDecimal = $this->number[$this->decimalSeparatorPosition - 1];
+
         return $firstDigitBeforeDecimal % 2 === 0;
     }
 

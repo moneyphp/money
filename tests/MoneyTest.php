@@ -1,12 +1,14 @@
 <?php
 
-namespace Money;
+namespace Tests\Money;
 
 use InvalidArgumentException;
-use UnexpectedValueException;
+use Money\Currency;
+use Money\Money;
 
 /**
  * @coversDefaultClass Money\Money
+ *
  * @uses Money\Currency
  * @uses Money\Money
  * @uses Money\CurrencyPair
@@ -226,13 +228,13 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testAllocation()
     {
         $m = new Money(100, new Currency('EUR'));
-        list($part1, $part2, $part3) = $m->allocate(array(1, 1, 1));
+        list($part1, $part2, $part3) = $m->allocate([1, 1, 1]);
         $this->assertEquals(new Money(34, new Currency('EUR')), $part1);
         $this->assertEquals(new Money(33, new Currency('EUR')), $part2);
         $this->assertEquals(new Money(33, new Currency('EUR')), $part3);
 
         $m = new Money(101, new Currency('EUR'));
-        list($part1, $part2, $part3) = $m->allocate(array(1, 1, 1));
+        list($part1, $part2, $part3) = $m->allocate([1, 1, 1]);
         $this->assertEquals(new Money(34, new Currency('EUR')), $part1);
         $this->assertEquals(new Money(34, new Currency('EUR')), $part2);
         $this->assertEquals(new Money(33, new Currency('EUR')), $part3);
@@ -244,12 +246,12 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testAllocationOrderIsImportant()
     {
         $m = new Money(5, new Currency('EUR'));
-        list($part1, $part2) = $m->allocate(array(3, 7));
+        list($part1, $part2) = $m->allocate([3, 7]);
         $this->assertEquals(new Money(2, new Currency('EUR')), $part1);
         $this->assertEquals(new Money(3, new Currency('EUR')), $part2);
 
         $m = new Money(5, new Currency('EUR'));
-        list($part1, $part2) = $m->allocate(array(7, 3));
+        list($part1, $part2) = $m->allocate([7, 3]);
         $this->assertEquals(new Money(4, new Currency('EUR')), $part1);
         $this->assertEquals(new Money(1, new Currency('EUR')), $part2);
     }
@@ -301,25 +303,25 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
 
     public static function provideStrings()
     {
-        return array(
-            array("1000", 100000),
-            array("1000.0", 100000),
-            array("1000.00", 100000),
-            array("0.01", 1),
-            array("1", 100),
-            array("-1000", -100000),
-            array("-1000.0", -100000),
-            array("-1000.00", -100000),
-            array("-0.01", -1),
-            array("-1", -100),
-            array("+1000", 100000),
-            array("+1000.0", 100000),
-            array("+1000.00", 100000),
-            array("+0.01", 1),
-            array("+1", 100),
-            array(".99", 99),
-            array("-.99", -99),
-        );
+        return [
+            ['1000', 100000],
+            ['1000.0', 100000],
+            ['1000.00', 100000],
+            ['0.01', 1],
+            ['1', 100],
+            ['-1000', -100000],
+            ['-1000.0', -100000],
+            ['-1000.00', -100000],
+            ['-0.01', -1],
+            ['-1', -100],
+            ['+1000', 100000],
+            ['+1000.0', 100000],
+            ['+1000.00', 100000],
+            ['+0.01', 1],
+            ['+1', 100],
+            ['.99', 99],
+            ['-.99', -99],
+        ];
     }
 
     /**
@@ -347,6 +349,4 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
             json_encode(Money::USD(350))
         );
     }
-
-
 }

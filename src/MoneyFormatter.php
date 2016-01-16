@@ -7,8 +7,8 @@ namespace Money;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-interface MoneyFormatter {
-
+interface MoneyFormatter
+{
     /**
      * Formats a Money object as string.
      *

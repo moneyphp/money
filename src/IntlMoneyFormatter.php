@@ -9,7 +9,6 @@ namespace Money;
  */
 final class IntlMoneyFormatter implements MoneyFormatter
 {
-
     /**
      * @var string
      */
@@ -21,7 +20,8 @@ final class IntlMoneyFormatter implements MoneyFormatter
 
     /**
      * IntlMoneyFormatter constructor.
-     * @param int $fractionDigits
+     *
+     * @param int    $fractionDigits
      * @param string $locale
      */
     public function __construct($locale, $fractionDigits)
@@ -44,15 +44,15 @@ final class IntlMoneyFormatter implements MoneyFormatter
         $valueBase = (string) $money->getAmount();
         $valueLength = strlen($valueBase);
         if ($valueLength > $this->fractionDigits) {
-            $subunits = substr($valueBase, 0, $valueLength - $this->fractionDigits) . '.';
+            $subunits = substr($valueBase, 0, $valueLength - $this->fractionDigits).'.';
             $subunits .= substr($valueBase, $valueLength - $this->fractionDigits);
         } else {
-            $subunits = "0." . str_pad('', $this->fractionDigits - $valueLength, '0') . $valueBase;
+            $subunits = '0.'.str_pad('', $this->fractionDigits - $valueLength, '0').$valueBase;
         }
-
 
         $formatter = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $this->fractionDigits);
+
         return $formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
     }
 }

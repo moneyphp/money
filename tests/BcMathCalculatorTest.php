@@ -1,13 +1,12 @@
 <?php
 
-namespace Money\Tests;
+namespace Tests\Money;
 
 use Money\Calculator\BcMathCalculator;
 use Money\Money;
 
 class BcMathCalculatorTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCompare()
     {
         $calculator = new BcMathCalculator();
@@ -79,5 +78,4 @@ class BcMathCalculatorTest extends \PHPUnit_Framework_TestCase
         $calculator = new BcMathCalculator();
         $this->assertEquals('5', $calculator->share(10, 2, 4));
     }
-
 }

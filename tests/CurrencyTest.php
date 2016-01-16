@@ -1,11 +1,13 @@
 <?php
 
-namespace Money;
+namespace Tests\Money;
 
+use Money\Currency;
 use Prophecy\Argument;
 
 /**
  * @coversDefaultClass Money\Currency
+ *
  * @uses Money\Currency
  * @uses Money\Money
  * @uses Money\CurrencyPair

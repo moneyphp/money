@@ -48,7 +48,7 @@ final class GmpCalculator implements Calculator
      */
     public function multiply($amount, $multiplier)
     {
-        $multiplier = (string)$multiplier;
+        $multiplier = (string) $multiplier;
         $decimal_separator_position = strpos($multiplier, '.');
 
         if ($decimal_separator_position !== false) {
@@ -63,11 +63,12 @@ final class GmpCalculator implements Calculator
             $result_base = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplier_base)));
             $result_length = strlen($result_base);
             $result = substr($result_base, 0, $result_length - $decimal_places);
-            $result .= '.' . substr($result_base, $result_length - $decimal_places);
+            $result .= '.'.substr($result_base, $result_length - $decimal_places);
+
             return $result;
         }
 
-        return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((int)$multiplier)));
+        return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((int) $multiplier)));
     }
 
     /**
@@ -83,7 +84,7 @@ final class GmpCalculator implements Calculator
      */
     public function ceil($number)
     {
-        $number = (string)$number;
+        $number = (string) $number;
 
         $decimalSeparatorPosition = strpos($number, '.');
         if ($decimalSeparatorPosition === false) {
@@ -149,6 +150,7 @@ final class GmpCalculator implements Calculator
 
     /**
      * @param $number
+     *
      * @return string
      */
     private function roundDigit(Number $number)
@@ -167,5 +169,4 @@ final class GmpCalculator implements Calculator
     {
         return $this->floor($this->divide($this->multiply($amount, $ratio), $total));
     }
-
 }

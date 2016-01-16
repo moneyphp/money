@@ -1,9 +1,13 @@
 <?php
 
-namespace Money;
+namespace Tests\Money;
+
+use Money\Currency;
+use Money\ISOCurrencies;
 
 /**
  * @coversDefaultClass Money\ISOCurrencies
+ *
  * @uses Money\Currency
  */
 final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
@@ -14,7 +18,7 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructor()
     {
-        $currencies = new ISOCurrencies;
+        $currencies = new ISOCurrencies();
 
         $this->assertTrue($currencies->contains(new Currency('EUR')));
         $this->assertFalse($currencies->contains(new Currency('ASD')));
