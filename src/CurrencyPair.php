@@ -2,17 +2,14 @@
 
 namespace Money;
 
-use InvalidArgumentException;
-use JsonSerializable;
-
 /**
- * Currency Pair.
+ * Currency Pair holding a base, a counter currency and a conversion ratio.
  *
  * @author Mathias Verraes
  *
  * @see http://en.wikipedia.org/wiki/Currency_pair
  */
-final class CurrencyPair implements JsonSerializable
+final class CurrencyPair implements \JsonSerializable
 {
     /**
      * Currency to convert from.
@@ -38,12 +35,12 @@ final class CurrencyPair implements JsonSerializable
      * @param Currency $counterCurrency
      * @param float    $conversionRatio
      *
-     * @throws InvalidArgumentException If conversion ratio is not numeric
+     * @throws \InvalidArgumentException If conversion ratio is not numeric
      */
     public function __construct(Currency $baseCurrency, Currency $counterCurrency, $conversionRatio)
     {
         if (!is_numeric($conversionRatio)) {
-            throw new InvalidArgumentException('Conversion ratio must be numeric');
+            throw new \InvalidArgumentException('Conversion ratio must be numeric');
         }
 
         $this->counterCurrency = $counterCurrency;
@@ -58,7 +55,7 @@ final class CurrencyPair implements JsonSerializable
      *
      * @return CurrencyPair
      *
-     * @throws InvalidArgumentException Format of $iso is invalid
+     * @throws \InvalidArgumentException Format of $iso is invalid
      */
     public static function createFromIso($iso)
     {
@@ -68,7 +65,7 @@ final class CurrencyPair implements JsonSerializable
 
         $matches = [];
         if (!preg_match($pattern, $iso, $matches)) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 sprintf(
                     "Can't create currency pair from ISO string '%s', format of string is invalid",
                     $iso
@@ -87,12 +84,12 @@ final class CurrencyPair implements JsonSerializable
      *
      * @return Money
      *
-     * @throws InvalidArgumentException If $money's currency is not equal to base currency
+     * @throws \InvalidArgumentException If $money's currency is not equal to base currency
      */
     public function convert(Money $money, $roundingMode = Money::ROUND_HALF_UP)
     {
         if (!$money->getCurrency()->equals($this->baseCurrency)) {
-            throw new InvalidArgumentException('The Money has the wrong currency');
+            throw new \InvalidArgumentException('The Money has the wrong currency');
         }
 
         return $money->convert($this->counterCurrency, $this->conversionRatio, $roundingMode);

@@ -2,16 +2,12 @@
 
 namespace Money;
 
-use InvalidArgumentException;
-use RuntimeException;
-use JsonSerializable;
-
 /**
  * Money Value Object.
  *
  * @author Mathias Verraes
  */
-final class Money implements JsonSerializable
+final class Money implements \JsonSerializable
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -50,12 +46,12 @@ final class Money implements JsonSerializable
      * @param int|string $amount   Amount, expressed in the smallest units of $currency (eg cents)
      * @param Currency $currency
      *
-     * @throws InvalidArgumentException If amount is not integer
+     * @throws \InvalidArgumentException If amount is not integer
      */
     public function __construct($amount, Currency $currency)
     {
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
-            throw new InvalidArgumentException('Amount must be an integer');
+            throw new \InvalidArgumentException('Amount must be an integer');
         }
 
         $this->amount = (string) $amount;
@@ -74,7 +70,7 @@ final class Money implements JsonSerializable
      *
      * @return Money
      *
-     * @throws InvalidArgumentException If amount is not integer
+     * @throws \InvalidArgumentException If amount is not integer
      */
     public static function __callStatic($method, $arguments)
     {
@@ -88,7 +84,7 @@ final class Money implements JsonSerializable
      *
      * @return Money
      *
-     * @throws InvalidArgumentException If amount is not integer
+     * @throws \InvalidArgumentException If amount is not integer
      */
     private function newInstance($amount)
     {
@@ -112,12 +108,12 @@ final class Money implements JsonSerializable
      *
      * @param Money $other
      *
-     * @throws InvalidArgumentException If $other has a different currency
+     * @throws \InvalidArgumentException If $other has a different currency
      */
     private function assertSameCurrency(Money $other)
     {
         if (!$this->isSameCurrency($other)) {
-            throw new InvalidArgumentException('Currencies must be identical');
+            throw new \InvalidArgumentException('Currencies must be identical');
         }
     }
 
@@ -246,12 +242,12 @@ final class Money implements JsonSerializable
     /**
      * Asserts that the operand is integer or float.
      *
-     * @throws InvalidArgumentException If $operand is neither integer nor float
+     * @throws \InvalidArgumentException If $operand is neither integer nor float
      */
     private function assertOperand($operand)
     {
         if (!is_numeric($operand)) {
-            throw new InvalidArgumentException('Operand should be a numeric value');
+            throw new \InvalidArgumentException('Operand should be a numeric value');
         }
     }
 
@@ -260,7 +256,7 @@ final class Money implements JsonSerializable
      *
      * @param int $roundingMode
      *
-     * @throws InvalidArgumentException If $roundingMode is not valid
+     * @throws \InvalidArgumentException If $roundingMode is not valid
      */
     private function assertRoundingMode($roundingMode)
     {
@@ -270,7 +266,7 @@ final class Money implements JsonSerializable
                 self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN,
             ], true
         )) {
-            throw new InvalidArgumentException(
+            throw new \InvalidArgumentException(
                 'Rounding mode should be Money::ROUND_HALF_DOWN | '.
                 'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.
                 'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'
@@ -327,7 +323,7 @@ final class Money implements JsonSerializable
         $this->assertRoundingMode($roundingMode);
 
         if ($divisor === 0 || $divisor === 0.0) {
-            throw new InvalidArgumentException('Division by zero');
+            throw new \InvalidArgumentException('Division by zero');
         }
 
         $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
@@ -369,12 +365,12 @@ final class Money implements JsonSerializable
      *
      * @return Money[]
      *
-     * @throws InvalidArgumentException If number of targets is not an integer
+     * @throws \InvalidArgumentException If number of targets is not an integer
      */
     public function allocateTo($n)
     {
         if (!is_int($n)) {
-            throw new InvalidArgumentException('Number of targets must be an integer');
+            throw new \InvalidArgumentException('Number of targets must be an integer');
         }
 
         return $this->allocate(array_fill(0, $n, 1));
@@ -436,7 +432,7 @@ final class Money implements JsonSerializable
      *
      * @return string
      *
-     * @throws InvalidArgumentException If $string cannot be parsed
+     * @throws \InvalidArgumentException If $string cannot be parsed
      */
     public static function stringToUnits($string)
     {
@@ -447,7 +443,7 @@ final class Money implements JsonSerializable
         $pattern = '/^'.$sign.$digits.$separator.$decimals.'$/';
 
         if (!preg_match($pattern, trim($string), $matches)) {
-            throw new InvalidArgumentException('The value could not be parsed as money');
+            throw new \InvalidArgumentException('The value could not be parsed as money');
         }
 
         $units = $matches['sign'] == '-' ? '-' : '';
@@ -482,7 +478,7 @@ final class Money implements JsonSerializable
     /**
      * @return Calculator
      *
-     * @throws RuntimeException If cannot find calculator for money calculations
+     * @throws \RuntimeException If cannot find calculator for money calculations
      */
     private static function initializeCalculator()
     {
@@ -494,7 +490,7 @@ final class Money implements JsonSerializable
             }
         }
 
-        throw new RuntimeException('Cannot find calculator for money calculations');
+        throw new \RuntimeException('Cannot find calculator for money calculations');
     }
 
     /**

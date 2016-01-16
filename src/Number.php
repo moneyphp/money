@@ -3,7 +3,7 @@
 namespace Money;
 
 /**
- * Class Number
+ * Represents a numeric value.
  */
 final class Number
 {
@@ -22,7 +22,7 @@ final class Number
      */
     public function __construct($number)
     {
-        $this->number = (string)$number;
+        $this->number = (string) $number;
         $this->decimalSeparatorPosition = strpos($number, '.');
     }
 

@@ -3,9 +3,9 @@
 namespace Money;
 
 /**
- * Calculator Interface
+ * Money calculations abstracted away from the Money value object.
  *
- * @author Frederik Bosch
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 interface Calculator
 {

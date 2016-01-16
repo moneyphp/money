@@ -1,4 +1,5 @@
 <?php
+
 namespace Money\Calculator;
 
 use Money\Calculator;
@@ -6,8 +7,7 @@ use Money\Money;
 use Money\Number;
 
 /**
- * Class GmpCalculator
- * @package Money\Calculator
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class GmpCalculator implements Calculator
 {

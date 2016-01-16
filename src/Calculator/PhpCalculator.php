@@ -1,11 +1,11 @@
 <?php
+
 namespace Money\Calculator;
 
 use Money\Calculator;
 
 /**
- * Class NativePhpCalculator
- * @package Money\Calculator
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class PhpCalculator implements Calculator
 {

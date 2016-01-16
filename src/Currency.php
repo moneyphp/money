@@ -2,16 +2,14 @@
 
 namespace Money;
 
-use JsonSerializable;
-
 /**
  * Currency Value Object.
  *
- * Holds Currency specific data
+ * Holds Currency specific data.
  *
  * @author Mathias Verraes
  */
-final class Currency implements JsonSerializable
+final class Currency implements \JsonSerializable
 {
     /**
      * Currency code.

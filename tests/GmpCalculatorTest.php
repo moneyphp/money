@@ -1,4 +1,5 @@
 <?php
+
 namespace Money\Tests;
 
 use Money\Calculator\GmpCalculator;

@@ -1,7 +1,14 @@
 <?php
+
 namespace Money;
 
-final class IntlMoneyFormatter implements MoneyFormatter {
+/**
+ * Formats a Money object using intl extension.
+ *
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
+ */
+final class IntlMoneyFormatter implements MoneyFormatter
+{
 
     /**
      * @var string
