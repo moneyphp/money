@@ -1,15 +1,21 @@
 <?php
 
-namespace Tests\Money;
+namespace Tests\Money\Calculator;
 
-use Money\Calculator\BcMathCalculator;
+use Money\Calculator;
 use Money\Money;
 
-final class BcMathCalculatorTest extends \PHPUnit_Framework_TestCase
+abstract class CalculatorTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @return Calculator
+     */
+    abstract protected function getCalculator();
+
     public function testCompare()
     {
-        $calculator = new BcMathCalculator();
+        $calculator = $this->getCalculator();
+
         $this->assertEquals(1, $calculator->compare(2, 1));
         $this->assertEquals(-1, $calculator->compare(1, 2));
         $this->assertEquals(0, $calculator->compare(1, 1));
@@ -17,45 +23,52 @@ final class BcMathCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testAdd()
     {
-        $calculator = new BcMathCalculator();
-        $this->assertEquals(2, $calculator->add(1, 1));
+        $calculator = $this->getCalculator();
+
+        $this->assertSame('2', $calculator->add(1, 1));
     }
 
     public function testSubtract()
     {
-        $calculator = new BcMathCalculator();
-        $this->assertEquals(1, $calculator->subtract(2, 1));
+        $calculator = $this->getCalculator();
+
+        $this->assertSame('1', $calculator->subtract(2, 1));
     }
 
     public function testMultiply()
     {
-        $calculator = new BcMathCalculator();
+        $calculator = $this->getCalculator();
+
         $this->assertEquals('1.5', $calculator->multiply(1, 1.5));
         $this->assertEquals('12.50', $calculator->multiply(10, 1.2500));
     }
 
     public function testDivide()
     {
-        $calculator = new BcMathCalculator();
+        $calculator = $this->getCalculator();
+
         $this->assertEquals('1.5', $calculator->divide(3, 2));
         $this->assertEquals('2.5', $calculator->divide(10, 4));
     }
 
     public function testCeil()
     {
-        $calculator = new BcMathCalculator();
+        $calculator = $this->getCalculator();
+
         $this->assertEquals('2', $calculator->ceil(1.2));
     }
 
     public function testFloor()
     {
-        $calculator = new BcMathCalculator();
+        $calculator = $this->getCalculator();
+
         $this->assertEquals('2', $calculator->floor(2.7));
     }
 
     public function testRound()
     {
-        $calculator = new BcMathCalculator();
+        $calculator = $this->getCalculator();
+
         $this->assertEquals('3', $calculator->round(2.6, Money::ROUND_HALF_EVEN));
         $this->assertEquals('2', $calculator->round(2.5, Money::ROUND_HALF_EVEN));
         $this->assertEquals('4', $calculator->round(3.5, Money::ROUND_HALF_EVEN));
@@ -75,7 +88,8 @@ final class BcMathCalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testShare()
     {
-        $calculator = new BcMathCalculator();
+        $calculator = $this->getCalculator();
+
         $this->assertEquals('5', $calculator->share(10, 2, 4));
     }
 }
