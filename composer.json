@@ -20,6 +20,7 @@
         "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
+        "florianv/swap": "^2.3",
         "fabpot/php-cs-fixer": "^1.11"
     },
     "suggest": {
@@ -28,7 +29,8 @@
         "Sylius/SyliusMoneyBundle": "Sylius' Symfony2 integration with Money library",
         "ext-bcmath": "Calculate without integer limits",
         "ext-gmp": "Calculate without integer limits",
-        "ext-intl": "Format Money objects with intl"
+        "ext-intl": "Format Money objects with intl",
+        "florianv/swap": "Exchange rates library for PHP"
     },
     "autoload": {
         "psr-4": {
