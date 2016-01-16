@@ -14,19 +14,18 @@ final class ISOCurrencies implements Currencies
      *
      * @var array
      */
-    private $currencies;
-
-    public function __construct()
-    {
-        $this->currencies = $this->requireCurrencies();
-    }
+    private static $currencies;
 
     /**
      * {@inheritdoc}
      */
     public function contains(Currency $currency)
     {
-        return array_key_exists($currency->getCode(), $this->currencies);
+        if (null === self::$currencies) {
+            self::$currencies = $this->requireCurrencies();
+        }
+
+        return array_key_exists($currency->getCode(), self::$currencies);
     }
 
     private function requireCurrencies()
