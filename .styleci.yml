@@ -1,8 +1,0 @@
-preset: symfony
-
-finder:
-    path:
-        - "src"
-
-enabled:
-    - short_array_syntax
