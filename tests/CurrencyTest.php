@@ -5,13 +5,6 @@ namespace Tests\Money;
 use Money\Currency;
 use Prophecy\Argument;
 
-/**
- * @coversDefaultClass Money\Currency
- *
- * @uses Money\Currency
- * @uses Money\Money
- * @uses Money\CurrencyPair
- */
 final class CurrencyTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
@@ -22,9 +15,6 @@ final class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->usd2 = new Currency('USD');
     }
 
-    /**
-     * @covers ::__construct
-     */
     public function testConstructor()
     {
         $currency = new Currency('EUR');
@@ -32,28 +22,18 @@ final class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('EUR', $currency->getCode());
     }
 
-    /**
-     * @covers ::getCode
-     * @covers ::__toString
-     */
     public function testCode()
     {
         $this->assertEquals('EUR', $this->euro1->getCode());
         $this->assertEquals('EUR', (string) $this->euro1);
     }
 
-    /**
-     * @covers ::equals
-     */
     public function testDifferentInstancesAreEqual()
     {
         $this->assertTrue($this->euro1->equals($this->euro2));
         $this->assertTrue($this->usd1->equals($this->usd2));
     }
 
-    /**
-     * @covers ::equals
-     */
     public function testDifferentCurrenciesAreNotEqual()
     {
         $this->assertFalse($this->euro1->equals($this->usd1));

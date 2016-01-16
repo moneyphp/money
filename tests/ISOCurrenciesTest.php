@@ -5,17 +5,8 @@ namespace Tests\Money;
 use Money\Currency;
 use Money\ISOCurrencies;
 
-/**
- * @coversDefaultClass Money\ISOCurrencies
- *
- * @uses Money\Currency
- */
 final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers ::__construct
-     * @covers ::contains
-     */
     public function testConstructor()
     {
         $currencies = new ISOCurrencies();

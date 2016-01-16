@@ -5,7 +5,7 @@ namespace Tests\Money;
 use Money\Calculator\BcMathCalculator;
 use Money\Money;
 
-class BcMathCalculatorTest extends \PHPUnit_Framework_TestCase
+final class BcMathCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testCompare()
     {

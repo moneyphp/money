@@ -5,7 +5,7 @@ namespace Tests\Money;
 use Money\Calculator\GmpCalculator;
 use Money\Money;
 
-class GmpCalculatorTest extends \PHPUnit_Framework_TestCase
+final class GmpCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testCompare()
     {

@@ -2,22 +2,11 @@
 
 namespace Tests\Money;
 
-use InvalidArgumentException;
 use Money\Currency;
 use Money\Money;
 
-/**
- * @coversDefaultClass Money\Money
- *
- * @uses Money\Currency
- * @uses Money\Money
- * @uses Money\CurrencyPair
- */
 final class MoneyTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @covers ::__callStatic
-     */
     public function testFactoryMethods()
     {
         $this->assertEquals(
@@ -30,10 +19,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @covers ::getAmount
-     * @covers ::getCurrency
-     */
     public function testGetters()
     {
         $m = new Money(100, $euro = new Currency('EUR'));
@@ -42,17 +27,13 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::__construct
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDecimalsThrowException()
     {
-        $money = new Money(0.01, new Currency('EUR'));
+        new Money(0.01, new Currency('EUR'));
     }
 
-    /**
-     * @covers ::equals
-     */
     public function testEquality()
     {
         $m1 = new Money(100, new Currency('EUR'));
@@ -82,7 +63,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeAdded()
     {
@@ -91,9 +72,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $m1->add($m2);
     }
 
-    /**
-     * @covers ::subtract
-     */
     public function testSubtraction()
     {
         $m1 = new Money(100, new Currency('EUR'));
@@ -109,7 +87,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeSubtracted()
     {
@@ -134,7 +112,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testInvalidMultiplicationOperand()
     {
@@ -143,8 +121,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::assertRoundingMode
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testInvalidRoundingMode()
     {
@@ -152,9 +129,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $m->multiply(1.2345, 'ROUNDING_MODE');
     }
 
-    /**
-     * @covers ::divide
-     */
     public function testDivision()
     {
         $m = new Money(10, new Currency('EUR'));
@@ -184,7 +158,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
 
     public function testDivisionByZero()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->setExpectedException('\InvalidArgumentException');
         $m = new Money(10, new Currency('EUR'));
         $m->divide(0);
     }
@@ -215,16 +189,13 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testDifferentCurrenciesCannotBeCompared()
     {
         Money::EUR(1)->compare(Money::USD(1));
     }
 
-    /**
-     * @covers ::allocate
-     */
     public function testAllocation()
     {
         $m = new Money(100, new Currency('EUR'));
@@ -240,9 +211,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Money(33, new Currency('EUR')), $part3);
     }
 
-    /**
-     * @covers ::allocate
-     */
     public function testAllocationOrderIsImportant()
     {
         $m = new Money(5, new Currency('EUR'));
@@ -256,9 +224,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new Money(1, new Currency('EUR')), $part2);
     }
 
-    /**
-     * @covers ::allocateTo
-     */
     public function testAllocationTo()
     {
         $m = new Money(15, new Currency('EUR'));
@@ -273,8 +238,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::allocateTo
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Number of targets must be an integer
      */
     public function testAllocationToInvalidTargets()
@@ -283,11 +247,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $m->allocateTo('target');
     }
 
-    /**
-     * @covers ::isZero
-     * @covers ::isNegative
-     * @covers ::isPositive
-     */
     public function testComparators()
     {
         $this->assertTrue(Money::EUR(0)->isZero());
@@ -325,7 +284,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::stringToUnits
      * @dataProvider provideStrings
      */
     public function testStringToUnits($string, $units)
@@ -334,8 +292,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::stringToUnits
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testCannotConvertStringToUnits()
     {

@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
-         backupGlobals="false"
-         backupStaticAttributes="false"
-         strict="true"
-         colors="true"
-         verbose="true">
+<phpunit colors="true" bootstrap="vendor/autoload.php">
     <testsuites>
-        <testsuite name="money">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="Money Test Suite">
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>

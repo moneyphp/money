@@ -6,7 +6,7 @@ use Money\Currency;
 use Money\IntlMoneyFormatter;
 use Money\Money;
 
-class MoneyFormatterTest extends \PHPUnit_Framework_TestCase
+final class MoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
     public function testRoundMoney()
     {
