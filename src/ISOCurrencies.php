@@ -31,14 +31,16 @@ final class ISOCurrencies implements Currencies
 
     private function requireCurrencies()
     {
-        $file = __DIR__.'/../vendor/umpirsky/currency-list/data/en/currency.php';
-        if (file_exists($file)) {
-            return require $file;
+        $file = 'umpirsky/currency-list/data/en/currency.php';
+
+        $path = __DIR__.'/../vendor/'.$file;
+        if (file_exists($path)) {
+            return require $path;
         }
 
-        $file = __DIR__.'/../../../umpirsky/currency-list/data/en/currency.php';
-        if (file_exists($file)) {
-            return require $file;
+        $path = __DIR__.'/../../../'.$file;
+        if (file_exists($path)) {
+            return require $path;
         }
 
         throw new \RuntimeException('Failed to load currency ISO codes.');
