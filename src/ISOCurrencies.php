@@ -18,7 +18,7 @@ final class ISOCurrencies implements Currencies
 
     public function __construct()
     {
-        $this->currencies = require __DIR__.'/../vendor/umpirsky/currency-list/data/en/currency.php';
+        $this->currencies = $this->requireCurrencies();
     }
 
     /**
@@ -27,5 +27,20 @@ final class ISOCurrencies implements Currencies
     public function contains(Currency $currency)
     {
         return array_key_exists($currency->getCode(), $this->currencies);
+    }
+
+    private function requireCurrencies()
+    {
+        $file = __DIR__.'/../vendor/umpirsky/currency-list/data/en/currency.php';
+        if (file_exists($file)) {
+            return require $file;
+        }
+
+        $file = __DIR__.'/../../../umpirsky/currency-list/data/en/currency.php';
+        if (file_exists($file)) {
+            return require $file;
+        }
+
+        throw new \RuntimeException('Failed to load currency ISO codes.');
     }
 }
