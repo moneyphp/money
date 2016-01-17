@@ -45,7 +45,7 @@ Features
 
 - JSON Serialization
 - Big integer support utilizing different, transparent calculation logic upon availability (bcmath, gmp, plain php)
-- Money formatting (including incl formatter)
+- Money formatting (including intl formatter)
 - Currency repositories (ISO currencies included)
 - Money exchange (including Swap implementation)
 
