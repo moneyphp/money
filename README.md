@@ -1,7 +1,7 @@
 Money
 =====
 
-[![Build Status](https://api.travis-ci.org/mathiasverraes/money.png?branch=master)](http://travis-ci.org/mathiasverraes/money)
+[![Build Status](https://api.travis-ci.org/mathiasverraes/money.png?branch=nextrelease)](http://travis-ci.org/mathiasverraes/money)
 
 PHP 5.4+ library to make working with money safer, easier, and fun!
 
@@ -35,17 +35,19 @@ Install the library using [composer][1]. Add the following to your `composer.jso
 ```json
 {
     "require": {
-        "mathiasverraes/money": "dev-master"
+        "mathiasverraes/money": "~3.0"
     },
-    "minimum-stability": "dev"    
 }
 ```
 
-Now run the `install` command.
+Features
+------------
 
-```sh
-$ composer.phar install
-```
+- JSON Serialization
+- Big integer support utilizing different, transparent calculation logic upon availability (bcmath, gmp, plain php)
+- Money formatting (including incl formatter)
+- Currency repositories (ISO currencies included)
+- Money exchange (including Swap implementation)
 
 Integration
 -----------
