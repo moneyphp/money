@@ -49,21 +49,21 @@ final class GmpCalculator implements Calculator
     public function multiply($amount, $multiplier)
     {
         $multiplier = (string) $multiplier;
-        $decimal_separator_position = strpos($multiplier, '.');
+        $decimalSeparatorPosition = strpos($multiplier, '.');
 
-        if ($decimal_separator_position !== false) {
-            $decimal_places = strlen($multiplier) - ($decimal_separator_position + 1);
-            $multiplier_base = substr($multiplier, 0, $decimal_separator_position);
-            if ($multiplier_base) {
-                $multiplier_base .= substr($multiplier, $decimal_separator_position + 1);
+        if ($decimalSeparatorPosition !== false) {
+            $decimalPlaces = strlen($multiplier) - ($decimalSeparatorPosition + 1);
+            $multiplierBase = substr($multiplier, 0, $decimalSeparatorPosition);
+            if ($multiplierBase) {
+                $multiplierBase .= substr($multiplier, $decimalSeparatorPosition + 1);
             } else {
-                $multiplier_base = substr($multiplier, $decimal_separator_position + 1);
+                $multiplierBase = substr($multiplier, $decimalSeparatorPosition + 1);
             }
 
-            $result_base = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplier_base)));
-            $result_length = strlen($result_base);
-            $result = substr($result_base, 0, $result_length - $decimal_places);
-            $result .= '.'.substr($result_base, $result_length - $decimal_places);
+            $resultBase = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplierBase)));
+            $resultLength = strlen($resultBase);
+            $result = substr($resultBase, 0, $resultLength - $decimalPlaces);
+            $result .= '.'.substr($resultBase, $resultLength - $decimalPlaces);
 
             return $result;
         }
