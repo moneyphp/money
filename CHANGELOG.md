@@ -6,7 +6,7 @@
 
 - Currency repositories (ISO currencies included)
 - Money exchange (including [Swap](https://github.com/florianv/swap) implementation)
-- Money formatting (including incl formatter)
+- Money formatting (including intl formatter)
 - Big integer support utilizing different, transparent calculation logic upon availability (bcmath, gmp, plain php)
 
 
