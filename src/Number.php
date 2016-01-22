@@ -22,6 +22,11 @@ final class Number
      */
     public function __construct($number)
     {
+        if (is_string($number) === false) {
+            throw new \InvalidArgumentException(
+                'Number expects a string for calculations'
+            );
+        }
         $this->number = (string) $number;
         $this->decimalSeparatorPosition = strpos($number, '.');
     }
@@ -95,5 +100,18 @@ final class Number
     public function __toString()
     {
         return $this->number;
+    }
+
+    /**
+     * @param float $floatingPoint
+     * @return Number
+     */
+    public static function fromFloat($floatingPoint)
+    {
+        if (is_float($floatingPoint) === false) {
+            throw new \InvalidArgumentException('Floating point expected');
+        }
+
+        return new Number(sprintf('%.8g', $floatingPoint));
     }
 }
