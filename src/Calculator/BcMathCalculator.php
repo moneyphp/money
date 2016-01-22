@@ -103,7 +103,7 @@ final class BcMathCalculator implements Calculator
      */
     public function round($number, $roundingMode)
     {
-        $number = new Number($number);
+        $number = new Number((string)$number);
         if ($number->isDecimal() === false) {
             return (string) $number;
         }
