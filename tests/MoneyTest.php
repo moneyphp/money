@@ -260,45 +260,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(Money::EUR(-1)->isPositive());
     }
 
-    public static function provideStrings()
-    {
-        return [
-            ['1000', 100000],
-            ['1000.0', 100000],
-            ['1000.00', 100000],
-            ['0.01', 1],
-            ['1', 100],
-            ['-1000', -100000],
-            ['-1000.0', -100000],
-            ['-1000.00', -100000],
-            ['-0.01', -1],
-            ['-1', -100],
-            ['+1000', 100000],
-            ['+1000.0', 100000],
-            ['+1000.00', 100000],
-            ['+0.01', 1],
-            ['+1', 100],
-            ['.99', 99],
-            ['-.99', -99],
-        ];
-    }
-
-    /**
-     * @dataProvider provideStrings
-     */
-    public function testStringToUnits($string, $units)
-    {
-        $this->assertEquals($units, Money::stringToUnits($string));
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testCannotConvertStringToUnits()
-    {
-        Money::stringToUnits('THIS_IS_NOT_CONVERTABLE_TO_UNIT');
-    }
-
     public function testJsonEncoding()
     {
         $this->assertEquals(

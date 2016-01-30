@@ -426,35 +426,6 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * Creates units from string.
-     *
-     * @param string $string
-     *
-     * @return string
-     *
-     * @throws \InvalidArgumentException If $string cannot be parsed
-     */
-    public static function stringToUnits($string)
-    {
-        $sign = "(?P<sign>[-\+])?";
-        $digits = "(?P<digits>\d*)";
-        $separator = '(?P<separator>[.,])?';
-        $decimals = "(?P<decimal1>\d)?(?P<decimal2>\d)?";
-        $pattern = '/^'.$sign.$digits.$separator.$decimals.'$/';
-
-        if (!preg_match($pattern, trim($string), $matches)) {
-            throw new \InvalidArgumentException('The value could not be parsed as money');
-        }
-
-        $units = $matches['sign'] == '-' ? '-' : '';
-        $units .= $matches['digits'];
-        $units .= isset($matches['decimal1']) ? $matches['decimal1'] : '0';
-        $units .= isset($matches['decimal2']) ? $matches['decimal2'] : '0';
-
-        return (string) $units;
-    }
-
-    /**
      * {@inheritdoc}
      *
      * @return array
