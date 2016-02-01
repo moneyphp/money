@@ -66,4 +66,32 @@ final class MoneyFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('€0.50', $moneyFormatter->format(new Money(50, new Currency('EUR'))));
         $this->assertEquals('€5.00', $moneyFormatter->format(new Money(500, new Currency('EUR'))));
     }
+
+    public function testStyleDecimalAndPattern()
+    {
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
+        $numberFormatter->setPattern("¤#,##0.00;-¤#,##0.00");
+
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
+        $this->assertEquals('€0.05', $moneyFormatter->format(new Money(5, new Currency('EUR'))));
+        $this->assertEquals('€0.50', $moneyFormatter->format(new Money(50, new Currency('EUR'))));
+        $this->assertEquals('€5.00', $moneyFormatter->format(new Money(500, new Currency('EUR'))));
+    }
+
+    public function testStyleDecimalNoPattern()
+    {
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
+
+        $this->assertEquals('5', $moneyFormatter->format(new Money(5, new Currency('EUR'))));
+        $this->assertEquals('50', $moneyFormatter->format(new Money(50, new Currency('EUR'))));
+        $this->assertEquals('500', $moneyFormatter->format(new Money(500, new Currency('EUR'))));
+    }
+
+    public function testStylePercent()
+    {
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::PERCENT);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
+        $this->assertEquals('500%', $moneyFormatter->format(new Money(5, new Currency('EUR'))));
+    }
 }
