@@ -10,30 +10,16 @@ namespace Money;
 final class IntlMoneyFormatter implements MoneyFormatter
 {
     /**
-     * @var string
+     * @var \NumberFormatter
      */
-    private $locale;
-    /**
-     * @var int
-     */
-    private $fractionDigits;
+    private $formatter;
 
     /**
-     * IntlMoneyFormatter constructor.
-     *
-     * @param int    $fractionDigits
-     * @param string $locale
+     * @param \NumberFormatter $formatter
      */
-    public function __construct($locale, $fractionDigits)
+    public function __construct(\NumberFormatter $formatter)
     {
-        if (extension_loaded('intl') === false) {
-            throw new \RuntimeException(
-                'Cannot initialize IntlMoneyFormatter because intl extension is missing'
-            );
-        }
-
-        $this->locale = $locale;
-        $this->fractionDigits = $fractionDigits;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -42,17 +28,26 @@ final class IntlMoneyFormatter implements MoneyFormatter
     public function format(Money $money)
     {
         $valueBase = (string) $money->getAmount();
-        $valueLength = strlen($valueBase);
-        if ($valueLength > $this->fractionDigits) {
-            $subunits = substr($valueBase, 0, $valueLength - $this->fractionDigits).'.';
-            $subunits .= substr($valueBase, $valueLength - $this->fractionDigits);
-        } else {
-            $subunits = '0.'.str_pad('', $this->fractionDigits - $valueLength, '0').$valueBase;
+        $negative = false;
+
+        if (substr($valueBase, 0, 1) === '-') {
+            $negative = true;
+            $valueBase = substr($valueBase, 1);
         }
 
-        $formatter = new \NumberFormatter($this->locale, \NumberFormatter::CURRENCY);
-        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $this->fractionDigits);
+        $fractionDigits = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
+        $valueLength = strlen($valueBase);
+        if ($valueLength > $fractionDigits) {
+            $subunits = substr($valueBase, 0, $valueLength - $fractionDigits).'.';
+            $subunits .= substr($valueBase, $valueLength - $fractionDigits);
+        } else {
+            $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
+        }
 
-        return $formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
+        if ($negative === true) {
+            $subunits = '-' . $subunits;
+        }
+
+        return $this->formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
     }
 }
