@@ -88,4 +88,16 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('1000005', $money->getAmount());
     }
+
+    public function testDifferentStyleWithPattern()
+    {
+        $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
+        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
+
+        $parser = new IntlMoneyParser($formatter);
+        $money = $parser->parse('$1000.005');
+
+        $this->assertEquals('1000005', $money->getAmount());
+    }
 }
