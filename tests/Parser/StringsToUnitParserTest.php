@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Money;
+namespace Tests\Money\Parser;
 
-use Money\StringToUnitsParser;
+use Money\Parser\StringToUnitsParser;
 
 final class StringsToUnitParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public static function provideStrings()
     {
         return [
@@ -36,6 +35,7 @@ final class StringsToUnitParserTest extends \PHPUnit_Framework_TestCase
     public function testStringToUnits($string, $units)
     {
         $parser = new StringToUnitsParser();
+
         $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
     }
 
@@ -45,15 +45,17 @@ final class StringsToUnitParserTest extends \PHPUnit_Framework_TestCase
     public function testCannotConvertStringToUnits()
     {
         $parser = new StringToUnitsParser();
+
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', 'USD');
     }
 
+    /**
+     * @expectedException \Money\Exception\ParserException
+     */
     public function testCannotConvertStringToUnitsWithoutCurrency()
     {
-        $this->setExpectedException('Money\\ParserException');
-
         $parser = new StringToUnitsParser();
+
         $parser->parse('$ 100');
     }
-
 }

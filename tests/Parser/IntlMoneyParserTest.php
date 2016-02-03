@@ -1,12 +1,11 @@
 <?php
 
-namespace Tests\Money;
+namespace Tests\Money\Parser;
 
-use Money\IntlMoneyParser;
+use Money\Parser\IntlMoneyParser;
 
-final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
+class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public static function provideFormattedMoney()
     {
         return [
@@ -42,10 +41,11 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
     }
 
+    /**
+     * @expectedException \Money\Exception\ParserException
+     */
     public function testCannotConvertStringToUnits()
     {
-        $this->setExpectedException('Money\\ParserException');
-
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
 

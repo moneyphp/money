@@ -1,6 +1,11 @@
 <?php
 
-namespace Money;
+namespace Money\Parser;
+
+use Money\Currency;
+use Money\Exception\ParserException;
+use Money\Money;
+use Money\MoneyParser;
 
 /**
  * Parses a string into a Money object using intl extension.
@@ -25,16 +30,18 @@ final class IntlMoneyParser implements MoneyParser
     /**
      * {@inheritdoc}
      */
-    public function parse($formattedMoney, $forceCurrency = null)
+    public function parse($money, $forceCurrency = null)
     {
-        $decimal = $this->formatter->parseCurrency($formattedMoney, $currency);
+        $decimal = $this->formatter->parseCurrency($money, $currency);
+
         if ($decimal === false) {
             throw new ParserException(
-                'Cannot parse '.$formattedMoney.' to Money. '.$this->formatter->getErrorMessage()
+                'Cannot parse '.$money.' to Money. '.$this->formatter->getErrorMessage()
             );
         }
 
         $decimal = (string) $decimal;
+
         if (strpos($decimal, '.') !== false) {
             $decimal = str_replace('.', '', $decimal);
         } else {
@@ -48,7 +55,7 @@ final class IntlMoneyParser implements MoneyParser
         }
 
         if ($forceCurrency === null) {
-            return new Money($decimal, new Currency($currency));
+            $forceCurrency = $currency;
         }
 
         return new Money($decimal, new Currency($forceCurrency));
