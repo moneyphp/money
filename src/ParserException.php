@@ -1,6 +1,7 @@
 <?php
+
 namespace Money;
 
-final class ParserException extends \Exception {
-
+final class ParserException extends \Exception
+{
 }

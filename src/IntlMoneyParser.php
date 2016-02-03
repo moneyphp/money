@@ -1,4 +1,5 @@
 <?php
+
 namespace Money;
 
 /**
@@ -8,7 +9,6 @@ namespace Money;
  */
 final class IntlMoneyParser implements MoneyParser
 {
-
     /**
      * @var \NumberFormatter
      */
@@ -30,7 +30,7 @@ final class IntlMoneyParser implements MoneyParser
         $decimal = $this->formatter->parseCurrency($formattedMoney, $currency);
         if ($decimal === false) {
             throw new ParserException(
-                'Cannot parse ' . $formattedMoney . ' to Money. ' . $this->formatter->getErrorMessage()
+                'Cannot parse '.$formattedMoney.' to Money. '.$this->formatter->getErrorMessage()
             );
         }
 
@@ -42,7 +42,7 @@ final class IntlMoneyParser implements MoneyParser
         }
 
         if (substr($decimal, 0, 1) === '-') {
-            $decimal = '-' . ltrim(substr($decimal, 1), '0');
+            $decimal = '-'.ltrim(substr($decimal, 1), '0');
         } else {
             $decimal = ltrim($decimal, '0');
         }

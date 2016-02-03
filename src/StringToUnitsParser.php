@@ -1,11 +1,11 @@
 <?php
+
 namespace Money;
 
 final class StringToUnitsParser implements MoneyParser
 {
-
     /**
-     * Creates units from string and returns Money
+     * Creates units from string and returns Money.
      *
      * {@inheritdoc}
      */
@@ -21,7 +21,7 @@ final class StringToUnitsParser implements MoneyParser
         $digits = "(?P<digits>\d*)";
         $separator = '(?P<separator>[.,])?';
         $decimals = "(?P<decimal1>\d)?(?P<decimal2>\d)?";
-        $pattern = '/^' . $sign . $digits . $separator . $decimals . '$/';
+        $pattern = '/^'.$sign.$digits.$separator.$decimals.'$/';
 
         if (!preg_match($pattern, trim($formattedMoney), $matches)) {
             throw new \InvalidArgumentException('The value could not be parsed as money');
@@ -33,7 +33,7 @@ final class StringToUnitsParser implements MoneyParser
         $units .= isset($matches['decimal2']) ? $matches['decimal2'] : '0';
 
         if ($matches['sign'] === '-') {
-            $units = '-' . ltrim(substr($units, 1), '0');
+            $units = '-'.ltrim(substr($units, 1), '0');
         } else {
             $units = ltrim($units, '0');
         }

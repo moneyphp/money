@@ -104,6 +104,7 @@ final class Number
 
     /**
      * @param float $floatingPoint
+     *
      * @return Number
      */
     public static function fromFloat($floatingPoint)
@@ -112,6 +113,6 @@ final class Number
             throw new \InvalidArgumentException('Floating point expected');
         }
 
-        return new Number(sprintf('%.8g', $floatingPoint));
+        return new self(sprintf('%.8g', $floatingPoint));
     }
 }

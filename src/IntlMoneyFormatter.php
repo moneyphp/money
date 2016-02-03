@@ -45,7 +45,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
         }
 
         if ($negative === true) {
-            $subunits = '-' . $subunits;
+            $subunits = '-'.$subunits;
         }
 
         return $this->formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
