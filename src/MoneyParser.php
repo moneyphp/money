@@ -2,15 +2,22 @@
 
 namespace Money;
 
+/**
+ * Parses a string into a Money object.
+ *
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
+ */
 interface MoneyParser
 {
     /**
-     * @param $formattedMoney
-     * @param null $forceCurrency
+     * Parses a string into a Money object (including currency).
+     *
+     * @param string      $money
+     * @param string|null $forceCurrency
      *
      * @return Money
      *
-     * @throws ParserException
+     * @throws Exception\ParserException
      */
-    public function parse($formattedMoney, $forceCurrency = null);
+    public function parse($money, $forceCurrency = null);
 }

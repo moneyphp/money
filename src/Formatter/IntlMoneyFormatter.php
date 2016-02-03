@@ -1,6 +1,9 @@
 <?php
 
-namespace Money;
+namespace Money\Formatter;
+
+use Money\Money;
+use Money\MoneyFormatter;
 
 /**
  * Formats a Money object using intl extension.
@@ -37,6 +40,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
 
         $fractionDigits = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
         $valueLength = strlen($valueBase);
+
         if ($valueLength > $fractionDigits) {
             $subunits = substr($valueBase, 0, $valueLength - $fractionDigits).'.';
             $subunits .= substr($valueBase, $valueLength - $fractionDigits);

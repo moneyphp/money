@@ -1,7 +1,17 @@
 <?php
 
-namespace Money;
+namespace Money\Parser;
 
+use Money\Currency;
+use Money\Exception\ParserException;
+use Money\Money;
+use Money\MoneyParser;
+
+/**
+ * Parses a string into a Money object regular expressions.
+ *
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
+ */
 final class StringToUnitsParser implements MoneyParser
 {
     /**

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Money;
+namespace Tests\Money\Formatter;
 
 use Money\Currency;
-use Money\IntlMoneyFormatter;
+use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 
-final class MoneyFormatterTest extends \PHPUnit_Framework_TestCase
+class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
     public function testRoundMoney()
     {
