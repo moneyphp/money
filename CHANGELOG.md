@@ -1,13 +1,32 @@
 # Change Log
 
-## Unreleased
+## 3.0.0-alpha
 
 ### Added
 
 - Currency repositories (ISO currencies included)
 - Money exchange (including [Swap](https://github.com/florianv/swap) implementation)
 - Money formatting (including intl formatter)
+- Money parsing (including intl parser)
 - Big integer support utilizing different, transparent calculation logic upon availability (bcmath, gmp, plain php)
+- Money and Currency implements JsonSerializable
+- Rounding up and down
+- Allocation to N targets
+
+### Changed
+
+- Library requires at least PHP 5.4
+- Library uses PSR-4
+
+### Fixed
+
+- Integer overflow
+
+### Removed
+
+- UnkownCurrency exception
+- Currency list is now provided by [umpirsky/currency-list](https://github.com/umpirsky/currency-list/)
+- RoundingMode class
 
 
 ## Pre 3.0
