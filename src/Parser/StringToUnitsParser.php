@@ -48,6 +48,6 @@ final class StringToUnitsParser implements MoneyParser
             $units = ltrim($units, '0');
         }
 
-        return new Money($units, new Currency($forceCurrency));
+        return new Money((int) $units, new Currency($forceCurrency));
     }
 }
