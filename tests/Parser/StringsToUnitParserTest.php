@@ -9,6 +9,8 @@ final class StringsToUnitParserTest extends \PHPUnit_Framework_TestCase
     public static function provideStrings()
     {
         return [
+            ['0', 0],
+            ['0.00', 0],
             ['1000', 100000],
             ['1000.0', 100000],
             ['1000.00', 100000],
