@@ -3,6 +3,7 @@ preset: symfony
 finder:
     path:
         - "src"
+        - "tests"
 
 enabled:
     - short_array_syntax
