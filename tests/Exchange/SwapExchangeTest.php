@@ -3,7 +3,6 @@
 namespace Tests\Money\Exchange;
 
 use Money\Currency;
-use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange\SwapExchange;
 use Prophecy\Argument;
 use Swap\Model\Rate;

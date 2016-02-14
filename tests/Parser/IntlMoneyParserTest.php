@@ -9,7 +9,7 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
     public static function provideFormattedMoney()
     {
         return [
-            ["$1000.00", 100000],
+            ['$1000.00', 100000],
             ['$1000.0', 100000],
             ['$1000.00', 100000],
             ['$0.01', 1],
@@ -35,7 +35,7 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testIntlParser($string, $units)
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $parser = new IntlMoneyParser($formatter);
         $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
@@ -47,7 +47,7 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testCannotConvertStringToUnits()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $parser = new IntlMoneyParser($formatter);
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', 'USD');
@@ -56,7 +56,7 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testDifferentLocale()
     {
         $formatter = new \NumberFormatter('en_CA', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $parser = new IntlMoneyParser($formatter);
         $money = $parser->parse('$1000.00');
@@ -68,7 +68,7 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testForceCurrency()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $parser = new IntlMoneyParser($formatter);
         $money = $parser->parse('$1000.00', 'CAD');
@@ -80,7 +80,7 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testFractionDigits()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
 
         $parser = new IntlMoneyParser($formatter);
@@ -92,7 +92,7 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testDifferentStyleWithPattern()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
 
         $parser = new IntlMoneyParser($formatter);
