@@ -29,7 +29,6 @@ class BitcoinSupportedMoneyFormatter implements MoneyFormatter
         $this->fractionDigits = $fractionDigits;
     }
 
-
     /**
      * Formats a Money object as string.
      *

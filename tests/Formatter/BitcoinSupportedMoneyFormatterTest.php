@@ -9,7 +9,6 @@ use Money\Money;
 
 final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testRoundMoney()
     {
         $money = new Money(100000, new Currency('XBT'));
