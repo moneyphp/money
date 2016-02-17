@@ -9,7 +9,6 @@ use Money\Money;
 
 final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testRoundMoney()
     {
         $money = new Money(100000, new Currency('XBT'));
@@ -79,6 +78,6 @@ final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCa
 
         $intlFormatter = new IntlMoneyFormatter($numberFormatter);
         $formatter = new BitcoinSupportedMoneyFormatter($intlFormatter, 2);
-        $this->assertEquals("$0.05", $formatter->format($money));
+        $this->assertEquals('$0.05', $formatter->format($money));
     }
 }

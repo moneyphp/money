@@ -7,7 +7,6 @@ use Money\Parser\IntlMoneyParser;
 
 final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public static function provideFormattedMoney()
     {
         return [
