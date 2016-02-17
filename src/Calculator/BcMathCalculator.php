@@ -45,7 +45,7 @@ final class BcMathCalculator implements Calculator
      */
     public function add($amount, $addend)
     {
-        return bcadd($amount, $addend);
+        return bcadd($amount, $addend, 0);
     }
 
     /**
@@ -58,7 +58,7 @@ final class BcMathCalculator implements Calculator
      */
     public function subtract($amount, $subtrahend)
     {
-        return bcsub($amount, $subtrahend);
+        return bcsub($amount, $subtrahend, 0);
     }
 
     /**
