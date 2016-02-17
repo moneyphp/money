@@ -7,7 +7,7 @@ use Money\MoneyFormatter;
 use Money\Parser\BitcoinSupportedMoneyParser;
 
 /**
- * Formats Money to Bitcoin currency
+ * Formats Money to Bitcoin currency.
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
@@ -26,7 +26,7 @@ final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
 
     /**
      * @param MoneyFormatter $innerFormatter
-     * @param int $fractionDigits
+     * @param int            $fractionDigits
      */
     public function __construct(MoneyFormatter $innerFormatter, $fractionDigits)
     {

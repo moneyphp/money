@@ -8,7 +8,7 @@ use Money\Money;
 use Money\MoneyParser;
 
 /**
- * Parses Bitcoin currency to Money
+ * Parses Bitcoin currency to Money.
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
@@ -27,7 +27,7 @@ final class BitcoinSupportedMoneyParser implements MoneyParser
 
     /**
      * @param MoneyParser $innerParser
-     * @param int $fractionDigits
+     * @param int         $fractionDigits
      */
     public function __construct(MoneyParser $innerParser, $fractionDigits)
     {
