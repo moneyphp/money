@@ -29,7 +29,6 @@ class BitcoinSupportedMoneyFormatter implements MoneyFormatter
         $this->fractionDigits = $fractionDigits;
     }
 
-
     /**
      * Formats a Money object as string.
      *
@@ -64,9 +63,9 @@ class BitcoinSupportedMoneyFormatter implements MoneyFormatter
         }
 
         if ($negative === true) {
-            $subunits = '-' . BitcoinSupportedMoneyParser::SYMBOL . $subunits;
+            $subunits = '-'.BitcoinSupportedMoneyParser::SYMBOL.$subunits;
         } else {
-            $subunits = BitcoinSupportedMoneyParser::SYMBOL . $subunits;
+            $subunits = BitcoinSupportedMoneyParser::SYMBOL.$subunits;
         }
 
         return $subunits;

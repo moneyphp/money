@@ -50,7 +50,7 @@ class BitcoinSupportedMoneyParser implements MoneyParser
         }
 
         if (substr($decimal, 0, 1) === '-') {
-            $decimal = '-' . ltrim(substr($decimal, 1), '0');
+            $decimal = '-'.ltrim(substr($decimal, 1), '0');
         } else {
             $decimal = ltrim($decimal, '0');
         }

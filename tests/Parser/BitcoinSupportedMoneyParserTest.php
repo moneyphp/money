@@ -7,7 +7,6 @@ use Money\Parser\IntlMoneyParser;
 
 final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
 {
-
     public static function provideFormattedMoney()
     {
         return [
@@ -38,7 +37,7 @@ final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testParse($string, $units)
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlParser = new IntlMoneyParser($formatter);
 
@@ -49,7 +48,7 @@ final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testParseDifferentCurrency()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlParser = new IntlMoneyParser($formatter);
 
@@ -60,7 +59,7 @@ final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
     public function testForceCurrency()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern("¤#,##0.00;-¤#,##0.00");
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlParser = new IntlMoneyParser($formatter);
         $parser = new BitcoinSupportedMoneyParser($intlParser, 2);
