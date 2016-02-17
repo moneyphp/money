@@ -7,14 +7,19 @@ use Money\Formatter\BitcoinSupportedMoneyFormatter;
 use Money\Money;
 use Money\MoneyParser;
 
-class BitcoinSupportedMoneyParser implements MoneyParser
+/**
+ * Parses Bitcoin currency to Money
+ *
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
+ */
+final class BitcoinSupportedMoneyParser implements MoneyParser
 {
     const SYMBOL = "\0xC9\0x83";
 
     /**
      * @var MoneyParser
      */
-    private $innerParser;
+    private $delegatedParser;
     /**
      * @var int
      */
@@ -22,11 +27,11 @@ class BitcoinSupportedMoneyParser implements MoneyParser
 
     /**
      * @param MoneyParser $innerParser
-     * @param $fractionDigits
+     * @param int $fractionDigits
      */
     public function __construct(MoneyParser $innerParser, $fractionDigits)
     {
-        $this->innerParser = $innerParser;
+        $this->delegatedParser = $innerParser;
         $this->fractionDigits = $fractionDigits;
     }
 
@@ -36,7 +41,7 @@ class BitcoinSupportedMoneyParser implements MoneyParser
     public function parse($formattedMoney, $forceCurrency = null)
     {
         if (strpos($formattedMoney, self::SYMBOL) === false) {
-            return $this->innerParser->parse($formattedMoney, $forceCurrency);
+            return $this->delegatedParser->parse($formattedMoney, $forceCurrency);
         }
 
         $decimal = str_replace(self::SYMBOL, '', $formattedMoney);

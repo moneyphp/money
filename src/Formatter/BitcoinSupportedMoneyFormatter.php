@@ -6,14 +6,19 @@ use Money\Money;
 use Money\MoneyFormatter;
 use Money\Parser\BitcoinSupportedMoneyParser;
 
-class BitcoinSupportedMoneyFormatter implements MoneyFormatter
+/**
+ * Formats Money to Bitcoin currency
+ *
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
+ */
+final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
 {
     const CODE = 'XBT';
 
     /**
      * @var MoneyFormatter
      */
-    private $innerFormatter;
+    private $delegatedFormatter;
     /**
      * @var int
      */
@@ -21,11 +26,11 @@ class BitcoinSupportedMoneyFormatter implements MoneyFormatter
 
     /**
      * @param MoneyFormatter $innerFormatter
-     * @param $fractionDigits
+     * @param int $fractionDigits
      */
     public function __construct(MoneyFormatter $innerFormatter, $fractionDigits)
     {
-        $this->innerFormatter = $innerFormatter;
+        $this->delegatedFormatter = $innerFormatter;
         $this->fractionDigits = $fractionDigits;
     }
 
@@ -39,7 +44,7 @@ class BitcoinSupportedMoneyFormatter implements MoneyFormatter
     public function format(Money $money)
     {
         if ($money->getCurrency()->getCode() !== self::CODE) {
-            return $this->innerFormatter->format($money);
+            return $this->delegatedFormatter->format($money);
         }
 
         $valueBase = (string) $money->getAmount();
@@ -52,6 +57,7 @@ class BitcoinSupportedMoneyFormatter implements MoneyFormatter
 
         $fractionDigits = $this->fractionDigits;
         $valueLength = strlen($valueBase);
+
         if ($valueLength > $fractionDigits) {
             $subunits = substr($valueBase, 0, $valueLength - $fractionDigits);
             if ($fractionDigits) {
