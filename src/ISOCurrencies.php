@@ -22,24 +22,18 @@ final class ISOCurrencies implements Currencies
     public function contains(Currency $currency)
     {
         if (null === self::$currencies) {
-            self::$currencies = $this->requireCurrencies();
+            self::$currencies = $this->loadCurrencies();
         }
 
         return array_key_exists($currency->getCode(), self::$currencies);
     }
 
-    private function requireCurrencies()
+    private function loadCurrencies()
     {
-        $file = 'umpirsky/currency-list/data/en/currency.php';
+        $file = __DIR__.'/../resources/currency.php';
 
-        $path = __DIR__.'/../vendor/'.$file;
-        if (file_exists($path)) {
-            return require $path;
-        }
-
-        $path = __DIR__.'/../../../'.$file;
-        if (file_exists($path)) {
-            return require $path;
+        if (file_exists($file)) {
+            return require $file;
         }
 
         throw new \RuntimeException('Failed to load currency ISO codes.');
