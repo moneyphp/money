@@ -12,8 +12,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
-        "umpirsky/currency-list": "^1.0"
+        "php": ">=5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.5",
@@ -21,7 +20,7 @@
         "ext-gmp": "*",
         "ext-intl": "*",
         "florianv/swap": "^2.3",
-        "fabpot/php-cs-fixer": "^1.11"
+        "umpirsky/currency-list": "^1.0"
     },
     "suggest": {
         "TheBigBrainsCompany/TbbcMoneyBundle": "Very complete Symfony2 bundle with support for Twig, Doctrine, Forms, ...",
