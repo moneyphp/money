@@ -2,6 +2,8 @@
 
 namespace Money;
 
+use Alcohol\ISO4217;
+
 /**
  * List of supported ISO 4217 currency codes and names.
  *
@@ -21,27 +23,14 @@ final class ISOCurrencies implements Currencies
      */
     public function contains(Currency $currency)
     {
-        if (null === self::$currencies) {
-            self::$currencies = $this->requireCurrencies();
+        $iso4217 = new ISO4217();
+
+        try {
+            $iso4217->getByAlpha3($currency->getCode());
+        } catch (\OutOfBoundsException $e) {
+            return false;
         }
 
-        return array_key_exists($currency->getCode(), self::$currencies);
-    }
-
-    private function requireCurrencies()
-    {
-        $file = 'umpirsky/currency-list/data/en/currency.php';
-
-        $path = __DIR__.'/../vendor/'.$file;
-        if (file_exists($path)) {
-            return require $path;
-        }
-
-        $path = __DIR__.'/../../../'.$file;
-        if (file_exists($path)) {
-            return require $path;
-        }
-
-        throw new \RuntimeException('Failed to load currency ISO codes.');
+        return true;
     }
 }
