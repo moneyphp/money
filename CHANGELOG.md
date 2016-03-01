@@ -1,5 +1,19 @@
 # Change Log
 
+## 3.0.0-beta
+
+### Added
+
+- Bitcoin parser and formatter
+- Also checking tests folder for StyleCI
+
+### Fixed
+
+- Currencies are now included in the repo
+- Currency list generation moved to dev dependency: reduces repo size
+- BC Math calculator adding and subtracting failed when bcscale was set
+- Parsing zero for StringToUnitsParser
+
 ## 3.0.0-alpha
 
 ### Added
