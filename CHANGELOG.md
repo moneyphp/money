@@ -1,6 +1,6 @@
 # Change Log
 
-## 3.0.0-beta
+## 3.0.0-beta - 2016-03-01
 
 ### Added
 
@@ -14,7 +14,7 @@
 - BC Math calculator adding and subtracting failed when bcscale was set
 - Parsing zero for StringToUnitsParser
 
-## 3.0.0-alpha
+## 3.0.0-alpha - 2016-02-04
 
 ### Added
 
