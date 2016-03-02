@@ -2,6 +2,10 @@
 
 ## 3.0.0-beta - 2016-03-01
 
+### Breaking Change in 3.0
+
+- Money::getAmount() returns a string instead of an int value  
+
 ### Added
 
 - Bitcoin parser and formatter
