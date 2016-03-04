@@ -80,8 +80,9 @@ final class Money implements \JsonSerializable
     /**
      * Convert a given decimal/currency pair into a Money object.
      *
-     * @param float|integer $money
-     * @param string        $currency
+     * @param  float|integer $money
+     * @param  string        $currency
+     * @return Money
      */
     public static function fromDecimal($money, $currency)
     {
