@@ -27,6 +27,35 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     *
+     * @covers  Money\Money::fromDecimal
+     * @depends testGetters
+     */
+    public function testDecimalToMoney()
+    {
+        $this->assertInstanceOf(
+            Money::class,
+            $m = Money::fromDecimal(999, $euro = 'EUR')
+        );
+        $this->assertEquals(99900, $m->getAmount());
+        $this->assertEquals($euro, $m->getCurrency());
+
+        $this->assertInstanceOf(
+            Money::class,
+            $m = Money::fromDecimal(999.99, $euro = 'EUR')
+        );
+        $this->assertEquals(99999, $m->getAmount());
+        $this->assertEquals($euro, $m->getCurrency());
+
+        $this->assertInstanceOf(
+            Money::class,
+            $m = Money::fromDecimal(pi(), $euro = 'EUR')
+        );
+        $this->assertEquals(314, $m->getAmount());
+        $this->assertEquals($euro, $m->getCurrency());
+    }
+
+    /**
      * @expectedException \InvalidArgumentException
      */
     public function testDecimalsThrowException()

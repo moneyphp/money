@@ -78,6 +78,22 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * Convert a given decimal/currency pair into a Money object.
+     *
+     * @param float|integer $money
+     * @param string        $currency
+     */
+    public static function fromDecimal($money, $currency)
+    {
+        return new self(
+            intval(
+                round($money * 100, 0, PHP_ROUND_HALF_DOWN)
+            ),
+            new Currency($currency)
+        );
+    }
+
+    /**
      * Returns a new Money instance based on the current one using the Currency.
      *
      * @param int|string $amount
