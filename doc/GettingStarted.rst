@@ -1,29 +1,23 @@
-
 Getting started
 ===============
 
 All amounts are represented in the smallest unit (eg. cents), so USD 5.00 is written as
 
 .. code-block:: php
-   
-   <?php
-   $fiver = new Money(500, new Currency('USD'));
-   // or shorter:
-   $fiver = Money::USD(500);
 
-Autoloading
------------
+    use Money\Currency;
+    use Money\Money;
 
-You'll need an autoloader. Money is PSR-0 compatible, so if you are using the Symfony2 autoloader, this will do:
+    $fiver = new Money(500, new Currency('USD'));
+    // or shorter:
+    $fiver = Money::USD(500);
 
-.. code-block:: php
-   
-   <?php
-   use Symfony\Component\ClassLoader\UniversalClassLoader;
-   
-   $loader = new UniversalClassLoader;
-   $loader->registerNamespaces(array(
-      'Money' => __DIR__ . '/vendor/money/lib/',
-   ));
-   $loader->register();
-      
+
+Installation
+------------
+
+Install the library using composer. Execute the following command in your command line.
+
+.. code-block:: bash
+
+    $ composer require mathiasverraes/money

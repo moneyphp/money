@@ -1,0 +1,55 @@
+div.highlight {
+    background-color: #343131 !important;
+}
+
+div.highlight pre {
+    border: none;
+    color: white !important;
+}
+
+div.highlight pre span.n,
+div.highlight pre span.na,
+div.highlight pre span.nb,
+div.highlight pre span.nc,
+div.highlight pre span.nf,
+div.highlight pre span.nx,
+div.highlight pre span.kn {
+    color: white;
+}
+
+div.highlight pre span.nv {
+    color: #6ab0de
+}
+
+div.highlight pre span.k, div.highlight pre span.o {
+    color: #ff8400;
+}
+
+div.highlight pre span.mi,
+div.highlight pre span.s,
+div.highlight pre span.s1,
+div.highlight pre span.s2,
+div.highlight pre span.sr {
+    color: #56db3a;
+}
+
+div.highlight pre span.hll {
+    background-color: #848484;
+}
+
+div.highlight pre span.hll span.c1 {
+    color: #d8d8d8;
+}
+
+div.highlight pre span.p {
+    color: #b3b3b3;
+}
+
+table.highlighttable td {
+    padding: 0;
+}
+
+table.highlighttable td div.linenodiv {
+    text-align: right;
+    width: 38px;
+}

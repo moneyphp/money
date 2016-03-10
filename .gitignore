@@ -1,4 +1,5 @@
 build/
+doc/_build/
 vendor/
 composer.lock
 phpunit.xml
