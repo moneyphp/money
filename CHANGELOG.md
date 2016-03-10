@@ -2,10 +2,6 @@
 
 ## 3.0.0-beta - 2016-03-01
 
-### Breaking Change in 3.0
-
-- Money::getAmount() returns a string instead of an int value  
-
 ### Added
 
 - Bitcoin parser and formatter
@@ -33,6 +29,9 @@
 
 ### Changed
 
+- **[BC break]** Money::getAmount() returns a string instead of an int value
+- **[BC break]** Moved stringToUnits to StringToUnitsParser parser
+- Announced deprecations are removed (Currency::getName, CurrencyPair::getRatio, Money::getUnits)
 - Library requires at least PHP 5.4
 - Library uses PSR-4
 
