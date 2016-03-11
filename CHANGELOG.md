@@ -31,7 +31,6 @@
 
 - **[BC break]** Money::getAmount() returns a string instead of an int value
 - **[BC break]** Moved stringToUnits to StringToUnitsParser parser
-- Announced deprecations are removed (Currency::getName, CurrencyPair::getRatio, Money::getUnits)
 - Library requires at least PHP 5.4
 - Library uses PSR-4
 
@@ -41,9 +40,10 @@
 
 ### Removed
 
-- UnkownCurrency exception
-- Currency list is now provided by [umpirsky/currency-list](https://github.com/umpirsky/currency-list/)
-- RoundingMode class
+- **[BC break]** UnkownCurrency exception
+- **[BC break]** Currency list is now provided by [umpirsky/currency-list](https://github.com/umpirsky/currency-list/)
+- **[BC break]** RoundingMode class
+- **[BC break]** Announced deprecations are removed (Currency::getName, CurrencyPair::getRatio, Money::getUnits)
 
 
 ## Pre 3.0
