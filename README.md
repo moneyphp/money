@@ -36,7 +36,7 @@ Install the library using [composer][1]. Add the following to your `composer.jso
 {
     "require": {
         "mathiasverraes/money": "~3.0"
-    },
+    }
 }
 ```
 
