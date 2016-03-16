@@ -145,6 +145,12 @@ final class Number
             return '';
         }
 
-        return substr($this->number, $this->decimalSeparatorPosition + 1);
+        $fractionalPart = substr($this->number, $this->decimalSeparatorPosition + 1);
+
+        if (str_pad('', strlen($fractionalPart), '0') === $fractionalPart) {
+            return '';
+        }
+
+        return $fractionalPart;
     }
 }

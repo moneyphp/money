@@ -109,6 +109,9 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 
         $number = new Number('10');
         $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('10.00');
+        $this->assertEquals('', $number->getFractionalPart());
     }
 
     public function testConstructor()
