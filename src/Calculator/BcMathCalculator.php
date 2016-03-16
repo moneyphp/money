@@ -117,7 +117,11 @@ final class BcMathCalculator implements Calculator
         }
 
         if ($roundingMode === Money::ROUND_HALF_UP) {
-            return $this->ceil((string) $number);
+            if ($number->isNegative() === true) {
+                return bcadd((string) $number, '-1', 0);
+            } else {
+                return bcadd((string) $number, '1', 0);
+            }
         }
 
         if ($roundingMode === Money::ROUND_HALF_EVEN) {
@@ -147,7 +151,11 @@ final class BcMathCalculator implements Calculator
     private function roundDigit(Number $number)
     {
         if ($number->isCloserToNext()) {
-            return $this->ceil((string) $number);
+            if ($number->isNegative()) {
+                return bcadd((string) $number, '-1', 0);
+            } else {
+                return bcadd((string) $number, '1', 0);
+            }
         }
 
         return $this->floor((string) $number);

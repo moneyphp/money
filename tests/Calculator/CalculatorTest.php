@@ -84,6 +84,10 @@ abstract class CalculatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2', $calculator->round(2, Money::ROUND_HALF_EVEN));
         $this->assertEquals('2', $calculator->round(2, Money::ROUND_HALF_ODD));
         $this->assertEquals('12', $calculator->round('12.50', Money::ROUND_HALF_DOWN));
+        $this->assertEquals('-2', $calculator->round(-1.5, Money::ROUND_HALF_UP));
+        $this->assertEquals('-8329', $calculator->round(-8328.578947368, Money::ROUND_HALF_UP));
+        $this->assertEquals('-8329', $calculator->round(-8328.5, Money::ROUND_HALF_UP));
+        $this->assertEquals('-8328', $calculator->round(-8328.5, Money::ROUND_HALF_DOWN));
     }
 
     public function testShare()

@@ -48,16 +48,15 @@ final class GmpCalculator implements Calculator
      */
     public function multiply($amount, $multiplier)
     {
-        $multiplier = (string) $multiplier;
-        $decimalSeparatorPosition = strpos($multiplier, '.');
+        $multiplier = new Number((string) $multiplier);
 
-        if ($decimalSeparatorPosition !== false) {
-            $decimalPlaces = strlen($multiplier) - ($decimalSeparatorPosition + 1);
-            $multiplierBase = substr($multiplier, 0, $decimalSeparatorPosition);
+        if ($multiplier->isDecimal()) {
+            $decimalPlaces = strlen($multiplier->getFractionalPart());
+            $multiplierBase = $multiplier->getIntegerPart();
             if ($multiplierBase) {
-                $multiplierBase .= substr($multiplier, $decimalSeparatorPosition + 1);
+                $multiplierBase .= $multiplier->getFractionalPart();
             } else {
-                $multiplierBase = substr($multiplier, $decimalSeparatorPosition + 1);
+                $multiplierBase = $multiplier->getFractionalPart();
             }
 
             $resultBase = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplierBase)));
@@ -68,7 +67,7 @@ final class GmpCalculator implements Calculator
             return $result;
         }
 
-        return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((int) $multiplier)));
+        return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((string) $multiplier)));
     }
 
     /**
@@ -84,14 +83,13 @@ final class GmpCalculator implements Calculator
      */
     public function ceil($number)
     {
-        $number = (string) $number;
+        $number = new Number((string) $number);
 
-        $decimalSeparatorPosition = strpos($number, '.');
-        if ($decimalSeparatorPosition === false) {
+        if ($number->isDecimal() === false) {
             return $number;
         }
 
-        return $this->add(substr($number, 0, $decimalSeparatorPosition), 1);
+        return $this->add($number->getIntegerPart(), 1);
     }
 
     /**
@@ -99,12 +97,13 @@ final class GmpCalculator implements Calculator
      */
     public function floor($number)
     {
-        $decimalSeparatorPosition = strpos($number, '.');
-        if ($decimalSeparatorPosition === false) {
+        $number = new Number((string) $number);
+
+        if ($number->isDecimal() === false) {
             return $number;
         }
 
-        return $this->add(substr($number, 0, $decimalSeparatorPosition), 0);
+        return $this->add($number->getIntegerPart(), 0);
     }
 
     /**
@@ -126,7 +125,11 @@ final class GmpCalculator implements Calculator
         }
 
         if ($roundingMode === Money::ROUND_HALF_UP) {
-            return $this->ceil((string) $number);
+            if ($number->isNegative() === true) {
+                return $this->add($number->getIntegerPart(), -1);
+            } else {
+                return $this->add($number->getIntegerPart(), 1);
+            }
         }
 
         if ($roundingMode === Money::ROUND_HALF_EVEN) {
@@ -156,7 +159,11 @@ final class GmpCalculator implements Calculator
     private function roundDigit(Number $number)
     {
         if ($number->isCloserToNext()) {
-            return $this->ceil((string) $number);
+            if ($number->isNegative()) {
+                return $this->add($number->getIntegerPart(), -1);
+            } else {
+                return $this->add($number->getIntegerPart(), 1);
+            }
         }
 
         return $this->floor((string) $number);
