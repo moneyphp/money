@@ -136,6 +136,21 @@ class NumberTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $number->getFractionalPart());
     }
 
+    public function testIntegerRoundingMultiplier()
+    {
+        $number = new Number('-10');
+        $this->assertEquals('-1', $number->getIntegerRoundingMultiplier());
+
+        $number = new Number('10');
+        $this->assertEquals('1', $number->getIntegerRoundingMultiplier());
+
+        $number = new Number('-10.5');
+        $this->assertEquals('-1', $number->getIntegerRoundingMultiplier());
+
+        $number = new Number('10.5');
+        $this->assertEquals('1', $number->getIntegerRoundingMultiplier());
+    }
+
     public function testConstructor()
     {
         $this->setExpectedException('InvalidArgumentException');
