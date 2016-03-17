@@ -244,6 +244,8 @@ final class Money implements \JsonSerializable
     /**
      * Asserts that the operand is integer or float.
      *
+     * @param float|int|string $operand
+     *
      * @throws \InvalidArgumentException If $operand is neither integer nor float
      */
     private function assertOperand($operand)
