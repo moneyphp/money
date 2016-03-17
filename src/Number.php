@@ -148,6 +148,9 @@ final class Number
         return rtrim(substr($this->number, $this->decimalSeparatorPosition + 1), '0');
     }
 
+    /**
+     * @return string
+     */
     public function getIntegerRoundingMultiplier()
     {
         if ($this->isNegative()) {
