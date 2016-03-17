@@ -266,7 +266,7 @@ final class Money implements \JsonSerializable
             $roundingMode, [
                 self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD,
                 self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN,
-                self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY
+                self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY,
             ], true
         )) {
             throw new \InvalidArgumentException(
