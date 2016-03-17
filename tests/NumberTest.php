@@ -66,6 +66,91 @@ class NumberTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($number->isCurrentEven());
     }
 
+    public function testIsNegative()
+    {
+        $number = new Number('-10');
+        $this->assertTrue($number->isNegative());
+
+        $number = new Number('10');
+        $this->assertFalse($number->isNegative());
+
+        $number = new Number('-10.5');
+        $this->assertTrue($number->isNegative());
+
+        $number = new Number('10.5');
+        $this->assertFalse($number->isNegative());
+    }
+
+    public function testIntegerPart()
+    {
+        $number = new Number('10');
+        $this->assertEquals('10', $number->getIntegerPart());
+
+        $number = new Number('10.5');
+        $this->assertEquals('10', $number->getIntegerPart());
+
+        $number = new Number('-10');
+        $this->assertEquals('-10', $number->getIntegerPart());
+
+        $number = new Number('-10.5');
+        $this->assertEquals('-10', $number->getIntegerPart());
+    }
+
+    public function testFractionalPart()
+    {
+        $number = new Number('10.5');
+        $this->assertEquals('5', $number->getFractionalPart());
+
+        $number = new Number('-10.5');
+        $this->assertEquals('5', $number->getFractionalPart());
+
+        $number = new Number('-10');
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('10');
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('10.00');
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('10.500');
+        $this->assertEquals('5', $number->getFractionalPart());
+    }
+
+    public function testZero()
+    {
+        $number = new Number('0');
+        $this->assertEquals('0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('0.00');
+        $this->assertEquals('0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('-0');
+        $this->assertEquals('-0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('-0.00');
+        $this->assertEquals('-0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+    }
+
+    public function testIntegerRoundingMultiplier()
+    {
+        $number = new Number('-10');
+        $this->assertEquals('-1', $number->getIntegerRoundingMultiplier());
+
+        $number = new Number('10');
+        $this->assertEquals('1', $number->getIntegerRoundingMultiplier());
+
+        $number = new Number('-10.5');
+        $this->assertEquals('-1', $number->getIntegerRoundingMultiplier());
+
+        $number = new Number('10.5');
+        $this->assertEquals('1', $number->getIntegerRoundingMultiplier());
+    }
+
     public function testConstructor()
     {
         $this->setExpectedException('InvalidArgumentException');

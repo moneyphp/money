@@ -3,6 +3,8 @@
 namespace Money\Calculator;
 
 use Money\Calculator;
+use Money\Money;
+use Money\Number;
 
 /**
  * @author Frederik Bosch <f.bosch@genkgo.nl>
@@ -94,6 +96,26 @@ final class PhpCalculator implements Calculator
      */
     public function round($number, $roundingMode)
     {
+        if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {
+            $number = new Number((string) $number);
+
+            if ($number->isHalf() === true) {
+                return $this->castInteger(ceil((string) $number));
+            }
+
+            return $this->castInteger(round((string) $number, 0, Money::ROUND_HALF_UP));
+        }
+
+        if ($roundingMode === Money::ROUND_HALF_NEGATIVE_INFINITY) {
+            $number = new Number((string) $number);
+
+            if ($number->isHalf() === true) {
+                return $this->castInteger(floor((string) $number));
+            }
+
+            return $this->castInteger(round((string) $number, 0, Money::ROUND_HALF_DOWN));
+        }
+
         return $this->castInteger(round($number, 0, $roundingMode));
     }
 

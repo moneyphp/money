@@ -82,12 +82,16 @@ final class BcMathCalculator implements Calculator
      */
     public function ceil($number)
     {
-        $decimalSeparatorPosition = strpos($number, '.');
-        if ($decimalSeparatorPosition === false) {
-            return $number;
+        $number = new Number((string) $number);
+        if ($number->isDecimal() === false) {
+            return (string) $number;
         }
 
-        return bcadd($number, '1', 0);
+        if ($number->isNegative() === true) {
+            return bcadd((string) $number, '0', 0);
+        }
+
+        return bcadd((string) $number, '1', 0);
     }
 
     /**
@@ -95,6 +99,15 @@ final class BcMathCalculator implements Calculator
      */
     public function floor($number)
     {
+        $number = new Number((string) $number);
+        if ($number->isDecimal() === false) {
+            return (string) $number;
+        }
+
+        if ($number->isNegative() === true) {
+            return bcadd((string) $number, '-1', 0);
+        }
+
         return bcadd($number, '0', 0);
     }
 
@@ -112,28 +125,68 @@ final class BcMathCalculator implements Calculator
             return $this->roundDigit($number);
         }
 
-        if ($roundingMode === Money::ROUND_HALF_DOWN) {
-            return $this->floor((string) $number);
+        if ($roundingMode === Money::ROUND_HALF_UP) {
+            return bcadd(
+                (string) $number,
+                $number->getIntegerRoundingMultiplier(),
+                0
+            );
         }
 
-        if ($roundingMode === Money::ROUND_HALF_UP) {
-            return $this->ceil((string) $number);
+        if ($roundingMode === Money::ROUND_HALF_DOWN) {
+            return bcadd((string) $number, '0', 0);
         }
 
         if ($roundingMode === Money::ROUND_HALF_EVEN) {
             if ($number->isCurrentEven() === true) {
-                return $this->floor((string) $number);
-            } else {
-                return $this->ceil((string) $number);
+                return bcadd((string) $number, '0', 0);
             }
+
+            return bcadd(
+                (string) $number,
+                $number->getIntegerRoundingMultiplier(),
+                0
+            );
         }
 
         if ($roundingMode === Money::ROUND_HALF_ODD) {
             if ($number->isCurrentEven() === true) {
-                return $this->ceil((string) $number);
-            } else {
-                return $this->floor((string) $number);
+                return bcadd(
+                    (string) $number,
+                    $number->getIntegerRoundingMultiplier(),
+                    0
+                );
             }
+
+            return bcadd((string) $number, '0', 0);
+        }
+
+        if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {
+            if ($number->isNegative() === true) {
+                return bcadd((string) $number, '0', 0);
+            }
+
+            return bcadd(
+                (string) $number,
+                $number->getIntegerRoundingMultiplier(),
+                0
+            );
+        }
+
+        if ($roundingMode === Money::ROUND_HALF_NEGATIVE_INFINITY) {
+            if ($number->isNegative() === true) {
+                return bcadd(
+                    (string) $number,
+                    $number->getIntegerRoundingMultiplier(),
+                    0
+                );
+            }
+
+            return bcadd(
+                (string) $number,
+                '0',
+                0
+            );
         }
 
         throw new \InvalidArgumentException('Unknown rounding mode');
@@ -147,10 +200,14 @@ final class BcMathCalculator implements Calculator
     private function roundDigit(Number $number)
     {
         if ($number->isCloserToNext()) {
-            return $this->ceil((string) $number);
+            return bcadd(
+                (string) $number,
+                $number->getIntegerRoundingMultiplier(),
+                0
+            );
         }
 
-        return $this->floor((string) $number);
+        return bcadd((string) $number, '0', 0);
     }
 
     /**
