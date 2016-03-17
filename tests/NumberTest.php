@@ -117,6 +117,25 @@ class NumberTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('5', $number->getFractionalPart());
     }
 
+    public function testZero()
+    {
+        $number = new Number('0');
+        $this->assertEquals('0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('0.00');
+        $this->assertEquals('0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('-0');
+        $this->assertEquals('-0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+
+        $number = new Number('-0.00');
+        $this->assertEquals('-0', $number->getIntegerPart());
+        $this->assertEquals('', $number->getFractionalPart());
+    }
+
     public function testConstructor()
     {
         $this->setExpectedException('InvalidArgumentException');

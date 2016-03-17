@@ -147,4 +147,13 @@ final class Number
 
         return rtrim(substr($this->number, $this->decimalSeparatorPosition + 1), '0');
     }
+
+    public function getIntegerRoundingMultiplier()
+    {
+        if ($this->isNegative()) {
+            return '-1';
+        }
+
+        return '1';
+    }
 }

@@ -15,6 +15,8 @@ final class Money implements \JsonSerializable
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
     const ROUND_UP = 5;
     const ROUND_DOWN = 6;
+    const ROUND_HALF_POSITIVE_INFINITY = 7;
+    const ROUND_HALF_NEGATIVE_INFINITY = 8;
 
     /**
      * Internal value.
@@ -264,12 +266,14 @@ final class Money implements \JsonSerializable
             $roundingMode, [
                 self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD,
                 self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN,
+                self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY
             ], true
         )) {
             throw new \InvalidArgumentException(
                 'Rounding mode should be Money::ROUND_HALF_DOWN | '.
                 'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.
-                'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'
+                'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.
+                'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY'
             );
         }
     }
