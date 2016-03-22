@@ -37,7 +37,7 @@ class SwapExchangeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame(
-            1.0,
+            "1",
             $currencyPair->getConversionRatio()
         );
     }

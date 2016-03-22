@@ -78,6 +78,21 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Money::EUR(100), $eur);
     }
 
+    public function testConvertsArsToUsdAndBack()
+    {
+        $ratio = '14.834670';
+        $inverseRatio = '0.067409656';
+
+        $pair = CurrencyPair::createFromISO('USD/ARS ' . $ratio);
+        $inversePair = CurrencyPair::createFromISO('ARS/USD ' . $inverseRatio);
+
+        $moneyUsd = new Money(286, new Currency('USD'));
+        $moneyArs = new Money(4243, new Currency('ARS'));
+
+        $this->assertEquals(4243, $pair->convert($moneyUsd)->getAmount());
+        $this->assertEquals(286, $inversePair->convert($moneyArs)->getAmount());
+    }
+
     public function testConvertsEurToUsdWithModes()
     {
         $eur = Money::EUR(10);
@@ -117,7 +132,7 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
 
     public function testJsonEncoding()
     {
-        $expected_json = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":1.25}';
+        $expected_json = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":"1.25"}';
         $actual_json = json_encode(new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.25));
 
         $this->assertEquals($expected_json, $actual_json);
