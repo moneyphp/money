@@ -83,8 +83,8 @@ final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
         $ratio = '14.834670';
         $inverseRatio = '0.067409656';
 
-        $pair = CurrencyPair::createFromISO('USD/ARS ' . $ratio);
-        $inversePair = CurrencyPair::createFromISO('ARS/USD ' . $inverseRatio);
+        $pair = CurrencyPair::createFromISO('USD/ARS '.$ratio);
+        $inversePair = CurrencyPair::createFromISO('ARS/USD '.$inverseRatio);
 
         $moneyUsd = new Money(286, new Currency('USD'));
         $moneyArs = new Money(4243, new Currency('ARS'));
