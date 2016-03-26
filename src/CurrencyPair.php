@@ -45,7 +45,7 @@ final class CurrencyPair implements \JsonSerializable
 
         $this->counterCurrency = $counterCurrency;
         $this->baseCurrency = $baseCurrency;
-        $this->conversionRatio = (float) $conversionRatio;
+        $this->conversionRatio = (string) $conversionRatio;
     }
 
     /**
