@@ -129,7 +129,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
             [false, 'boolean'],
             ['operand', 'string'],
             [null, 'NULL'],
-            [new \stdClass(), 'object'],
+            [new \stdClass(), 'stdClass'],
         ];
     }
 

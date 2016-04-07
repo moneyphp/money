@@ -251,7 +251,10 @@ final class Money implements \JsonSerializable
     private function assertOperand($operand)
     {
         if (!is_numeric($operand)) {
-            throw new \InvalidArgumentException(sprintf('Operand should be a numeric value, "%s" given.', gettype($operand)));
+            throw new \InvalidArgumentException(sprintf(
+                'Operand should be a numeric value, "%s" given.',
+                is_object($operand) ? get_class($operand) : gettype($operand)
+            ));
         }
     }
 
