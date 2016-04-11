@@ -112,12 +112,25 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @dataProvider invalidOperandTypes
      */
-    public function testInvalidMultiplicationOperand()
+    public function testInvalidMultiplicationOperand($operand, $type)
     {
+        $this->setExpectedException('InvalidArgumentException', sprintf('Operand should be a numeric value, "%s" given.', $type));
+
         $m = new Money(1, new Currency('EUR'));
-        $m->multiply('operand');
+        $m->multiply($operand);
+    }
+
+    public function invalidOperandTypes()
+    {
+        return [
+            [[], 'array'],
+            [false, 'boolean'],
+            ['operand', 'string'],
+            [null, 'NULL'],
+            [new \stdClass(), 'stdClass'],
+        ];
     }
 
     /**
