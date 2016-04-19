@@ -39,13 +39,13 @@ final class BitcoinSupportedMoneyParser implements MoneyParser
     /**
      * {@inheritdoc}
      */
-    public function parse($formattedMoney, $forceCurrency = null)
+    public function parse($money, $forceCurrency = null)
     {
-        if (strpos($formattedMoney, self::SYMBOL) === false) {
-            return $this->delegatedParser->parse($formattedMoney, $forceCurrency);
+        if (strpos($money, self::SYMBOL) === false) {
+            return $this->delegatedParser->parse($money, $forceCurrency);
         }
 
-        $decimal = str_replace(self::SYMBOL, '', $formattedMoney);
+        $decimal = str_replace(self::SYMBOL, '', $money);
         $decimalSeparator = strpos($decimal, '.');
         if ($decimalSeparator !== false) {
             $lengthDecimal = strlen($decimal);
