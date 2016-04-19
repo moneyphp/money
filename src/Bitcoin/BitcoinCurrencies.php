@@ -6,7 +6,7 @@ use Money\Currencies;
 use Money\Currency;
 
 /**
- * Bitcoin in Currencies list
+ * Bitcoin in Currencies list.
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
