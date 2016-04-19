@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Money\Parser;
+namespace Tests\Money\Bitcoin;
 
-use Money\Parser\BitcoinSupportedMoneyParser;
+use Money\Bitcoin\BitcoinParser;
 use Money\Parser\IntlMoneyParser;
 
-final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
+final class BitcoinParserTest extends \PHPUnit_Framework_TestCase
 {
     public static function provideFormattedMoney()
     {
@@ -41,7 +41,7 @@ final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
 
         $intlParser = new IntlMoneyParser($formatter);
 
-        $parser = new BitcoinSupportedMoneyParser($intlParser, 2);
+        $parser = new BitcoinParser($intlParser, 2);
         $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
     }
 
@@ -52,7 +52,7 @@ final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
 
         $intlParser = new IntlMoneyParser($formatter);
 
-        $parser = new BitcoinSupportedMoneyParser($intlParser, 2);
+        $parser = new BitcoinParser($intlParser, 2);
         $this->assertEquals('100000', $parser->parse('$1000.00', 'USD')->getAmount());
     }
 
@@ -62,7 +62,7 @@ final class BitcoinSupportedMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlParser = new IntlMoneyParser($formatter);
-        $parser = new BitcoinSupportedMoneyParser($intlParser, 2);
+        $parser = new BitcoinParser($intlParser, 2);
         $parsed = $parser->parse('$1000.00', 'XBT');
 
         $this->assertEquals('100000', $parsed->getAmount());
