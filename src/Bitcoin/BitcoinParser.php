@@ -1,9 +1,8 @@
 <?php
 
-namespace Money\Parser;
+namespace Money\Bitcoin;
 
 use Money\Currency;
-use Money\Formatter\BitcoinSupportedMoneyFormatter;
 use Money\Money;
 use Money\MoneyParser;
 
@@ -12,7 +11,7 @@ use Money\MoneyParser;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class BitcoinSupportedMoneyParser implements MoneyParser
+final class BitcoinParser implements MoneyParser
 {
     const SYMBOL = "\0xC9\0x83";
 
@@ -65,6 +64,6 @@ final class BitcoinSupportedMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, new Currency(BitcoinSupportedMoneyFormatter::CODE));
+        return new Money($decimal, new Currency(BitcoinFormatter::CODE));
     }
 }

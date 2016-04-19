@@ -1,17 +1,16 @@
 <?php
 
-namespace Money\Formatter;
+namespace Money\Bitcoin;
 
 use Money\Money;
 use Money\MoneyFormatter;
-use Money\Parser\BitcoinSupportedMoneyParser;
 
 /**
  * Formats Money to Bitcoin currency.
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
+final class BitcoinFormatter implements MoneyFormatter
 {
     const CODE = 'XBT';
 
@@ -70,9 +69,9 @@ final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
         }
 
         if ($negative === true) {
-            $subunits = '-'.BitcoinSupportedMoneyParser::SYMBOL.$subunits;
+            $subunits = '-'.BitcoinParser::SYMBOL.$subunits;
         } else {
-            $subunits = BitcoinSupportedMoneyParser::SYMBOL.$subunits;
+            $subunits = BitcoinParser::SYMBOL.$subunits;
         }
 
         return $subunits;
