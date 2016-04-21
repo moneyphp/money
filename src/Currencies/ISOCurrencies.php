@@ -1,6 +1,9 @@
 <?php
 
-namespace Money;
+namespace Money\Currencies;
+
+use Money\Currencies;
+use Money\Currency;
 
 /**
  * List of supported ISO 4217 currency codes and names.
@@ -30,7 +33,7 @@ final class ISOCurrencies implements Currencies
 
     private function loadCurrencies()
     {
-        $file = __DIR__.'/../resources/currency.php';
+        $file = __DIR__.'/../../resources/currency.php';
 
         if (file_exists($file)) {
             return require $file;
