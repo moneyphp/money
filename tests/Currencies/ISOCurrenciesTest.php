@@ -7,7 +7,7 @@ use Money\Currencies\ISOCurrencies;
 
 final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstructor()
+    public function testItContainsCurrencies()
     {
         $currencies = new ISOCurrencies();
 
