@@ -23,14 +23,14 @@ branches:
 matrix:
     fast_finish: true
     include:
-        - php: 5.4
+        - php: 5.5
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest --ignore-platform-reqs" COVERAGE=true TEST_COMMAND="composer test-ci"
 
 before_install:
     - travis_retry composer self-update
 
 install:
-    - travis_retry composer update ${COMPOSER_FLAGS} --prefer-source --no-interaction
+    - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
 
 script:
     - $TEST_COMMAND
