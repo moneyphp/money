@@ -2,12 +2,12 @@
 
 namespace Tests\Money\Formatter;
 
-use Money\Formatter\BitcoinSupportedMoneyFormatter;
+use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 
-final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCase
+final class BitcoinMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
     public function testRoundMoney()
     {
@@ -17,7 +17,7 @@ final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCa
         $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlFormatter = new IntlMoneyFormatter($numberFormatter);
-        $formatter = new BitcoinSupportedMoneyFormatter($intlFormatter, 2);
+        $formatter = new BitcoinMoneyFormatter($intlFormatter, 2);
         $this->assertEquals("\0xC9\0x831000.00", $formatter->format($money));
     }
 
@@ -29,7 +29,7 @@ final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCa
         $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlFormatter = new IntlMoneyFormatter($numberFormatter);
-        $formatter = new BitcoinSupportedMoneyFormatter($intlFormatter, 2);
+        $formatter = new BitcoinMoneyFormatter($intlFormatter, 2);
         $this->assertEquals("\0xC9\0x830.41", $formatter->format($money));
     }
 
@@ -41,7 +41,7 @@ final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCa
         $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlFormatter = new IntlMoneyFormatter($numberFormatter);
-        $formatter = new BitcoinSupportedMoneyFormatter($intlFormatter, 2);
+        $formatter = new BitcoinMoneyFormatter($intlFormatter, 2);
         $this->assertEquals("\0xC9\0x830.05", $formatter->format($money));
     }
 
@@ -53,7 +53,7 @@ final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCa
         $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlFormatter = new IntlMoneyFormatter($numberFormatter);
-        $formatter = new BitcoinSupportedMoneyFormatter($intlFormatter, 0);
+        $formatter = new BitcoinMoneyFormatter($intlFormatter, 0);
         $this->assertEquals("\0xC9\0x835", $formatter->format($money));
     }
 
@@ -65,7 +65,7 @@ final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCa
         $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlFormatter = new IntlMoneyFormatter($numberFormatter);
-        $formatter = new BitcoinSupportedMoneyFormatter($intlFormatter, 4);
+        $formatter = new BitcoinMoneyFormatter($intlFormatter, 4);
         $this->assertEquals("\0xC9\0x830.0005", $formatter->format($money));
     }
 
@@ -77,7 +77,7 @@ final class BitcoinSupportedMoneyFormatterTest extends \PHPUnit_Framework_TestCa
         $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $intlFormatter = new IntlMoneyFormatter($numberFormatter);
-        $formatter = new BitcoinSupportedMoneyFormatter($intlFormatter, 2);
+        $formatter = new BitcoinMoneyFormatter($intlFormatter, 2);
         $this->assertEquals('$0.05', $formatter->format($money));
     }
 }

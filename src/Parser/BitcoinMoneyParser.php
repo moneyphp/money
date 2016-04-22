@@ -2,8 +2,8 @@
 
 namespace Money\Parser;
 
+use Money\Currencies\BitcoinCurrencies;
 use Money\Currency;
-use Money\Formatter\BitcoinSupportedMoneyFormatter;
 use Money\Money;
 use Money\MoneyParser;
 
@@ -12,10 +12,8 @@ use Money\MoneyParser;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class BitcoinSupportedMoneyParser implements MoneyParser
+final class BitcoinMoneyParser implements MoneyParser
 {
-    const SYMBOL = "\0xC9\0x83";
-
     /**
      * @var MoneyParser
      */
@@ -41,13 +39,14 @@ final class BitcoinSupportedMoneyParser implements MoneyParser
      */
     public function parse($money, $forceCurrency = null)
     {
-        if (strpos($money, self::SYMBOL) === false) {
+        if (false === strpos($money, BitcoinCurrencies::SYMBOL)) {
             return $this->delegatedParser->parse($money, $forceCurrency);
         }
 
-        $decimal = str_replace(self::SYMBOL, '', $money);
+        $decimal = str_replace(BitcoinCurrencies::SYMBOL, '', $money);
         $decimalSeparator = strpos($decimal, '.');
-        if ($decimalSeparator !== false) {
+
+        if (false !== $decimalSeparator) {
             $lengthDecimal = strlen($decimal);
             $decimal = str_replace('.', '', $decimal);
             $decimal .= str_pad('', ($lengthDecimal - $decimalSeparator - $this->fractionDigits - 1) * -1, '0');
@@ -55,16 +54,16 @@ final class BitcoinSupportedMoneyParser implements MoneyParser
             $decimal .= str_pad('', $this->fractionDigits, '0');
         }
 
-        if (substr($decimal, 0, 1) === '-') {
+        if ('-' === substr($decimal, 0, 1)) {
             $decimal = '-'.ltrim(substr($decimal, 1), '0');
         } else {
             $decimal = ltrim($decimal, '0');
         }
 
-        if ($decimal === '') {
+        if ('' === $decimal) {
             $decimal = '0';
         }
 
-        return new Money($decimal, new Currency(BitcoinSupportedMoneyFormatter::CODE));
+        return new Money($decimal, new Currency(BitcoinCurrencies::CODE));
     }
 }

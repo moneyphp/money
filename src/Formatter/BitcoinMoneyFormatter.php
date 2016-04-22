@@ -2,19 +2,17 @@
 
 namespace Money\Formatter;
 
+use Money\Currencies\BitcoinCurrencies;
 use Money\Money;
 use Money\MoneyFormatter;
-use Money\Parser\BitcoinSupportedMoneyParser;
 
 /**
  * Formats Money to Bitcoin currency.
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
+final class BitcoinMoneyFormatter implements MoneyFormatter
 {
-    const CODE = 'XBT';
-
     /**
      * @var MoneyFormatter
      */
@@ -36,22 +34,18 @@ final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
     }
 
     /**
-     * Formats a Money object as string.
-     *
-     * @param Money $money
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function format(Money $money)
     {
-        if ($money->getCurrency()->getCode() !== self::CODE) {
+        if (BitcoinCurrencies::CODE !== $money->getCurrency()->getCode()) {
             return $this->delegatedFormatter->format($money);
         }
 
-        $valueBase = (string) $money->getAmount();
+        $valueBase = $money->getAmount();
         $negative = false;
 
-        if (substr($valueBase, 0, 1) === '-') {
+        if ('-' === substr($valueBase, 0, 1)) {
             $negative = true;
             $valueBase = substr($valueBase, 1);
         }
@@ -61,6 +55,7 @@ final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
 
         if ($valueLength > $fractionDigits) {
             $subunits = substr($valueBase, 0, $valueLength - $fractionDigits);
+
             if ($fractionDigits) {
                 $subunits .= '.';
                 $subunits .= substr($valueBase, $valueLength - $fractionDigits);
@@ -69,10 +64,10 @@ final class BitcoinSupportedMoneyFormatter implements MoneyFormatter
             $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
         }
 
-        if ($negative === true) {
-            $subunits = '-'.BitcoinSupportedMoneyParser::SYMBOL.$subunits;
-        } else {
-            $subunits = BitcoinSupportedMoneyParser::SYMBOL.$subunits;
+        $subunits = BitcoinCurrencies::SYMBOL.$subunits;
+
+        if (true === $negative) {
+            $subunits = '-'.BitcoinCurrencies::SYMBOL.$subunits;
         }
 
         return $subunits;
