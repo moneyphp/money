@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Money;
+namespace Tests\Money\Currencies;
 
 use Money\Currency;
-use Money\ISOCurrencies;
+use Money\Currencies\ISOCurrencies;
 
 final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
 {
-    public function testConstructor()
+    public function testItContainsCurrencies()
     {
         $currencies = new ISOCurrencies();
 
