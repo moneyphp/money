@@ -17,7 +17,7 @@ final class AggregateCurrenciesTest extends \PHPUnit_Framework_TestCase
 
         $currencies = new AggregateCurrencies([
             $currenciesMock1->reveal(),
-            $currenciesMock2->reveal()
+            $currenciesMock2->reveal(),
         ]);
 
         $this->assertTrue($currencies->contains(new Currency('EUR')));
@@ -32,7 +32,7 @@ final class AggregateCurrenciesTest extends \PHPUnit_Framework_TestCase
 
         $currencies = new AggregateCurrencies([
             $currenciesMock1->reveal(),
-            $currenciesMock2->reveal()
+            $currenciesMock2->reveal(),
         ]);
 
         $this->assertFalse($currencies->contains(new Currency('EUR')));
