@@ -51,7 +51,8 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "test-ci": "vendor/bin/phpunit --coverage-text"
+        "test-ci": "vendor/bin/phpunit --coverage-text",
+        "update-currencies": "cp vendor/umpirsky/currency-list/data/en/currency.php resources/"
     },
     "extra": {
         "branch-alias": {
