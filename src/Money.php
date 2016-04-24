@@ -448,10 +448,14 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param Calculator $calculator
+     * @param string $calculator
      */
-    public static function registerCalculator(Calculator $calculator)
+    public static function registerCalculator($calculator)
     {
+        if (false == is_a($calculator, Calculator::class, true)) {
+            throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
+        }
+
         array_unshift(self::$calculators, $calculator);
     }
 
