@@ -4,6 +4,8 @@ namespace Money;
 
 /**
  * Represents a numeric value.
+ *
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class Number
 {
