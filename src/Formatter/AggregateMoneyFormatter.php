@@ -45,6 +45,6 @@ final class AggregateMoneyFormatter implements MoneyFormatter
             return $this->formatters['*']->format($money);
         }
 
-        throw new FormatterException('No formatter found for currency ' . $currencyCode);
+        throw new FormatterException('No formatter found for currency '.$currencyCode);
     }
 }
