@@ -14,17 +14,17 @@ use Money\MoneyFormatter;
 final class AggregateMoneyFormatter implements MoneyFormatter
 {
     /**
-     * @var array|MoneyFormatter[]
+     * @var MoneyFormatter[]
      */
     private $formatters = [];
 
     /**
-     * @param array|MoneyFormatter[] $formatters
+     * @param MoneyFormatter[] $formatters
      */
     public function __construct(array $formatters)
     {
         foreach ($formatters as $currencyCode => $formatter) {
-            if ($formatter instanceof MoneyFormatter === false) {
+            if (false === $formatter instanceof MoneyFormatter) {
                 throw new \InvalidArgumentException('All formatters must implement Money\MoneyFormatter');
             }
             $this->formatters[$currencyCode] = $formatter;

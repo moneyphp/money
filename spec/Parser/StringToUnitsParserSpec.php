@@ -65,4 +65,9 @@ class StringToUnitsParserSpec extends ObjectBehavior
     {
         $this->shouldThrow(ParserException::class)->duringParse('€ 100');
     }
+
+    function it_does_not_parse_a_boolean()
+    {
+        $this->shouldThrow(ParserException::class)->duringParse(true);
+    }
 }

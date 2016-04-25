@@ -69,4 +69,9 @@ class BitcoinMoneyParserSpec extends ObjectBehavior
     {
         $this->shouldThrow(ParserException::class)->duringParse('€1.00');
     }
+
+    function it_does_not_parse_a_boolean()
+    {
+        $this->shouldThrow(ParserException::class)->duringParse(true);
+    }
 }

@@ -33,6 +33,10 @@ final class BitcoinMoneyParser implements MoneyParser
      */
     public function parse($money, $forceCurrency = null)
     {
+        if (!is_string($money)) {
+            throw new ParserException('Money should be a string');
+        }
+
         if (false === strpos($money, BitcoinCurrencies::SYMBOL)) {
             throw new ParserException('Value cannot be parsed as Bitcoin');
         }

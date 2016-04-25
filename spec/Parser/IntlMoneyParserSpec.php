@@ -71,4 +71,9 @@ class IntlMoneyParserSpec extends ObjectBehavior
 
         $this->shouldThrow(ParserException::class)->duringParse('INVALID', 'EUR');
     }
+
+    function it_does_not_parse_a_boolean()
+    {
+        $this->shouldThrow(ParserException::class)->duringParse(true);
+    }
 }

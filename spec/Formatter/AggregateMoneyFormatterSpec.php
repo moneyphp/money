@@ -10,30 +10,25 @@ use PhpSpec\ObjectBehavior;
 
 class AggregateMoneyFormatterSpec extends ObjectBehavior
 {
-    function it_is_initializable(MoneyFormatter $moneyFormatter)
+    function let (MoneyFormatter $moneyFormatter)
     {
         $this->beConstructedWith([
             'EUR' => $moneyFormatter,
         ]);
+    }
 
+    function it_is_initializable()
+    {
         $this->shouldHaveType('Money\Formatter\AggregateMoneyFormatter');
     }
 
-    function it_is_a_money_formatter(MoneyFormatter $moneyFormatter)
+    function it_is_a_money_formatter()
     {
-        $this->beConstructedWith([
-            'EUR' => $moneyFormatter,
-        ]);
-
         $this->shouldImplement(MoneyFormatter::class);
     }
 
     function it_formats_money(MoneyFormatter $moneyFormatter)
     {
-        $this->beConstructedWith([
-            'EUR' => $moneyFormatter,
-        ]);
-
         $money = new Money(1, new Currency('EUR'));
 
         $moneyFormatter->format($money)->willReturn('€1.00');
@@ -41,12 +36,8 @@ class AggregateMoneyFormatterSpec extends ObjectBehavior
         $this->format($money)->shouldReturn('€1.00');
     }
 
-    function it_throws_when_no_formatter_found(MoneyFormatter $moneyFormatter)
+    function it_throws_when_no_formatter_found()
     {
-        $this->beConstructedWith([
-            'EUR' => $moneyFormatter,
-        ]);
-
         $money = new Money(1, new Currency('USD'));
 
         $this->shouldThrow(FormatterException::class)->duringFormat($money);

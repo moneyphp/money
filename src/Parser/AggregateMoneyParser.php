@@ -13,17 +13,17 @@ use Money\MoneyParser;
 final class AggregateMoneyParser implements MoneyParser
 {
     /**
-     * @var array|MoneyParser[]
+     * @var MoneyParser[]
      */
     private $parsers = [];
 
     /**
-     * @param array|MoneyParser[] $parsers
+     * @param MoneyParser[] $parsers
      */
     public function __construct(array $parsers)
     {
         foreach ($parsers as $parser) {
-            if ($parser instanceof MoneyParser === false) {
+            if (false === $parser instanceof MoneyParser) {
                 throw new \InvalidArgumentException('All parsers must implement Money\MoneyFormatter');
             }
             $this->parsers[] = $parser;

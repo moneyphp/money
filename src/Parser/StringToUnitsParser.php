@@ -21,6 +21,10 @@ final class StringToUnitsParser implements MoneyParser
      */
     public function parse($money, $forceCurrency = null)
     {
+        if (!is_string($money)) {
+            throw new ParserException('Money should be a string');
+        }
+
         if ($forceCurrency === null) {
             throw new ParserException(
                 'StringToUnitsParser cannot parse currency symbols. Use forceCurrency argument'
