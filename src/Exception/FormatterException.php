@@ -7,6 +7,6 @@ namespace Money\Exception;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class FormatterException extends \Exception
+final class FormatterException extends \RuntimeException implements Exception
 {
 }

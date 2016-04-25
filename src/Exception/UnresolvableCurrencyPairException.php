@@ -9,7 +9,7 @@ use Money\Currency;
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-final class UnresolvableCurrencyPairException extends \Exception
+final class UnresolvableCurrencyPairException extends \InvalidArgumentException implements Exception
 {
     /**
      * Creates an exception from Currency objects.
