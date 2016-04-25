@@ -29,11 +29,9 @@ class BitcoinMoneyFormatterSpec extends ObjectBehavior
     /**
      * @dataProvider bitcoinExamples
      */
-    function it_formats_money($value, $formatted, $fractionDigits, MoneyFormatter $moneyFormatter)
+    function it_formats_money($value, $formatted, $fractionDigits)
     {
         $this->beConstructedWith($fractionDigits);
-
-        $moneyFormatter->format(Argument::type(Money::class))->shouldNotBeCalled();
 
         $money = new Money($value, new Currency('XBT'));
 
