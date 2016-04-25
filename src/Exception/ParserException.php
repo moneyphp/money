@@ -7,6 +7,6 @@ namespace Money\Exception;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class ParserException extends \Exception
+final class ParserException extends \RuntimeException implements Exception
 {
 }
