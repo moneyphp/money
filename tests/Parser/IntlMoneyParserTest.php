@@ -4,8 +4,20 @@ namespace Tests\Money\Parser;
 
 use Money\Parser\IntlMoneyParser;
 
-class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
+final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @dataProvider provideFormattedMoney
+     */
+    public function testIntlParser($string, $units)
+    {
+        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
+
+        $parser = new IntlMoneyParser($formatter);
+        $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
+    }
+
     public static function provideFormattedMoney()
     {
         return [
@@ -27,18 +39,6 @@ class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
             ['$.99', 99],
             ['-$.99', -99],
         ];
-    }
-
-    /**
-     * @dataProvider provideFormattedMoney
-     */
-    public function testIntlParser($string, $units)
-    {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
-
-        $parser = new IntlMoneyParser($formatter);
-        $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
     }
 
     /**

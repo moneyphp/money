@@ -6,92 +6,48 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 
-class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
+final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
-    public function testRoundMoney()
+    /**
+     * @dataProvider numberFormatterExamples
+     */
+    public function testNumberFormatter($amount, $currency, $result, $locale, $mode, $hasPattern, $fractionDigits)
     {
-        $money = new Money(100, new Currency('USD'));
+        $money = new Money($amount, new Currency($currency));
 
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
+        $numberFormatter = new \NumberFormatter($locale, $mode);
+
+        if (true === $hasPattern) {
+            $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
+        }
+
+        $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $fractionDigits);
 
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-        $this->assertEquals('$1.00', $moneyFormatter->format($money));
+        $this->assertEquals($result, $moneyFormatter->format($money));
     }
 
-    public function testLessThanOneHundred()
+    public static function numberFormatterExamples()
     {
-        $money = new Money(41, new Currency('USD'));
-
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
-
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-        $this->assertEquals('$0.41', $moneyFormatter->format($money));
-    }
-
-    public function testLessThanTen()
-    {
-        $money = new Money(5, new Currency('USD'));
-
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
-
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-        $this->assertEquals('$0.05', $moneyFormatter->format($money));
-    }
-
-    public function testDifferentDigits()
-    {
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
-        $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
-
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-
-        $this->assertEquals('$0.005', $moneyFormatter->format(new Money(5, new Currency('USD'))));
-        $this->assertEquals('$0.035', $moneyFormatter->format(new Money(35, new Currency('USD'))));
-        $this->assertEquals('$0.135', $moneyFormatter->format(new Money(135, new Currency('USD'))));
-        $this->assertEquals('$6.135', $moneyFormatter->format(new Money(6135, new Currency('USD'))));
-        $this->assertEquals('-$6.135', $moneyFormatter->format(new Money(-6135, new Currency('USD'))));
-    }
-
-    public function testDifferentLocaleAndDifferentCurrency()
-    {
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
-
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-        $this->assertEquals('€0.05', $moneyFormatter->format(new Money(5, new Currency('EUR'))));
-        $this->assertEquals('€0.50', $moneyFormatter->format(new Money(50, new Currency('EUR'))));
-        $this->assertEquals('€5.00', $moneyFormatter->format(new Money(500, new Currency('EUR'))));
-    }
-
-    public function testStyleDecimalAndPattern()
-    {
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
-        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
-
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-        $this->assertEquals('€0.05', $moneyFormatter->format(new Money(5, new Currency('EUR'))));
-        $this->assertEquals('€0.50', $moneyFormatter->format(new Money(50, new Currency('EUR'))));
-        $this->assertEquals('€5.00', $moneyFormatter->format(new Money(500, new Currency('EUR'))));
-    }
-
-    public function testStyleDecimalNoPattern()
-    {
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-
-        $this->assertEquals('5', $moneyFormatter->format(new Money(5, new Currency('EUR'))));
-        $this->assertEquals('50', $moneyFormatter->format(new Money(50, new Currency('EUR'))));
-        $this->assertEquals('500', $moneyFormatter->format(new Money(500, new Currency('EUR'))));
-    }
-
-    public function testStylePercent()
-    {
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::PERCENT);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-        $this->assertEquals('500%', $moneyFormatter->format(new Money(5, new Currency('EUR'))));
+        return [
+            [100, 'USD', '$1.00', 'en_US', \NumberFormatter::CURRENCY, true, 2],
+            [41, 'USD', '$0.41', 'en_US', \NumberFormatter::CURRENCY, true, 2],
+            [5, 'USD', '$0.05', 'en_US', \NumberFormatter::CURRENCY, true, 2],
+            [5, 'USD', '$0.005', 'en_US', \NumberFormatter::CURRENCY, true, 3],
+            [35, 'USD', '$0.035', 'en_US', \NumberFormatter::CURRENCY, true, 3],
+            [135, 'USD', '$0.135', 'en_US', \NumberFormatter::CURRENCY, true, 3],
+            [6135, 'USD', '$6.135', 'en_US', \NumberFormatter::CURRENCY, true, 3],
+            [-6135, 'USD', '-$6.135', 'en_US', \NumberFormatter::CURRENCY, true, 3],
+            [5, 'EUR', '€0.05', 'en_US', \NumberFormatter::CURRENCY, true, 2],
+            [50, 'EUR', '€0.50', 'en_US', \NumberFormatter::CURRENCY, true, 2],
+            [500, 'EUR', '€5.00', 'en_US', \NumberFormatter::CURRENCY, true, 2],
+            [5, 'EUR', '€0.05', 'en_US', \NumberFormatter::DECIMAL, true, 2],
+            [50, 'EUR', '€0.50', 'en_US', \NumberFormatter::DECIMAL, true, 2],
+            [500, 'EUR', '€5.00', 'en_US', \NumberFormatter::DECIMAL, true, 2],
+            [5, 'EUR', '5', 'en_US', \NumberFormatter::DECIMAL, false, 0],
+            [50, 'EUR', '50', 'en_US', \NumberFormatter::DECIMAL, false, 0],
+            [500, 'EUR', '500', 'en_US', \NumberFormatter::DECIMAL, false, 0],
+            [5, 'EUR', '500%', 'en_US', \NumberFormatter::PERCENT, false, 0],
+        ];
     }
 }
