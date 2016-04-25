@@ -15,6 +15,8 @@ interface MoneyFormatter
      * @param Money $money
      *
      * @return string
+     *
+     * Exception\FormatterException
      */
     public function format(Money $money);
 }

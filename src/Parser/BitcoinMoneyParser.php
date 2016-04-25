@@ -4,6 +4,7 @@ namespace Money\Parser;
 
 use Money\Currencies\BitcoinCurrencies;
 use Money\Currency;
+use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 
@@ -15,22 +16,15 @@ use Money\MoneyParser;
 final class BitcoinMoneyParser implements MoneyParser
 {
     /**
-     * @var MoneyParser
-     */
-    private $delegatedParser;
-
-    /**
      * @var int
      */
     private $fractionDigits;
 
     /**
-     * @param MoneyParser $innerParser
-     * @param int         $fractionDigits
+     * @param int $fractionDigits
      */
-    public function __construct(MoneyParser $innerParser, $fractionDigits)
+    public function __construct($fractionDigits)
     {
-        $this->delegatedParser = $innerParser;
         $this->fractionDigits = $fractionDigits;
     }
 
@@ -40,7 +34,7 @@ final class BitcoinMoneyParser implements MoneyParser
     public function parse($money, $forceCurrency = null)
     {
         if (false === strpos($money, BitcoinCurrencies::SYMBOL)) {
-            return $this->delegatedParser->parse($money, $forceCurrency);
+            throw new ParserException('Value cannot be parsed as Bitcoin');
         }
 
         $decimal = str_replace(BitcoinCurrencies::SYMBOL, '', $money);

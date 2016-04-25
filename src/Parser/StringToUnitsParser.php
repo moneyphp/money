@@ -34,7 +34,7 @@ final class StringToUnitsParser implements MoneyParser
         $pattern = '/^'.$sign.$digits.$separator.$decimals.'$/';
 
         if (!preg_match($pattern, trim($money), $matches)) {
-            throw new \InvalidArgumentException('The value could not be parsed as money');
+            throw new ParserException('The value could not be parsed as money');
         }
 
         $units = $matches['sign'] === '-' ? '-' : '';
