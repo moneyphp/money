@@ -211,6 +211,7 @@ class MoneySpec extends ObjectBehavior
     {
         $this->beConstructedWith(1, new Currency(self::CURRENCY));
 
+        $calculator->compare((string) (1 / $divisor), '0')->willReturn(1 / $divisor > 1);
         $calculator->divide('1', 1 / $divisor)->willReturn($divisor);
         $calculator->round($divisor, $roundingMode)->willReturn($result);
 
@@ -225,6 +226,7 @@ class MoneySpec extends ObjectBehavior
      */
     public function it_throws_an_exception_when_operand_is_invalid_during_division($operand, Calculator $calculator)
     {
+        $calculator->compare(Argument::type('string'), Argument::type('string'))->shouldNotBeCalled();
         $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
@@ -233,6 +235,7 @@ class MoneySpec extends ObjectBehavior
 
     public function it_throws_an_exception_when_rounding_mode_is_invalid_during_division(Calculator $calculator)
     {
+        $calculator->compare('1.0', '0')->shouldNotBeCalled();
         $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
@@ -244,6 +247,7 @@ class MoneySpec extends ObjectBehavior
      */
     function it_throws_an_exception_when_divisor_is_zero($divisor, Calculator $calculator)
     {
+        $calculator->compare($divisor, '0')->willThrow(\InvalidArgumentException::class);
         $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
@@ -256,8 +260,8 @@ class MoneySpec extends ObjectBehavior
         return [
             [0],
             [0.0],
-//            ['0'],
-//            ['0.0'],
+            ['0'],
+            ['0.0'],
         ];
     }
 

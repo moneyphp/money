@@ -331,7 +331,7 @@ final class Money implements \JsonSerializable
         $this->assertOperand($divisor);
         $this->assertRoundingMode($roundingMode);
 
-        if ($divisor === 0 || $divisor === 0.0) {
+        if ($this->getCalculator()->compare((string) $divisor, '0') === 0) {
             throw new \InvalidArgumentException('Division by zero');
         }
 
