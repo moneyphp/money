@@ -58,11 +58,16 @@ class StringToUnitsParserSpec extends ObjectBehavior
 
     function it_throws_an_exception_when_money_cannot_be_parsed()
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringParse('INVALID', 'EUR');
+        $this->shouldThrow(ParserException::class)->duringParse('INVALID', 'EUR');
     }
 
     function it_throws_an_exception_when_there_is_no_currency()
     {
         $this->shouldThrow(ParserException::class)->duringParse('€ 100');
+    }
+
+    function it_does_not_parse_a_boolean()
+    {
+        $this->shouldThrow(ParserException::class)->duringParse(true);
     }
 }

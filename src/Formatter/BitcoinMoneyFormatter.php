@@ -3,6 +3,7 @@
 namespace Money\Formatter;
 
 use Money\Currencies\BitcoinCurrencies;
+use Money\Exception\FormatterException;
 use Money\Money;
 use Money\MoneyFormatter;
 
@@ -14,22 +15,15 @@ use Money\MoneyFormatter;
 final class BitcoinMoneyFormatter implements MoneyFormatter
 {
     /**
-     * @var MoneyFormatter
-     */
-    private $delegatedFormatter;
-
-    /**
      * @var int
      */
     private $fractionDigits;
 
     /**
-     * @param MoneyFormatter $innerFormatter
-     * @param int            $fractionDigits
+     * @param int $fractionDigits
      */
-    public function __construct(MoneyFormatter $innerFormatter, $fractionDigits)
+    public function __construct($fractionDigits)
     {
-        $this->delegatedFormatter = $innerFormatter;
         $this->fractionDigits = $fractionDigits;
     }
 
@@ -39,7 +33,7 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
     public function format(Money $money)
     {
         if (BitcoinCurrencies::CODE !== $money->getCurrency()->getCode()) {
-            return $this->delegatedFormatter->format($money);
+            throw new FormatterException('Bitcoin Formatter can only format Bitcoin currency');
         }
 
         $valueBase = $money->getAmount();

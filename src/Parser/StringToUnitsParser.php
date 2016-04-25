@@ -21,6 +21,10 @@ final class StringToUnitsParser implements MoneyParser
      */
     public function parse($money, $forceCurrency = null)
     {
+        if (!is_string($money)) {
+            throw new ParserException('Formatted raw money should be string, e.g. $1.00');
+        }
+
         if ($forceCurrency === null) {
             throw new ParserException(
                 'StringToUnitsParser cannot parse currency symbols. Use forceCurrency argument'
@@ -34,7 +38,7 @@ final class StringToUnitsParser implements MoneyParser
         $pattern = '/^'.$sign.$digits.$separator.$decimals.'$/';
 
         if (!preg_match($pattern, trim($money), $matches)) {
-            throw new \InvalidArgumentException('The value could not be parsed as money');
+            throw new ParserException('The value could not be parsed as money');
         }
 
         $units = $matches['sign'] === '-' ? '-' : '';

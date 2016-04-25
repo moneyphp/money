@@ -3,15 +3,16 @@
 namespace spec\Money\Parser;
 
 use Money\Currency;
+use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 use PhpSpec\ObjectBehavior;
 
 class BitcoinMoneyParserSpec extends ObjectBehavior
 {
-    function let(MoneyParser $moneyParser)
+    function let()
     {
-        $this->beConstructedWith($moneyParser, 2);
+        $this->beConstructedWith(2);
     }
 
     function it_is_initializable()
@@ -61,7 +62,16 @@ class BitcoinMoneyParserSpec extends ObjectBehavior
             ["\0xC9\0x83.99", 99, 'XBT'],
             ["-\0xC9\0x83.99", -99, 'XBT'],
             ["\0xC9\0x830", '0', 'XBT'],
-            ['€1.00', 1, 'EUR'],
         ];
+    }
+
+    function it_does_not_parse_a_different_currency()
+    {
+        $this->shouldThrow(ParserException::class)->duringParse('€1.00');
+    }
+
+    function it_does_not_parse_a_boolean()
+    {
+        $this->shouldThrow(ParserException::class)->duringParse(true);
     }
 }

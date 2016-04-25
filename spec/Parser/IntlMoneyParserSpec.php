@@ -29,8 +29,9 @@ class IntlMoneyParserSpec extends ObjectBehavior
      */
     function it_parses_money($string, $units, \NumberFormatter $numberFormatter)
     {
+        $currency = null;
         $numberFormatter->getAttribute(\NumberFormatter::FRACTION_DIGITS)->willReturn(0);
-        $numberFormatter->parseCurrency($string, null)->willReturn($units);
+        $numberFormatter->parseCurrency($string, $currency)->willReturn($units);
 
         $money = $this->parse($string, 'EUR');
 
@@ -64,9 +65,15 @@ class IntlMoneyParserSpec extends ObjectBehavior
 
     function it_throws_an_exception_when_money_cannot_be_parsed(\NumberFormatter $numberFormatter)
     {
-        $numberFormatter->parseCurrency('INVALID', null)->willReturn(false);
+        $currency = null;
+        $numberFormatter->parseCurrency('INVALID', $currency)->willReturn(false);
         $numberFormatter->getErrorMessage()->willReturn('Some message');
 
         $this->shouldThrow(ParserException::class)->duringParse('INVALID', 'EUR');
+    }
+
+    function it_does_not_parse_a_boolean()
+    {
+        $this->shouldThrow(ParserException::class)->duringParse(true);
     }
 }

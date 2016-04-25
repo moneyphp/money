@@ -3,6 +3,7 @@
 namespace spec\Money\Formatter;
 
 use Money\Currency;
+use Money\Exception\FormatterException;
 use Money\Money;
 use Money\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
@@ -10,9 +11,9 @@ use Prophecy\Argument;
 
 class BitcoinMoneyFormatterSpec extends ObjectBehavior
 {
-    function let(MoneyFormatter $moneyFormatter)
+    function let()
     {
-        $this->beConstructedWith($moneyFormatter, 2);
+        $this->beConstructedWith(2);
     }
 
     function it_is_initializable()
@@ -28,11 +29,9 @@ class BitcoinMoneyFormatterSpec extends ObjectBehavior
     /**
      * @dataProvider bitcoinExamples
      */
-    function it_formats_money($value, $formatted, $fractionDigits, MoneyFormatter $moneyFormatter)
+    function it_formats_money($value, $formatted, $fractionDigits)
     {
-        $this->beConstructedWith($moneyFormatter, $fractionDigits);
-
-        $moneyFormatter->format(Argument::type(Money::class))->shouldNotBeCalled();
+        $this->beConstructedWith($fractionDigits);
 
         $money = new Money($value, new Currency('XBT'));
 
@@ -50,11 +49,10 @@ class BitcoinMoneyFormatterSpec extends ObjectBehavior
         ];
     }
 
-    function it_formats_a_different_currency(MoneyFormatter $moneyFormatter)
+    function it_does_not_format_a_different_currency()
     {
         $money = new Money(5, new Currency('USD'));
-        $moneyFormatter->format($money)->willReturn('$0.05');
 
-        $this->format($money)->shouldReturn('$0.05');
+        $this->shouldThrow(FormatterException::class)->duringFormat($money);
     }
 }
