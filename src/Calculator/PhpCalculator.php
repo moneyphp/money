@@ -150,7 +150,7 @@ final class PhpCalculator implements Calculator
      *
      * @param int $amount
      *
-     * @return int
+     * @return string
      */
     private function castInteger($amount)
     {
