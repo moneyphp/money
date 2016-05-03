@@ -158,7 +158,8 @@ final class Number
         return '1';
     }
 
-    public static function isValid($number) {
+    public static function isValid($number)
+    {
         if (filter_var($number, FILTER_VALIDATE_INT) !== false) {
             return true;
         }
