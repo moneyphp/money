@@ -65,4 +65,12 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, 0);
         $this->assertEquals('$500', $moneyFormatter->format($money));
     }
+
+    public function testNoFractionDigitsNoSubunitsNoPattern()
+    {
+        $money = new Money(500, new Currency('USD'));
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
+        $this->assertEquals('$5.00', $moneyFormatter->format($money));
+    }
 }
