@@ -160,6 +160,7 @@ final class Number
 
     /**
      * @param string|int $number
+     *
      * @return bool
      */
     public static function isInteger($number)
