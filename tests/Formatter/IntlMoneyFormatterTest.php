@@ -50,27 +50,4 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
             [5, 'EUR', '500%', 'en_US', \NumberFormatter::PERCENT, false, 0],
         ];
     }
-
-    public function testSubunits()
-    {
-        $money = new Money(500, new Currency('USD'));
-
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
-        $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
-
-        $moneyFormatter = IntlMoneyFormatter::withSubunits($numberFormatter, 2);
-        $this->assertEquals('$5', $moneyFormatter->format($money));
-
-        $moneyFormatter = IntlMoneyFormatter::withSubunits($numberFormatter, 0);
-        $this->assertEquals('$500', $moneyFormatter->format($money));
-    }
-
-    public function testNoFractionDigitsNoSubunitsNoPattern()
-    {
-        $money = new Money(500, new Currency('USD'));
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
-        $this->assertEquals('$5.00', $moneyFormatter->format($money));
-    }
 }

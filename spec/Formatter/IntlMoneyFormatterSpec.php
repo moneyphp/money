@@ -33,4 +33,28 @@ class IntlMoneyFormatterSpec extends ObjectBehavior
 
         $this->format($money)->shouldReturn('€1.00');
     }
+
+
+    function it_formats_with_subunits()
+    {
+        $money = new Money(500, new Currency('USD'));
+
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
+        $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
+
+        $moneyFormatter = $this->withSubunits($numberFormatter, 2);
+        $moneyFormatter->format($money)->shouldReturn('$5');
+
+        $moneyFormatter = $this->withSubunits($numberFormatter, 0);
+        $moneyFormatter->format($money)->shouldReturn('$500');
+    }
+
+    public function it_formats_without_fraction_subunits_pattern()
+    {
+        $money = new Money(500, new Currency('USD'));
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $this->beConstructedWith($numberFormatter);
+        $this->format($money)->shouldReturn('$5.00');
+    }
 }
