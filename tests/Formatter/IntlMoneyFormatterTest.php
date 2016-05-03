@@ -17,7 +17,7 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
         $result,
         $locale,
         $mode,
-        $hasPattern,$fractionDigits,
+        $hasPattern, $fractionDigits,
         $subunits
     ) {
         $money = new Money($amount, new Currency($currency));
