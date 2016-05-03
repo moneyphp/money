@@ -2,6 +2,7 @@
 
 namespace Tests\Money;
 
+use Money\Currency;
 use Money\Money;
 
 final class MoneyTest extends \PHPUnit_Framework_TestCase
@@ -25,5 +26,14 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
             '{"amount":"350","currency":"EUR"}',
             json_encode(Money::EUR(350))
         );
+    }
+
+    public function testMaxInit()
+    {
+        $one = new Money(1, new Currency('EUR'));
+
+        $this->assertInstanceOf('Money\\Money', new Money(PHP_INT_MAX, new Currency('EUR')));
+        $this->assertInstanceOf('Money\\Money', (new Money(PHP_INT_MAX, new Currency('EUR')))->add($one));
+        $this->assertInstanceOf('Money\\Money', (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 }
