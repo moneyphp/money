@@ -2,6 +2,10 @@ language: php
 
 sudo: false
 
+addons:
+    apt_packages:
+        - enchant
+
 cache:
     directories:
         - $HOME/.composer/cache/files
@@ -31,6 +35,9 @@ before_install:
 
 install:
     - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
+    - pip install --user -r doc/requirements.txt
 
 script:
     - $TEST_COMMAND
+    - make -C doc SPHINXOPTS='-nW' html
+    - make -C doc spelling

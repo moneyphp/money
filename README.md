@@ -32,14 +32,10 @@ The documentation is available at http://money.readthedocs.org
 Installation
 ------------
 
-Install the library using [composer][1]. Add the following to your `composer.json`:
+Install the library using [composer][1].
 
-```json
-{
-    "require": {
-        "mathiasverraes/money": "~3.0"
-    }
-}
+``` bash
+composer require mathiasverraes/money
 ```
 
 Features
@@ -55,8 +51,6 @@ Integration
 -----------
 
 See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3].
-
-A description of how to use Doctrine with the library is available under the ``doc`` directory.
 
 [1]: http://getcomposer.org/
 [2]: https://github.com/pink-tie/MoneyBundle/
