@@ -157,4 +157,25 @@ final class Number
 
         return '1';
     }
+
+    /**
+     * @param string|int $number
+     *
+     * @return bool
+     */
+    public static function isInteger($number)
+    {
+        if (filter_var($number, FILTER_VALIDATE_INT) !== false) {
+            return true;
+        }
+
+        $invalid = array_filter(
+            str_split($number, strlen((string) PHP_INT_MAX) - 1),
+            function ($chunk) {
+                return filter_var($chunk, FILTER_VALIDATE_INT) === false;
+            }
+        );
+
+        return count($invalid) === 0;
+    }
 }
