@@ -46,7 +46,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
 
         $valueLength = strlen($valueBase);
         if ($this->subunits === null) {
-            $subunits =  $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
+            $subunits = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
         } else {
             $subunits = $this->subunits;
         }
