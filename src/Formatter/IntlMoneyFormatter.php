@@ -17,30 +17,22 @@ final class IntlMoneyFormatter implements MoneyFormatter
      */
     private $formatter;
     /**
-     * @var int|null
+     * @var int
      */
     private $subunits;
 
     /**
      * @param \NumberFormatter $formatter
-     */
-    public function __construct(\NumberFormatter $formatter)
-    {
-        $this->formatter = $formatter;
-    }
-
-    /**
-     * @param \NumberFormatter $formatter
      * @param int              $subunits
-     *
-     * @return IntlMoneyFormatter
      */
-    public static function withSubunits(\NumberFormatter $formatter, $subunits)
+    public function __construct(\NumberFormatter $formatter, $subunits = 0)
     {
-        $instance = new self($formatter);
-        $instance->subunits = $subunits;
+        if (is_int($subunits) === false) {
+            throw new \InvalidArgumentException('Subunits must be an integer');
+        }
 
-        return $instance;
+        $this->formatter = $formatter;
+        $this->subunits = $subunits;
     }
 
     /**
@@ -57,17 +49,12 @@ final class IntlMoneyFormatter implements MoneyFormatter
         }
 
         $valueLength = strlen($valueBase);
-        if ($this->subunits === null) {
-            $subunits = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
-        } else {
-            $subunits = $this->subunits;
-        }
 
-        if ($valueLength > $subunits) {
-            $number = substr($valueBase, 0, $valueLength - $subunits).'.';
-            $number .= substr($valueBase, $valueLength - $subunits);
+        if ($valueLength > $this->subunits) {
+            $number = substr($valueBase, 0, $valueLength - $this->subunits).'.';
+            $number .= substr($valueBase, $valueLength - $this->subunits);
         } else {
-            $number = '0.'.str_pad('', $subunits - $valueLength, '0').$valueBase;
+            $number = '0.'.str_pad('', $this->subunits - $valueLength, '0').$valueBase;
         }
 
         if ($negative === true) {
