@@ -16,13 +16,19 @@ final class IntlMoneyFormatter implements MoneyFormatter
      * @var \NumberFormatter
      */
     private $formatter;
+    /**
+     * @var int|null
+     */
+    private $subunits;
 
     /**
      * @param \NumberFormatter $formatter
+     * @param int              $subunits
      */
-    public function __construct(\NumberFormatter $formatter)
+    public function __construct(\NumberFormatter $formatter, $subunits = null)
     {
         $this->formatter = $formatter;
+        $this->subunits = $subunits;
     }
 
     /**
@@ -38,20 +44,24 @@ final class IntlMoneyFormatter implements MoneyFormatter
             $valueBase = substr($valueBase, 1);
         }
 
-        $fractionDigits = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
         $valueLength = strlen($valueBase);
-
-        if ($valueLength > $fractionDigits) {
-            $subunits = substr($valueBase, 0, $valueLength - $fractionDigits).'.';
-            $subunits .= substr($valueBase, $valueLength - $fractionDigits);
+        if ($this->subunits === null) {
+            $subunits =  $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
         } else {
-            $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
+            $subunits = $this->subunits;
+        }
+
+        if ($valueLength > $subunits) {
+            $number = substr($valueBase, 0, $valueLength - $subunits).'.';
+            $number .= substr($valueBase, $valueLength - $subunits);
+        } else {
+            $number = '0.'.str_pad('', $subunits - $valueLength, '0').$valueBase;
         }
 
         if ($negative === true) {
-            $subunits = '-'.$subunits;
+            $number = '-'.$number;
         }
 
-        return $this->formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
+        return $this->formatter->formatCurrency($number, $money->getCurrency()->getCode());
     }
 }
