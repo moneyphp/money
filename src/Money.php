@@ -52,7 +52,7 @@ final class Money implements \JsonSerializable
      */
     public function __construct($amount, Currency $currency)
     {
-        if (Number::isValid($amount) === false) {
+        if (Number::isInteger($amount) === false) {
             throw new \InvalidArgumentException('Amount must be an integer');
         }
 
