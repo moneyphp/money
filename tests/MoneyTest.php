@@ -30,7 +30,10 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
 
     public function testMaxInit()
     {
+        $one = new Money(1, new Currency('EUR'));
+
         $this->assertInstanceOf('Money\\Money', new Money(PHP_INT_MAX, new Currency('EUR')));
-        $this->assertInstanceOf('Money\\Money', (new Money(PHP_INT_MAX, new Currency('EUR')))->add(new Money(1, new Currency('EUR'))));
+        $this->assertInstanceOf('Money\\Money', (new Money(PHP_INT_MAX, new Currency('EUR')))->add($one));
+        $this->assertInstanceOf('Money\\Money', (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 }
