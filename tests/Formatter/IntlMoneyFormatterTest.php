@@ -59,10 +59,10 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
         $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
         $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 0);
 
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, 2);
+        $moneyFormatter = IntlMoneyFormatter::withSubunits($numberFormatter, 2);
         $this->assertEquals('$5', $moneyFormatter->format($money));
 
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, 0);
+        $moneyFormatter = IntlMoneyFormatter::withSubunits($numberFormatter, 0);
         $this->assertEquals('$500', $moneyFormatter->format($money));
     }
 

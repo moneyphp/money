@@ -23,12 +23,24 @@ final class IntlMoneyFormatter implements MoneyFormatter
 
     /**
      * @param \NumberFormatter $formatter
-     * @param int              $subunits
      */
-    public function __construct(\NumberFormatter $formatter, $subunits = null)
+    public function __construct(\NumberFormatter $formatter)
     {
         $this->formatter = $formatter;
-        $this->subunits = $subunits;
+    }
+
+    /**
+     * @param \NumberFormatter $formatter
+     * @param int              $subunits
+     *
+     * @return IntlMoneyFormatter
+     */
+    public static function withSubunits(\NumberFormatter $formatter, $subunits)
+    {
+        $instance = new self($formatter);
+        $instance->subunits = $subunits;
+
+        return $instance;
     }
 
     /**
