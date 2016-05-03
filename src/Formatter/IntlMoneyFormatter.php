@@ -32,11 +32,14 @@ final class IntlMoneyFormatter implements MoneyFormatter
     /**
      * @param \NumberFormatter $formatter
      * @param int              $subunits
+     *
      * @return IntlMoneyFormatter
      */
-    public static function withSubunits(\NumberFormatter $formatter, $subunits) {
+    public static function withSubunits(\NumberFormatter $formatter, $subunits)
+    {
         $instance = new self($formatter);
         $instance->subunits = $subunits;
+
         return $instance;
     }
 
