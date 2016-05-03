@@ -10,7 +10,9 @@ Money comes with the following implementations out of the box:
 Intl Formatter
 --------------
 
-As it's name says, this formatter requires the `intl` extension and uses ``NumberFormatter``.
+As it's name says, this formatter requires the `intl` extension and uses the ``NumberFormatter`` class from the
+extension. Because ``Money`` is not aware of the amount subunits, you should give that as second constructor
+argument.
 
 
 .. warning::
@@ -25,8 +27,9 @@ As it's name says, this formatter requires the `intl` extension and uses ``Numbe
 
     $money = new Money(100, new Currency('USD'));
 
+    $subunits = 2;
     $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-    $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
+    $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $subunits);
 
     echo $moneyFormatter->format($money); // outputs $1.00
 
@@ -48,8 +51,9 @@ currency code.
     $dollars = new Money(100, new Currency('USD'));
     $bitcoin = new Money(100, new Currency('XBT'));
 
+    $dollarSubunits = 2;
     $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-    $intlFormatter = new IntlMoneyFormatter($numberFormatter);
+    $intlFormatter = new IntlMoneyFormatter($numberFormatter, $dollarSubunits);
     $bitcoinFormatter = new BitcoinMoneyFormatter(2);
 
     $moneyFormatter = new AggregateFormatter([
