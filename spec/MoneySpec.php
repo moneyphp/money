@@ -2,8 +2,6 @@
 
 namespace spec\Money;
 
-require_once __DIR__.'/RoundExamples.php';
-
 use Money\Calculator;
 use Money\Currency;
 use Money\Money;

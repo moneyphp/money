@@ -2,11 +2,14 @@
 
 namespace spec\Money\Calculator;
 
-require_once __DIR__.'/../RoundExamples.php';
-
 use Money\Calculator;
 use spec\Money\RoundExamples;
 
+/**
+ * Mocking with typehints usage won't work here as the trait is autoloaded.
+ *
+ * @see https://github.com/phpspec/phpspec/issues/825
+ */
 trait CalculatorBehavior
 {
     use RoundExamples;

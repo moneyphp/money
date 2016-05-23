@@ -2,8 +2,6 @@
 
 namespace spec\Money\Calculator;
 
-require_once __DIR__.'/CalculatorBehavior.php';
-
 use PhpSpec\ObjectBehavior;
 
 class GmpCalculatorSpec extends ObjectBehavior
