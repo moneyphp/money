@@ -37,7 +37,7 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
             return '-'.BitcoinCurrencies::SYMBOL.$subunits;
         }
 
-        return $subunits;
+        return BitcoinCurrencies::SYMBOL.$subunits;
     }
 
     /**

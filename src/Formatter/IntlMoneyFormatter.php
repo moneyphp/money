@@ -35,7 +35,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
      */
     public function subunits(Money $money)
     {
-        $valueBase = (string)$money->getAmount();
+        $valueBase = (string) $money->getAmount();
         $negative = false;
 
         if (substr($valueBase, 0, 1) === '-') {
@@ -47,14 +47,14 @@ final class IntlMoneyFormatter implements MoneyFormatter
         $valueLength = strlen($valueBase);
 
         if ($valueLength > $fractionDigits) {
-            $subunits = substr($valueBase, 0, $valueLength - $fractionDigits) . '.';
+            $subunits = substr($valueBase, 0, $valueLength - $fractionDigits).'.';
             $subunits .= substr($valueBase, $valueLength - $fractionDigits);
         } else {
-            $subunits = '0.' . str_pad('', $fractionDigits - $valueLength, '0') . $valueBase;
+            $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
         }
 
         if ($negative === true) {
-            $subunits = '-' . $subunits;
+            $subunits = '-'.$subunits;
         }
 
         return $subunits;
