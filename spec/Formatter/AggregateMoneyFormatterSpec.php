@@ -27,6 +27,15 @@ class AggregateMoneyFormatterSpec extends ObjectBehavior
         $this->shouldImplement(MoneyFormatter::class);
     }
 
+    function it_returns_subunits(\NumberFormatter $numberFormatter)
+    {
+        $numberFormatter->getAttribute(\NumberFormatter::FRACTION_DIGITS)->willReturn(2);
+
+        $money = new Money(1, new Currency('EUR'));
+
+        $this->subunits($money)->shouldReturn('1.00');
+    }
+
     function it_formats_money(MoneyFormatter $moneyFormatter)
     {
         $money = new Money(1, new Currency('EUR'));

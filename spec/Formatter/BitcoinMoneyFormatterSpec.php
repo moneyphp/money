@@ -26,6 +26,13 @@ class BitcoinMoneyFormatterSpec extends ObjectBehavior
         $this->shouldImplement(MoneyFormatter::class);
     }
 
+    function it_returns_subunits()
+    {
+        $money = new Money(100000, new Currency('XBT'));
+
+        $this->subunits($money)->shouldReturn('1000.00');
+    }
+
     /**
      * @dataProvider bitcoinExamples
      */

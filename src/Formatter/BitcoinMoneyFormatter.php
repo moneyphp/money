@@ -32,6 +32,19 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
      */
     public function format(Money $money)
     {
+        $subunits = $this->subunits($money);
+        if ('-' === substr($subunits, 0, 1)) {
+            return '-'.BitcoinCurrencies::SYMBOL.$subunits;
+        }
+
+        return $subunits;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function subunits(Money $money)
+    {
         if (BitcoinCurrencies::CODE !== $money->getCurrency()->getCode()) {
             throw new FormatterException('Bitcoin Formatter can only format Bitcoin currency');
         }
@@ -58,10 +71,8 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
             $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
         }
 
-        $subunits = BitcoinCurrencies::SYMBOL.$subunits;
-
         if (true === $negative) {
-            $subunits = '-'.BitcoinCurrencies::SYMBOL.$subunits;
+            $subunits = '-'.$subunits;
         }
 
         return $subunits;
