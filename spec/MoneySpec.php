@@ -12,7 +12,8 @@ class MoneySpec extends ObjectBehavior
 {
     use RoundExamples;
 
-    const AMOUNT = 1;
+    const AMOUNT = 10;
+    const OTHER_AMOUNT = 5;
     const CURRENCY = 'EUR';
     const OTHER_CURRENCY = 'USD';
 
@@ -113,9 +114,9 @@ class MoneySpec extends ObjectBehavior
 
     function it_adds_an_other_money(Calculator $calculator)
     {
-        $result = self::AMOUNT + self::AMOUNT;
-        $calculator->add((string) self::AMOUNT, (string) self::AMOUNT)->willReturn((string) $result);
-        $money = $this->add(new Money(self::AMOUNT, new Currency(self::CURRENCY)));
+        $result = self::AMOUNT + self::OTHER_AMOUNT;
+        $calculator->add((string) self::AMOUNT, (string) self::OTHER_AMOUNT)->willReturn((string) $result);
+        $money = $this->add(new Money(self::OTHER_AMOUNT, new Currency(self::CURRENCY)));
 
         $money->shouldHaveType(Money::class);
         $money->getAmount()->shouldBeLike($result);
@@ -129,9 +130,9 @@ class MoneySpec extends ObjectBehavior
 
     function it_subtracts_an_other_money(Calculator $calculator)
     {
-        $result = self::AMOUNT - self::AMOUNT;
-        $calculator->subtract((string) self::AMOUNT, (string) self::AMOUNT)->willReturn((string) $result);
-        $money = $this->subtract(new Money(self::AMOUNT, new Currency(self::CURRENCY)));
+        $result = self::AMOUNT - self::OTHER_AMOUNT;
+        $calculator->subtract((string) self::AMOUNT, (string) self::OTHER_AMOUNT)->willReturn((string) $result);
+        $money = $this->subtract(new Money(self::OTHER_AMOUNT, new Currency(self::CURRENCY)));
 
         $money->shouldHaveType(Money::class);
         $money->getAmount()->shouldBeLike($result);
