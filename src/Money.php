@@ -442,7 +442,7 @@ final class Money implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'amount' => $this->amount,
+            'amount' => (int) $this->amount,
             'currency' => $this->currency,
         ];
     }
