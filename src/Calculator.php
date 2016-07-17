@@ -105,4 +105,12 @@ interface Calculator
      * @return string
      */
     public function share($amount, $ratio, $total);
+
+    /**
+     * @param string $base
+     * @param string $exponent
+     *
+     * @return string
+     */
+    public function pow($base, $exponent);
 }

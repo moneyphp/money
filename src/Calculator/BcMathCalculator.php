@@ -217,4 +217,12 @@ final class BcMathCalculator implements Calculator
     {
         return $this->floor(bcdiv(bcmul($amount, $ratio, $this->scale), $total, $this->scale));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function pow($base, $exponent)
+    {
+        return bcpow($base, $exponent, $this->scale);
+    }
 }
