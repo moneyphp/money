@@ -351,6 +351,16 @@ class MoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringAllocateTo('two');
     }
 
+    function it_throws_an_exception_when_allocate_target_is_empty()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([]);
+    }
+
+    function it_throws_an_exception_when_allocate_to_target_is_less_than_equals_zero()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocateTo(-1);
+    }
+
     /**
      * @dataProvider comparatorExamples
      */

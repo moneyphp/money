@@ -19,7 +19,7 @@ interface Exchange
      *
      * @return CurrencyPair
      *
-     * @throws UnresolvableCurrencyPairException When there is no currency pair (rate) available for the given currencies.
+     * @throws UnresolvableCurrencyPairException When there is no currency pair (rate) available for the given currencies
      */
     public function getCurrencyPair(Currency $baseCurrency, Currency $counterCurrency);
 }
