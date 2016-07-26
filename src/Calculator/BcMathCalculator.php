@@ -114,6 +114,14 @@ final class BcMathCalculator implements Calculator
     /**
      * {@inheritdoc}
      */
+    public function absolute($number)
+    {
+        return ltrim($number, '-');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function round($number, $roundingMode)
     {
         $number = new Number((string) $number);

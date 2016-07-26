@@ -62,6 +62,12 @@ trait CalculatorBehavior
         $this->floor(-2.7)->shouldReturn('-3');
     }
 
+    function it_calculates_the_absolute_value()
+    {
+        $this->absolute(2)->shouldReturn('2');
+        $this->absolute(-2)->shouldReturn('2');
+    }
+
     function testShare()
     {
         $this->share(10, 2, 4)->shouldReturn('5');
