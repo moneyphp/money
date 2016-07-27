@@ -52,7 +52,7 @@ final class IntlMoneyParser implements MoneyParser
             $length = strlen($money);
             while ($money[$length - 1] === '0') {
                 $decimal .= '0';
-                $length--;
+                --$length;
             }
         } else {
             $decimal .= str_pad('', $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS), '0');
