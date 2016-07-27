@@ -49,6 +49,11 @@ final class IntlMoneyParser implements MoneyParser
 
         if (strpos($decimal, '.') !== false) {
             $decimal = str_replace('.', '', $decimal);
+            $length = strlen($money);
+            while ($money[$length - 1] === '0') {
+                $decimal .= '0';
+                --$length;
+            }
         } else {
             $decimal .= str_pad('', $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS), '0');
         }
