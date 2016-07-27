@@ -28,12 +28,12 @@
         "ext-gmp": "*",
         "ext-intl": "*",
         "florianv/swap": "^2.3",
-        "umpirsky/currency-list": "^1.0",
         "psr/cache": "^1.0",
         "cache/taggable-cache": "^0.4.0",
         "phpspec/phpspec": "^2.5",
         "henrikbjorn/phpspec-code-coverage": "^2.0.2",
-        "coduo/phpspec-data-provider-extension": "^1.0.3"
+        "coduo/phpspec-data-provider-extension": "^1.0.3",
+        "moneyphp/iso-currencies": "dev-master"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",
