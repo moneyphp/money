@@ -1,11 +1,10 @@
 <?php
 
-namespace Money\SubUnit;
+namespace Money\Currencies;
 
 use Money\Currency;
-use Money\SubUnitProvider;
 
-final class ConstantProvider implements SubUnitProvider
+final class ConstantSubunits implements CurrenciesWithSubunit
 {
     /**
      * @var int
@@ -27,7 +26,7 @@ final class ConstantProvider implements SubUnitProvider
     /**
      * {@inheritdoc}
      */
-    public function provide(Currency $currency)
+    public function getSubunitsFor(Currency $currency)
     {
         return $this->subUnits;
     }

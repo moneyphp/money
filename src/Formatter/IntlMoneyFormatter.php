@@ -2,9 +2,9 @@
 
 namespace Money\Formatter;
 
+use Money\Currencies\CurrenciesWithSubunit;
 use Money\Money;
 use Money\MoneyFormatter;
-use Money\SubUnitProvider;
 
 /**
  * Formats a Money object using intl extension.
@@ -18,18 +18,18 @@ final class IntlMoneyFormatter implements MoneyFormatter
      */
     private $formatter;
     /**
-     * @var SubUnitProvider
+     * @var CurrenciesWithSubunit
      */
-    private $subUnitProvider;
+    private $currenciesWithSubunit;
 
     /**
-     * @param \NumberFormatter $formatter
-     * @param SubUnitProvider  $subUnitProvider
+     * @param \NumberFormatter       $formatter
+     * @param CurrenciesWithSubunit  $currenciesWithSubunit
      */
-    public function __construct(\NumberFormatter $formatter, SubUnitProvider $subUnitProvider)
+    public function __construct(\NumberFormatter $formatter, CurrenciesWithSubunit $currenciesWithSubunit)
     {
         $this->formatter = $formatter;
-        $this->subUnitProvider = $subUnitProvider;
+        $this->currenciesWithSubunit = $currenciesWithSubunit;
     }
 
     /**
@@ -45,7 +45,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
             $valueBase = substr($valueBase, 1);
         }
 
-        $subunits = $this->subUnitProvider->provide($money->getCurrency());
+        $subunits = $this->currenciesWithSubunit->getSubunitsFor($money->getCurrency());
         $valueLength = strlen($valueBase);
 
         if ($valueLength > $subunits) {

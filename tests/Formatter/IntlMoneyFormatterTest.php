@@ -2,10 +2,10 @@
 
 namespace Tests\Money\Formatter;
 
+use Money\Currencies\ConstantSubunits;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
-use Money\SubUnit\ConstantProvider;
 
 final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +24,7 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 
         $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $fractionDigits);
 
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ConstantProvider($subUnits));
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ConstantSubunits($subUnits));
         $this->assertEquals($result, $moneyFormatter->format($money));
     }
 
