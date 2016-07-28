@@ -2,6 +2,7 @@
 
 namespace spec\Money;
 
+use Assert\Assertion;
 use Money\Calculator;
 use Money\Currency;
 use Money\Money;
@@ -276,11 +277,11 @@ class MoneySpec extends ObjectBehavior
         });
 
         $calculator->subtract(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
-            return $args[0] - $args[1];
+            return (string) ($args[0] - $args[1]);
         });
 
         $calculator->add(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
-            return $args[0] + $args[1];
+            return (string) ($args[0] + $args[1]);
         });
 
         $calculator->compare(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
@@ -291,7 +292,7 @@ class MoneySpec extends ObjectBehavior
         $allocated->shouldBeArray();
 
         foreach ($allocated->getWrappedObject() as $key => $allocatedMoney) {
-            $allocatedMoney->equals(new Money($results[$key], new Currency('EUR')));
+            Assertion::true($allocatedMoney->equals(new Money($results[$key], new Currency('EUR'))));
         }
     }
 
@@ -317,11 +318,11 @@ class MoneySpec extends ObjectBehavior
         });
 
         $calculator->subtract(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
-            return $args[0] - $args[1];
+            return (string) ($args[0] - $args[1]);
         });
 
         $calculator->add(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
-            return $args[0] + $args[1];
+            return (string) ($args[0] + $args[1]);
         });
 
         $calculator->compare(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
@@ -332,7 +333,7 @@ class MoneySpec extends ObjectBehavior
         $allocated->shouldBeArray();
 
         foreach ($allocated->getWrappedObject() as $key => $allocatedMoney) {
-            $allocatedMoney->equals(new Money($results[$key], new Currency('EUR')));
+            Assertion::true($allocatedMoney->equals(new Money($results[$key], new Currency('EUR'))));
         }
     }
 
