@@ -4,6 +4,7 @@ namespace spec\Money\Currencies;
 
 use Money\Currencies;
 use Money\Currency;
+use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
 
 class ISOCurrenciesSpec extends ObjectBehavior
@@ -24,6 +25,11 @@ class ISOCurrenciesSpec extends ObjectBehavior
     function it_contains_iso_currencies($currency)
     {
         $this->contains(new Currency($currency))->shouldReturn(true);
+    }
+
+    function it_throws_an_exception_when_currency_is_unknown()
+    {
+        $this->shouldThrow(UnknownCurrencyException::class)->duringFind('XXXX');
     }
 
     public function currencyCodeExamples()

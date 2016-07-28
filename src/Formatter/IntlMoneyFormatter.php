@@ -2,6 +2,7 @@
 
 namespace Money\Formatter;
 
+use Money\Currencies;
 use Money\Money;
 use Money\MoneyFormatter;
 
@@ -33,25 +34,25 @@ final class IntlMoneyFormatter implements MoneyFormatter
         $valueBase = (string) $money->getAmount();
         $negative = false;
 
-        if (substr($valueBase, 0, 1) === '-') {
+        if ($valueBase[0] === '-') {
             $negative = true;
             $valueBase = substr($valueBase, 1);
         }
 
-        $fractionDigits = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
+        $subunit = $money->getCurrency()->getSubunit();
         $valueLength = strlen($valueBase);
 
-        if ($valueLength > $fractionDigits) {
-            $subunits = substr($valueBase, 0, $valueLength - $fractionDigits).'.';
-            $subunits .= substr($valueBase, $valueLength - $fractionDigits);
+        if ($valueLength > $subunit) {
+            $formatted = substr($valueBase, 0, $valueLength - $subunit).'.';
+            $formatted .= substr($valueBase, $valueLength - $subunit);
         } else {
-            $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
+            $formatted = '0.'.str_pad('', $subunit - $valueLength, '0').$valueBase;
         }
 
         if ($negative === true) {
-            $subunits = '-'.$subunits;
+            $formatted = '-'.$formatted;
         }
 
-        return $this->formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
+        return $this->formatter->formatCurrency($formatted, $money->getCurrency()->getCode());
     }
 }
