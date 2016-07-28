@@ -25,10 +25,15 @@ final class IntlMoneyFormatter implements MoneyFormatter
         $this->formatter = $formatter;
     }
 
+    public function format(Money $money)
+    {
+        return $this->formatter->formatCurrency($this->subunits($money), $money->getCurrency()->getCode());
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function format(Money $money)
+    public function subunits(Money $money)
     {
         $valueBase = (string) $money->getAmount();
         $negative = false;
@@ -52,6 +57,6 @@ final class IntlMoneyFormatter implements MoneyFormatter
             $subunits = '-'.$subunits;
         }
 
-        return $this->formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
+        return $subunits;
     }
 }

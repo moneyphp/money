@@ -24,12 +24,21 @@ class IntlMoneyFormatterSpec extends ObjectBehavior
         $this->shouldImplement(MoneyFormatter::class);
     }
 
-    function it_formats_money(\NumberFormatter $numberFormatter)
+    function it_returns_subunits(\NumberFormatter $numberFormatter)
     {
         $numberFormatter->getAttribute(\NumberFormatter::FRACTION_DIGITS)->willReturn(2);
-        $numberFormatter->formatCurrency('0.01', 'EUR')->willReturn('€1.00');
 
-        $money = new Money(1, new Currency('EUR'));
+        $money = new Money(100, new Currency('EUR'));
+
+        $this->subunits($money)->shouldReturn('1.00');
+    }
+
+    function it_formats_money(\NumberFormatter $numberFormatter)
+    {
+        $numberFormatter->formatCurrency('1.00', 'EUR')->willReturn('€1.00');
+        $numberFormatter->getAttribute(\NumberFormatter::FRACTION_DIGITS)->willReturn(2);
+
+        $money = new Money(100, new Currency('EUR'));
 
         $this->format($money)->shouldReturn('€1.00');
     }

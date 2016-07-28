@@ -47,4 +47,21 @@ final class AggregateMoneyFormatter implements MoneyFormatter
 
         throw new FormatterException('No formatter found for currency '.$currencyCode);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function subunits(Money $money)
+    {
+        $currencyCode = $money->getCurrency()->getCode();
+        if (isset($this->formatters[$currencyCode])) {
+            return $this->formatters[$currencyCode]->subunits($money);
+        }
+
+        if (isset($this->formatters['*'])) {
+            return $this->formatters['*']->subunits($money);
+        }
+
+        throw new FormatterException('No formatter found for currency '.$currencyCode);
+    }
 }
