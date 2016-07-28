@@ -28,12 +28,12 @@ final class ISOCurrencies implements Currencies
             self::$currencies = $this->loadCurrencies();
         }
 
-        return array_key_exists($currency->getCode(), self::$currencies);
+        return isset(self::$currencies[$currency->getCode()]);
     }
 
     private function loadCurrencies()
     {
-        $file = __DIR__.'/../../resources/currency.php';
+        $file = __DIR__.'/../../vendor/moneyphp/iso-currencies/resources/current.php';
 
         if (file_exists($file)) {
             return require $file;

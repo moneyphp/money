@@ -28,7 +28,7 @@ class ISOCurrenciesSpec extends ObjectBehavior
 
     public function currencyCodeExamples()
     {
-        $currencies = require __DIR__.'/../../resources/currency.php';
+        $currencies = require __DIR__.'/../../vendor/moneyphp/iso-currencies/resources/current.php';
         $currencies = array_keys($currencies);
 
         return array_map(function($currency) { return [$currency]; }, $currencies);
