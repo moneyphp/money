@@ -26,6 +26,7 @@ final class ConstantProvider implements SubUnitProvider
 
     /**
      * @param Currency $currency
+     *
      * @return int
      */
     public function provide(Currency $currency)
