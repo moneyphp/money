@@ -94,6 +94,18 @@ final class PhpCalculator implements Calculator
     /**
      * {@inheritdoc}
      */
+    public function absolute($number)
+    {
+        $result = ltrim($number, '-');
+
+        $this->assertIntegerBounds($result);
+
+        return (string) $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function round($number, $roundingMode)
     {
         if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {

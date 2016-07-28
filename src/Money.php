@@ -412,6 +412,14 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function absolute()
+    {
+        return $this->newInstance($this->getCalculator()->absolute($this->amount));
+    }
+
+    /**
      * Checks if the value represented by this object is zero.
      *
      * @return bool

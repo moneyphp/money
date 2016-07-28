@@ -388,4 +388,32 @@ class MoneySpec extends ObjectBehavior
             ['-1', false, false, true],
         ];
     }
+
+
+    /**
+     * @dataProvider absoluteExamples
+     */
+    function it_calculates_the_absolute_amount($amount, $result, Calculator $calculator)
+    {
+        $this->beConstructedWith($amount, new Currency(self::CURRENCY));
+
+        $calculator->absolute($amount)->willReturn($result);
+
+        $money = $this->absolute();
+
+        $money->shouldHaveType(Money::class);
+        $money->getAmount()->shouldBeLike($result);
+    }
+
+    function absoluteExamples()
+    {
+        return [
+            [1, 1],
+            [0, 0],
+            [-1, 1],
+            ['1', 1],
+            ['0', 0],
+            ['-1', 1],
+        ];
+    }
 }

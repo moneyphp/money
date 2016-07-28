@@ -86,6 +86,15 @@ interface Calculator
     public function floor($number);
 
     /**
+     * Returns the absolute value of the number.
+     *
+     * @param string $number
+     *
+     * @return string
+     */
+    public function absolute($number);
+
+    /**
      * Round number, use rounding mode for tie-breaker.
      *
      * @param string $number
