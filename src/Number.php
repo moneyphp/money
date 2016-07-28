@@ -178,4 +178,39 @@ final class Number
 
         return count($invalid) === 0;
     }
+
+    /**
+     * @param string $moneyValue
+     * @param int    $targetDigits
+     * @param int    $havingDigits
+     *
+     * @return string
+     */
+    public static function roundMoneyValue($moneyValue, $targetDigits, $havingDigits)
+    {
+        $valueLength = strlen($moneyValue);
+
+        if ($targetDigits < $havingDigits && $moneyValue[$valueLength - $havingDigits + $targetDigits] >= 5) {
+            $position = $valueLength - $havingDigits + $targetDigits;
+            $addend = 1;
+
+            while ($position > 0) {
+                $newValue = (string) ((int) $moneyValue[$position - 1] + $addend);
+
+                if ($newValue >= 10) {
+                    $moneyValue[$position - 1] = $newValue[1];
+                    $addend = $newValue[0];
+                    --$position;
+                    if ($position === 0) {
+                        $moneyValue = $addend.$moneyValue;
+                    }
+                } else {
+                    $moneyValue[$position - 1] = $newValue[0];
+                    break;
+                }
+            }
+        }
+
+        return $moneyValue;
+    }
 }

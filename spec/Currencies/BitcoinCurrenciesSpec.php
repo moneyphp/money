@@ -9,6 +9,8 @@ use Prophecy\Argument;
 
 class BitcoinCurrenciesSpec extends ObjectBehavior
 {
+    use HaveCurrencyTrait;
+
     function it_is_initializable()
     {
         $this->shouldHaveType('Money\Currencies\BitcoinCurrencies');
@@ -23,5 +25,11 @@ class BitcoinCurrenciesSpec extends ObjectBehavior
     {
         $this->contains(new Currency('XBT'))->shouldReturn(true);
         $this->contains(new Currency('EUR'))->shouldReturn(false);
+    }
+
+    function it_can_be_iterated()
+    {
+        $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
+        $this->getIterator()->shouldHaveCurrency('XBT');
     }
 }

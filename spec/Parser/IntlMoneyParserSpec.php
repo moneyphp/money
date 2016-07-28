@@ -2,16 +2,19 @@
 
 namespace spec\Money\Parser;
 
+use Money\Currencies;
+use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class IntlMoneyParserSpec extends ObjectBehavior
 {
-    function let(\NumberFormatter $numberFormatter)
+    function let(\NumberFormatter $numberFormatter, Currencies $currencies)
     {
-        $this->beConstructedWith($numberFormatter);
+        $this->beConstructedWith($numberFormatter, $currencies);
     }
 
     function it_is_initializable()
@@ -24,43 +27,13 @@ class IntlMoneyParserSpec extends ObjectBehavior
         $this->shouldImplement(MoneyParser::class);
     }
 
-    /**
-     * @dataProvider moneyExamples
-     */
-    function it_parses_money($string, $units, \NumberFormatter $numberFormatter)
+    function it_parses_money(\NumberFormatter $numberFormatter, Currencies $currencies)
     {
         $currency = null;
-        $numberFormatter->getAttribute(\NumberFormatter::FRACTION_DIGITS)->willReturn(0);
-        $numberFormatter->parseCurrency($string, $currency)->willReturn($units);
+        $numberFormatter->parseCurrency('€1.00', $currency)->willReturn(1);
+        $currencies->subunitFor(Argument::type(Currency::class))->willReturn(2);
 
-        $money = $this->parse($string, 'EUR');
-
-        $money->shouldHaveType(Money::class);
-        $money->getAmount()->shouldBeLike($units);
-        $money->getCurrency()->getCode()->shouldReturn('EUR');
-    }
-
-    public function moneyExamples()
-    {
-        return [
-            ['€1000.00', 100000],
-            ['€1000.0', 100000],
-            ['€1000.00', 100000],
-            ['€0.01', 1],
-            ['€1', 100],
-            ['-€1000', -100000],
-            ['-€1000.0', -100000],
-            ['-€1000.00', -100000],
-            ['-€0.01', -1],
-            ['-€1', -100],
-            ['€1000', 100000],
-            ['€1000.0', 100000],
-            ['€1000.00', 100000],
-            ['€0.01', 1],
-            ['€1', 100],
-            ['€.99', 99],
-            ['-€.99', -99],
-        ];
+        $this->parse('€1.00', 'EUR')->shouldEqualsMoney(new Money(100, new Currency('EUR')));
     }
 
     function it_throws_an_exception_when_money_cannot_be_parsed(\NumberFormatter $numberFormatter)
@@ -75,5 +48,17 @@ class IntlMoneyParserSpec extends ObjectBehavior
     function it_does_not_parse_a_boolean()
     {
         $this->shouldThrow(ParserException::class)->duringParse(true);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMatchers()
+    {
+        return [
+            'equalsMoney' => function (Money $subject, Money $value) {
+                return $subject->equals($value);
+            },
+        ];
     }
 }

@@ -2,12 +2,14 @@
 
 namespace Money;
 
+use Money\Exception\UnknownCurrencyException;
+
 /**
  * Implement this to provide a list of currencies.
  *
  * @author Mathias Verraes
  */
-interface Currencies
+interface Currencies extends \IteratorAggregate
 {
     /**
      * Checks whether a currency is available in the current context.
@@ -17,4 +19,15 @@ interface Currencies
      * @return bool
      */
     public function contains(Currency $currency);
+
+    /**
+     * Returns the subunit for a currency.
+     *
+     * @param Currency $currency
+     *
+     * @return int
+     *
+     * @throws UnknownCurrencyException
+     */
+    public function subunitFor(Currency $currency);
 }

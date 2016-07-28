@@ -2,10 +2,12 @@
 
 namespace Money\Formatter;
 
+use Money\Currencies;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Exception\FormatterException;
 use Money\Money;
 use Money\MoneyFormatter;
+use Money\Number;
 
 /**
  * Formats Money to Bitcoin currency.
@@ -18,13 +20,19 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
      * @var int
      */
     private $fractionDigits;
+    /**
+     * @var Currencies
+     */
+    private $currencies;
 
     /**
-     * @param int $fractionDigits
+     * @param int        $fractionDigits
+     * @param Currencies $currencies
      */
-    public function __construct($fractionDigits)
+    public function __construct($fractionDigits, Currencies $currencies)
     {
         $this->fractionDigits = $fractionDigits;
+        $this->currencies = $currencies;
     }
 
     /**
@@ -39,31 +47,41 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
         $valueBase = $money->getAmount();
         $negative = false;
 
-        if ('-' === substr($valueBase, 0, 1)) {
+        if ('-' === $valueBase[0]) {
             $negative = true;
             $valueBase = substr($valueBase, 1);
         }
 
-        $fractionDigits = $this->fractionDigits;
+        $subunit = $this->currencies->subunitFor($money->getCurrency());
+        $valueBase = Number::roundMoneyValue($valueBase, $this->fractionDigits, $subunit);
         $valueLength = strlen($valueBase);
 
-        if ($valueLength > $fractionDigits) {
-            $subunits = substr($valueBase, 0, $valueLength - $fractionDigits);
+        if ($valueLength > $subunit) {
+            $formatted = substr($valueBase, 0, $valueLength - $subunit);
 
-            if ($fractionDigits) {
-                $subunits .= '.';
-                $subunits .= substr($valueBase, $valueLength - $fractionDigits);
+            if ($subunit) {
+                $formatted .= '.';
+                $formatted .= substr($valueBase, $valueLength - $subunit);
             }
         } else {
-            $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
+            $formatted = '0.'.str_pad('', $subunit - $valueLength, '0').$valueBase;
         }
 
-        $subunits = BitcoinCurrencies::SYMBOL.$subunits;
+        if ($this->fractionDigits === 0) {
+            $formatted = substr($formatted, 0, strpos($formatted, '.'));
+        } elseif ($this->fractionDigits > $subunit) {
+            $formatted .= str_pad('', $this->fractionDigits - $subunit, '0');
+        } elseif ($this->fractionDigits < $subunit) {
+            $lastDigit = strpos($formatted, '.') + $this->fractionDigits + 1;
+            $formatted = substr($formatted, 0, $lastDigit);
+        }
+
+        $formatted = BitcoinCurrencies::SYMBOL.$formatted;
 
         if (true === $negative) {
-            $subunits = '-'.BitcoinCurrencies::SYMBOL.$subunits;
+            $formatted = '-'.BitcoinCurrencies::SYMBOL.$formatted;
         }
 
-        return $subunits;
+        return $formatted;
     }
 }
