@@ -20,4 +20,20 @@ final class BitcoinCurrencies implements Currencies
     {
         return self::CODE === $currency->getCode();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function subunitFor(Currency $currency)
+    {
+        return 8;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function nameFor(Currency $currency)
+    {
+        return 'Bitcoin';
+    }
 }
