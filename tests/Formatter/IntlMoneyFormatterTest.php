@@ -5,17 +5,18 @@ namespace Tests\Money\Formatter;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
+use Money\SubUnit\ConstantProvider;
 
 final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider numberFormatterExamples
      */
-    public function testNumberFormatter($amount, $currency, $result, $locale, $mode, $hasPattern, $fractionDigits)
+    public function testNumberFormatter($amount, $currency, $result, $mode, $hasPattern, $subUnits, $fractionDigits)
     {
         $money = new Money($amount, new Currency($currency));
 
-        $numberFormatter = new \NumberFormatter($locale, $mode);
+        $numberFormatter = new \NumberFormatter('en_US', $mode);
 
         if (true === $hasPattern) {
             $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
@@ -23,31 +24,33 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 
         $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $fractionDigits);
 
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ConstantProvider($subUnits));
         $this->assertEquals($result, $moneyFormatter->format($money));
     }
 
     public static function numberFormatterExamples()
     {
         return [
-            [100, 'USD', '$1.00', 'en_US', \NumberFormatter::CURRENCY, true, 2],
-            [41, 'USD', '$0.41', 'en_US', \NumberFormatter::CURRENCY, true, 2],
-            [5, 'USD', '$0.05', 'en_US', \NumberFormatter::CURRENCY, true, 2],
-            [5, 'USD', '$0.005', 'en_US', \NumberFormatter::CURRENCY, true, 3],
-            [35, 'USD', '$0.035', 'en_US', \NumberFormatter::CURRENCY, true, 3],
-            [135, 'USD', '$0.135', 'en_US', \NumberFormatter::CURRENCY, true, 3],
-            [6135, 'USD', '$6.135', 'en_US', \NumberFormatter::CURRENCY, true, 3],
-            [-6135, 'USD', '-$6.135', 'en_US', \NumberFormatter::CURRENCY, true, 3],
-            [5, 'EUR', '€0.05', 'en_US', \NumberFormatter::CURRENCY, true, 2],
-            [50, 'EUR', '€0.50', 'en_US', \NumberFormatter::CURRENCY, true, 2],
-            [500, 'EUR', '€5.00', 'en_US', \NumberFormatter::CURRENCY, true, 2],
-            [5, 'EUR', '€0.05', 'en_US', \NumberFormatter::DECIMAL, true, 2],
-            [50, 'EUR', '€0.50', 'en_US', \NumberFormatter::DECIMAL, true, 2],
-            [500, 'EUR', '€5.00', 'en_US', \NumberFormatter::DECIMAL, true, 2],
-            [5, 'EUR', '5', 'en_US', \NumberFormatter::DECIMAL, false, 0],
-            [50, 'EUR', '50', 'en_US', \NumberFormatter::DECIMAL, false, 0],
-            [500, 'EUR', '500', 'en_US', \NumberFormatter::DECIMAL, false, 0],
-            [5, 'EUR', '500%', 'en_US', \NumberFormatter::PERCENT, false, 0],
+            [5005, 'USD', '$50', \NumberFormatter::CURRENCY, true, 2, 0],
+            [100, 'USD', '$1.00', \NumberFormatter::CURRENCY, true, 2, 2],
+            [41, 'USD', '$0.41', \NumberFormatter::CURRENCY, true, 2, 2],
+            [5, 'USD', '$0.05', \NumberFormatter::CURRENCY, true, 2, 2],
+            [5, 'USD', '$0.005', \NumberFormatter::CURRENCY, true, 3, 3],
+            [35, 'USD', '$0.035', \NumberFormatter::CURRENCY, true, 3, 3],
+            [135, 'USD', '$0.135', \NumberFormatter::CURRENCY, true, 3, 3],
+            [6135, 'USD', '$6.135', \NumberFormatter::CURRENCY, true, 3, 3],
+            [-6135, 'USD', '-$6.135', \NumberFormatter::CURRENCY, true, 3, 3],
+            [-6152, 'USD', '-$6.2', \NumberFormatter::CURRENCY, true, 3, 1],
+            [5, 'EUR', '€0.05', \NumberFormatter::CURRENCY, true, 2, 2],
+            [50, 'EUR', '€0.50', \NumberFormatter::CURRENCY, true, 2, 2],
+            [500, 'EUR', '€5.00', \NumberFormatter::CURRENCY, true, 2, 2],
+            [5, 'EUR', '€0.05', \NumberFormatter::DECIMAL, true, 2, 2],
+            [50, 'EUR', '€0.50', \NumberFormatter::DECIMAL, true, 2, 2],
+            [500, 'EUR', '€5.00', \NumberFormatter::DECIMAL, true, 2, 2],
+            [5, 'EUR', '5', \NumberFormatter::DECIMAL, false, 0, 0],
+            [50, 'EUR', '50', \NumberFormatter::DECIMAL, false, 0, 0],
+            [500, 'EUR', '500', \NumberFormatter::DECIMAL, false, 0, 0],
+            [5, 'EUR', '500%', \NumberFormatter::PERCENT, false, 0, 0],
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace Money\Formatter;
 
 use Money\Money;
 use Money\MoneyFormatter;
+use Money\SubUnitProvider;
 
 /**
  * Formats a Money object using intl extension.
@@ -16,13 +17,19 @@ final class IntlMoneyFormatter implements MoneyFormatter
      * @var \NumberFormatter
      */
     private $formatter;
+    /**
+     * @var SubUnitProvider
+     */
+    private $subUnitProvider;
 
     /**
      * @param \NumberFormatter $formatter
+     * @param SubUnitProvider $subUnitProvider
      */
-    public function __construct(\NumberFormatter $formatter)
+    public function __construct(\NumberFormatter $formatter, SubUnitProvider $subUnitProvider)
     {
         $this->formatter = $formatter;
+        $this->subUnitProvider = $subUnitProvider;
     }
 
     /**
@@ -33,25 +40,25 @@ final class IntlMoneyFormatter implements MoneyFormatter
         $valueBase = (string) $money->getAmount();
         $negative = false;
 
-        if (substr($valueBase, 0, 1) === '-') {
+        if ($valueBase[0] === '-') {
             $negative = true;
             $valueBase = substr($valueBase, 1);
         }
 
-        $fractionDigits = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
+        $subunits = $this->subUnitProvider->provide($money->getCurrency());
         $valueLength = strlen($valueBase);
 
-        if ($valueLength > $fractionDigits) {
-            $subunits = substr($valueBase, 0, $valueLength - $fractionDigits).'.';
-            $subunits .= substr($valueBase, $valueLength - $fractionDigits);
+        if ($valueLength > $subunits) {
+            $formatted = substr($valueBase, 0, $valueLength - $subunits).'.';
+            $formatted .= substr($valueBase, $valueLength - $subunits);
         } else {
-            $subunits = '0.'.str_pad('', $fractionDigits - $valueLength, '0').$valueBase;
+            $formatted = '0.'.str_pad('', $subunits - $valueLength, '0').$valueBase;
         }
 
         if ($negative === true) {
-            $subunits = '-'.$subunits;
+            $formatted = '-'.$formatted;
         }
 
-        return $this->formatter->formatCurrency($subunits, $money->getCurrency()->getCode());
+        return $this->formatter->formatCurrency($formatted, $money->getCurrency()->getCode());
     }
 }
