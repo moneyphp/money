@@ -18,7 +18,7 @@ final class ConstantProvider implements SubUnitProvider
     public function __construct($subUnits)
     {
         if (!is_int($subUnits)) {
-            throw new \InvalidArgumentException('Expecting integer, got '. gettype($subUnits));
+            throw new \InvalidArgumentException('Expecting integer, got '.gettype($subUnits));
         }
 
         $this->subUnits = $subUnits;
