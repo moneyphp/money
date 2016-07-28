@@ -9,5 +9,4 @@ interface SubUnitProvider
      * @return int
      */
     public function provide(Currency $currency);
-
 }

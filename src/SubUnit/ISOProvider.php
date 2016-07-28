@@ -25,7 +25,7 @@ final class ISOProvider implements SubUnitProvider
         }
 
         if (!isset(self::$currencies[$currency->getCode()])) {
-            throw new UnknownISOCurrencyException('Cannot find ISO currency ' . $currency->getCode());
+            throw new UnknownISOCurrencyException('Cannot find ISO currency '.$currency->getCode());
         }
 
         return self::$currencies[$currency->getCode()]['minorUnit'];
