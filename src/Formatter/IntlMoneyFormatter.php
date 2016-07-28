@@ -24,7 +24,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
 
     /**
      * @param \NumberFormatter $formatter
-     * @param SubUnitProvider $subUnitProvider
+     * @param SubUnitProvider  $subUnitProvider
      */
     public function __construct(\NumberFormatter $formatter, SubUnitProvider $subUnitProvider)
     {
