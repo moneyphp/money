@@ -61,6 +61,27 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * @param float|string $amount
+     * @param Currency     $currency
+     *
+     * @return static
+     */
+    public static function fromFloat($amount, Currency $currency)
+    {
+        if (!is_numeric($amount)) {
+            throw new \InvalidArgumentException('Amount must be a number.');
+        }
+
+        $calculator = self::getCalculator();
+        $amount = $calculator->multiply(
+            (string) $amount,
+            $calculator->pow('10', (string) $currency->getNumberOfSubUnits())
+        );
+
+        return new static(self::normalize($amount), $currency);
+    }
+
+    /**
      * Convenience factory method for a Money object.
      *
      * <code>
@@ -144,7 +165,7 @@ final class Money implements \JsonSerializable
     {
         $this->assertSameCurrency($other);
 
-        return $this->getCalculator()->compare($this->amount, $other->amount);
+        return self::getCalculator()->compare($this->amount, $other->amount);
     }
 
     /**
@@ -223,7 +244,7 @@ final class Money implements \JsonSerializable
     {
         $this->assertSameCurrency($addend);
 
-        return new self($this->getCalculator()->add($this->amount, $addend->amount), $this->currency);
+        return new self(self::getCalculator()->add($this->amount, $addend->amount), $this->currency);
     }
 
     /**
@@ -238,7 +259,7 @@ final class Money implements \JsonSerializable
     {
         $this->assertSameCurrency($subtrahend);
 
-        return new self($this->getCalculator()->subtract($this->amount, $subtrahend->amount), $this->currency);
+        return new self(self::getCalculator()->subtract($this->amount, $subtrahend->amount), $this->currency);
     }
 
     /**
@@ -297,7 +318,7 @@ final class Money implements \JsonSerializable
         $this->assertOperand($multiplier);
         $this->assertRoundingMode($roundingMode);
 
-        $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
+        $product = $this->round(self::getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
 
         return $this->newInstance($product);
     }
@@ -312,7 +333,7 @@ final class Money implements \JsonSerializable
     public function convert(Currency $targetCurrency, $conversionRate, $roundingMode = self::ROUND_HALF_UP)
     {
         $this->assertRoundingMode($roundingMode);
-        $amount = $this->getCalculator()->round($this->getCalculator()->multiply($this->amount, $conversionRate), $roundingMode);
+        $amount = self::getCalculator()->round(self::getCalculator()->multiply($this->amount, $conversionRate), $roundingMode);
 
         return new self($amount, $targetCurrency);
     }
@@ -331,11 +352,11 @@ final class Money implements \JsonSerializable
         $this->assertOperand($divisor);
         $this->assertRoundingMode($roundingMode);
 
-        if ($this->getCalculator()->compare((string) $divisor, '0') === 0) {
+        if (self::getCalculator()->compare((string) $divisor, '0') === 0) {
             throw new \InvalidArgumentException('Division by zero');
         }
 
-        $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
+        $quotient = $this->round(self::getCalculator()->divide($this->amount, $divisor), $roundingMode);
 
         return $this->newInstance($quotient);
     }
@@ -357,14 +378,14 @@ final class Money implements \JsonSerializable
         $total = array_sum($ratios);
 
         foreach ($ratios as $ratio) {
-            $share = $this->getCalculator()->share($this->amount, $ratio, $total);
+            $share = self::getCalculator()->share($this->amount, $ratio, $total);
             $results[] = $this->newInstance($share);
-            $remainder = $this->getCalculator()->subtract($remainder, $share);
+            $remainder = self::getCalculator()->subtract($remainder, $share);
         }
 
-        for ($i = 0; $this->getCalculator()->compare($remainder, 0) === 1; ++$i) {
-            $results[$i]->amount = $this->getCalculator()->add($results[$i]->amount, 1);
-            $remainder = $this->getCalculator()->subtract($remainder, 1);
+        for ($i = 0; self::getCalculator()->compare($remainder, 0) === 1; ++$i) {
+            $results[$i]->amount = self::getCalculator()->add($results[$i]->amount, 1);
+            $remainder = self::getCalculator()->subtract($remainder, 1);
         }
 
         return $results;
@@ -402,13 +423,13 @@ final class Money implements \JsonSerializable
     {
         $this->assertRoundingMode($rounding_mode);
         if ($rounding_mode === self::ROUND_UP) {
-            return $this->getCalculator()->ceil($amount);
+            return self::getCalculator()->ceil($amount);
         }
         if ($rounding_mode === self::ROUND_DOWN) {
-            return $this->getCalculator()->floor($amount);
+            return self::getCalculator()->floor($amount);
         }
 
-        return $this->getCalculator()->round($amount, $rounding_mode);
+        return self::getCalculator()->round($amount, $rounding_mode);
     }
 
     /**
@@ -426,7 +447,7 @@ final class Money implements \JsonSerializable
      */
     public function isZero()
     {
-        return 0 === $this->getCalculator()->compare($this->amount, 0);
+        return 0 === self::getCalculator()->compare($this->amount, 0);
     }
 
     /**
@@ -436,7 +457,7 @@ final class Money implements \JsonSerializable
      */
     public function isPositive()
     {
-        return 1 === $this->getCalculator()->compare($this->amount, 0);
+        return 1 === self::getCalculator()->compare($this->amount, 0);
     }
 
     /**
@@ -446,7 +467,7 @@ final class Money implements \JsonSerializable
      */
     public function isNegative()
     {
-        return -1 === $this->getCalculator()->compare($this->amount, 0);
+        return -1 === self::getCalculator()->compare($this->amount, 0);
     }
 
     /**
@@ -495,12 +516,47 @@ final class Money implements \JsonSerializable
     /**
      * @return Calculator
      */
-    private function getCalculator()
+    private static function getCalculator()
     {
         if (self::$calculator === null) {
             self::$calculator = self::initializeCalculator();
         }
 
         return self::$calculator;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $calculator = self::getCalculator();
+
+        $amount = $calculator->divide(
+            $this->amount,
+            $calculator->pow('10', (string) $this->currency->getNumberOfSubUnits())
+        );
+
+        return sprintf('%s %s', self::normalize($amount), $this->currency->getCode());
+    }
+
+    /**
+     * @param string $number
+     *
+     * @return string
+     */
+    public static function normalize($number)
+    {
+        if (strpos($number, '.') !== false) {
+            $number = trim($number, '0');
+            if ($number[0] === '.') {
+                $number = '0'.$number;
+            }
+            if ($number[strlen($number) - 1] === '.') {
+                $number = substr($number, 0, strlen($number) - 1);
+            }
+        }
+
+        return $number;
     }
 }

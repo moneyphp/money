@@ -182,4 +182,12 @@ final class PhpCalculator implements Calculator
             throw new \UnexpectedValueException('The result of arithmetic operation is not an integer');
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function pow($base, $exponent)
+    {
+        return (string) pow($base, $exponent);
+    }
 }

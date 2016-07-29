@@ -11,6 +11,8 @@ namespace Money;
  */
 final class Currency implements \JsonSerializable
 {
+    const DEFAULT_NUMBER_OF_SUBUNITS = 2;
+
     /**
      * Currency code.
      *
@@ -19,15 +21,22 @@ final class Currency implements \JsonSerializable
     private $code;
 
     /**
-     * @param string $code
+     * @var int
      */
-    public function __construct($code)
+    private $numberOfSubUnits;
+
+    /**
+     * @param string $code
+     * @param int    $numberOfSubUnits
+     */
+    public function __construct($code, $numberOfSubUnits = self::DEFAULT_NUMBER_OF_SUBUNITS)
     {
         if (!is_string($code)) {
             throw new \InvalidArgumentException('Currency code should be string');
         }
 
         $this->code = $code;
+        $this->numberOfSubUnits = $numberOfSubUnits;
     }
 
     /**
@@ -80,5 +89,13 @@ final class Currency implements \JsonSerializable
     public function jsonSerialize()
     {
         return $this->code;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfSubUnits()
+    {
+        return $this->numberOfSubUnits;
     }
 }

@@ -224,4 +224,12 @@ final class GmpCalculator implements Calculator
     {
         return $this->floor($this->divide($this->multiply($amount, $ratio), $total));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function pow($base, $exponent)
+    {
+        return gmp_pow($base, $exponent);
+    }
 }
