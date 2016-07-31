@@ -3,7 +3,7 @@
 namespace Money\Currencies;
 
 /**
- * Currency specification
+ * Currency specification.
  *
  * @author Frederik Bosch
  */
@@ -38,23 +38,27 @@ final class Specification
 
     /**
      * @param string $name
+     *
      * @return Specification
      */
     public function withName($name)
     {
         $clone = clone $this;
         $clone->name = $name;
+
         return $clone;
     }
 
     /**
      * @param int $numericCode
+     *
      * @return Specification
      */
     public function withNumericCode($numericCode)
     {
         $clone = clone $this;
         $clone->numericCode = $numericCode;
+
         return $clone;
     }
 
