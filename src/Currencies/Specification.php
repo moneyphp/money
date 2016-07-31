@@ -25,6 +25,10 @@ final class Specification
      * @var string
      */
     private $name;
+    /**
+     * @var string
+     */
+    private $entity;
 
     /**
      * @param $alphabeticCode
@@ -45,6 +49,19 @@ final class Specification
     {
         $clone = clone $this;
         $clone->name = $name;
+
+        return $clone;
+    }
+
+    /**
+     * @param string $entity
+     *
+     * @return Specification
+     */
+    public function withEntity($entity)
+    {
+        $clone = clone $this;
+        $clone->entity = $entity;
 
         return $clone;
     }
@@ -92,5 +109,13 @@ final class Specification
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntity()
+    {
+        return $this->entity;
     }
 }

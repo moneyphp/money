@@ -50,7 +50,8 @@ final class ISOCurrencies implements Currencies, CurrenciesSpecification
             self::$currencies[$currency->getCode()]['alphabeticCode'],
             self::$currencies[$currency->getCode()]['minorUnit']
         ))
-            ->withName(self::$currencies[$currency->getCode()]['entity'])
+            ->withName(self::$currencies[$currency->getCode()]['currency'])
+            ->withEntity(self::$currencies[$currency->getCode()]['entity'])
             ->withNumericCode(self::$currencies[$currency->getCode()]['numericCode']);
 
         return $specification;
