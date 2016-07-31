@@ -45,6 +45,7 @@ final class Specification
     {
         $clone = clone $this;
         $clone->name = $name;
+
         return $clone;
     }
 
@@ -57,6 +58,7 @@ final class Specification
     {
         $clone = clone $this;
         $clone->numericCode = $numericCode;
+
         return $clone;
     }
 
