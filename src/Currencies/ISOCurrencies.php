@@ -3,7 +3,7 @@
 namespace Money\Currencies;
 
 use Money\Currencies;
-use Money\CurrenciesWithSubunit;
+use Money\CurrenciesSpecification;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 
@@ -12,7 +12,7 @@ use Money\Exception\UnknownCurrencyException;
  *
  * @author Mathias Verraes
  */
-final class ISOCurrencies implements Currencies, CurrenciesWithSubunit
+final class ISOCurrencies implements Currencies, CurrenciesSpecification
 {
     /**
      * List of known currencies.
@@ -36,7 +36,7 @@ final class ISOCurrencies implements Currencies, CurrenciesWithSubunit
     /**
      * {@inheritdoc}
      */
-    public function getSubunitFor(Currency $currency)
+    public function specify(Currency $currency)
     {
         if (null === self::$currencies) {
             self::$currencies = $this->loadCurrencies();
@@ -46,7 +46,14 @@ final class ISOCurrencies implements Currencies, CurrenciesWithSubunit
             throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
         }
 
-        return self::$currencies[$currency->getCode()]['minorUnit'];
+        $specification = (new Specification(
+            self::$currencies[$currency->getCode()]['alphabeticCode'],
+            self::$currencies[$currency->getCode()]['minorUnit']
+        ))
+            ->withName(self::$currencies[$currency->getCode()]['entity'])
+            ->withNumericCode(self::$currencies[$currency->getCode()]['numericCode']);
+
+        return $specification;
     }
 
     /**
