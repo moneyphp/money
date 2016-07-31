@@ -3,7 +3,7 @@
 namespace Money\Currencies;
 
 /**
- * Currency specification
+ * Currency specification.
  *
  * @author Frederik Bosch
  */
@@ -38,6 +38,7 @@ final class Specification
 
     /**
      * @param string $name
+     *
      * @return Specification
      */
     public function withName($name)
@@ -49,6 +50,7 @@ final class Specification
 
     /**
      * @param int $numericCode
+     *
      * @return Specification
      */
     public function withNumericCode($numericCode)
