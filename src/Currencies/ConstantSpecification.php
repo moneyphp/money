@@ -2,7 +2,7 @@
 
 namespace Money\Currencies;
 
-use Money\CurrenciesWithSubunit;
+use Money\CurrenciesSpecification;
 use Money\Currency;
 
 /**
@@ -10,7 +10,7 @@ use Money\Currency;
  *
  * @author Frederik Bosch
  */
-final class ConstantSubunit implements CurrenciesWithSubunit
+final class ConstantSpecification implements CurrenciesSpecification
 {
     /**
      * @var int
@@ -32,8 +32,8 @@ final class ConstantSubunit implements CurrenciesWithSubunit
     /**
      * {@inheritdoc}
      */
-    public function getSubunitFor(Currency $currency)
+    public function specify(Currency $currency)
     {
-        return $this->subunit;
+        return new Specification($currency->getCode(), $this->subunit);
     }
 }

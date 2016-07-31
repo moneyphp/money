@@ -30,14 +30,14 @@ class ISOCurrenciesSpec extends ObjectBehavior
     /**
      * @dataProvider currencyCodeExamples
      */
-    function it_has_a_subunit($currency)
+    function it_has_a_currency_specification($currency)
     {
-        $this->getSubunitFor(new Currency($currency))->shouldBeInteger();
+        $this->specify(new Currency($currency))->shouldReturnAnInstanceOf('Money\\Currencies\\Specification');
     }
 
     function it_throws_an_exception_when_currency_is_unknown()
     {
-        $this->shouldThrow(UnknownCurrencyException::class)->duringGetSubunitFor(new Currency('XXXX'));
+        $this->shouldThrow(UnknownCurrencyException::class)->duringSpecify(new Currency('XXXX'));
     }
 
     public function currencyCodeExamples()
