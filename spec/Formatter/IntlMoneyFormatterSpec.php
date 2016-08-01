@@ -11,9 +11,9 @@ use PhpSpec\ObjectBehavior;
 
 class IntlMoneyFormatterSpec extends ObjectBehavior
 {
-    function let(\NumberFormatter $numberFormatter, CurrenciesSpecification $currencies)
+    function let(\NumberFormatter $numberFormatter)
     {
-        $this->beConstructedWith($numberFormatter, $currencies);
+        $this->beConstructedWith($numberFormatter);
     }
 
     function it_is_initializable()
@@ -26,12 +26,11 @@ class IntlMoneyFormatterSpec extends ObjectBehavior
         $this->shouldImplement(MoneyFormatter::class);
     }
 
-    function it_formats_money(\NumberFormatter $numberFormatter, CurrenciesSpecification $currencies)
+    function it_formats_money(\NumberFormatter $numberFormatter)
     {
-        $money = new Money(1, new Currency('EUR'));
+        $money = new Money(1, (new Currency('EUR'))->withSubunit(2));
 
         $numberFormatter->formatCurrency('0.01', 'EUR')->willReturn('€1.00');
-        $currencies->specify($money->getCurrency())->willReturn(new Specification('EUR', 2));
 
         $this->format($money)->shouldReturn('€1.00');
     }

@@ -14,7 +14,7 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNumberFormatter($amount, $currency, $result, $mode, $hasPattern, $subunit, $fractionDigits)
     {
-        $money = new Money($amount, new Currency($currency));
+        $money = new Money($amount, (new Currency($currency))->withSubunit($subunit));
 
         $numberFormatter = new \NumberFormatter('en_US', $mode);
 
@@ -24,7 +24,7 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 
         $numberFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $fractionDigits);
 
-        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ConstantSpecification($subunit));
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter);
         $this->assertEquals($result, $moneyFormatter->format($money));
     }
 

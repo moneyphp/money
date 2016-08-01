@@ -17,6 +17,18 @@ final class Currency implements \JsonSerializable
      * @var string
      */
     private $code;
+    /**
+     * @var int
+     */
+    private $subunit = 0;
+    /**
+     * @var string
+     */
+    private $name = '';
+    /**
+     * @var string
+     */
+    private $entity = '';
 
     /**
      * @param string $code
@@ -31,6 +43,49 @@ final class Currency implements \JsonSerializable
     }
 
     /**
+     * @param int $subunit
+     *
+     * @return Currency
+     */
+    public function withSubunit($subunit)
+    {
+        if (!is_int($subunit)) {
+            throw new \InvalidArgumentException('Subunit should be an integer');
+        }
+
+        $clone = clone $this;
+        $clone->subunit = $subunit;
+
+        return $clone;
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return Currency
+     */
+    public function withName($name)
+    {
+        $clone = clone $this;
+        $clone->name = $name;
+
+        return $clone;
+    }
+
+    /**
+     * @param string $entity
+     *
+     * @return Currency
+     */
+    public function withEntity($entity)
+    {
+        $clone = clone $this;
+        $clone->entity = $entity;
+
+        return $clone;
+    }
+
+    /**
      * Returns the currency code.
      *
      * @return string
@@ -38,6 +93,30 @@ final class Currency implements \JsonSerializable
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntity()
+    {
+        return $this->entity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSubunit()
+    {
+        return $this->subunit;
     }
 
     /**

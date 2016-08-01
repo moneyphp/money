@@ -2,18 +2,26 @@
 
 namespace Money\Currencies;
 
+use ArrayIterator;
+use IteratorAggregate;
 use Money\Currencies;
-use Money\CurrenciesSpecification;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
+use Traversable;
 
 /**
  * List of supported ISO 4217 currency codes and names.
  *
  * @author Mathias Verraes
  */
-final class ISOCurrencies implements Currencies, CurrenciesSpecification
+final class ISOCurrencies implements Currencies, IteratorAggregate
 {
+    /**
+     * Currency data from data source.
+     *
+     * @var array
+     */
+    private static $currencyData;
     /**
      * List of known currencies.
      *
@@ -26,35 +34,36 @@ final class ISOCurrencies implements Currencies, CurrenciesSpecification
      */
     public function contains(Currency $currency)
     {
-        if (null === self::$currencies) {
-            self::$currencies = $this->loadCurrencies();
+        if (null === self::$currencyData) {
+            self::$currencyData = $this->loadCurrencies();
         }
 
-        return isset(self::$currencies[$currency->getCode()]);
+        return isset(self::$currencyData[$currency->getCode()]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function specify(Currency $currency)
+    public function find($code)
     {
-        if (null === self::$currencies) {
-            self::$currencies = $this->loadCurrencies();
+        if (isset(self::$currencies[$code])) {
+            return self::$currencies[$code];
         }
 
-        if (!isset(self::$currencies[$currency->getCode()])) {
-            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+        if (null === self::$currencyData) {
+            self::$currencyData = $this->loadCurrencies();
         }
 
-        $specification = (new Specification(
-            self::$currencies[$currency->getCode()]['alphabeticCode'],
-            self::$currencies[$currency->getCode()]['minorUnit']
-        ))
-            ->withName(self::$currencies[$currency->getCode()]['currency'])
-            ->withEntity(self::$currencies[$currency->getCode()]['entity'])
-            ->withNumericCode(self::$currencies[$currency->getCode()]['numericCode']);
+        if (!isset(self::$currencyData[$code])) {
+            throw new UnknownCurrencyException('Cannot find ISO currency '.$code);
+        }
 
-        return $specification;
+        self::$currencies[$code] = (new Currency($code))
+            ->withSubunit(self::$currencyData[$code]['minorUnit'])
+            ->withName(self::$currencyData[$code]['currency'])
+            ->withEntity(self::$currencyData[$code]['entity']);
+
+        return self::$currencies[$code];
     }
 
     /**
@@ -69,5 +78,31 @@ final class ISOCurrencies implements Currencies, CurrenciesSpecification
         }
 
         throw new \RuntimeException('Failed to load currency ISO codes.');
+    }
+
+    /**
+     * @return Traversable
+     */
+    public function getIterator()
+    {
+        $list = [];
+
+        if (null === self::$currencyData) {
+            self::$currencyData = $this->loadCurrencies();
+        }
+
+        $codes = array_keys(self::$currencyData);
+        foreach ($codes as $code) {
+            if (!isset(self::$currencies[$code])) {
+                self::$currencies[$code] = (new Currency($code))
+                    ->withSubunit(self::$currencyData[$code]['minorUnit'])
+                    ->withName(self::$currencyData[$code]['currency'])
+                    ->withEntity(self::$currencyData[$code]['entity']);
+            }
+
+            $list[] = self::$currencies[$code];
+        }
+
+        return new ArrayIterator($list);
     }
 }

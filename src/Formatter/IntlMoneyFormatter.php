@@ -2,7 +2,7 @@
 
 namespace Money\Formatter;
 
-use Money\CurrenciesSpecification;
+use Money\Currencies;
 use Money\Money;
 use Money\MoneyFormatter;
 
@@ -17,19 +17,13 @@ final class IntlMoneyFormatter implements MoneyFormatter
      * @var \NumberFormatter
      */
     private $formatter;
-    /**
-     * @var CurrenciesSpecification
-     */
-    private $specifier;
 
     /**
-     * @param \NumberFormatter        $formatter
-     * @param CurrenciesSpecification $specifier
+     * @param \NumberFormatter $formatter
      */
-    public function __construct(\NumberFormatter $formatter, CurrenciesSpecification $specifier)
+    public function __construct(\NumberFormatter $formatter)
     {
         $this->formatter = $formatter;
-        $this->specifier = $specifier;
     }
 
     /**
@@ -45,7 +39,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
             $valueBase = substr($valueBase, 1);
         }
 
-        $subunit = $this->specifier->specify($money->getCurrency())->getSubunit();
+        $subunit = $money->getCurrency()->getSubunit();
         $valueLength = strlen($valueBase);
 
         if ($valueLength > $subunit) {

@@ -2,6 +2,8 @@
 
 namespace Money;
 
+use Money\Exception\UnknownCurrencyException;
+
 /**
  * Implement this to provide a list of currencies.
  *
@@ -17,4 +19,13 @@ interface Currencies
      * @return bool
      */
     public function contains(Currency $currency);
+
+    /**
+     * @param string $code
+     *
+     * @return Currency
+     *
+     * @throws UnknownCurrencyException
+     */
+    public function find($code);
 }

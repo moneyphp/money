@@ -27,17 +27,9 @@ class ISOCurrenciesSpec extends ObjectBehavior
         $this->contains(new Currency($currency))->shouldReturn(true);
     }
 
-    /**
-     * @dataProvider currencyCodeExamples
-     */
-    function it_has_a_currency_specification($currency)
-    {
-        $this->specify(new Currency($currency))->shouldReturnAnInstanceOf('Money\\Currencies\\Specification');
-    }
-
     function it_throws_an_exception_when_currency_is_unknown()
     {
-        $this->shouldThrow(UnknownCurrencyException::class)->duringSpecify(new Currency('XXXX'));
+        $this->shouldThrow(UnknownCurrencyException::class)->duringFind('XXXX');
     }
 
     public function currencyCodeExamples()
