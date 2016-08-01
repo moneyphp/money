@@ -59,4 +59,21 @@ class CachedCurrenciesSpec extends ObjectBehavior
 
         $this->contains(new Currency('EUR'))->shouldReturn(true);
     }
+
+    function it_finds_currencies_from_the_cache(
+        CacheItemInterface $item,
+        CacheItemPoolInterface $pool,
+        Currencies $currencies
+    ) {
+        $item->isHit()->willReturn(true);
+        $item->set(Argument::type(Currency::class))->shouldNotBeCalled();
+        $item->get()->willReturn(new Currency('EUR'));
+
+        $pool->getItem('currency|code|EUR')->willReturn($item);
+        $pool->save($item)->shouldNotBeCalled();
+
+        $currencies->find(Argument::type(Currency::class))->shouldNotBeCalled();
+
+        $this->find('EUR')->shouldReturnAnInstanceOf('Money\\Currency');
+    }
 }

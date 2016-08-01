@@ -60,28 +60,13 @@ final class ISOCurrencies implements Currencies, IteratorAggregate
 
         self::$currencies[$code] = (new Currency($code))
             ->withSubunit(self::$currencyData[$code]['minorUnit'])
-            ->withName(self::$currencyData[$code]['currency'])
-            ->withEntity(self::$currencyData[$code]['entity']);
+            ->withName(self::$currencyData[$code]['currency']);
 
         return self::$currencies[$code];
     }
 
     /**
-     * @return array
-     */
-    private function loadCurrencies()
-    {
-        $file = __DIR__.'/../../vendor/moneyphp/iso-currencies/resources/current.php';
-
-        if (file_exists($file)) {
-            return require $file;
-        }
-
-        throw new \RuntimeException('Failed to load currency ISO codes.');
-    }
-
-    /**
-     * @return Traversable
+     * @return Traversable|Currency[]
      */
     public function getIterator()
     {
@@ -96,13 +81,26 @@ final class ISOCurrencies implements Currencies, IteratorAggregate
             if (!isset(self::$currencies[$code])) {
                 self::$currencies[$code] = (new Currency($code))
                     ->withSubunit(self::$currencyData[$code]['minorUnit'])
-                    ->withName(self::$currencyData[$code]['currency'])
-                    ->withEntity(self::$currencyData[$code]['entity']);
+                    ->withName(self::$currencyData[$code]['currency']);
             }
 
             $list[] = self::$currencies[$code];
         }
 
         return new ArrayIterator($list);
+    }
+
+    /**
+     * @return array
+     */
+    private function loadCurrencies()
+    {
+        $file = __DIR__.'/../../vendor/moneyphp/iso-currencies/resources/current.php';
+
+        if (file_exists($file)) {
+            return require $file;
+        }
+
+        throw new \RuntimeException('Failed to load currency ISO codes.');
     }
 }

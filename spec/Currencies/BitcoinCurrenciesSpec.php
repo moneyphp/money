@@ -4,6 +4,7 @@ namespace spec\Money\Currencies;
 
 use Money\Currencies;
 use Money\Currency;
+use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -23,5 +24,15 @@ class BitcoinCurrenciesSpec extends ObjectBehavior
     {
         $this->contains(new Currency('XBT'))->shouldReturn(true);
         $this->contains(new Currency('EUR'))->shouldReturn(false);
+    }
+
+    function it_can_find_bitcoin()
+    {
+        $this->find('XBT')->shouldReturnAnInstanceOf('Money\\Currency');
+    }
+
+    function it_throws_an_exception_when_currency_is_unknown()
+    {
+        $this->shouldThrow(UnknownCurrencyException::class)->duringFind('XXXX');
     }
 }

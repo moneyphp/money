@@ -33,11 +33,14 @@ final class BitcoinCurrencies implements Currencies
      */
     public function find($code)
     {
+        if ($code !== self::CODE) {
+            throw new UnknownCurrencyException('Cannot find Bitcoin currency '.$code);
+        }
+
         if (null === self::$currency) {
             self::$currency = (new Currency(self::CODE))
                 ->withName('Bitcoin')
-                ->withSubunit(0)
-                ->withEntity('Bitcoin');
+                ->withSubunit(8);
         }
 
         return self::$currency;

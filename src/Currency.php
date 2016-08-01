@@ -25,10 +25,6 @@ final class Currency implements \JsonSerializable
      * @var string
      */
     private $name = '';
-    /**
-     * @var string
-     */
-    private $entity = '';
 
     /**
      * @param string $code
@@ -66,21 +62,12 @@ final class Currency implements \JsonSerializable
      */
     public function withName($name)
     {
+        if (!is_string($name)) {
+            throw new \InvalidArgumentException('Name should be a string');
+        }
+
         $clone = clone $this;
         $clone->name = $name;
-
-        return $clone;
-    }
-
-    /**
-     * @param string $entity
-     *
-     * @return Currency
-     */
-    public function withEntity($entity)
-    {
-        $clone = clone $this;
-        $clone->entity = $entity;
 
         return $clone;
     }
@@ -93,14 +80,6 @@ final class Currency implements \JsonSerializable
     public function getCode()
     {
         return $this->code;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEntity()
-    {
-        return $this->entity;
     }
 
     /**
