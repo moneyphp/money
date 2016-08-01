@@ -2,7 +2,6 @@
 
 namespace Tests\Money\Formatter;
 
-use Money\Currencies\ConstantSpecification;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
