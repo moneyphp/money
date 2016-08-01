@@ -2,7 +2,6 @@
 
 namespace Money\Formatter;
 
-use Money\Currencies;
 use Money\Money;
 use Money\MoneyFormatter;
 
