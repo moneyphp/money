@@ -53,4 +53,24 @@ final class CachedCurrencies implements Currencies
 
         return $item->get();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function find($code)
+    {
+        $item = $this->pool->getItem('currency|code|'.$code);
+
+        if (false === $item->isHit()) {
+            $item->set($this->currencies->find($code));
+
+            if ($item instanceof TaggableItemInterface) {
+                $item->addTag('currency.code');
+            }
+
+            $this->pool->save($item);
+        }
+
+        return $item->get();
+    }
 }

@@ -17,6 +17,10 @@ final class Currency implements \JsonSerializable
      * @var string
      */
     private $code;
+    /**
+     * @var int
+     */
+    private $subunit = 0;
 
     /**
      * @param string $code
@@ -31,6 +35,23 @@ final class Currency implements \JsonSerializable
     }
 
     /**
+     * @param int $subunit
+     *
+     * @return Currency
+     */
+    public function withSubunit($subunit)
+    {
+        if (!is_int($subunit)) {
+            throw new \InvalidArgumentException('Subunit should be an integer');
+        }
+
+        $clone = clone $this;
+        $clone->subunit = $subunit;
+
+        return $clone;
+    }
+
+    /**
      * Returns the currency code.
      *
      * @return string
@@ -38,6 +59,14 @@ final class Currency implements \JsonSerializable
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSubunit()
+    {
+        return $this->subunit;
     }
 
     /**

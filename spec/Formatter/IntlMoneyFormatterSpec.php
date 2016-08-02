@@ -2,6 +2,8 @@
 
 namespace spec\Money\Formatter;
 
+use Money\Currencies\Specification;
+use Money\CurrenciesSpecification;
 use Money\Currency;
 use Money\Money;
 use Money\MoneyFormatter;
@@ -26,10 +28,9 @@ class IntlMoneyFormatterSpec extends ObjectBehavior
 
     function it_formats_money(\NumberFormatter $numberFormatter)
     {
-        $numberFormatter->getAttribute(\NumberFormatter::FRACTION_DIGITS)->willReturn(2);
-        $numberFormatter->formatCurrency('0.01', 'EUR')->willReturn('€1.00');
+        $money = new Money(1, (new Currency('EUR'))->withSubunit(2));
 
-        $money = new Money(1, new Currency('EUR'));
+        $numberFormatter->formatCurrency('0.01', 'EUR')->willReturn('€1.00');
 
         $this->format($money)->shouldReturn('€1.00');
     }
