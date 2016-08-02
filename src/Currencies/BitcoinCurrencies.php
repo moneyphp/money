@@ -39,7 +39,6 @@ final class BitcoinCurrencies implements Currencies
 
         if (null === self::$currency) {
             self::$currency = (new Currency(self::CODE))
-                ->withName('Bitcoin')
                 ->withSubunit(8);
         }
 

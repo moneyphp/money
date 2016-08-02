@@ -32,11 +32,6 @@ class ISOCurrenciesSpec extends ObjectBehavior
         $this->shouldThrow(UnknownCurrencyException::class)->duringFind('XXXX');
     }
 
-    function it_provides_a_list_of_currencies()
-    {
-        $this->getIterator()->shouldReturnAnInstanceOf('ArrayIterator');
-    }
-
     public function currencyCodeExamples()
     {
         $currencies = require __DIR__.'/../../vendor/moneyphp/iso-currencies/resources/current.php';

@@ -29,11 +29,6 @@ class CurrencySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringWithSubunit('test');
     }
 
-    function it_throws_an_exception_when_name_is_not_string()
-    {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringWithName(1);
-    }
-
     function it_has_a_code()
     {
         $this->getCode()->shouldReturn('EUR');

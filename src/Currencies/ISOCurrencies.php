@@ -2,19 +2,16 @@
 
 namespace Money\Currencies;
 
-use ArrayIterator;
-use IteratorAggregate;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
-use Traversable;
 
 /**
  * List of supported ISO 4217 currency codes and names.
  *
  * @author Mathias Verraes
  */
-final class ISOCurrencies implements Currencies, IteratorAggregate
+final class ISOCurrencies implements Currencies
 {
     /**
      * Currency data from data source.
@@ -59,35 +56,9 @@ final class ISOCurrencies implements Currencies, IteratorAggregate
         }
 
         self::$currencies[$code] = (new Currency($code))
-            ->withSubunit(self::$currencyData[$code]['minorUnit'])
-            ->withName(self::$currencyData[$code]['currency']);
+            ->withSubunit(self::$currencyData[$code]['minorUnit']);
 
         return self::$currencies[$code];
-    }
-
-    /**
-     * @return Traversable|Currency[]
-     */
-    public function getIterator()
-    {
-        $list = [];
-
-        if (null === self::$currencyData) {
-            self::$currencyData = $this->loadCurrencies();
-        }
-
-        $codes = array_keys(self::$currencyData);
-        foreach ($codes as $code) {
-            if (!isset(self::$currencies[$code])) {
-                self::$currencies[$code] = (new Currency($code))
-                    ->withSubunit(self::$currencyData[$code]['minorUnit'])
-                    ->withName(self::$currencyData[$code]['currency']);
-            }
-
-            $list[] = self::$currencies[$code];
-        }
-
-        return new ArrayIterator($list);
     }
 
     /**
