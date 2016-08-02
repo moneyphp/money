@@ -23,8 +23,8 @@ final class IntlMoneyFormatter implements MoneyFormatter
     private $currencies;
 
     /**
-     * @param \NumberFormatter      $formatter
-     * @param Currencies $currencies
+     * @param \NumberFormatter $formatter
+     * @param Currencies       $currencies
      */
     public function __construct(\NumberFormatter $formatter, Currencies $currencies)
     {

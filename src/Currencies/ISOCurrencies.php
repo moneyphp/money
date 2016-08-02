@@ -66,7 +66,8 @@ final class ISOCurrencies implements Currencies, \IteratorAggregate
     }
 
     /**
-     * Retrieve an external iterator
+     * Retrieve an external iterator.
+     *
      * @return Traversable
      */
     public function getIterator()
