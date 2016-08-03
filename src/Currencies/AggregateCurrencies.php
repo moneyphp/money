@@ -52,9 +52,8 @@ final class AggregateCurrencies implements Currencies
     public function subunitFor(Currency $currency)
     {
         foreach ($this->currencies as $c) {
-            try {
+            if ($c->contains($currency)) {
                 return $c->subunitFor($currency);
-            } catch (UnknownCurrencyException $e) {
             }
         }
 

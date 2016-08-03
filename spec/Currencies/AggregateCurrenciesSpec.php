@@ -4,6 +4,7 @@ namespace spec\Money\Currencies;
 
 use Money\Currencies;
 use Money\Currency;
+use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -45,6 +46,23 @@ class AggregateCurrenciesSpec extends ObjectBehavior
         $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
         $this->getIterator()->shouldHaveCurrency('EUR');
         $this->getIterator()->shouldHaveCurrency('USD');
+    }
+
+    function it_provides_subunit(Currencies $isoCurrencies, Currencies $otherCurrencies)
+    {
+        $isoCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
+        $otherCurrencies->contains(Argument::type(Currency::class))->willReturn(true);
+        $otherCurrencies->subunitFor(Argument::type(Currency::class))->willReturn(2);
+
+        $this->subunitFor(new Currency('EUR'))->shouldReturn(2);
+    }
+
+    function it_throws_an_exception_when_currency_is_unknown(Currencies $isoCurrencies, Currencies $otherCurrencies)
+    {
+        $isoCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
+        $otherCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
+
+        $this->shouldThrow(UnknownCurrencyException::class)->duringSubunitFor(new Currency('XXXX'));
     }
 
     function testItDoesNotContainCurrencies(Currencies $isoCurrencies, Currencies $otherCurrencies)

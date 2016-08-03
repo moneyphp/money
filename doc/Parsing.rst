@@ -12,7 +12,8 @@ Money comes with the following implementations out of the box:
 Intl Parser
 -----------
 
-As it's name says, this formatter requires the `intl` extension and uses ``NumberFormatter``.
+As it's name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
+correct subunit for the specific currency, you should also provide the specific currency repository.
 
 
 .. warning::
@@ -21,14 +22,16 @@ As it's name says, this formatter requires the `intl` extension and uses ``Numbe
 
 .. code-block:: php
 
+    use Money\Currencies\ISOCurrencies;
     use Money\Currency;
     use Money\Parser\IntlMoneyParser;
     use Money\Money;
 
     $money = new Money(100, new Currency('USD'));
+    $currencies = new ISOCurrencies();
 
     $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-    $moneyParser = new IntlMoneyParser($numberFormatter);
+    $moneyParser = new IntlMoneyParser($numberFormatter, $currencies);
 
     $money = $moneyFormatter->parse('1 USD');
 
