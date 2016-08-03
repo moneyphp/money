@@ -56,7 +56,7 @@
     "scripts": {
         "test": "vendor/bin/phpspec run && vendor/bin/phpunit",
         "test-ci": "vendor/bin/phpspec run -c phpspec.yml.ci && vendor/bin/phpunit --coverage-text",
-        "update-currencies": "cp vendor/umpirsky/currency-list/data/en/currency.php resources/"
+        "update-currencies": "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php"
     },
     "extra": {
         "branch-alias": {
