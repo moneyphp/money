@@ -27,7 +27,7 @@ interface Currencies extends \IteratorAggregate
      *
      * @return int
      *
-     * @throws UnknownCurrencyException
+     * @throws UnknownCurrencyException If currency is not available in the current context
      */
     public function subunitFor(Currency $currency);
 }
