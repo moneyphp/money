@@ -9,6 +9,8 @@ use Prophecy\Argument;
 
 class AggregateCurrenciesSpec extends ObjectBehavior
 {
+    use HaveCurrencyTrait;
+
     function let(Currencies $isoCurrencies, Currencies $otherCurrencies)
     {
         $this->beConstructedWith([
@@ -35,7 +37,17 @@ class AggregateCurrenciesSpec extends ObjectBehavior
         $this->contains(new Currency('EUR'))->shouldReturn(true);
     }
 
-    function testItDoesNotContainCurrencies()
+    function it_can_be_iterated(Currencies $isoCurrencies, Currencies $otherCurrencies)
+    {
+        $isoCurrencies->getIterator()->willReturn(new \ArrayIterator(['EUR']));
+        $otherCurrencies->getIterator()->willReturn(new \ArrayIterator(['USD']));
+
+        $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
+        $this->getIterator()->shouldHaveCurrency('EUR');
+        $this->getIterator()->shouldHaveCurrency('USD');
+    }
+
+    function testItDoesNotContainCurrencies(Currencies $isoCurrencies, Currencies $otherCurrencies)
     {
         $isoCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
         $otherCurrencies->contains(Argument::type(Currency::class))->willReturn(true);

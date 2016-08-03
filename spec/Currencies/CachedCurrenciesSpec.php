@@ -11,6 +11,8 @@ use Prophecy\Argument;
 
 class CachedCurrenciesSpec extends ObjectBehavior
 {
+    use HaveCurrencyTrait;
+
     function let(Currencies $currencies, CacheItemPoolInterface $pool)
     {
         $this->beConstructedWith($currencies, $pool);
@@ -58,5 +60,20 @@ class CachedCurrenciesSpec extends ObjectBehavior
         $currencies->contains(Argument::type(Currency::class))->shouldNotBeCalled();
 
         $this->contains(new Currency('EUR'))->shouldReturn(true);
+    }
+
+    function it_can_be_iterated(
+        CacheItemInterface $item,
+        CacheItemPoolInterface $pool,
+        Currencies $currencies
+    ) {
+        $item->set(true)->shouldBeCalled();
+        $pool->save($item)->shouldBeCalled();
+
+        $pool->getItem('currency|availability|EUR')->willReturn($item);
+        $currencies->getIterator()->willReturn(new \ArrayIterator(['EUR']));
+
+        $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
+        $this->getIterator()->shouldHaveCurrency('EUR');
     }
 }

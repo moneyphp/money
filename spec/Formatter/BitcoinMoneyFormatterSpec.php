@@ -2,6 +2,7 @@
 
 namespace spec\Money\Formatter;
 
+use Money\Currencies;
 use Money\Currency;
 use Money\Exception\FormatterException;
 use Money\Money;
@@ -11,9 +12,9 @@ use Prophecy\Argument;
 
 class BitcoinMoneyFormatterSpec extends ObjectBehavior
 {
-    function let()
+    function let(Currencies $bitcoinCurrencies)
     {
-        $this->beConstructedWith(2);
+        $this->beConstructedWith(2, $bitcoinCurrencies);
     }
 
     function it_is_initializable()
@@ -29,23 +30,29 @@ class BitcoinMoneyFormatterSpec extends ObjectBehavior
     /**
      * @dataProvider bitcoinExamples
      */
-    function it_formats_money($value, $formatted, $fractionDigits)
+    function it_formats_money($value, $formatted, $fractionDigits, Currencies $bitcoinCurrencies)
     {
-        $this->beConstructedWith($fractionDigits);
+        $this->beConstructedWith($fractionDigits, $bitcoinCurrencies);
 
-        $money = new Money($value, new Currency('XBT'));
+        $currency = new Currency('XBT');
+        $money = new Money($value, $currency);
 
+        $bitcoinCurrencies->subunitFor($currency)->willReturn(8);
         $this->format($money)->shouldReturn($formatted);
     }
 
     public function bitcoinExamples()
     {
         return [
-            [100000, "\0xC9\0x831000.00", 2],
-            [41, "\0xC9\0x830.41", 2],
-            [5, "\0xC9\0x830.05", 2],
-            [5, "\0xC9\0x835", 0],
-            [5, "\0xC9\0x830.0005", 4],
+            [100000000000, "\0xC9\0x831000.00", 2],
+            [1000000000000, "\0xC9\0x8310000.00", 2],
+            [41000000, "\0xC9\0x830.41", 2],
+            [5000000, "\0xC9\0x830.05", 2],
+            [500000000, "\0xC9\0x835", 0],
+            [50000, "\0xC9\0x830.0005", 4],
+            [100000500000, "\0xC9\0x831000.01", 2],
+            [100099500000, "\0xC9\0x831001.00", 2],
+            [999999600000, "\0xC9\0x8310000.00", 2],
         ];
     }
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Money\Parser;
 
+use Money\Currencies\ISOCurrencies;
 use Money\Parser\IntlMoneyParser;
 
 final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
@@ -14,7 +15,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $parser = new IntlMoneyParser($formatter);
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
     }
 
@@ -50,7 +51,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $parser = new IntlMoneyParser($formatter);
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', 'USD');
     }
 
@@ -59,7 +60,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter = new \NumberFormatter('en_CA', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $parser = new IntlMoneyParser($formatter);
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $money = $parser->parse('$1000.00');
 
         $this->assertEquals('100000', $money->getAmount());
@@ -71,7 +72,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $parser = new IntlMoneyParser($formatter);
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $money = $parser->parse('$1000.00', 'CAD');
 
         $this->assertEquals('100000', $money->getAmount());
@@ -84,10 +85,10 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
 
-        $parser = new IntlMoneyParser($formatter);
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $money = $parser->parse('$1000.005');
 
-        $this->assertEquals('1000005', $money->getAmount());
+        $this->assertEquals('100001', $money->getAmount());
     }
 
     public function testDifferentStyleWithPattern()
@@ -96,9 +97,9 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
         $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
 
-        $parser = new IntlMoneyParser($formatter);
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $money = $parser->parse('$1000.005');
 
-        $this->assertEquals('1000005', $money->getAmount());
+        $this->assertEquals('100001', $money->getAmount());
     }
 }

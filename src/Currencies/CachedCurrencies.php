@@ -53,4 +53,46 @@ final class CachedCurrencies implements Currencies
 
         return $item->get();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function subunitFor(Currency $currency)
+    {
+        $item = $this->pool->getItem('currency|subunit|'.$currency->getCode());
+
+        if (false === $item->isHit()) {
+            $item->set($this->currencies->subunitFor($currency));
+
+            if ($item instanceof TaggableItemInterface) {
+                $item->addTag('currency.subunit');
+            }
+
+            $this->pool->save($item);
+        }
+
+        return $item->get();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIterator()
+    {
+        return new \CallbackFilterIterator(
+            $this->currencies->getIterator(),
+            function ($currencyCode) {
+                $item = $this->pool->getItem('currency|availability|'.$currencyCode);
+                $item->set(true);
+
+                if ($item instanceof TaggableItemInterface) {
+                    $item->addTag('currency.availability');
+                }
+
+                $this->pool->save($item);
+
+                return true;
+            }
+        );
+    }
 }
