@@ -57,7 +57,14 @@ final class ISOCurrencies implements Currencies
             self::$currencies = $this->loadCurrencies();
         }
 
-        return new \ArrayIterator(array_keys(self::$currencies));
+        return new \ArrayIterator(
+            array_map(
+                function ($code) {
+                    return new Currency($code);
+                },
+                array_keys(self::$currencies)
+            )
+        );
     }
 
     /**

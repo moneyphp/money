@@ -71,7 +71,7 @@ class CachedCurrenciesSpec extends ObjectBehavior
         $pool->save($item)->shouldBeCalled();
 
         $pool->getItem('currency|availability|EUR')->willReturn($item);
-        $currencies->getIterator()->willReturn(new \ArrayIterator(['EUR']));
+        $currencies->getIterator()->willReturn(new \ArrayIterator([new Currency('EUR')]));
 
         $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
         $this->getIterator()->shouldHaveCurrency('EUR');

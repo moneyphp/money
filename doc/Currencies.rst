@@ -21,8 +21,8 @@ As it's name says, the ISO currencies implementation provides all available ISO4
     use Money\Currency;
 
     $currencies = new ISOCurrencies();
-    foreach ($currencies as $currencyCode) {
-        echo $currencyCode; // prints an available currency code within the repository
+    foreach ($currencies as $currency) {
+        echo $currency->getCode(); // prints an available currency code within the repository
     }
 
     $currencies->contains(new Currency('USD')); // returns boolean whether USD is available in this repository
@@ -41,8 +41,8 @@ The Bitcoin currencies provides a single currency: the Bitcoin. It uses XBT as i
     use Money\Currency;
 
     $currencies = new BitcoinCurrencies();
-    foreach ($currencies as $currencyCode) {
-        echo $currencyCode; // prints XBT
+    foreach ($currencies as $currency) {
+        echo $currency->getCode(); // prints XBT
     }
 
     $currencies->contains(new Currency('XBT')); // returns boolean whether XBT is available in this repository (true)
@@ -67,8 +67,8 @@ This formatter collects multiple currencies.
         new ISOCurrencies()
     ]);
 
-    foreach ($currencies as $currencyCode) {
-        echo $currencyCode; // prints XBT or any ISO currency code
+    foreach ($currencies as $currency) {
+        echo $currency->getCode(); // prints XBT or any ISO currency code
     }
 
     $currencies->contains(new Currency('XBT')); // returns boolean whether XBT is available in this repository (true)

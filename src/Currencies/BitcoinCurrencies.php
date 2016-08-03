@@ -34,6 +34,6 @@ final class BitcoinCurrencies implements Currencies
      */
     public function getIterator()
     {
-        return new \ArrayIterator([self::CODE]);
+        return new \ArrayIterator([new Currency(self::CODE)]);
     }
 }

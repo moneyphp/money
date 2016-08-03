@@ -2,6 +2,8 @@
 
 namespace spec\Money\Currencies;
 
+use Money\Currency;
+
 trait HaveCurrencyTrait
 {
     /**
@@ -11,8 +13,9 @@ trait HaveCurrencyTrait
     {
         return [
             'haveCurrency' => function ($subject, $value) {
-                foreach ($subject as $code) {
-                    if ($code === $value) {
+                /** @var Currency $currency */
+                foreach ($subject as $currency) {
+                    if ($currency->getCode() === $value) {
                         return true;
                     }
                 }
