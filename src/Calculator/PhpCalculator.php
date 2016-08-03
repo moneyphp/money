@@ -151,9 +151,9 @@ final class PhpCalculator implements Calculator
     private function assertIntegerBounds($amount)
     {
         if ($amount > PHP_INT_MAX) {
-            throw new \OverflowException();
+            throw new \OverflowException('You overflowed the maximum allowed integer (PHP_INT_MAX)');
         } elseif ($amount < ~PHP_INT_MAX) {
-            throw new \UnderflowException();
+            throw new \UnderflowException('You underflowed the minimum allowed integer (PHP_INT_MAX)');
         }
     }
 
