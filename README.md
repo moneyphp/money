@@ -39,7 +39,7 @@ composer require mathiasverraes/money
 ```
 
 Features
-------------
+--------
 
 - JSON Serialization
 - Big integer support utilizing different, transparent calculation logic upon availability (bcmath, gmp, plain php)
@@ -56,3 +56,22 @@ See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3].
 [2]: https://github.com/pink-tie/MoneyBundle/
 [3]: http://symfony.com/
 [4]: https://github.com/TheBigBrainsCompany/TbbcMoneyBundle
+
+Contributing
+------------
+
+We would love to see you helping us to make this library better and better. Please keep in mind we do not use suffixes
+and prefixes in class names, so `CurrenciesInterface` but `Currencies`. Other that, Style CI will help you using the
+ same code style as we are using. Please provide tests when creating a PR and clear descriptions of bugs when filing
+ issues.
+
+License
+-------
+
+Money is licensed under the MIT License - see the `LICENSE` file for details
+
+Acknowledgements
+----------------
+
+This library is heavily inspired by Martin Fowler's Money pattern. A special remark goes to Mathias Verraes, without his
+contributions, in code and via his blog, this library would be where it stands now.
