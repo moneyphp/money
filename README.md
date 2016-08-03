@@ -61,9 +61,9 @@ Contributing
 ------------
 
 We would love to see you helping us to make this library better and better. Please keep in mind we do not use suffixes
-and prefixes in class names, so not `CurrenciesInterface` but `Currencies`. Other that, Style CI will help you using the
- same code style as we are using. Please provide tests when creating a PR and clear descriptions of bugs when filing
- issues.
+and prefixes in class names, so not `CurrenciesInterface` but `Currencies`. Other than that, Style CI will help you
+using the same code style as we are using. Please provide tests when creating a PR and clear descriptions of bugs when
+filing issues.
 
 License
 -------
