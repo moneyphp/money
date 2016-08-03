@@ -350,15 +350,20 @@ final class Money implements \JsonSerializable
     public function allocate(array $ratios)
     {
         if (count($ratios) === 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none');
+            throw new \InvalidArgumentException('Cannot allocate to none, ratios cannot be an empty array');
         }
+
         $remainder = $this->amount;
         $results = [];
         $total = array_sum($ratios);
 
+        if ($total <= 0) {
+            throw new \InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
+        }
+
         foreach ($ratios as $ratio) {
             if ($ratio < 0) {
-                throw new \InvalidArgumentException('Cannot allocate to none. Ratio must be zero or positive');
+                throw new \InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
 
             $share = $this->getCalculator()->share($this->amount, $ratio, $total);
@@ -390,7 +395,7 @@ final class Money implements \JsonSerializable
         }
 
         if ($n <= 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none');
+            throw new \InvalidArgumentException('Cannot allocate to none, target must be greater than zero');
         }
 
         return $this->allocate(array_fill(0, $n, 1));
