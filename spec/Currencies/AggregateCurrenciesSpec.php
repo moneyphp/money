@@ -40,8 +40,8 @@ class AggregateCurrenciesSpec extends ObjectBehavior
 
     function it_can_be_iterated(Currencies $isoCurrencies, Currencies $otherCurrencies)
     {
-        $isoCurrencies->getIterator()->willReturn(new \ArrayIterator(['EUR']));
-        $otherCurrencies->getIterator()->willReturn(new \ArrayIterator(['USD']));
+        $isoCurrencies->getIterator()->willReturn(new \ArrayIterator([new Currency('EUR')]));
+        $otherCurrencies->getIterator()->willReturn(new \ArrayIterator([new Currency('USD')]));
 
         $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
         $this->getIterator()->shouldHaveCurrency('EUR');

@@ -81,8 +81,8 @@ final class CachedCurrencies implements Currencies
     {
         return new \CallbackFilterIterator(
             $this->currencies->getIterator(),
-            function ($currencyCode) {
-                $item = $this->pool->getItem('currency|availability|'.$currencyCode);
+            function (Currency $currency) {
+                $item = $this->pool->getItem('currency|availability|'.$currency->getCode());
                 $item->set(true);
 
                 if ($item instanceof TaggableItemInterface) {
