@@ -368,6 +368,11 @@ class MoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([-1]);
     }
 
+    function it_throws_an_exception_when_allocate_total_is_zero()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([0, 0]);
+    }
+
     function it_throws_an_exception_when_allocate_to_target_is_less_than_equals_zero()
     {
         $this->shouldThrow(\InvalidArgumentException::class)->duringAllocateTo(-1);
