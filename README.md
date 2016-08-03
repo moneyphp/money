@@ -32,7 +32,7 @@ The documentation is available at http://money.readthedocs.org
 Installation
 ------------
 
-Install the library using [composer][1].
+Install the library using [composer][1]. It is listed on [Packagist][5].
 
 ``` bash
 composer require mathiasverraes/money
@@ -52,11 +52,6 @@ Integration
 
 See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3].
 
-[1]: http://getcomposer.org/
-[2]: https://github.com/pink-tie/MoneyBundle/
-[3]: http://symfony.com/
-[4]: https://github.com/TheBigBrainsCompany/TbbcMoneyBundle
-
 Contributing
 ------------
 
@@ -75,3 +70,9 @@ Acknowledgements
 
 This library is heavily inspired by Martin Fowler's Money pattern. A special remark goes to Mathias Verraes, without his
 contributions, in code and via his blog, this library would not be where it stands now.
+
+[1]: http://getcomposer.org/
+[2]: https://github.com/pink-tie/MoneyBundle/
+[3]: http://symfony.com/
+[4]: https://github.com/TheBigBrainsCompany/TbbcMoneyBundle
+[5]: https://packagist.org/packages/mathiasverraes/money
