@@ -74,4 +74,4 @@ Acknowledgements
 ----------------
 
 This library is heavily inspired by Martin Fowler's Money pattern. A special remark goes to Mathias Verraes, without his
-contributions, in code and via his blog, this library would be where it stands now.
+contributions, in code and via his blog, this library would not be where it stands now.
