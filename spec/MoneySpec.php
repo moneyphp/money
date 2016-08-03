@@ -276,23 +276,28 @@ class MoneySpec extends ObjectBehavior
         });
 
         $calculator->subtract(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
-            return $args[0] - $args[1];
+            return (string) $args[0] - $args[1];
         });
 
         $calculator->add(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
-            return $args[0] + $args[1];
+            return (string) ($args[0] + $args[1]);
         });
 
         $calculator->compare(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
             return ($args[0] < $args[1]) ? -1 : (($args[0] > $args[1]) ? 1 : 0);
         });
 
+        $calculator->absolute(Argument::type('numeric'))->will(function($args) {
+            return ltrim($args[0], '-');
+        });
+
+        $calculator->multiply(Argument::type('numeric'), Argument::type('int'))->will(function($args) {
+            return (string) $args[0] * $args[1];
+        });
+
         $allocated = $this->allocate($ratios);
         $allocated->shouldBeArray();
-
-        foreach ($allocated->getWrappedObject() as $key => $allocatedMoney) {
-            $allocatedMoney->equals(new Money($results[$key], new Currency('EUR')));
-        }
+        $allocated->shouldEqualAllocation($results);
     }
 
     public function allocationExamples()
@@ -302,6 +307,8 @@ class MoneySpec extends ObjectBehavior
             [101, [1, 1, 1], [34, 34, 33]],
             [5, [3, 7], [2, 3]],
             [5, [7, 3], [4, 1]],
+            [5, [7, 3, 0], [4, 1, 0]],
+            [-5, [7, 3], [-1, -4]],
         ];
     }
 
@@ -354,6 +361,11 @@ class MoneySpec extends ObjectBehavior
     function it_throws_an_exception_when_allocate_target_is_empty()
     {
         $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([]);
+    }
+
+    function it_throws_an_exception_when_allocate_ratio_is_negative()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([-1]);
     }
 
     function it_throws_an_exception_when_allocate_to_target_is_less_than_equals_zero()
@@ -414,6 +426,23 @@ class MoneySpec extends ObjectBehavior
             ['1', 1],
             ['0', 0],
             ['-1', 1],
+        ];
+    }
+
+    public function getMatchers()
+    {
+        return [
+            'equalAllocation' => function ($subject, $value) {
+                /** @var Money $money */
+                foreach ($subject as $key => $money) {
+                    $compareTo = new Money($value[$key], $money->getCurrency());
+                    if ($money->equals($compareTo) === false) {
+                        return false;
+                    }
+                }
+
+                return true;
+            },
         ];
     }
 }
