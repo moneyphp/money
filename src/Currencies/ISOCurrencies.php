@@ -65,7 +65,7 @@ final class ISOCurrencies implements Currencies
      */
     private function loadCurrencies()
     {
-        $file = __DIR__.'/../../vendor/moneyphp/iso-currencies/resources/current.php';
+        $file = __DIR__.'/../../resources/currency.php';
 
         if (file_exists($file)) {
             return require $file;
