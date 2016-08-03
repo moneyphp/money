@@ -437,7 +437,6 @@ class MoneySpec extends ObjectBehavior
                 foreach ($subject as $key => $money) {
                     $compareTo = new Money($value[$key], $money->getCurrency());
                     if ($money->equals($compareTo) === false) {
-                        var_dump($money->getAmount(), $compareTo->getAmount());
                         return false;
                     }
                 }
