@@ -8,6 +8,7 @@ Money for PHP
    GettingStarted
    Immutability
    Allocation
+   Currencies
    CurrencyConversion
    Json
    IntegerLimit
