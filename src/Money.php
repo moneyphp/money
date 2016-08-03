@@ -361,10 +361,6 @@ final class Money implements \JsonSerializable
                 throw new \InvalidArgumentException('Cannot allocate to none. Ratio must be zero or positive');
             }
 
-            if ($this->isNegative()) {
-                $ratio = $total - $ratio;
-            }
-
             $share = $this->getCalculator()->share($this->amount, $ratio, $total);
             $results[] = $this->newInstance($share);
             $remainder = $this->getCalculator()->subtract($remainder, $share);
