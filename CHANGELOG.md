@@ -1,5 +1,30 @@
 # Change Log
 
+## 3.0.0-beta.2 - 2016-08-03
+
+### Changed
+
+- **[BC break]** Dropped PHP 5.4 support
+- **[BC break]** Intl and Bitcoin formatters and parsers now require Currencies
+- ISOCurrencies now uses moneyphp/iso-currencies as currency data source
+
+### Added
+
+- PHP Spec tests
+- absolute method to Money and Calculator
+- subunitFor method to Currencies
+- Currencies now extends IteratorAggregate
+- Library exceptions now implement a common interface
+- Formatter and Parser implementation are now rounding half up
+
+### Fixed
+
+- Documentation to be inline with upcoming version 3
+- Rounding issues in calculators with negative numbers
+- Formatting and parser issues for amounts and numbers with a trailing zero
+- Improved many exception messages
+- Registration of own Calculator implementations
+
 ## 3.0.0-beta - 2016-03-01
 
 ### Added
