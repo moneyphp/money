@@ -5,7 +5,7 @@
 ### Changed
 
 - **[BC break]** Dropped PHP 5.4 support
-- **[BC break]** Intl and Bitcoin Formatters and parsers now require Currencies
+- **[BC break]** Intl and Bitcoin formatters and parsers now require Currencies
 - ISOCurrencies now uses moneyphp/iso-currencies as currency data source
 
 ### Added
