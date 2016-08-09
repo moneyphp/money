@@ -421,7 +421,7 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @return string
+     * @return Money
      */
     public function absolute()
     {
