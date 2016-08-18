@@ -52,6 +52,12 @@ Integration
 
 See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3].
 
+Testing
+-------
+```bash
+$ composer test
+```
+
 Contributing
 ------------
 
