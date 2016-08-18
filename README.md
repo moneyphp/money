@@ -60,6 +60,12 @@ and prefixes in class names, so not `CurrenciesInterface` but `Currencies`. Othe
 using the same code style as we are using. Please provide tests when creating a PR and clear descriptions of bugs when
 filing issues.
 
+You can run the following commands to get started:
+```
+composer install
+composer test
+```
+
 License
 -------
 
