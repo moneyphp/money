@@ -42,7 +42,7 @@ class NumberSpec extends ObjectBehavior
      */
     function it_has_attributes($number, $decimal, $half, $currentEven, $negative, $integerPart, $fractionalPart)
     {
-        $this->beConstructedWith($number);
+        $this->beConstructedThrough('fromString', [$number]);
 
         $this->isDecimal()->shouldReturn($decimal);
         $this->isHalf()->shouldReturn($half);
@@ -57,24 +57,25 @@ class NumberSpec extends ObjectBehavior
     {
         return [
             ['0', false, false, true, false, '0', ''],
-            ['0.00', true, false, true, false, '0', ''],
+            ['0.00', false, false, true, false, '0', ''],
             ['0.5', true, true, true, false, '0', '5'],
             ['0.500', true, true, true, false, '0', '5'],
             ['-0', false, false, true, true, '-0', ''],
             ['-0.5', true, true, true, true, '-0', '5'],
             ['3', false, false, false, false, '3', ''],
-            ['3.00', true, false, false, false, '3', ''],
+            ['3.00', false, false, false, false, '3', ''],
             ['3.5', true, true, false, false, '3', '5'],
             ['3.500', true, true, false, false, '3', '5'],
             ['-3', false, false, false, true, '-3', ''],
             ['-3.5', true, true, false, true, '-3', '5'],
             ['10', false, false, true, false, '10', ''],
-            ['10.00', true, false, true, false, '10', ''],
+            ['10.00', false, false, true, false, '10', ''],
             ['10.5', true, true, true, false, '10', '5'],
             ['10.500', true, true, true, false, '10', '5'],
             ['10.9', true, false, true, false, '10', '9'],
             ['-10', false, false, true, true, '-10', ''],
             ['-10.5', true, true, true, true, '-10', '5'],
+            ['.5', true, true, true, false, '0', '5'],
             [(string) PHP_INT_MAX, false, false, false, false, (string) PHP_INT_MAX, ''],
             [(string) -PHP_INT_MAX, false, false, false, true, (string) -PHP_INT_MAX, ''],
         ];

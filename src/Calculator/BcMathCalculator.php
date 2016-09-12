@@ -82,7 +82,7 @@ final class BcMathCalculator implements Calculator
      */
     public function ceil($number)
     {
-        $number = new Number((string) $number);
+        $number = Number::fromString((string) $number);
         if ($number->isDecimal() === false) {
             return (string) $number;
         }
@@ -99,7 +99,7 @@ final class BcMathCalculator implements Calculator
      */
     public function floor($number)
     {
-        $number = new Number((string) $number);
+        $number = Number::fromString((string) $number);
         if ($number->isDecimal() === false) {
             return (string) $number;
         }
@@ -124,7 +124,7 @@ final class BcMathCalculator implements Calculator
      */
     public function round($number, $roundingMode)
     {
-        $number = new Number((string) $number);
+        $number = Number::fromString((string) $number);
         if ($number->isDecimal() === false) {
             return (string) $number;
         }

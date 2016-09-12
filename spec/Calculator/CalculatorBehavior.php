@@ -54,12 +54,14 @@ trait CalculatorBehavior
     {
         $this->ceil(1.2)->shouldReturn('2');
         $this->ceil(-1.2)->shouldReturn('-1');
+        $this->ceil('2.00')->shouldReturn('2');
     }
 
     function it_floors_a_value()
     {
         $this->floor(2.7)->shouldReturn('2');
         $this->floor(-2.7)->shouldReturn('-3');
+        $this->floor('2.00')->shouldReturn('2');
     }
 
     function it_calculates_the_absolute_value()
