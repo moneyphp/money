@@ -190,17 +190,19 @@ class MoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringMultiply(1.0, 'INVALID_ROUNDING_MODE');
     }
 
-    function it_converts_to_a_different_currency(Calculator $calculator)
+    /**
+     * @dataProvider convertExamples
+     */
+    function it_converts_to_a_different_currency($amount, $conversionRate, $mulAmount, $roundAmount, $baseCurrency, $targetCurrency, $convertedAmount, Calculator $calculator)
     {
-        $this->beConstructedWith(100, new Currency(self::CURRENCY));
+        $this->beConstructedWith($amount, new Currency($baseCurrency));
 
-        $calculator->multiply('100', 1.25)->willReturn(125);
-        $calculator->round(125, Money::ROUND_HALF_UP)->willReturn(125);
+        $calculator->multiply($amount, $conversionRate)->willReturn($mulAmount);
+        $calculator->round($roundAmount, Money::ROUND_HALF_UP)->willReturn($convertedAmount);
 
-        $money = $this->convert(new Currency('USD'), 1.25);
-
+        $money = $this->convert(new Currency($targetCurrency), $conversionRate);
         $money->shouldHaveType(Money::class);
-        $money->getAmount()->shouldBeLike(125);
+        $money->getAmount()->shouldBeLike($convertedAmount);
     }
 
     /**
@@ -420,6 +422,17 @@ class MoneySpec extends ObjectBehavior
 
         $money->shouldHaveType(Money::class);
         $money->getAmount()->shouldBeLike($result);
+    }
+
+    function convertExamples()
+    {
+        return [
+            [100, 1.25, '125', '125', 'EUR', 'USD', 125], // $exp = 0
+            [100, 0.42, '42', '420', 'EUR', 'BHD', 420], // $exp = 1
+            [1000, 2.36, '2360', '236', 'BHD', 'EUR', 236], // $exp = -1
+            [100, 114.75, '11475', '114.75', 'EUR', 'JPY', 115], // $exp = -2
+            [100, 0.0087, '0.87', '87', 'JPY', 'EUR', 87], // $exp = 2
+        ];
     }
 
     function absoluteExamples()

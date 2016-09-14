@@ -1,6 +1,7 @@
 <?php
 
 namespace Money;
+use Money\Currencies\ISOCurrencies;
 
 /**
  * Money Value Object.
@@ -34,6 +35,11 @@ final class Money implements \JsonSerializable
      * @var Calculator
      */
     private static $calculator;
+
+    /**
+     * @var Currencies
+     */
+    private static $currencies;
 
     /**
      * @var array
@@ -312,7 +318,17 @@ final class Money implements \JsonSerializable
     public function convert(Currency $targetCurrency, $conversionRate, $roundingMode = self::ROUND_HALF_UP)
     {
         $this->assertRoundingMode($roundingMode);
-        $amount = $this->getCalculator()->round($this->getCalculator()->multiply($this->amount, $conversionRate), $roundingMode);
+
+        $currencies = $this->getCurrencies();
+        $calc = $this->getCalculator();
+
+        $baseMinorUnits = $currencies->subunitFor($this->currency);
+        $targetMinorUnits = $currencies->subunitFor($targetCurrency);
+        $exp = $targetMinorUnits - $baseMinorUnits;
+
+        $number = new Number($calc->multiply($this->amount, $conversionRate));
+        $number->shiftDecimalPoint($exp);
+        $amount = $calc->round((string) $number, $roundingMode);
 
         return new self($amount, $targetCurrency);
     }
@@ -472,6 +488,16 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * Sets currencies that will be used internally by this class.
+     *
+     * @param Currencies $currencies
+     */
+    public static function setCurrencies(Currencies $currencies)
+    {
+        self::$currencies = $currencies;
+    }
+
+    /**
      * @param string $calculator
      */
     public static function registerCalculator($calculator)
@@ -481,6 +507,18 @@ final class Money implements \JsonSerializable
         }
 
         array_unshift(self::$calculators, $calculator);
+    }
+
+    /**
+     * @return Currencies
+     */
+    private static function getCurrencies()
+    {
+        if (!self::$currencies) {
+            self::$currencies = new ISOCurrencies();
+        }
+
+        return self::$currencies;
     }
 
     /**

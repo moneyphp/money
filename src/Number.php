@@ -93,6 +93,63 @@ final class Number
     }
 
     /**
+     * Shifts the decimal point.
+     *
+     * @param int $places Number of places to shift
+     */
+    public function shiftDecimalPoint($places)
+    {
+        if (!$places) {
+            return;
+        }
+
+        $len = strlen($this->number);
+        if (!$this->isDecimal()) {
+            if ($places >= 0) {
+                $this->number .= str_repeat('0', $places);
+            } elseif ($len > abs($places)) {
+                $pos = $len + $places;
+                $this->number = substr($this->number, 0, $pos) . '.' . substr($this->number, $pos);
+                $this->decimalSeparatorPosition = $pos;
+            } else {
+                $this->number = '.' . str_pad($this->number, abs($places), '0', STR_PAD_LEFT);
+                $this->decimalSeparatorPosition = 0;
+            }
+        } else {
+            // Remove existing decimal point
+            $this->number = substr($this->number, 0, $this->decimalSeparatorPosition) . substr($this->number, $this->decimalSeparatorPosition + 1);
+            $pos = $places + $this->decimalSeparatorPosition;
+            $diff = $pos - ($len - 1);
+
+            if ($pos <= 0) {
+                $this->number = '.' . str_repeat('0', abs($pos)) . $this->number;
+                $this->decimalSeparatorPosition = 0;
+            } elseif ($diff >= 0) {
+                $this->number .= str_repeat('0', $diff);
+                $this->decimalSeparatorPosition = false;
+            } else {
+                $this->number = substr($this->number, 0, $pos) . '.' . substr($this->number, $pos);
+                $this->decimalSeparatorPosition = $pos;
+            }
+        }
+
+        // Fix the number
+        if ($this->isDecimal()) {
+            $this->number = trim($this->number, '0');
+            if (!$this->decimalSeparatorPosition) {
+                $this->number = '0' . $this->number;
+                $this->decimalSeparatorPosition = 1;
+            }
+
+            $len = strlen($this->number);
+            if (($len - 1) === $this->decimalSeparatorPosition) {
+                $this->number = substr($this->number, 0, $len - 1);
+                $this->decimalSeparatorPosition = false;
+            }
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString()
