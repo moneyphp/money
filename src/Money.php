@@ -1,6 +1,7 @@
 <?php
 
 namespace Money;
+
 use Money\Currencies\ISOCurrencies;
 
 /**

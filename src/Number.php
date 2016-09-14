@@ -109,26 +109,26 @@ final class Number
                 $this->number .= str_repeat('0', $places);
             } elseif ($len > abs($places)) {
                 $pos = $len + $places;
-                $this->number = substr($this->number, 0, $pos) . '.' . substr($this->number, $pos);
+                $this->number = substr($this->number, 0, $pos).'.'.substr($this->number, $pos);
                 $this->decimalSeparatorPosition = $pos;
             } else {
-                $this->number = '.' . str_pad($this->number, abs($places), '0', STR_PAD_LEFT);
+                $this->number = '.'.str_pad($this->number, abs($places), '0', STR_PAD_LEFT);
                 $this->decimalSeparatorPosition = 0;
             }
         } else {
             // Remove existing decimal point
-            $this->number = substr($this->number, 0, $this->decimalSeparatorPosition) . substr($this->number, $this->decimalSeparatorPosition + 1);
+            $this->number = substr($this->number, 0, $this->decimalSeparatorPosition).substr($this->number, $this->decimalSeparatorPosition + 1);
             $pos = $places + $this->decimalSeparatorPosition;
             $diff = $pos - ($len - 1);
 
             if ($pos <= 0) {
-                $this->number = '.' . str_repeat('0', abs($pos)) . $this->number;
+                $this->number = '.'.str_repeat('0', abs($pos)).$this->number;
                 $this->decimalSeparatorPosition = 0;
             } elseif ($diff >= 0) {
                 $this->number .= str_repeat('0', $diff);
                 $this->decimalSeparatorPosition = false;
             } else {
-                $this->number = substr($this->number, 0, $pos) . '.' . substr($this->number, $pos);
+                $this->number = substr($this->number, 0, $pos).'.'.substr($this->number, $pos);
                 $this->decimalSeparatorPosition = $pos;
             }
         }
@@ -137,7 +137,7 @@ final class Number
         if ($this->isDecimal()) {
             $this->number = trim($this->number, '0');
             if (!$this->decimalSeparatorPosition) {
-                $this->number = '0' . $this->number;
+                $this->number = '0'.$this->number;
                 $this->decimalSeparatorPosition = 1;
             }
 
