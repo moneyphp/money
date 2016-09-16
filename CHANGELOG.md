@@ -1,5 +1,13 @@
 # Change Log
 
+
+## Unreleased
+
+### Fixed
+
+- Integer detection when the number overflows the integer type and contains zeros
+
+
 ## 3.0.0-beta.2 - 2016-08-03
 
 ### Changed
