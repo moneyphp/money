@@ -4,6 +4,7 @@ namespace spec\Money\Calculator;
 
 use Money\Calculator;
 use spec\Money\RoundExamples;
+use spec\Money\ShiftExamples;
 
 /**
  * Mocking with typehints usage won't work here as the trait is autoloaded.
@@ -13,6 +14,7 @@ use spec\Money\RoundExamples;
 trait CalculatorBehavior
 {
     use RoundExamples;
+    use ShiftExamples;
 
     function it_is_a_calculator()
     {
@@ -79,5 +81,13 @@ trait CalculatorBehavior
     function it_rounds_a_value($input, $mode, $expected)
     {
         $this->round($input, $mode)->shouldReturn($expected);
+    }
+
+    /**
+     * @dataProvider shiftExamples
+     */
+    function it_shifts_decimal_point($number, $places, $expected)
+    {
+        $this->shiftDecimalPoint($number, $places)->shouldReturn($expected);
     }
 }

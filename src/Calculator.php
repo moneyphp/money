@@ -114,4 +114,14 @@ interface Calculator
      * @return string
      */
     public function share($amount, $ratio, $total);
+
+    /**
+     * Shift a decimal point.
+     *
+     * @param string $number
+     * @param int    $places
+     *
+     * @return string
+     */
+    public function shiftDecimalPoint($number, $places);
 }

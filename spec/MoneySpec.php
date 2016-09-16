@@ -193,12 +193,14 @@ class MoneySpec extends ObjectBehavior
     /**
      * @dataProvider convertExamples
      */
-    function it_converts_to_a_different_currency($amount, $conversionRate, $mulAmount, $roundAmount, $baseCurrency, $targetCurrency, $convertedAmount, Calculator $calculator)
+    function it_converts_to_a_different_currency($amount, $conversionRate, $shiftedAmount, $baseCurrency, $targetCurrency, $convertedAmount, $places, Calculator $calculator)
     {
         $this->beConstructedWith($amount, new Currency($baseCurrency));
 
+        $mulAmount = $amount * $conversionRate;
         $calculator->multiply($amount, $conversionRate)->willReturn($mulAmount);
-        $calculator->round($roundAmount, Money::ROUND_HALF_UP)->willReturn($convertedAmount);
+        $calculator->shiftDecimalPoint($mulAmount, $places)->willReturn($shiftedAmount);
+        $calculator->round($shiftedAmount, Money::ROUND_HALF_UP)->willReturn($convertedAmount);
 
         $money = $this->convert(new Currency($targetCurrency), $conversionRate);
         $money->shouldHaveType(Money::class);
@@ -427,11 +429,11 @@ class MoneySpec extends ObjectBehavior
     function convertExamples()
     {
         return [
-            [100, 1.25, '125', '125', 'EUR', 'USD', 125], // $exp = 0
-            [100, 0.42, '42', '420', 'EUR', 'BHD', 420], // $exp = 1
-            [1000, 2.36, '2360', '236', 'BHD', 'EUR', 236], // $exp = -1
-            [100, 114.75, '11475', '114.75', 'EUR', 'JPY', 115], // $exp = -2
-            [100, 0.0087, '0.87', '87', 'JPY', 'EUR', 87], // $exp = 2
+            [100, 1.25, '125', 'EUR', 'USD', 125, 0], // $exp = 0
+            [100, 0.42, '420', 'EUR', 'BHD', 420, 1], // $exp = 1
+            [1000, 2.36, '236', 'BHD', 'EUR', 236, -1], // $exp = -1
+            [100, 114.75, '114.75', 'EUR', 'JPY', 115, -2], // $exp = -2
+            [100, 0.0087, '87', 'JPY', 'EUR', 87, 2], // $exp = 2
         ];
     }
 

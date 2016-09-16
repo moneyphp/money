@@ -7,6 +7,8 @@ use PhpSpec\ObjectBehavior;
 
 class NumberSpec extends ObjectBehavior
 {
+    use ShiftExamples;
+
     function let()
     {
         $this->beConstructedWith('1');
@@ -78,25 +80,6 @@ class NumberSpec extends ObjectBehavior
         $this->__toString()->shouldReturn('123.456789');
         $this->shiftDecimalPoint(6);
         $this->__toString()->shouldReturn('123456789');
-    }
-
-    public function shiftExamples()
-    {
-        return [
-            ['2.004', 4, '20040', '20040', ''],
-            ['2.004', 3, '2004', '2004', ''],
-            ['2.004', 2, '200.4', '200', '4'],
-            ['2.004', 1, '20.04', '20', '04'],
-            ['2.004', 0, '2.004', '2', '004'],
-            ['100', 2, '10000', '10000', ''],
-            ['100', 1, '1000', '1000', ''],
-            ['100', -1, '10', '10', ''],
-            ['100', -2, '1', '1', ''],
-            ['100', -3, '0.1', '0', '1'],
-            ['100', -5, '0.001', '0', '001'],
-            ['33523.211', -4, '3.3523211', '3', '3523211'],
-            ['33523.211', -7, '0.0033523211', '0', '0033523211']
-        ];
     }
 
     public function numberExamples()
