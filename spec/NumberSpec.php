@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class NumberSpec extends ObjectBehavior
 {
-    use ShiftExamples;
+    use MovePointExamples;
 
     function let()
     {
@@ -56,13 +56,13 @@ class NumberSpec extends ObjectBehavior
     }
 
     /**
-     * @dataProvider shiftExamples
+     * @dataProvider movePointExamples
      */
-    function it_shifts_decimal_point($number, $places, $expected, $integerPart, $fractionalPart)
+    function it_moves_point($number, $places, $expected, $integerPart, $fractionalPart)
     {
         $this->beConstructedWith($number);
 
-        $this->shiftDecimalPoint($places);
+        $this->movePoint($places);
         $this->getIntegerPart()->shouldReturn($integerPart);
         $this->getFractionalPart()->shouldReturn($fractionalPart);
         $this->__toString()->shouldReturn($expected);
@@ -72,13 +72,13 @@ class NumberSpec extends ObjectBehavior
     {
         $this->beConstructedWith('123.456789');
 
-        $this->shiftDecimalPoint(3);
+        $this->movePoint(3);
         $this->__toString()->shouldReturn('123456.789');
-        $this->shiftDecimalPoint(-2);
+        $this->movePoint(-2);
         $this->__toString()->shouldReturn('1234.56789');
-        $this->shiftDecimalPoint(-1);
+        $this->movePoint(-1);
         $this->__toString()->shouldReturn('123.456789');
-        $this->shiftDecimalPoint(6);
+        $this->movePoint(6);
         $this->__toString()->shouldReturn('123456789');
     }
 

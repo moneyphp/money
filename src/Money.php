@@ -327,7 +327,7 @@ final class Money implements \JsonSerializable
         $targetMinorUnits = $currencies->subunitFor($targetCurrency);
         $exp = $targetMinorUnits - $baseMinorUnits;
 
-        $amount = $calc->shiftDecimalPoint($calc->multiply($this->amount, $conversionRate), $exp);
+        $amount = $calc->movePoint($calc->multiply($this->amount, $conversionRate), $exp);
         $amount = $calc->round($amount, $roundingMode);
 
         return new self($amount, $targetCurrency);

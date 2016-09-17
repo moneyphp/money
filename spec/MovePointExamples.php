@@ -7,9 +7,9 @@ namespace spec\Money;
  *
  * @see https://github.com/phpspec/phpspec/issues/825
  */
-trait ShiftExamples
+trait MovePointExamples
 {
-    public function shiftExamples()
+    public function movePointExamples()
     {
         return [
             ['2.004', 4, '20040', '20040', ''],

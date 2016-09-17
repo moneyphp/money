@@ -229,10 +229,10 @@ final class BcMathCalculator implements Calculator
     /**
      * {@inheritdoc}
      */
-    public function shiftDecimalPoint($number, $places)
+    public function movePoint($number, $places)
     {
         $number = new Number($number);
-        $number->shiftDecimalPoint($places);
+        $number->movePoint($places);
 
         return (string) $number;
     }

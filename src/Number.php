@@ -93,11 +93,11 @@ final class Number
     }
 
     /**
-     * Shifts the decimal point.
+     * Moves the decimal point.
      *
      * @param int $places Number of places to shift
      */
-    public function shiftDecimalPoint($places)
+    public function movePoint($places)
     {
         if (!$places) {
             return;

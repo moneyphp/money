@@ -142,7 +142,7 @@ final class PhpCalculator implements Calculator
     /**
      * {@inheritdoc}
      */
-    public function shiftDecimalPoint($number, $places)
+    public function movePoint($number, $places)
     {
         $result = $number * pow(10, $places);
 

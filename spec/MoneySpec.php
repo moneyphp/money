@@ -199,7 +199,7 @@ class MoneySpec extends ObjectBehavior
 
         $mulAmount = $amount * $conversionRate;
         $calculator->multiply($amount, $conversionRate)->willReturn($mulAmount);
-        $calculator->shiftDecimalPoint($mulAmount, $places)->willReturn($shiftedAmount);
+        $calculator->movePoint($mulAmount, $places)->willReturn($shiftedAmount);
         $calculator->round($shiftedAmount, Money::ROUND_HALF_UP)->willReturn($convertedAmount);
 
         $money = $this->convert(new Currency($targetCurrency), $conversionRate);
