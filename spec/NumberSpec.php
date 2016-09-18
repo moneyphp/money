@@ -53,6 +53,14 @@ class NumberSpec extends ObjectBehavior
         $this->getIntegerRoundingMultiplier()->shouldReturn($negative ? '-1' : '1');
     }
 
+    /**
+     * @dataProvider numberExamples
+     */
+    function it_tests_if_the_number_is_integer($number, $decimal)
+    {
+        $this->isInteger($number)->shouldReturn(!$decimal);
+    }
+
     public function numberExamples()
     {
         return [
@@ -77,6 +85,33 @@ class NumberSpec extends ObjectBehavior
             ['-10.5', true, true, true, true, '-10', '5'],
             [(string) PHP_INT_MAX, false, false, false, false, (string) PHP_INT_MAX, ''],
             [(string) -PHP_INT_MAX, false, false, false, true, (string) -PHP_INT_MAX, ''],
+            [
+                PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                false,
+                false,
+                false,
+                false,
+                PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                ''
+            ],
+            [
+                -PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                false,
+                false,
+                false,
+                true,
+                -PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                ''
+            ],
+            [
+                substr(PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1).str_repeat('0', strlen((string) PHP_INT_MAX) - 1).PHP_INT_MAX,
+                false,
+                false,
+                false,
+                false,
+                substr(PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1).str_repeat('0', strlen((string) PHP_INT_MAX) - 1).PHP_INT_MAX,
+                ''
+            ],
         ];
     }
 }

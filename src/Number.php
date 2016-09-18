@@ -165,14 +165,20 @@ final class Number
      */
     public static function isInteger($number)
     {
-        if (filter_var($number, FILTER_VALIDATE_INT) !== false) {
+        // Check if number is a valid integer
+        if (false !== filter_var($number, FILTER_VALIDATE_INT)) {
             return true;
         }
 
+        // Check if number is invalid because of integer overflow
         $invalid = array_filter(
             str_split($number, strlen((string) PHP_INT_MAX) - 1),
             function ($chunk) {
-                return filter_var($chunk, FILTER_VALIDATE_INT) === false;
+                // Leading zeros should not invalidate the chunk
+                $chunk = ltrim($chunk, '0');
+
+                // Allow chunks containing zeros only
+                return '' !== $chunk && false === filter_var($chunk, FILTER_VALIDATE_INT);
             }
         );
 
