@@ -21,6 +21,7 @@ final class Converter
      * @param Money        $money
      * @param CurrencyPair $currencyPair
      * @param int          $roundingMode
+     *
      * @return Money
      */
     public function convert(Money $money, CurrencyPair $currencyPair, $roundingMode = Money::ROUND_HALF_UP)
