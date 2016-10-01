@@ -6,7 +6,7 @@ Please find below example of how to achieve this.
 
 .. code-block:: php
 
-    use Moeny\Money;
+    use Money\Money;
 
     $money = Money::USD(350);
     $json = json_encode($money);
