@@ -17,9 +17,9 @@ class NumberSpec extends ObjectBehavior
         $this->shouldHaveType('Money\Number');
     }
 
-    function it_throws_an_exception_when_number_is_not_string()
+    function it_throws_an_exception_when_number_is_invalid()
     {
-        $this->beConstructedWith(1);
+        $this->beConstructedWith('ONE');
 
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
@@ -51,14 +51,6 @@ class NumberSpec extends ObjectBehavior
         $this->getIntegerPart()->shouldReturn($integerPart);
         $this->getFractionalPart()->shouldReturn($fractionalPart);
         $this->getIntegerRoundingMultiplier()->shouldReturn($negative ? '-1' : '1');
-    }
-
-    /**
-     * @dataProvider numberExamples
-     */
-    function it_tests_if_the_number_is_integer($number, $decimal)
-    {
-        $this->isInteger($number)->shouldReturn(!$decimal);
     }
 
     public function numberExamples()

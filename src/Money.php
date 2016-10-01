@@ -52,7 +52,7 @@ final class Money implements \JsonSerializable
      */
     public function __construct($amount, Currency $currency)
     {
-        if (Number::isInteger($amount) === false) {
+        if (Number::fromString($amount)->getFractionalPart() !== '') {
             throw new \InvalidArgumentException('Amount must be an integer');
         }
 

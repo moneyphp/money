@@ -25,10 +25,12 @@ final class Number
      */
     public function __construct($integerPart, $fractionalPart = '')
     {
-        if (is_string($integerPart) === false || is_string($fractionalPart) === false) {
-            throw new \InvalidArgumentException(
-                'Number expects integer and fractional part to be string for calculations'
-            );
+        if ($this->isInteger($integerPart) === false) {
+            throw new \InvalidArgumentException('Invalid number');
+        }
+
+        if ($fractionalPart !== '' && $this->isInteger($fractionalPart) === false) {
+            throw new \InvalidArgumentException('Invalid number');
         }
 
         $this->integerPart = $integerPart ? $integerPart : '0';
@@ -154,11 +156,11 @@ final class Number
     }
 
     /**
-     * @param string|int $number
+     * @param string $number
      *
      * @return bool
      */
-    public static function isInteger($number)
+    private function isInteger($number)
     {
         // Check if number is a valid integer
         if (false !== filter_var($number, FILTER_VALIDATE_INT)) {
