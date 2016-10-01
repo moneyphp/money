@@ -190,19 +190,6 @@ class MoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringMultiply(1.0, 'INVALID_ROUNDING_MODE');
     }
 
-    function it_converts_to_a_different_currency(Calculator $calculator)
-    {
-        $this->beConstructedWith(100, new Currency(self::CURRENCY));
-
-        $calculator->multiply('100', 1.25)->willReturn(125);
-        $calculator->round(125, Money::ROUND_HALF_UP)->willReturn(125);
-
-        $money = $this->convert(new Currency('USD'), 1.25);
-
-        $money->shouldHaveType(Money::class);
-        $money->getAmount()->shouldBeLike(125);
-    }
-
     /**
      * @dataProvider roundExamples
      */

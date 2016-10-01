@@ -44,7 +44,7 @@ Then use it to create a pair:
     // $swap = Implementation of \Swap\SwapInterface
     $exchange = new SwapExchange($swap);
 
-    $pair = $exchange->getCurrencyPair($eur, $usd);
+    $pair = $exchange->quote($eur, $usd);
 
 
 After having the correct currency pair, conversion is quite simple:
@@ -52,9 +52,11 @@ After having the correct currency pair, conversion is quite simple:
 .. code:: php
 
     use Money\Money;
+    use Money\Converter;
 
+    $converter = new Converter(new ISOCurrencies());
     $eur100 = Money::EUR(100);
-    $usd125 = $pair->convert($eur100);
+    $usd125 = $converter->convert($eur100, $pair);
 
 
 .. _Swap: https://github.com/florianv/swap

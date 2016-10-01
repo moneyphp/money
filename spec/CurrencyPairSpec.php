@@ -42,34 +42,6 @@ class CurrencyPairSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringConvert($money);
     }
 
-    function it_converts_from_base_currency_to_counter()
-    {
-        $money = new Money(100, new Currency('EUR'));
-
-        $resultMoney = $this->convert($money);
-
-        $resultMoney->shouldHaveType(Money::class);
-        $resultMoney->getAmount()->shouldBeLike(125);
-        $resultMoney->getCurrency()->getCode()->shouldReturn('USD');
-    }
-
-    function it_converts_using_rounding_modes()
-    {
-        $money = new Money(10, new Currency('EUR'));
-
-        $resultMoney = $this->convert($money);
-
-        $resultMoney->shouldHaveType(Money::class);
-        $resultMoney->getAmount()->shouldBeLike(13);
-        $resultMoney->getCurrency()->getCode()->shouldReturn('USD');
-
-        $resultMoney = $this->convert($money, PHP_ROUND_HALF_DOWN);
-
-        $resultMoney->shouldHaveType(Money::class);
-        $resultMoney->getAmount()->shouldBeLike(12);
-        $resultMoney->getCurrency()->getCode()->shouldReturn('USD');
-    }
-
     /**
      * @dataProvider equalityExamples
      */
