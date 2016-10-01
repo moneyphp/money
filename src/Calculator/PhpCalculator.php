@@ -140,6 +140,18 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function movePoint($number, $places)
+    {
+        $result = $number * pow(10, $places);
+
+        $this->assertIntegerBounds($result);
+
+        return (string) $result;
+    }
+
+    /**
      * Asserts that an integer value didn't become something else
      * (after some arithmetic operation).
      *

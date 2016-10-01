@@ -225,4 +225,15 @@ final class BcMathCalculator implements Calculator
     {
         return $this->floor(bcdiv(bcmul($amount, $ratio, $this->scale), $total, $this->scale));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function movePoint($number, $places)
+    {
+        $number = new Number($number);
+        $number->movePoint($places);
+
+        return (string) $number;
+    }
 }

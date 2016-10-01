@@ -7,6 +7,8 @@ use PhpSpec\ObjectBehavior;
 
 class NumberSpec extends ObjectBehavior
 {
+    use MovePointExamples;
+
     function let()
     {
         $this->beConstructedWith('1');
@@ -59,6 +61,33 @@ class NumberSpec extends ObjectBehavior
     function it_tests_if_the_number_is_integer($number, $decimal)
     {
         $this->isInteger($number)->shouldReturn(!$decimal);
+    }
+
+    /**
+     * @dataProvider movePointExamples
+     */
+    function it_moves_point($number, $places, $expected, $integerPart, $fractionalPart)
+    {
+        $this->beConstructedWith($number);
+
+        $this->movePoint($places);
+        $this->getIntegerPart()->shouldReturn($integerPart);
+        $this->getFractionalPart()->shouldReturn($fractionalPart);
+        $this->__toString()->shouldReturn($expected);
+    }
+
+    function it_shifts_decimal_point_several_times()
+    {
+        $this->beConstructedWith('123.456789');
+
+        $this->movePoint(3);
+        $this->__toString()->shouldReturn('123456.789');
+        $this->movePoint(-2);
+        $this->__toString()->shouldReturn('1234.56789');
+        $this->movePoint(-1);
+        $this->__toString()->shouldReturn('123.456789');
+        $this->movePoint(6);
+        $this->__toString()->shouldReturn('123456789');
     }
 
     public function numberExamples()

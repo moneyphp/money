@@ -224,4 +224,15 @@ final class GmpCalculator implements Calculator
     {
         return $this->floor($this->divide($this->multiply($amount, $ratio), $total));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function movePoint($number, $places)
+    {
+        $number = new Number($number);
+        $number->movePoint($places);
+
+        return (string) $number;
+    }
 }

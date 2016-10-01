@@ -114,4 +114,19 @@ interface Calculator
      * @return string
      */
     public function share($amount, $ratio, $total);
+
+    /**
+     * Moves the decimal point.
+     *
+     * As a result returns a number * 10^places.
+     *
+     * @param string $number
+     * @param int    $places Number of places to move the
+     *                       decimal point. Negative value
+     *                       moves the decimal point to the left
+     *                       and positive in the opposite direction
+     *
+     * @return string
+     */
+    public function movePoint($number, $places);
 }
