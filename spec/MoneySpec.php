@@ -54,6 +54,9 @@ class MoneySpec extends ObjectBehavior
 
     function it_should_construct_integer_with_decimals_of_zero()
     {
+        $this->beConstructedWith(5, new Currency(self::CURRENCY));
+        $this->beConstructedWith('5', new Currency(self::CURRENCY));
+        $this->beConstructedWith('5.0', new Currency(self::CURRENCY));
         $this->beConstructedWith('5.00', new Currency(self::CURRENCY));
     }
 
