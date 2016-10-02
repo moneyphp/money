@@ -6,6 +6,10 @@ namespace Money;
  * Money Value Object.
  *
  * @author Mathias Verraes
+ *
+ * @method static \Money\Money USD()
+ * @method static \Money\Money EUR()
+ * @method static \Money\Money GPB()
  */
 final class Money implements \JsonSerializable
 {
