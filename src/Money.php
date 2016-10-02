@@ -7,9 +7,9 @@ namespace Money;
  *
  * @author Mathias Verraes
  *
- * @method static \Money\Money USD()
- * @method static \Money\Money EUR()
- * @method static \Money\Money GPB()
+ * @method static \Money\Money USD($value)
+ * @method static \Money\Money EUR($value)
+ * @method static \Money\Money GPB($value)
  */
 final class Money implements \JsonSerializable
 {
