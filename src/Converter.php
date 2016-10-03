@@ -5,7 +5,7 @@ namespace Money;
 /**
  * Provides a way to convert Money to Money in another Currency using an exchange rate.
  *
- * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
+ * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class Converter
 {
