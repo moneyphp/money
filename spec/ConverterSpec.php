@@ -5,32 +5,43 @@ namespace spec\Money;
 use Money\Calculator;
 use Money\Currencies;
 use Money\Currency;
-use Money\CurrencyPair;
+use Money\Exchange;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
 class ConverterSpec extends ObjectBehavior
 {
-    function let(Currencies $currencies)
+    function let(Currencies $currencies, Exchange $exchange)
     {
-        $this->beConstructedWith($currencies);
+        $this->beConstructedWith($currencies, $exchange);
     }
 
     /**
      * @dataProvider convertExamples
      */
-    function it_converts_to_a_different_currency($baseCurrencyCode, $counterCurrencyCode, $subunitBase, $subunitCounter, $ratio, $amount, $expectedAmount, Currencies $currencies)
-    {
+    function it_converts_to_a_different_currency(
+        $baseCurrencyCode,
+        $counterCurrencyCode,
+        $subunitBase,
+        $subunitCounter,
+        $ratio,
+        $amount,
+        $expectedAmount,
+        Currencies $currencies,
+        Exchange $exchange
+    ) {
         $baseCurrency = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
 
         $currencies->subunitFor($baseCurrency)->willReturn($subunitBase);
         $currencies->subunitFor($counterCurrency)->willReturn($subunitCounter);
 
+        $exchange->quote($baseCurrency, $counterCurrency)->willReturn($ratio);
+
         $money = $this->convert(
             new Money($amount, new Currency($baseCurrencyCode)),
-            new CurrencyPair($baseCurrency, $counterCurrency, $ratio)
+            $counterCurrency
         );
 
         $money->shouldHaveType(Money::class);
@@ -38,24 +49,24 @@ class ConverterSpec extends ObjectBehavior
         $money->getCurrency()->shouldBeLike($counterCurrencyCode);
     }
 
-    function it_converts_using_rounding_modes(Currencies $currencies)
+    function it_converts_using_rounding_modes(Currencies $currencies, Exchange $exchange)
     {
         $baseCurrency = new Currency('EUR');
         $counterCurrency = new Currency('USD');
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, 1.25);
 
         $currencies->subunitFor($baseCurrency)->willReturn(2);
         $currencies->subunitFor($counterCurrency)->willReturn(2);
+        $exchange->quote($baseCurrency, $counterCurrency)->willReturn(1.25);
 
         $money = new Money(10, $baseCurrency);
 
-        $resultMoney = $this->convert($money, $pair);
+        $resultMoney = $this->convert($money, $counterCurrency);
 
         $resultMoney->shouldHaveType(Money::class);
         $resultMoney->getAmount()->shouldBeLike(13);
         $resultMoney->getCurrency()->getCode()->shouldReturn('USD');
 
-        $resultMoney = $this->convert($money, $pair, PHP_ROUND_HALF_DOWN);
+        $resultMoney = $this->convert($money, $counterCurrency, PHP_ROUND_HALF_DOWN);
 
         $resultMoney->shouldHaveType(Money::class);
         $resultMoney->getAmount()->shouldBeLike(12);

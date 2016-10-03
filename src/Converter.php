@@ -2,49 +2,58 @@
 
 namespace Money;
 
+/**
+ * Provides a way to convert Money to Money in another Currency using an exchange rate
+ *
+ * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
+ */
 final class Converter
 {
     /**
      * @var Currencies
      */
     private $currencies;
+    /**
+     * @var Exchange
+     */
+    private $exchange;
 
     /**
      * @param Currencies $currencies
+     * @param Exchange   $exchange
      */
-    public function __construct(Currencies $currencies)
+    public function __construct(Currencies $currencies, Exchange $exchange)
     {
         $this->currencies = $currencies;
+        $this->exchange = $exchange;
     }
 
     /**
      * @param Money        $money
-     * @param CurrencyPair $currencyPair
+     * @param Currency     $counterCurrency
      * @param int          $roundingMode
      *
      * @return Money
      */
-    public function convert(Money $money, CurrencyPair $currencyPair, $roundingMode = Money::ROUND_HALF_UP)
+    public function convert(Money $money, Currency $counterCurrency, $roundingMode = Money::ROUND_HALF_UP)
     {
-        if ($money->getCurrency()->getCode() !== $currencyPair->getBaseCurrency()->getCode()) {
-            throw new \InvalidArgumentException('Base Currency of currency pair does not equal money currency');
+        $baseCurrency = $money->getCurrency();
+        $ratio = $this->exchange->quote($baseCurrency, $counterCurrency);
+
+        $baseCurrencySubunit = $this->currencies->subunitFor($baseCurrency);
+        $counterCurrencySubunit = $this->currencies->subunitFor($counterCurrency);
+        $subunitDifference = $baseCurrencySubunit - $counterCurrencySubunit;
+
+        if ($subunitDifference > 0) {
+            $ratio = $ratio / pow(10, $subunitDifference);
         }
 
-        $subunitBaseCurrency = $this->currencies->subunitFor($currencyPair->getBaseCurrency());
-        $subunitCounterCurrency = $this->currencies->subunitFor($currencyPair->getCounterCurrency());
-        $differenceInSubunit = $subunitBaseCurrency - $subunitCounterCurrency;
-        $ratio = $currencyPair->getConversionRatio();
-
-        if ($differenceInSubunit > 0) {
-            $ratio = $ratio / pow(10, $differenceInSubunit);
-        }
-
-        if ($differenceInSubunit < 0) {
-            $ratio = $ratio * pow(10, abs($differenceInSubunit));
+        if ($subunitDifference < 0) {
+            $ratio = $ratio * pow(10, abs($subunitDifference));
         }
 
         $counterValue = $money->multiply($ratio, $roundingMode);
 
-        return new Money($counterValue->getAmount(), $currencyPair->getCounterCurrency());
+        return new Money($counterValue->getAmount(), $counterCurrency);
     }
 }
