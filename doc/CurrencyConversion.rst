@@ -60,7 +60,9 @@ Then conversion is quite simple:
 
 CurrencyPair
 ------------
-You can use the OOP notation to define a pair:
+
+A CurrencyPair is returned by the Exchange. If you want to implement your own Exchange, you can use
+the OOP notation to define a pair:
 
 .. code:: php
 
@@ -70,7 +72,7 @@ You can use the OOP notation to define a pair:
     $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
 
 
-You can also parse ISO notations. For example, the quotation ``EUR/USD 1.2500``
+But you can also parse ISO notations. For example, the quotation ``EUR/USD 1.2500``
 means that one euro is exchanged for 1.2500 US dollars.
 
 .. code:: php
