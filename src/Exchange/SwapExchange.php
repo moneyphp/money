@@ -33,7 +33,7 @@ final class SwapExchange implements Exchange
     /**
      * {@inheritdoc}
      */
-    public function getCurrencyPair(Currency $baseCurrency, Currency $counterCurrency)
+    public function quote(Currency $baseCurrency, Currency $counterCurrency)
     {
         $swapCurrencyPair = new SwapCurrencyPair($baseCurrency->getCode(), $counterCurrency->getCode());
 

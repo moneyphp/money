@@ -303,21 +303,6 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param Currency  $targetCurrency
-     * @param float|int $conversionRate
-     * @param int       $roundingMode
-     *
-     * @return Money
-     */
-    public function convert(Currency $targetCurrency, $conversionRate, $roundingMode = self::ROUND_HALF_UP)
-    {
-        $this->assertRoundingMode($roundingMode);
-        $amount = $this->getCalculator()->round($this->getCalculator()->multiply($this->amount, $conversionRate), $roundingMode);
-
-        return new self($amount, $targetCurrency);
-    }
-
-    /**
      * Returns a new Money object that represents
      * the divided value by the given factor.
      *

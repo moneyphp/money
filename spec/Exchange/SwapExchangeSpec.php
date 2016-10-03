@@ -27,7 +27,7 @@ class SwapExchangeSpec extends ObjectBehavior
     {
         $swap->quote(Argument::type(CurrencyPair::class))->willReturn(new Rate(1.0));
 
-        $currencyPair = $this->getCurrencyPair($base = new Currency('EUR'), $counter = new Currency('USD'));
+        $currencyPair = $this->quote($base = new Currency('EUR'), $counter = new Currency('USD'));
 
         $currencyPair->shouldHaveType(\Money\CurrencyPair::class);
         $currencyPair->getBaseCurrency()->shouldReturn($base);
@@ -40,6 +40,6 @@ class SwapExchangeSpec extends ObjectBehavior
         $swap->quote(Argument::type(CurrencyPair::class))->willThrow(Exception::class);
 
         $this->shouldThrow(UnresolvableCurrencyPairException::class)
-            ->duringGetCurrencyPair(new Currency('EUR'), $counter = new Currency('USD'));
+            ->duringQuote(new Currency('EUR'), $counter = new Currency('USD'));
     }
 }
