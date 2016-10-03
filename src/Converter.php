@@ -3,7 +3,7 @@
 namespace Money;
 
 /**
- * Provides a way to convert Money to Money in another Currency using an exchange rate
+ * Provides a way to convert Money to Money in another Currency using an exchange rate.
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
