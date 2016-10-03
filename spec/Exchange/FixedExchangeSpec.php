@@ -4,10 +4,6 @@ namespace spec\Money\Exchange;
 
 use Money\Currency;
 use Money\Exception\UnresolvableCurrencyPairException;
-use Swap\Exception\Exception;
-use Swap\Model\CurrencyPair;
-use Swap\Model\Rate;
-use Swap\SwapInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
