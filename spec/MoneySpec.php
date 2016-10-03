@@ -52,6 +52,14 @@ class MoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
+    function it_should_construct_integer_with_decimals_of_zero()
+    {
+        $this->beConstructedWith(5, new Currency(self::CURRENCY));
+        $this->beConstructedWith('5', new Currency(self::CURRENCY));
+        $this->beConstructedWith('5.0', new Currency(self::CURRENCY));
+        $this->beConstructedWith('5.00', new Currency(self::CURRENCY));
+    }
+
     function it_tests_currency_equality()
     {
         $this->isSameCurrency(new Money(self::AMOUNT, new Currency(self::CURRENCY)))->shouldReturn(true);
