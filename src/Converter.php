@@ -46,9 +46,7 @@ final class Converter
 
         if ($subunitDifference > 0) {
             $ratio = $ratio / pow(10, $subunitDifference);
-        }
-
-        if ($subunitDifference < 0) {
+        } elseif ($subunitDifference < 0) {
             $ratio = $ratio * pow(10, abs($subunitDifference));
         }
 
