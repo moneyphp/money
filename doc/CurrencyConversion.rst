@@ -2,7 +2,7 @@ Currency Conversion
 ===================
 
 To convert a Money instance from one Currency to another, you need the Converter. This class depends on
-:doc:`Currencies` and Exchange. Exchange returns a `CurrencyPair`, which is the combination of the base
+Currencies and Exchange. Exchange returns a `CurrencyPair`, which is the combination of the base
 currency, counter currency and the conversion ratio.
 
 Fixed Exchange
