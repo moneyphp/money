@@ -29,9 +29,9 @@ final class Converter
     }
 
     /**
-     * @param Money        $money
-     * @param Currency     $counterCurrency
-     * @param int          $roundingMode
+     * @param Money    $money
+     * @param Currency $counterCurrency
+     * @param int      $roundingMode
      *
      * @return Money
      */
