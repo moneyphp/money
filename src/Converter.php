@@ -38,7 +38,7 @@ final class Converter
     public function convert(Money $money, Currency $counterCurrency, $roundingMode = Money::ROUND_HALF_UP)
     {
         $baseCurrency = $money->getCurrency();
-        $ratio = $this->exchange->quote($baseCurrency, $counterCurrency);
+        $ratio = $this->exchange->quote($baseCurrency, $counterCurrency)->getConversionRatio();
 
         $baseCurrencySubunit = $this->currencies->subunitFor($baseCurrency);
         $counterCurrencySubunit = $this->currencies->subunitFor($counterCurrency);

@@ -5,6 +5,7 @@ namespace spec\Money;
 use Money\Calculator;
 use Money\Currencies;
 use Money\Currency;
+use Money\CurrencyPair;
 use Money\Exchange;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
@@ -33,11 +34,12 @@ class ConverterSpec extends ObjectBehavior
     ) {
         $baseCurrency = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
+        $pair = new CurrencyPair($baseCurrency, $counterCurrency, $ratio);
 
         $currencies->subunitFor($baseCurrency)->willReturn($subunitBase);
         $currencies->subunitFor($counterCurrency)->willReturn($subunitCounter);
 
-        $exchange->quote($baseCurrency, $counterCurrency)->willReturn($ratio);
+        $exchange->quote($baseCurrency, $counterCurrency)->willReturn($pair);
 
         $money = $this->convert(
             new Money($amount, new Currency($baseCurrencyCode)),
@@ -53,10 +55,11 @@ class ConverterSpec extends ObjectBehavior
     {
         $baseCurrency = new Currency('EUR');
         $counterCurrency = new Currency('USD');
+        $pair = new CurrencyPair($baseCurrency, $counterCurrency, 1.25);
 
         $currencies->subunitFor($baseCurrency)->willReturn(2);
         $currencies->subunitFor($counterCurrency)->willReturn(2);
-        $exchange->quote($baseCurrency, $counterCurrency)->willReturn(1.25);
+        $exchange->quote($baseCurrency, $counterCurrency)->willReturn($pair);
 
         $money = new Money(10, $baseCurrency);
 
