@@ -8,6 +8,7 @@
 ### Changed
 
 - **[BC break]** Convert method now moved to its own class: Converter
+- **[BC break]** Exchange had one method getCurrencyPair which is now renamed to quote
 - Minor documentation issues
 
 ### Added
