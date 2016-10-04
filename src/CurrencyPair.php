@@ -77,25 +77,6 @@ final class CurrencyPair implements \JsonSerializable
     }
 
     /**
-     * Converts Money from base to counter currency.
-     *
-     * @param Money $money
-     * @param int   $roundingMode
-     *
-     * @return Money
-     *
-     * @throws \InvalidArgumentException If $money's currency is not equal to base currency
-     */
-    public function convert(Money $money, $roundingMode = Money::ROUND_HALF_UP)
-    {
-        if (!$money->getCurrency()->equals($this->baseCurrency)) {
-            throw new \InvalidArgumentException('The Money has the wrong currency');
-        }
-
-        return $money->convert($this->counterCurrency, $this->conversionRatio, $roundingMode);
-    }
-
-    /**
      * Returns the counter currency.
      *
      * @return Currency
