@@ -3,10 +3,22 @@
 
 ## Unreleased
 
+## 3.0.0-beta.3 - 2016-10-04
+
+### Changed
+
+- **[BC break]** Convert method now moved to its own class: Converter
+- Minor documentation issues
+
+### Added
+
+- FixedExchange: returns fixed exchange rates based on a list (array)
+
 ### Fixed
 
 - Integer detection when the number overflows the integer type and contains zeros
-
+- Rounding numbers containg trailing zeros
+- Converting Money to currency with different number of subunits
 
 ## 3.0.0-beta.2 - 2016-08-03
 
