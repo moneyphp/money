@@ -13,6 +13,7 @@ final class Converter
      * @var Currencies
      */
     private $currencies;
+
     /**
      * @var Exchange
      */

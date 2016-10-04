@@ -33,7 +33,8 @@
         "phpspec/phpspec": "^2.5",
         "henrikbjorn/phpspec-code-coverage": "^2.0.2",
         "coduo/phpspec-data-provider-extension": "^1.0.3",
-        "moneyphp/iso-currencies": "dev-master"
+        "moneyphp/iso-currencies": "dev-master",
+        "sllh/php-cs-fixer-styleci-bridge": "^2.1"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",
