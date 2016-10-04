@@ -35,13 +35,6 @@ class CurrencyPairSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_throws_an_exception_when_trying_to_convert_an_invalid_currency()
-    {
-        $money = new Money(100, new Currency('JPY'));
-
-        $this->shouldThrow(\InvalidArgumentException::class)->duringConvert($money);
-    }
-
     /**
      * @dataProvider equalityExamples
      */
