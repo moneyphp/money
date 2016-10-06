@@ -168,7 +168,7 @@ final class Number
      *
      * @return bool
      */
-    private function validateNumberAsInteger($number)
+    private static function validateNumberAsInteger($number)
     {
         // Check if number is invalid because of integer overflow
         $invalid = array_filter(
