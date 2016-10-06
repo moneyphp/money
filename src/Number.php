@@ -25,11 +25,11 @@ final class Number
      */
     public function __construct($integerPart, $fractionalPart = '')
     {
-        if ($this->isInteger($integerPart) === false) {
+        if ($this->validateNumberAsInteger($integerPart) === false) {
             throw new \InvalidArgumentException('Invalid number');
         }
 
-        if ($fractionalPart !== '' && $this->isInteger($fractionalPart) === false) {
+        if ($fractionalPart !== '' && $this->validateNumberAsInteger($fractionalPart) === false) {
             throw new \InvalidArgumentException('Invalid number');
         }
 
@@ -43,6 +43,14 @@ final class Number
     public function isDecimal()
     {
         return $this->fractionalPart !== '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInteger()
+    {
+        return $this->fractionalPart === '';
     }
 
     /**
@@ -160,13 +168,8 @@ final class Number
      *
      * @return bool
      */
-    private function isInteger($number)
+    private static function validateNumberAsInteger($number)
     {
-        // Check if number is a valid integer
-        if (false !== filter_var($number, FILTER_VALIDATE_INT)) {
-            return true;
-        }
-
         // Check if number is invalid because of integer overflow
         $invalid = array_filter(
             str_split($number, strlen((string) PHP_INT_MAX) - 1),
