@@ -41,6 +41,13 @@ trait CalculatorBehavior
     {
         $this->multiply(1, 1.5)->shouldReturn('1.5');
         $this->multiply(10, 1.2500)->shouldBeLike('12.50');
+        $this->multiply(100, 0.29)->shouldBeLike('29');
+        $this->multiply(100, 0.029)->shouldBeLike('2.9');
+        $this->multiply(100, 0.0029)->shouldBeLike('0.29');
+        $this->multiply(1000, 0.29)->shouldBeLike('290');
+        $this->multiply(1000, 0.029)->shouldBeLike('29');
+        $this->multiply(1000, 0.0029)->shouldBeLike('2.9');
+        $this->multiply(2000, 0.0029)->shouldBeLike('5.8');
     }
 
     // TODO Examine comparison

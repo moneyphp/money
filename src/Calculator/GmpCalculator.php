@@ -56,7 +56,7 @@ final class GmpCalculator implements Calculator
             if ($multiplierBase) {
                 $multiplierBase .= $multiplier->getFractionalPart();
             } else {
-                $multiplierBase = $multiplier->getFractionalPart();
+                $multiplierBase = ltrim($multiplier->getFractionalPart(), '0');
             }
 
             $resultBase = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplierBase)));
