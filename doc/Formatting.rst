@@ -10,7 +10,7 @@ Money comes with the following implementations out of the box:
 Intl Formatter
 --------------
 
-As it's name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
+As its name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
 correct subunit for the specific currency, you should also provide the specific currency repository.
 
 
@@ -32,6 +32,28 @@ correct subunit for the specific currency, you should also provide the specific 
     $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
 
     echo $moneyFormatter->format($money); // outputs $1.00
+
+
+Decimal Formatter
+-----------------
+
+This formatter outputs a simple decimal string which is always in a consistent format independent of locale. In order
+to provide the correct subunit for the specific currency, you should provide the specific currency repository.
+
+
+.. code-block:: php
+
+    use Money\Currencies\ISOCurrencies;
+    use Money\Currency;
+    use Money\Formatter\DecimalMoneyFormatter;
+    use Money\Money;
+
+    $money = new Money(100, new Currency('USD'));
+    $currencies = new ISOCurrencies();
+
+    $moneyFormatter = new DecimalMoneyFormatter($currencies);
+
+    echo $moneyFormatter->format($money); // outputs 1.00
 
 
 Aggregate Formatter
