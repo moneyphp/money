@@ -4,7 +4,7 @@ Parsing
 In an earlier version of Money there was a ``Money::stringToUnits`` method which parsed strings and created
 money objects. When the library started to move away from the ISO-only concept, we realized that
 there might be other cases when parsing from string is necessary. This led us creating parsers
-and moving the ``stringToUnits`` to ``StringToUnitsParser``.
+and moving the ``stringToUnits`` to ``StringToUnitsParser`` (later replaced by ``DecimalMoneyParser``).
 
 Money comes with the following implementations out of the box:
 
@@ -12,7 +12,7 @@ Money comes with the following implementations out of the box:
 Intl Parser
 -----------
 
-As it's name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
+As its name says, this parser requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
 correct subunit for the specific currency, you should also provide the specific currency repository.
 
 
@@ -23,33 +23,33 @@ correct subunit for the specific currency, you should also provide the specific 
 .. code-block:: php
 
     use Money\Currencies\ISOCurrencies;
-    use Money\Currency;
     use Money\Parser\IntlMoneyParser;
-    use Money\Money;
 
-    $money = new Money(100, new Currency('USD'));
     $currencies = new ISOCurrencies();
 
     $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
     $moneyParser = new IntlMoneyParser($numberFormatter, $currencies);
 
-    $money = $moneyFormatter->parse('1 USD');
+    $money = $moneyParser->parse('$1.00');
 
     echo $money->getAmount(); // outputs 100
 
 
-String to Units Parser
-----------------------
+Decimal Parser
+--------------
 
-This parser contains the logic extracted from ``Money::stringToUnits`` method.
+This parser takes a simple decimal string which is always in a consistent format independent of locale. In order to
+provide the correct subunit for the specific currency, you should provide the specific currency repository.
 
 
 .. code-block:: php
 
-    use Money\Money;
-    use Money\Parser\StringToUnitsParser;
+    use Money\Currencies\ISOCurrencies;
+    use Money\Parser\DecimalMoneyParser;
 
-    $moneyParser = new StringToUnitsParser();
+    $currencies = new ISOCurrencies();
+
+    $moneyParser = new DecimalMoneyParser($currencies);
 
     $money = $moneyParser->parse('1000', 'USD');
 
