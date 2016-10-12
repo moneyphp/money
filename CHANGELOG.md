@@ -3,6 +3,14 @@
 
 ## Unreleased
 
+### Changed
+
+- **[BC break]** Replaced StringToUnitsParser with DecimalMoneyParser
+
+### Added
+
+- DecimalMoneyFormatter: returns locale-independent raw decimal string
+
 ## 3.0.0-beta.3 - 2016-10-04
 
 ### Changed
