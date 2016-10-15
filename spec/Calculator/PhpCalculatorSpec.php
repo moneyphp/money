@@ -2,6 +2,7 @@
 
 namespace spec\Money\Calculator;
 
+use Money\Calculator\PhpCalculator;
 use PhpSpec\ObjectBehavior;
 
 class PhpCalculatorSpec extends ObjectBehavior
@@ -10,7 +11,7 @@ class PhpCalculatorSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Calculator\PhpCalculator');
+        $this->shouldHaveType(PhpCalculator::class);
     }
 
     function it_throws_an_exception_when_overflown()
