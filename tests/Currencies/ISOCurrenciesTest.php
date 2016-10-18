@@ -33,7 +33,7 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
+    public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
     {
         $this->setExpectedException(UnknownCurrencyException::class);
 
@@ -45,7 +45,7 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    function it_is_iterable()
+    public function it_is_iterable()
     {
         $currencies = new ISOCurrencies();
 
@@ -59,6 +59,8 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
         $currencies = require __DIR__.'/../../resources/currency.php';
         $currencies = array_keys($currencies);
 
-        return array_map(function($currency) { return [$currency]; }, $currencies);
+        return array_map(function ($currency) {
+            return [$currency];
+        }, $currencies);
     }
 }

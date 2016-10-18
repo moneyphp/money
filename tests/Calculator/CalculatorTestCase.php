@@ -88,7 +88,7 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
      * @dataProvider roundExamples
      * @test
      */
-    function it_rounds_a_value($value, $mode, $expected)
+    public function it_rounds_a_value($value, $mode, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->round($value, $mode));
     }
