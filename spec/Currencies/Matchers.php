@@ -4,7 +4,7 @@ namespace spec\Money\Currencies;
 
 use Money\Currency;
 
-trait HaveCurrencyTrait
+trait Matchers
 {
     /**
      * @return array
