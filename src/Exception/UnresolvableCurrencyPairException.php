@@ -3,6 +3,7 @@
 namespace Money\Exception;
 
 use Money\Currency;
+use Money\Exception;
 
 /**
  * Thrown when there is no currency pair (rate) available for the given currencies.
