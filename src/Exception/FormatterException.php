@@ -2,6 +2,8 @@
 
 namespace Money\Exception;
 
+use Money\Exception;
+
 /**
  * Thrown when a Money object cannot be formatted into a string.
  *

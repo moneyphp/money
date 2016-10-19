@@ -3,5 +3,3 @@ suites:
         namespace: Money
         psr4_prefix: Money
 formatter.name: pretty
-extensions:
-    - Coduo\PhpSpec\DataProvider\DataProviderExtension

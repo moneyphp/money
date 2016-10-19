@@ -4,7 +4,6 @@ namespace spec\Money;
 
 use Money\Currency;
 use Money\CurrencyPair;
-use Money\Money;
 use PhpSpec\ObjectBehavior;
 
 class CurrencyPairSpec extends ObjectBehavior
@@ -16,7 +15,12 @@ class CurrencyPairSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\CurrencyPair');
+        $this->shouldHaveType(CurrencyPair::class);
+    }
+
+    function it_is_json_serializable()
+    {
+        $this->shouldImplement(\JsonSerializable::class);
     }
 
     function it_has_currencies_and_ratio()
@@ -35,22 +39,12 @@ class CurrencyPairSpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    /**
-     * @dataProvider equalityExamples
-     */
-    function it_equals_to_another_currency_pair($pair, $equality)
+    function it_equals_to_another_currency_pair()
     {
-        $this->equals($pair)->shouldReturn($equality);
-    }
-
-    public function equalityExamples()
-    {
-        return [
-            [new CurrencyPair(new Currency('GBP'), new Currency('USD'), 1.250000), false],
-            [new CurrencyPair(new Currency('EUR'), new Currency('GBP'), 1.250000), false],
-            [new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.5000), false],
-            [new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.250000), true],
-        ];
+        $this->equals(new CurrencyPair(new Currency('GBP'), new Currency('USD'), 1.250000))->shouldReturn(false);
+        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('GBP'), 1.250000))->shouldReturn(false);
+        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.5000))->shouldReturn(false);
+        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.250000))->shouldReturn(true);
     }
 
     function it_parses_an_iso_string()

@@ -2,24 +2,34 @@
 
 namespace Tests\Money\Parser;
 
+use Money\Currencies;
 use Money\Currencies\ISOCurrencies;
+use Money\Currency;
 use Money\Parser\IntlMoneyParser;
+use Prophecy\Argument;
 
 final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider provideFormattedMoney
+     * @dataProvider formattedMoneyExamples
      */
     public function testIntlParser($string, $units)
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
+
+        $parser = new IntlMoneyParser($formatter, $currencies->reveal());
         $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
     }
 
-    public static function provideFormattedMoney()
+    public static function formattedMoneyExamples()
     {
         return [
             ['$1000.50', 100050],

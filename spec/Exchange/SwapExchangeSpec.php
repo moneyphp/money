@@ -4,6 +4,7 @@ namespace spec\Money\Exchange;
 
 use Money\Currency;
 use Money\Exception\UnresolvableCurrencyPairException;
+use Money\Exchange\SwapExchange;
 use Swap\Exception\Exception;
 use Swap\Model\CurrencyPair;
 use Swap\Model\Rate;
@@ -20,7 +21,7 @@ class SwapExchangeSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Exchange\SwapExchange');
+        $this->shouldHaveType(SwapExchange::class);
     }
 
     function it_exchanges_currencies(SwapInterface $swap)
@@ -40,6 +41,6 @@ class SwapExchangeSpec extends ObjectBehavior
         $swap->quote(Argument::type(CurrencyPair::class))->willThrow(Exception::class);
 
         $this->shouldThrow(UnresolvableCurrencyPairException::class)
-            ->duringQuote(new Currency('EUR'), $counter = new Currency('USD'));
+            ->duringQuote(new Currency('EUR'), new Currency('USD'));
     }
 }

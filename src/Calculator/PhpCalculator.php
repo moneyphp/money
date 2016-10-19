@@ -108,7 +108,7 @@ final class PhpCalculator implements Calculator
      */
     public function round($number, $roundingMode)
     {
-        if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {
+        if (Money::ROUND_HALF_POSITIVE_INFINITY === $roundingMode) {
             $number = Number::fromString((string) $number);
 
             if ($number->isHalf() === true) {
@@ -118,7 +118,7 @@ final class PhpCalculator implements Calculator
             return $this->castInteger(round((string) $number, 0, Money::ROUND_HALF_UP));
         }
 
-        if ($roundingMode === Money::ROUND_HALF_NEGATIVE_INFINITY) {
+        if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
             $number = Number::fromString((string) $number);
 
             if ($number->isHalf() === true) {

@@ -2,6 +2,8 @@
 
 namespace Money\Exception;
 
+use Money\Exception;
+
 /**
  * Thrown when a string cannot be parsed to a Money object.
  *

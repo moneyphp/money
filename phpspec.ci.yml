@@ -4,7 +4,6 @@ suites:
         psr4_prefix: Money
 formatter.name: pretty
 extensions:
-    - Coduo\PhpSpec\DataProvider\DataProviderExtension
     - PhpSpec\Extension\CodeCoverageExtension
 code_coverage:
     format: clover

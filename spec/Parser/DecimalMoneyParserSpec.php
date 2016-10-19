@@ -7,6 +7,7 @@ use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
+use Money\Parser\DecimalMoneyParser;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -19,7 +20,7 @@ class DecimalMoneyParserSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Parser\DecimalMoneyParser');
+        $this->shouldHaveType(DecimalMoneyParser::class);
     }
 
     function it_is_a_money_parser()
@@ -31,38 +32,25 @@ class DecimalMoneyParserSpec extends ObjectBehavior
     {
         $currencies->subunitFor(Argument::type(Currency::class))->willReturn(2);
 
-        $this->parse('1.00', 'EUR')->shouldEqualsMoney(new Money(100, new Currency('EUR')));
+        $money = $this->parse('1.00', 'EUR');
+
+        $money->shouldHaveType(Money::class);
+        $money->getAmount()->shouldReturn('100');
+        $money->getCurrency()->getCode()->shouldReturn('EUR');
     }
 
-    function it_does_not_parse_when_there_is_no_currency()
+    function it_throws_an_exception_when_there_is_no_currency()
     {
-        $this->shouldThrow(ParserException::class)->duringParse('€ 100');
+        $this->shouldThrow(ParserException::class)->duringParse('100');
     }
 
-    function it_does_not_parse_when_money_includes_currency()
+    function it_throws_an_exception_when_money_includes_currency_symbol()
     {
         $this->shouldThrow(ParserException::class)->duringParse('€ 100', 'EUR');
     }
 
-    function it_does_not_parse_when_money_is_not_a_valid_decimal()
+    function it_throws_an_exception_when_money_is_not_a_valid_decimal()
     {
         $this->shouldThrow(ParserException::class)->duringParse('INVALID', 'EUR');
-    }
-
-    function it_does_not_parse_a_boolean()
-    {
-        $this->shouldThrow(ParserException::class)->duringParse(true);
-    }
-
-    /**
-     * @return array
-     */
-    public function getMatchers()
-    {
-        return [
-            'equalsMoney' => function (Money $subject, Money $value) {
-                return $subject->equals($value);
-            },
-        ];
     }
 }

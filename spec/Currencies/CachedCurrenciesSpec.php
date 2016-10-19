@@ -3,15 +3,15 @@
 namespace spec\Money\Currencies;
 
 use Money\Currencies;
+use Money\Currencies\CachedCurrencies;
 use Money\Currency;
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CachedCurrenciesSpec extends ObjectBehavior
 {
-    use HaveCurrencyTrait;
+    use Matchers;
 
     function let(Currencies $currencies, CacheItemPoolInterface $pool)
     {
@@ -20,7 +20,7 @@ class CachedCurrenciesSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Currencies\CachedCurrencies');
+        $this->shouldHaveType(CachedCurrencies::class);
     }
 
     function it_is_a_currency_repository()
@@ -40,9 +40,11 @@ class CachedCurrenciesSpec extends ObjectBehavior
         $pool->getItem('currency|availability|EUR')->willReturn($item);
         $pool->save($item)->shouldBeCalled();
 
-        $currencies->contains(Argument::type(Currency::class))->willReturn(true);
+        $currency = new Currency('EUR');
 
-        $this->contains(new Currency('EUR'))->shouldReturn(true);
+        $currencies->contains($currency)->willReturn(true);
+
+        $this->contains($currency)->shouldReturn(true);
     }
 
     function it_checks_currencies_from_the_cache(
@@ -57,12 +59,14 @@ class CachedCurrenciesSpec extends ObjectBehavior
         $pool->getItem('currency|availability|EUR')->willReturn($item);
         $pool->save($item)->shouldNotBeCalled();
 
-        $currencies->contains(Argument::type(Currency::class))->shouldNotBeCalled();
+        $currency = new Currency('EUR');
 
-        $this->contains(new Currency('EUR'))->shouldReturn(true);
+        $currencies->contains($currency)->shouldNotBeCalled();
+
+        $this->contains($currency)->shouldReturn(true);
     }
 
-    function it_can_be_iterated(
+    function it_is_iterable(
         CacheItemInterface $item,
         CacheItemPoolInterface $pool,
         Currencies $currencies
@@ -73,7 +77,6 @@ class CachedCurrenciesSpec extends ObjectBehavior
         $pool->getItem('currency|availability|EUR')->willReturn($item);
         $currencies->getIterator()->willReturn(new \ArrayIterator([new Currency('EUR')]));
 
-        $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
         $this->getIterator()->shouldHaveCurrency('EUR');
     }
 }

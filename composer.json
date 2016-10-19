@@ -32,7 +32,6 @@
         "cache/taggable-cache": "^0.4.0",
         "phpspec/phpspec": "^2.5",
         "henrikbjorn/phpspec-code-coverage": "^2.0.2",
-        "coduo/phpspec-data-provider-extension": "^1.0.3",
         "moneyphp/iso-currencies": "dev-master",
         "sllh/php-cs-fixer-styleci-bridge": "^2.1"
     },
@@ -56,7 +55,7 @@
     },
     "scripts": {
         "test": "vendor/bin/phpspec run && vendor/bin/phpunit",
-        "test-ci": "vendor/bin/phpspec run -c phpspec.yml.ci && vendor/bin/phpunit --coverage-text",
+        "test-ci": "vendor/bin/phpspec run -c phpspec.ci.yml && vendor/bin/phpunit --coverage-text",
         "update-currencies": "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php"
     },
     "extra": {

@@ -11,28 +11,25 @@ use Prophecy\Argument;
 final class DecimalMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider numberFormatterExamples
+     * @dataProvider moneyExamples
+     * @test
      */
-    public function testNumberFormatter($amount, $currency, $subunit, $result)
+    public function it_formats_money($amount, $currency, $subunit, $result)
     {
         $money = new Money($amount, new Currency($currency));
 
-        $currenciesProphecy = $this->prophesize(Currencies::class);
-        $currenciesProphecy->contains(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn(true);
-        $currenciesProphecy->subunitFor(Argument::allOf(
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
             Argument::type(Currency::class),
             Argument::which('getCode', $currency)
         ))->willReturn($subunit);
-        $currencies = $currenciesProphecy->reveal();
 
-        $moneyFormatter = new DecimalMoneyFormatter($currencies);
+        $moneyFormatter = new DecimalMoneyFormatter($currencies->reveal());
         $this->assertEquals($result, $moneyFormatter->format($money));
     }
 
-    public static function numberFormatterExamples()
+    public static function moneyExamples()
     {
         return [
             [5005, 'USD', 2, '50.05'],

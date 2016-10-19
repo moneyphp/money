@@ -24,8 +24,9 @@ final class AggregateMoneyParser implements MoneyParser
     {
         foreach ($parsers as $parser) {
             if (false === $parser instanceof MoneyParser) {
-                throw new \InvalidArgumentException('All parsers must implement Money\MoneyFormatter');
+                throw new \InvalidArgumentException('All parsers must implement '.MoneyParser::class);
             }
+
             $this->parsers[] = $parser;
         }
     }
@@ -42,8 +43,6 @@ final class AggregateMoneyParser implements MoneyParser
             }
         }
 
-        throw new Exception\ParserException(
-            sprintf('Unable to parse %s', $money)
-        );
+        throw new Exception\ParserException(sprintf('Unable to parse %s', $money));
     }
 }

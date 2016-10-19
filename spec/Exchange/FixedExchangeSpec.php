@@ -3,9 +3,9 @@
 namespace spec\Money\Exchange;
 
 use Money\Currency;
+use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class FixedExchangeSpec extends ObjectBehavior
 {
@@ -22,9 +22,10 @@ class FixedExchangeSpec extends ObjectBehavior
     {
         $baseCurrency = new Currency('EUR');
         $counterCurrency = new Currency('USD');
+
         $currencyPair = $this->quote($baseCurrency, $counterCurrency);
 
-        $currencyPair->shouldHaveType(\Money\CurrencyPair::class);
+        $currencyPair->shouldHaveType(CurrencyPair::class);
         $currencyPair->getBaseCurrency()->shouldReturn($baseCurrency);
         $currencyPair->getCounterCurrency()->shouldReturn($counterCurrency);
         $currencyPair->getConversionRatio()->shouldReturn(1.25);
@@ -33,6 +34,6 @@ class FixedExchangeSpec extends ObjectBehavior
     function it_cannot_exchange_currencies()
     {
         $this->shouldThrow(UnresolvableCurrencyPairException::class)
-            ->duringQuote(new Currency('USD'), $counter = new Currency('EUR'));
+            ->duringQuote(new Currency('USD'), new Currency('EUR'));
     }
 }

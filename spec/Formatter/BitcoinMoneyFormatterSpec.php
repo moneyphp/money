@@ -5,10 +5,10 @@ namespace spec\Money\Formatter;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\FormatterException;
+use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class BitcoinMoneyFormatterSpec extends ObjectBehavior
 {
@@ -19,7 +19,7 @@ class BitcoinMoneyFormatterSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Formatter\BitcoinMoneyFormatter');
+        $this->shouldHaveType(BitcoinMoneyFormatter::class);
     }
 
     function it_is_a_money_formatter()
@@ -27,36 +27,22 @@ class BitcoinMoneyFormatterSpec extends ObjectBehavior
         $this->shouldImplement(MoneyFormatter::class);
     }
 
-    /**
-     * @dataProvider bitcoinExamples
-     */
-    function it_formats_money($value, $formatted, $fractionDigits, Currencies $bitcoinCurrencies)
+    function it_formats_money(Currencies $bitcoinCurrencies)
     {
-        $this->beConstructedWith($fractionDigits, $bitcoinCurrencies);
+        $this->beConstructedWith(1, $bitcoinCurrencies);
 
         $currency = new Currency('XBT');
-        $money = new Money($value, $currency);
+        $money = new Money(1000000, $currency);
 
         $bitcoinCurrencies->subunitFor($currency)->willReturn(8);
-        $this->format($money)->shouldReturn($formatted);
+
+        $formatted = $this->format($money);
+
+        $formatted->shouldBeString();
+        $formatted->shouldContain(Currencies\BitcoinCurrencies::SYMBOL);
     }
 
-    public function bitcoinExamples()
-    {
-        return [
-            [100000000000, "\0xC9\0x831000.00", 2],
-            [1000000000000, "\0xC9\0x8310000.00", 2],
-            [41000000, "\0xC9\0x830.41", 2],
-            [5000000, "\0xC9\0x830.05", 2],
-            [500000000, "\0xC9\0x835", 0],
-            [50000, "\0xC9\0x830.0005", 4],
-            [100000500000, "\0xC9\0x831000.01", 2],
-            [100099500000, "\0xC9\0x831001.00", 2],
-            [999999600000, "\0xC9\0x8310000.00", 2],
-        ];
-    }
-
-    function it_does_not_format_a_different_currency()
+    function it_throws_an_exception_when_currency_is_not_bitcoin()
     {
         $money = new Money(5, new Currency('USD'));
 

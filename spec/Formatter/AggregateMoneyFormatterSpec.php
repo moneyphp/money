@@ -4,6 +4,7 @@ namespace spec\Money\Formatter;
 
 use Money\Currency;
 use Money\Exception\FormatterException;
+use Money\Formatter\AggregateMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
@@ -19,7 +20,7 @@ class AggregateMoneyFormatterSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Formatter\AggregateMoneyFormatter');
+        $this->shouldHaveType(AggregateMoneyFormatter::class);
     }
 
     function it_is_a_money_formatter()
@@ -36,17 +37,17 @@ class AggregateMoneyFormatterSpec extends ObjectBehavior
         $this->format($money)->shouldReturn('€1.00');
     }
 
-    function it_throws_when_no_formatter_found()
+    function it_throws_an_exception_when_no_formatter_for_currency_is_found()
     {
         $money = new Money(1, new Currency('USD'));
 
         $this->shouldThrow(FormatterException::class)->duringFormat($money);
     }
 
-    function it_uses_default_when_no_specific_found(MoneyFormatter $moneyFormatter1, MoneyFormatter $moneyFormatter2)
+    function it_uses_default_formatter_when_no_specific_one_is_found(MoneyFormatter $moneyFormatter, MoneyFormatter $moneyFormatter2)
     {
         $this->beConstructedWith([
-            'USD' => $moneyFormatter1,
+            'USD' => $moneyFormatter,
             '*' => $moneyFormatter2,
         ]);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Money;
+namespace Tests\Money;
 
 use Money\Money;
 

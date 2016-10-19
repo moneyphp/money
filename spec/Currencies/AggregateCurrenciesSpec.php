@@ -3,26 +3,26 @@
 namespace spec\Money\Currencies;
 
 use Money\Currencies;
+use Money\Currencies\AggregateCurrencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class AggregateCurrenciesSpec extends ObjectBehavior
 {
-    use HaveCurrencyTrait;
+    use Matchers;
 
-    function let(Currencies $isoCurrencies, Currencies $otherCurrencies)
+    function let(Currencies $currencies, Currencies $otherCurrencies)
     {
         $this->beConstructedWith([
-            $isoCurrencies,
+            $currencies,
             $otherCurrencies,
         ]);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Currencies\AggregateCurrencies');
+        $this->shouldHaveType(AggregateCurrencies::class);
     }
 
     function it_is_a_currency_repository()
@@ -30,53 +30,61 @@ class AggregateCurrenciesSpec extends ObjectBehavior
         $this->shouldImplement(Currencies::class);
     }
 
-    function it_contains_currencies(Currencies $isoCurrencies, Currencies $otherCurrencies)
+    function it_throws_an_exception_when_invalid_currency_repository_is_passed()
     {
-        $isoCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
-        $otherCurrencies->contains(Argument::type(Currency::class))->willReturn(true);
+        $this->beConstructedWith(['currencies']);
 
-        $this->contains(new Currency('EUR'))->shouldReturn(true);
+        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_can_be_iterated(Currencies $isoCurrencies, Currencies $otherCurrencies)
+    function it_contains_currencies(Currencies $currencies, Currencies $otherCurrencies)
     {
-        $isoCurrencies->getIterator()->willReturn(new \ArrayIterator([new Currency('EUR')]));
+        $currency = new Currency('EUR');
+
+        $currencies->contains($currency)->willReturn(false);
+        $otherCurrencies->contains($currency)->willReturn(true);
+
+        $this->contains($currency)->shouldReturn(true);
+    }
+
+    function it_might_not_contain_currencies(Currencies $currencies, Currencies $otherCurrencies)
+    {
+        $currency = new Currency('EUR');
+
+        $currencies->contains($currency)->willReturn(false);
+        $otherCurrencies->contains($currency)->willReturn(false);
+
+        $this->contains($currency)->shouldReturn(false);
+    }
+
+    function it_provides_subunit(Currencies $currencies, Currencies $otherCurrencies)
+    {
+        $currency = new Currency('EUR');
+
+        $currencies->contains($currency)->willReturn(false);
+        $otherCurrencies->contains($currency)->willReturn(true);
+        $otherCurrencies->subunitFor($currency)->willReturn(2);
+
+        $this->subunitFor($currency)->shouldReturn(2);
+    }
+
+    function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown(Currencies $currencies, Currencies $otherCurrencies)
+    {
+        $currency = new Currency('XXXX');
+
+        $currencies->contains($currency)->willReturn(false);
+        $otherCurrencies->contains($currency)->willReturn(false);
+
+        $this->shouldThrow(UnknownCurrencyException::class)->duringSubunitFor($currency);
+    }
+
+    function it_is_iterable(Currencies $currencies, Currencies $otherCurrencies)
+    {
+        $currencies->getIterator()->willReturn(new \ArrayIterator([new Currency('EUR')]));
         $otherCurrencies->getIterator()->willReturn(new \ArrayIterator([new Currency('USD')]));
 
         $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
         $this->getIterator()->shouldHaveCurrency('EUR');
         $this->getIterator()->shouldHaveCurrency('USD');
-    }
-
-    function it_provides_subunit(Currencies $isoCurrencies, Currencies $otherCurrencies)
-    {
-        $isoCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
-        $otherCurrencies->contains(Argument::type(Currency::class))->willReturn(true);
-        $otherCurrencies->subunitFor(Argument::type(Currency::class))->willReturn(2);
-
-        $this->subunitFor(new Currency('EUR'))->shouldReturn(2);
-    }
-
-    function it_throws_an_exception_when_currency_is_unknown(Currencies $isoCurrencies, Currencies $otherCurrencies)
-    {
-        $isoCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
-        $otherCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
-
-        $this->shouldThrow(UnknownCurrencyException::class)->duringSubunitFor(new Currency('XXXX'));
-    }
-
-    function testItDoesNotContainCurrencies(Currencies $isoCurrencies, Currencies $otherCurrencies)
-    {
-        $isoCurrencies->contains(Argument::type(Currency::class))->willReturn(false);
-        $otherCurrencies->contains(Argument::type(Currency::class))->willReturn(true);
-
-        $this->contains(new Currency('EUR'))->shouldReturn(false);
-    }
-
-    function testConstructorThrowsAnException()
-    {
-        $this->beConstructedWith(['currencies']);
-
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
     }
 }

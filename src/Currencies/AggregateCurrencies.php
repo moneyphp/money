@@ -24,8 +24,8 @@ final class AggregateCurrencies implements Currencies
     public function __construct(array $currencies)
     {
         foreach ($currencies as $c) {
-            if (!$c instanceof Currencies) {
-                throw new \InvalidArgumentException('All currency repositories must implement Money\Currencies');
+            if (false === $c instanceof Currencies) {
+                throw new \InvalidArgumentException('All currency repositories must implement '.Currencies::class);
             }
         }
 
@@ -37,8 +37,8 @@ final class AggregateCurrencies implements Currencies
      */
     public function contains(Currency $currency)
     {
-        foreach ($this->currencies as $c) {
-            if ($c->contains($currency)) {
+        foreach ($this->currencies as $currencies) {
+            if ($currencies->contains($currency)) {
                 return true;
             }
         }
@@ -51,9 +51,9 @@ final class AggregateCurrencies implements Currencies
      */
     public function subunitFor(Currency $currency)
     {
-        foreach ($this->currencies as $c) {
-            if ($c->contains($currency)) {
-                return $c->subunitFor($currency);
+        foreach ($this->currencies as $currencies) {
+            if ($currencies->contains($currency)) {
+                return $currencies->subunitFor($currency);
             }
         }
 
@@ -67,8 +67,8 @@ final class AggregateCurrencies implements Currencies
     {
         $iterator = new \AppendIterator();
 
-        foreach ($this->currencies as $c) {
-            $iterator->append($c->getIterator());
+        foreach ($this->currencies as $currencies) {
+            $iterator->append($currencies->getIterator());
         }
 
         return $iterator;

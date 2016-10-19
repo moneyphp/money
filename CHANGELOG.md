@@ -3,13 +3,16 @@
 
 ## Unreleased
 
-### Changed
-
-- **[BC break]** Replaced StringToUnitsParser with DecimalMoneyParser
-
 ### Added
 
 - DecimalMoneyFormatter: returns locale-independent raw decimal string
+
+### Changed
+
+- **[BC break]** Replaced StringToUnitsParser with DecimalMoneyParser
+- **[BC break]** Moved `Money\Exception\Exception` to `Money\Exception`
+- **[BC break]** UnkownCurrencyException is now DomainException instead of RuntimeException
+
 
 ## 3.0.0-beta.3 - 2016-10-04
 

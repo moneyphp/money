@@ -10,26 +10,24 @@ use Prophecy\Argument;
 final class DecimalMoneyParserTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @dataProvider provideFormattedMoney
+     * @dataProvider formattedMoneyExamples
+     * @test
      */
-    public function testDecimalParser($decimal, $currency, $subunit, $result)
+    public function it_parses_money($decimal, $currency, $subunit, $result)
     {
-        $currenciesProphecy = $this->prophesize(Currencies::class);
-        $currenciesProphecy->contains(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn(true);
-        $currenciesProphecy->subunitFor(Argument::allOf(
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
             Argument::type(Currency::class),
             Argument::which('getCode', $currency)
         ))->willReturn($subunit);
-        $currencies = $currenciesProphecy->reveal();
 
-        $parser = new DecimalMoneyParser($currencies);
+        $parser = new DecimalMoneyParser($currencies->reveal());
+
         $this->assertEquals($result, $parser->parse($decimal, $currency)->getAmount());
     }
 
-    public static function provideFormattedMoney()
+    public static function formattedMoneyExamples()
     {
         return [
             ['1000.50', 'USD', 2, 100050],

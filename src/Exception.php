@@ -1,6 +1,6 @@
 <?php
 
-namespace Money\Exception;
+namespace Money;
 
 /**
  * Common interface for all exceptions thrown by this library.
