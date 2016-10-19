@@ -24,7 +24,7 @@ final class AggregateCurrencies implements Currencies
     public function __construct(array $currencies)
     {
         foreach ($currencies as $c) {
-            if (!$c instanceof Currencies) {
+            if (false === $c instanceof Currencies) {
                 throw new \InvalidArgumentException('All currency repositories must implement Money\Currencies');
             }
         }

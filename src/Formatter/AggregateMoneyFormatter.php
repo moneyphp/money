@@ -27,6 +27,7 @@ final class AggregateMoneyFormatter implements MoneyFormatter
             if (false === $formatter instanceof MoneyFormatter) {
                 throw new \InvalidArgumentException('All formatters must implement Money\\MoneyFormatter');
             }
+
             $this->formatters[$currencyCode] = $formatter;
         }
     }
@@ -37,6 +38,7 @@ final class AggregateMoneyFormatter implements MoneyFormatter
     public function format(Money $money)
     {
         $currencyCode = $money->getCurrency()->getCode();
+
         if (isset($this->formatters[$currencyCode])) {
             return $this->formatters[$currencyCode]->format($money);
         }

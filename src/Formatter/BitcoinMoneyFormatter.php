@@ -20,6 +20,7 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
      * @var int
      */
     private $fractionDigits;
+
     /**
      * @var Currencies
      */

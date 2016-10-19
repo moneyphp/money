@@ -17,6 +17,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
      * @var \NumberFormatter
      */
     private $formatter;
+
     /**
      * @var Currencies
      */
