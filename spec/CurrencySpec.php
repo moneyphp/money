@@ -14,7 +14,12 @@ class CurrencySpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Currency');
+        $this->shouldHaveType(Currency::class);
+    }
+
+    function it_is_json_serializable()
+    {
+        $this->shouldImplement(\JsonSerializable::class);
     }
 
     function it_throws_an_exception_when_code_is_not_string()
