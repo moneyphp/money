@@ -28,7 +28,7 @@ final class BitcoinCurrencies implements Currencies
     public function subunitFor(Currency $currency)
     {
         if ($currency->getCode() !== self::CODE) {
-            throw new UnknownCurrencyException($currency->getCode() . ' cannot be found within BitcoinCurrencies');
+            throw new UnknownCurrencyException($currency->getCode().' cannot be found within BitcoinCurrencies');
         }
 
         return 8;
