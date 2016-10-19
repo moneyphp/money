@@ -10,8 +10,6 @@ use Prophecy\Argument;
 
 class MoneySpec extends ObjectBehavior
 {
-    use RoundExamples;
-
     const AMOUNT = 10;
     const OTHER_AMOUNT = 5;
     const CURRENCY = 'EUR';
