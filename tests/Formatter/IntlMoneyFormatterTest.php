@@ -3,7 +3,6 @@
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
-use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
