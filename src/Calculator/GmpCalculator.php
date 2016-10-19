@@ -12,6 +12,19 @@ use Money\Number;
 final class GmpCalculator implements Calculator
 {
     /**
+     * @var string
+     */
+    private $scale;
+
+    /**
+     * @param int $scale
+     */
+    public function __construct($scale = 14)
+    {
+        $this->scale = $scale;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public static function supported()
@@ -75,7 +88,37 @@ final class GmpCalculator implements Calculator
      */
     public function divide($amount, $divisor)
     {
-        return $this->multiply($amount, 1 / $divisor);
+        $divisor = Number::fromString((string) $divisor);
+
+        if ($divisor->isDecimal()) {
+            $decimalPlaces = strlen($divisor->getFractionalPart());
+
+            if ($divisor->getIntegerPart()) {
+                $divisor = Number::fromString(
+                    $divisor->getIntegerPart().$divisor->getFractionalPart()
+                );
+            } else {
+                $divisor = Number::fromString(ltrim($divisor->getFractionalPart(), '0'));
+            }
+
+            $amount = gmp_strval(gmp_mul(gmp_init($amount), gmp_init('1'.str_pad('', $decimalPlaces, '0'))));
+        }
+
+        list($integer, $remainder) = gmp_div_qr(gmp_init($amount), gmp_init((string) $divisor));
+
+        if (gmp_cmp($remainder, '0') === 0) {
+            return gmp_strval($integer);
+        }
+
+        $divisionOfRemainder = gmp_strval(
+            gmp_div_q(
+                gmp_mul($remainder, gmp_init('1'.str_pad('', $this->scale, '0'))),
+                gmp_init((string) $divisor),
+                GMP_ROUND_MINUSINF
+            )
+        );
+
+        return gmp_strval($integer).'.'.str_pad($divisionOfRemainder, $this->scale, '0', STR_PAD_LEFT);
     }
 
     /**
