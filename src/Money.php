@@ -2,6 +2,10 @@
 
 namespace Money;
 
+use Money\Calculator\BcMathCalculator;
+use Money\Calculator\GmpCalculator;
+use Money\Calculator\PhpCalculator;
+
 /**
  * Money Value Object.
  *
@@ -39,9 +43,9 @@ final class Money implements \JsonSerializable
      * @var array
      */
     private static $calculators = [
-        'Money\\Calculator\\BcMathCalculator',
-        'Money\\Calculator\\GmpCalculator',
-        'Money\\Calculator\\PhpCalculator',
+        BcMathCalculator::class,
+        GmpCalculator::class,
+        PhpCalculator::class,
     ];
 
     /**
@@ -52,8 +56,8 @@ final class Money implements \JsonSerializable
      */
     public function __construct($amount, Currency $currency)
     {
-        if (false === filter_var($amount, FILTER_VALIDATE_INT) && !Number::fromString($amount)->isInteger()) {
-            throw new \InvalidArgumentException('Amount must be an integer');
+        if (filter_var($amount, FILTER_VALIDATE_INT) === false && !Number::fromString($amount)->isInteger()) {
+            throw new \InvalidArgumentException('Amount must be an integer(ish) value');
         }
 
         $this->amount = (string) $amount;
@@ -156,7 +160,7 @@ final class Money implements \JsonSerializable
      */
     public function greaterThan(Money $other)
     {
-        return 1 === $this->compare($other);
+        return $this->compare($other) === 1;
     }
 
     /**
@@ -166,7 +170,7 @@ final class Money implements \JsonSerializable
      */
     public function greaterThanOrEqual(Money $other)
     {
-        return 0 <= $this->compare($other);
+        return $this->compare($other) >= 0;
     }
 
     /**
@@ -178,7 +182,7 @@ final class Money implements \JsonSerializable
      */
     public function lessThan(Money $other)
     {
-        return -1 === $this->compare($other);
+        return $this->compare($other) === -1;
     }
 
     /**
@@ -188,7 +192,7 @@ final class Money implements \JsonSerializable
      */
     public function lessThanOrEqual(Money $other)
     {
-        return 0 >= $this->compare($other);
+        return $this->compare($other) <= 0;
     }
 
     /**
@@ -357,7 +361,7 @@ final class Money implements \JsonSerializable
         }
 
         for ($i = 0; $this->getCalculator()->compare($remainder, 0) === 1; ++$i) {
-            $results[$i]->amount = $this->getCalculator()->add($results[$i]->amount, 1);
+            $results[$i]->amount = (string) $this->getCalculator()->add($results[$i]->amount, 1);
             $remainder = $this->getCalculator()->subtract($remainder, 1);
         }
 
@@ -395,9 +399,11 @@ final class Money implements \JsonSerializable
     private function round($amount, $rounding_mode)
     {
         $this->assertRoundingMode($rounding_mode);
+
         if ($rounding_mode === self::ROUND_UP) {
             return $this->getCalculator()->ceil($amount);
         }
+
         if ($rounding_mode === self::ROUND_DOWN) {
             return $this->getCalculator()->floor($amount);
         }
@@ -420,7 +426,7 @@ final class Money implements \JsonSerializable
      */
     public function isZero()
     {
-        return 0 === $this->getCalculator()->compare($this->amount, 0);
+        return $this->getCalculator()->compare($this->amount, 0) === 0;
     }
 
     /**
@@ -430,7 +436,7 @@ final class Money implements \JsonSerializable
      */
     public function isPositive()
     {
-        return 1 === $this->getCalculator()->compare($this->amount, 0);
+        return $this->getCalculator()->compare($this->amount, 0) === 1;
     }
 
     /**
@@ -440,7 +446,7 @@ final class Money implements \JsonSerializable
      */
     public function isNegative()
     {
-        return -1 === $this->getCalculator()->compare($this->amount, 0);
+        return $this->getCalculator()->compare($this->amount, 0) === -1;
     }
 
     /**
@@ -461,7 +467,7 @@ final class Money implements \JsonSerializable
      */
     public static function registerCalculator($calculator)
     {
-        if (false === is_a($calculator, Calculator::class, true)) {
+        if (is_a($calculator, Calculator::class, true) === false) {
             throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
         }
 
@@ -476,6 +482,7 @@ final class Money implements \JsonSerializable
     private static function initializeCalculator()
     {
         $calculators = self::$calculators;
+
         foreach ($calculators as $calculator) {
             /** @var Calculator $calculator */
             if ($calculator::supported()) {
@@ -491,7 +498,7 @@ final class Money implements \JsonSerializable
      */
     private function getCalculator()
     {
-        if (self::$calculator === null) {
+        if (null === self::$calculator) {
             self::$calculator = self::initializeCalculator();
         }
 

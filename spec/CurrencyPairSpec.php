@@ -18,6 +18,11 @@ class CurrencyPairSpec extends ObjectBehavior
         $this->shouldHaveType(CurrencyPair::class);
     }
 
+    function it_is_json_serializable()
+    {
+        $this->shouldImplement(\JsonSerializable::class);
+    }
+
     function it_has_currencies_and_ratio()
     {
         $this->beConstructedWith($base = new Currency('EUR'), $counter = new Currency('USD'), $ratio = 1.0);
