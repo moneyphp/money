@@ -40,7 +40,7 @@ final class DecimalMoneyParser implements MoneyParser
             throw new ParserException('Formatted raw money should be string, e.g. 1.00');
         }
 
-        if ($forceCurrency === null) {
+        if (null === $forceCurrency) {
             throw new ParserException(
                 'DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument'
             );
@@ -60,6 +60,7 @@ final class DecimalMoneyParser implements MoneyParser
         $negative = isset($matches['sign']) && $matches['sign'] === '-';
 
         $decimal = $matches['digits'];
+
         if ($negative) {
             $decimal = '-'.$decimal;
         }

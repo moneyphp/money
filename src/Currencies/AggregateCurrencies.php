@@ -25,7 +25,7 @@ final class AggregateCurrencies implements Currencies
     {
         foreach ($currencies as $c) {
             if (false === $c instanceof Currencies) {
-                throw new \InvalidArgumentException('All currency repositories must implement Money\Currencies');
+                throw new \InvalidArgumentException('All currency repositories must implement '.Currencies::class);
             }
         }
 

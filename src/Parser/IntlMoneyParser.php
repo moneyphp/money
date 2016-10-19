@@ -20,6 +20,7 @@ final class IntlMoneyParser implements MoneyParser
      * @var \NumberFormatter
      */
     private $formatter;
+
     /**
      * @var Currencies
      */
@@ -47,13 +48,13 @@ final class IntlMoneyParser implements MoneyParser
         $currencyCode = null;
         $decimal = $this->formatter->parseCurrency($money, $currencyCode);
 
-        if ($forceCurrency !== null) {
+        if (null !== $forceCurrency) {
             $currencyCode = $forceCurrency;
         }
 
         $currency = new Currency($currencyCode);
 
-        if ($decimal === false) {
+        if (false === $decimal) {
             throw new ParserException(
                 'Cannot parse '.$money.' to Money. '.$this->formatter->getErrorMessage()
             );
@@ -63,7 +64,7 @@ final class IntlMoneyParser implements MoneyParser
         $subunit = $this->currencies->subunitFor($currency);
         $decimalPosition = strpos($decimal, '.');
 
-        if ($decimalPosition !== false) {
+        if (false !== $decimalPosition) {
             $decimalLength = strlen($decimal);
             $fractionDigits = $decimalLength - $decimalPosition - 1;
             $decimal = str_replace('.', '', $decimal);
@@ -78,7 +79,7 @@ final class IntlMoneyParser implements MoneyParser
             $decimal .= str_pad('', $subunit, '0');
         }
 
-        if ($decimal[0] === '-') {
+        if ('-' === $decimal[0]) {
             $decimal = '-'.ltrim(substr($decimal, 1), '0');
         } else {
             $decimal = ltrim($decimal, '0');

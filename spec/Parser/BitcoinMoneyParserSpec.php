@@ -2,10 +2,11 @@
 
 namespace spec\Money\Parser;
 
-use Money\Currency;
+use Money\Currencies\BitcoinCurrencies;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
+use Money\Parser\BitcoinMoneyParser;
 use PhpSpec\ObjectBehavior;
 
 class BitcoinMoneyParserSpec extends ObjectBehavior
@@ -17,7 +18,7 @@ class BitcoinMoneyParserSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Parser\BitcoinMoneyParser');
+        $this->shouldHaveType(BitcoinMoneyParser::class);
     }
 
     function it_is_a_money_parser()
@@ -25,44 +26,12 @@ class BitcoinMoneyParserSpec extends ObjectBehavior
         $this->shouldImplement(MoneyParser::class);
     }
 
-    /**
-     * @dataProvider bitcoinExamples
-     */
-    function it_parses_money($string, $units, $currency, MoneyParser $moneyParser)
+    function it_parses_money()
     {
-        if ('XBT' !== $currency) {
-            $moneyParser->parse($string, null)->willReturn(new Money($units, new Currency($currency)));
-        }
-
-        $money = $this->parse($string);
+        $money = $this->parse("\0xC9\0x831000.00");
 
         $money->shouldHaveType(Money::class);
-        $money->getAmount()->shouldBeLike($units);
-        $money->getCurrency()->getCode()->shouldReturn($currency);
-    }
-
-    public function bitcoinExamples()
-    {
-        return [
-            ["\0xC9\0x831000.00", 100000, 'XBT'],
-            ["\0xC9\0x831000.0",  100000, 'XBT'],
-            ["\0xC9\0x831000.00", 100000, 'XBT'],
-            ["\0xC9\0x830.01", 1, 'XBT'],
-            ["\0xC9\0x831", 100, 'XBT'],
-            ["-\0xC9\0x831000", -100000, 'XBT'],
-            ["-\0xC9\0x831000.0", -100000, 'XBT'],
-            ["-\0xC9\0x831000.00", -100000, 'XBT'],
-            ["-\0xC9\0x830.01", -1, 'XBT'],
-            ["-\0xC9\0x831", -100, 'XBT'],
-            ["\0xC9\0x831000", 100000, 'XBT'],
-            ["\0xC9\0x831000.0", 100000, 'XBT'],
-            ["\0xC9\0x831000.00", 100000, 'XBT'],
-            ["\0xC9\0x830.01", 1, 'XBT'],
-            ["\0xC9\0x831", 100, 'XBT'],
-            ["\0xC9\0x83.99", 99, 'XBT'],
-            ["-\0xC9\0x83.99", -99, 'XBT'],
-            ["\0xC9\0x830", '0', 'XBT'],
-        ];
+        $money->getCurrency()->getCode()->shouldReturn(BitcoinCurrencies::CODE);
     }
 
     function it_does_not_parse_a_different_currency()
@@ -70,7 +39,7 @@ class BitcoinMoneyParserSpec extends ObjectBehavior
         $this->shouldThrow(ParserException::class)->duringParse('€1.00');
     }
 
-    function it_does_not_parse_a_boolean()
+    function it_does_not_parse_an_invalid_value()
     {
         $this->shouldThrow(ParserException::class)->duringParse(true);
     }

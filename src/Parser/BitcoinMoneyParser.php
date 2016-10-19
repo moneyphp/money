@@ -33,11 +33,11 @@ final class BitcoinMoneyParser implements MoneyParser
      */
     public function parse($money, $forceCurrency = null)
     {
-        if (!is_string($money)) {
+        if (is_string($money) === false) {
             throw new ParserException('Formatted raw money should be string, e.g. $1.00');
         }
 
-        if (false === strpos($money, BitcoinCurrencies::SYMBOL)) {
+        if (strpos($money, BitcoinCurrencies::SYMBOL) === false) {
             throw new ParserException('Value cannot be parsed as Bitcoin');
         }
 
@@ -52,7 +52,7 @@ final class BitcoinMoneyParser implements MoneyParser
             $decimal .= str_pad('', $this->fractionDigits, '0');
         }
 
-        if ('-' === substr($decimal, 0, 1)) {
+        if (substr($decimal, 0, 1) === '-') {
             $decimal = '-'.ltrim(substr($decimal, 1), '0');
         } else {
             $decimal = ltrim($decimal, '0');

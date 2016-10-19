@@ -6,6 +6,7 @@ use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
+use Money\Parser\AggregateMoneyParser;
 use PhpSpec\ObjectBehavior;
 
 class AggregateMoneyParserSpec extends ObjectBehavior
@@ -17,7 +18,7 @@ class AggregateMoneyParserSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Money\Parser\AggregateMoneyParser');
+        $this->shouldHaveType(AggregateMoneyParser::class);
     }
 
     function it_is_a_money_parser()
@@ -36,8 +37,6 @@ class AggregateMoneyParserSpec extends ObjectBehavior
 
     function it_throws_an_exception_when_money_cannot_be_parsed(MoneyParser $moneyParser)
     {
-        $this->beConstructedWith([$moneyParser]);
-
         $moneyParser->parse('INVALID', null)->willThrow(ParserException::class);
 
         $this->shouldThrow(ParserException::class)->duringParse('INVALID', null);
