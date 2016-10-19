@@ -2,7 +2,6 @@
 
 namespace Tests\Money;
 
-
 use Money\Number;
 
 final class NumberTest extends \PHPUnit_Framework_TestCase
@@ -11,7 +10,7 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
      * @dataProvider numberExamples
      * @test
      */
-    function it_has_attributes($number, $decimal, $half, $currentEven, $negative, $integerPart, $fractionalPart)
+    public function it_has_attributes($number, $decimal, $half, $currentEven, $negative, $integerPart, $fractionalPart)
     {
         $number = Number::fromString($number);
 
@@ -56,7 +55,7 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
                 false,
                 false,
                 PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
-                ''
+                '',
             ],
             [
                 -PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
@@ -65,7 +64,7 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
                 false,
                 true,
                 -PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
-                ''
+                '',
             ],
             [
                 substr(PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1).str_repeat('0', strlen((string) PHP_INT_MAX) - 1).PHP_INT_MAX,
@@ -74,7 +73,7 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
                 false,
                 false,
                 substr(PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1).str_repeat('0', strlen((string) PHP_INT_MAX) - 1).PHP_INT_MAX,
-                ''
+                '',
             ],
         ];
     }
