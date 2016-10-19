@@ -64,10 +64,11 @@ final class CurrencyPair implements \JsonSerializable
         $pattern = '#'.$currency.'/'.$currency.' '.$ratio.'#';
 
         $matches = [];
+
         if (!preg_match($pattern, $iso, $matches)) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "Can't create currency pair from ISO string '%s', format of string is invalid",
+                    'Cannot create currency pair from ISO string "%s", format of string is invalid',
                     $iso
                 )
             );
