@@ -4,6 +4,7 @@ namespace Money\Currencies;
 
 use Money\Currencies;
 use Money\Currency;
+use Money\Exception\UnknownCurrencyException;
 
 /**
  * @author Frederik Bosch <f.bosch@genkgo.nl>
@@ -26,6 +27,10 @@ final class BitcoinCurrencies implements Currencies
      */
     public function subunitFor(Currency $currency)
     {
+        if ($currency->getCode() !== self::CODE) {
+            throw new UnknownCurrencyException($currency->getCode().' cannot be found within BitcoinCurrencies');
+        }
+
         return 8;
     }
 
