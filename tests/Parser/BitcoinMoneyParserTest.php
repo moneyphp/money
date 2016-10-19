@@ -12,7 +12,7 @@ final class BitcoinMoneyParserTest extends \PHPUnit_Framework_TestCase
      * @dataProvider bitcoinExamples
      * @test
      */
-    function it_parses_money($string, $units)
+    public function it_parses_money($string, $units)
     {
         $moneyParser = new BitcoinMoneyParser(2);
 

@@ -14,7 +14,7 @@ final class BitcoinMoneyFormatterTest extends \PHPUnit_Framework_TestCase
      * @dataProvider bitcoinExamples
      * @test
      */
-    function it_formats_money($value, $formatted, $fractionDigits)
+    public function it_formats_money($value, $formatted, $fractionDigits)
     {
         /** @var Currencies|ObjectProphecy $currencies */
         $currencies = $this->prophesize(Currencies::class);
