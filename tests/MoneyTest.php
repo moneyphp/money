@@ -54,7 +54,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
      * @dataProvider roundExamples
      * @test
      */
-    function it_multiplies_the_amount($multiplier, $roundingMode, $result)
+    public function it_multiplies_the_amount($multiplier, $roundingMode, $result)
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -105,7 +105,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
      * @dataProvider allocationExamples
      * @test
      */
-    function it_allocates_amount($amount, $ratios, $results)
+    public function it_allocates_amount($amount, $ratios, $results)
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -230,7 +230,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    function comparatorExamples()
+    public function comparatorExamples()
     {
         return [
             [1, false, true, false],
@@ -242,7 +242,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    function absoluteExamples()
+    public function absoluteExamples()
     {
         return [
             [1, 1],

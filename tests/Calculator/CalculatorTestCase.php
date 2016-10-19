@@ -3,7 +3,6 @@
 namespace Tests\Money\Calculator;
 
 use Money\Calculator;
-use Money\Money;
 use Tests\Money\RoundExamples;
 
 abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
