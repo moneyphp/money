@@ -2,7 +2,6 @@
 
 namespace Money\Exchange;
 
-use Exchanger\Contract\ExchangeRateProvider;
 use Exchanger\Exception\Exception as ExchangerException;
 use Money\Currency;
 use Money\CurrencyPair;
