@@ -23,23 +23,11 @@ final class SwapExchange implements Exchange
     private $swap;
 
     /**
-     * @param Swap|ExchangeRateProvider $exchange
+     * @param Swap $swap
      */
-    public function __construct($exchange)
+    public function __construct(Swap $swap)
     {
-        if (!$exchange instanceof Swap && !$exchange instanceof ExchangeRateProvider) {
-            throw new \InvalidArgumentException(sprintf(
-                'Exchange must either be %s or %s',
-                Swap::class,
-                ExchangeRateProvider::class
-            ));
-        }
-
-        if ($exchange instanceof ExchangeRateProvider) {
-            $exchange = new Swap($exchange);
-        }
-
-        $this->swap = $exchange;
+        $this->swap = $swap;
     }
 
     /**
