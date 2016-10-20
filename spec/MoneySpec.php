@@ -8,7 +8,7 @@ use Money\Money;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class MoneySpec extends ObjectBehavior
+final class MoneySpec extends ObjectBehavior
 {
     const AMOUNT = 10;
     const OTHER_AMOUNT = 5;

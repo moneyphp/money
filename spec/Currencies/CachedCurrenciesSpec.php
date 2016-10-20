@@ -9,7 +9,7 @@ use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use PhpSpec\ObjectBehavior;
 
-class CachedCurrenciesSpec extends ObjectBehavior
+final class CachedCurrenciesSpec extends ObjectBehavior
 {
     use Matchers;
 

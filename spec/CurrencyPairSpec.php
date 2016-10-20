@@ -6,7 +6,7 @@ use Money\Currency;
 use Money\CurrencyPair;
 use PhpSpec\ObjectBehavior;
 
-class CurrencyPairSpec extends ObjectBehavior
+final class CurrencyPairSpec extends ObjectBehavior
 {
     function let()
     {

@@ -9,7 +9,7 @@ use Money\MoneyParser;
 use Money\Parser\AggregateMoneyParser;
 use PhpSpec\ObjectBehavior;
 
-class AggregateMoneyParserSpec extends ObjectBehavior
+final class AggregateMoneyParserSpec extends ObjectBehavior
 {
     function let(MoneyParser $moneyParser)
     {

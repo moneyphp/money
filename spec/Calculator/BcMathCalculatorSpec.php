@@ -5,7 +5,7 @@ namespace spec\Money\Calculator;
 use Money\Calculator\BcMathCalculator;
 use PhpSpec\ObjectBehavior;
 
-class BcMathCalculatorSpec extends ObjectBehavior
+final class BcMathCalculatorSpec extends ObjectBehavior
 {
     use CalculatorBehavior;
 

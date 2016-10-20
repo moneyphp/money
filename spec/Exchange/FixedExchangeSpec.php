@@ -7,7 +7,7 @@ use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use PhpSpec\ObjectBehavior;
 
-class FixedExchangeSpec extends ObjectBehavior
+final class FixedExchangeSpec extends ObjectBehavior
 {
     function let()
     {

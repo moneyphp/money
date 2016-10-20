@@ -10,7 +10,7 @@ use Money\Money;
 use Money\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
 
-class BitcoinMoneyFormatterSpec extends ObjectBehavior
+final class BitcoinMoneyFormatterSpec extends ObjectBehavior
 {
     function let(Currencies $bitcoinCurrencies)
     {

@@ -9,7 +9,7 @@ use Money\Money;
 use Money\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
 
-class IntlMoneyFormatterSpec extends ObjectBehavior
+final class IntlMoneyFormatterSpec extends ObjectBehavior
 {
     function let(\NumberFormatter $numberFormatter, Currencies $currencies)
     {

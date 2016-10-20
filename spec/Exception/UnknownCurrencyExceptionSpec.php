@@ -6,7 +6,7 @@ use Money\Exception;
 use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
 
-class UnknownCurrencyExceptionSpec extends ObjectBehavior
+final class UnknownCurrencyExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {

@@ -7,7 +7,7 @@ use Money\Currencies\BitcoinCurrencies;
 use Money\Currency;
 use PhpSpec\ObjectBehavior;
 
-class BitcoinCurrenciesSpec extends ObjectBehavior
+final class BitcoinCurrenciesSpec extends ObjectBehavior
 {
     use Matchers;
 
