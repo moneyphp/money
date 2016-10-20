@@ -11,7 +11,7 @@ use Money\Parser\DecimalMoneyParser;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class DecimalMoneyParserSpec extends ObjectBehavior
+final class DecimalMoneyParserSpec extends ObjectBehavior
 {
     function let(Currencies $currencies)
     {

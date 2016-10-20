@@ -8,7 +8,7 @@ use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
 
-class AggregateCurrenciesSpec extends ObjectBehavior
+final class AggregateCurrenciesSpec extends ObjectBehavior
 {
     use Matchers;
 

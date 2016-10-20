@@ -12,7 +12,7 @@ use Swap\SwapInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class SwapExchangeSpec extends ObjectBehavior
+final class SwapExchangeSpec extends ObjectBehavior
 {
     function let(SwapInterface $swap)
     {

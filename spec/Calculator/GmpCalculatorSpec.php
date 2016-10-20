@@ -5,7 +5,7 @@ namespace spec\Money\Calculator;
 use Money\Calculator\GmpCalculator;
 use PhpSpec\ObjectBehavior;
 
-class GmpCalculatorSpec extends ObjectBehavior
+final class GmpCalculatorSpec extends ObjectBehavior
 {
     use CalculatorBehavior;
 

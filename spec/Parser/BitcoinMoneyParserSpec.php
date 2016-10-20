@@ -9,7 +9,7 @@ use Money\MoneyParser;
 use Money\Parser\BitcoinMoneyParser;
 use PhpSpec\ObjectBehavior;
 
-class BitcoinMoneyParserSpec extends ObjectBehavior
+final class BitcoinMoneyParserSpec extends ObjectBehavior
 {
     function let()
     {

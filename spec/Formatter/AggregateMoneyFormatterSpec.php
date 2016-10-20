@@ -9,7 +9,7 @@ use Money\Money;
 use Money\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
 
-class AggregateMoneyFormatterSpec extends ObjectBehavior
+final class AggregateMoneyFormatterSpec extends ObjectBehavior
 {
     function let (MoneyFormatter $moneyFormatter)
     {

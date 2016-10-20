@@ -7,7 +7,7 @@ use Money\Exception;
 use Money\Exception\UnresolvableCurrencyPairException;
 use PhpSpec\ObjectBehavior;
 
-class UnresolvableCurrencyPairExceptionSpec extends ObjectBehavior
+final class UnresolvableCurrencyPairExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {

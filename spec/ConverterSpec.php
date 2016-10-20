@@ -10,7 +10,7 @@ use Money\Exchange;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
 
-class ConverterSpec extends ObjectBehavior
+final class ConverterSpec extends ObjectBehavior
 {
     function let(Currencies $currencies, Exchange $exchange)
     {

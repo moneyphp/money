@@ -6,7 +6,7 @@ use Money\Exception;
 use Money\Exception\FormatterException;
 use PhpSpec\ObjectBehavior;
 
-class FormatterExceptionSpec extends ObjectBehavior
+final class FormatterExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {

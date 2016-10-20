@@ -11,7 +11,7 @@ use Money\Parser\IntlMoneyParser;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class IntlMoneyParserSpec extends ObjectBehavior
+final class IntlMoneyParserSpec extends ObjectBehavior
 {
     function let(\NumberFormatter $numberFormatter, Currencies $currencies)
     {

@@ -6,7 +6,7 @@ use Money\Currencies;
 use Money\Currencies\ISOCurrencies;
 use PhpSpec\ObjectBehavior;
 
-class ISOCurrenciesSpec extends ObjectBehavior
+final class ISOCurrenciesSpec extends ObjectBehavior
 {
     use Matchers;
 

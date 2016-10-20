@@ -9,7 +9,7 @@ use Money\Money;
 use Money\MoneyFormatter;
 use PhpSpec\ObjectBehavior;
 
-class DecimalMoneyFormatterSpec extends ObjectBehavior
+final class DecimalMoneyFormatterSpec extends ObjectBehavior
 {
     function let(Currencies $currencies)
     {

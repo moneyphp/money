@@ -5,7 +5,7 @@ namespace spec\Money;
 use Money\Number;
 use PhpSpec\ObjectBehavior;
 
-class NumberSpec extends ObjectBehavior
+final class NumberSpec extends ObjectBehavior
 {
     function let()
     {

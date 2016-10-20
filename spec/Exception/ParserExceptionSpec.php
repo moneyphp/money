@@ -6,7 +6,7 @@ use Money\Exception;
 use Money\Exception\ParserException;
 use PhpSpec\ObjectBehavior;
 
-class ParserExceptionSpec extends ObjectBehavior
+final class ParserExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
