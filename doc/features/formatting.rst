@@ -1,3 +1,5 @@
+.. _formatting:
+
 Formatting
 ==========
 
@@ -93,4 +95,4 @@ and want to support multiple currencies.
 Bitcoin Formatter
 -----------------
 
-See :doc:`Bitcoin`.
+See :ref:`Bitcoin <bitcoin>`.
