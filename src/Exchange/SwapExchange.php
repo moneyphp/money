@@ -2,6 +2,7 @@
 
 namespace Money\Exchange;
 
+use Exchanger\Contract\ExchangeRateProvider;
 use Exchanger\Exception\Exception as ExchangerException;
 use Money\Currency;
 use Money\CurrencyPair;
@@ -22,11 +23,23 @@ final class SwapExchange implements Exchange
     private $swap;
 
     /**
-     * @param Swap $swap
+     * @param Swap|ExchangeRateProvider $exchange
      */
-    public function __construct(Swap $swap)
+    public function __construct($exchange)
     {
-        $this->swap = $swap;
+        if (!$exchange instanceof Swap && !$exchange instanceof ExchangeRateProvider) {
+            throw new \InvalidArgumentException(sprintf(
+                'Exchange must either be %s or %s',
+                Swap::class,
+                ExchangeRateProvider::class
+            ));
+        }
+
+        if ($exchange instanceof ExchangeRateProvider) {
+            $exchange = new Swap($exchange);
+        }
+
+        $this->swap = $exchange;
     }
 
     /**
