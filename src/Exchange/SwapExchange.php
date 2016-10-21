@@ -2,13 +2,12 @@
 
 namespace Money\Exchange;
 
+use Exchanger\Exception\Exception as ExchangerException;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
-use Swap\Exception\Exception as SwapException;
-use Swap\Model\CurrencyPair as SwapCurrencyPair;
-use Swap\SwapInterface;
+use Swap\Swap;
 
 /**
  * Provides a way to get exchange rate from a third-party source and return a currency pair.
@@ -18,14 +17,14 @@ use Swap\SwapInterface;
 final class SwapExchange implements Exchange
 {
     /**
-     * @var SwapInterface
+     * @var Swap
      */
     private $swap;
 
     /**
-     * @param SwapInterface $swap
+     * @param Swap $swap
      */
-    public function __construct(SwapInterface $swap)
+    public function __construct(Swap $swap)
     {
         $this->swap = $swap;
     }
@@ -35,11 +34,9 @@ final class SwapExchange implements Exchange
      */
     public function quote(Currency $baseCurrency, Currency $counterCurrency)
     {
-        $swapCurrencyPair = new SwapCurrencyPair($baseCurrency->getCode(), $counterCurrency->getCode());
-
         try {
-            $rate = $this->swap->quote($swapCurrencyPair);
-        } catch (SwapException $e) {
+            $rate = $this->swap->latest($baseCurrency->getCode().'/'.$counterCurrency->getCode());
+        } catch (ExchangerException $e) {
             throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
         }
 

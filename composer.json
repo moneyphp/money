@@ -27,13 +27,15 @@
         "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
-        "florianv/swap": "^2.3",
+        "florianv/swap": "^3.0",
         "psr/cache": "^1.0",
         "cache/taggable-cache": "^0.4.0",
         "phpspec/phpspec": "^2.5",
         "henrikbjorn/phpspec-code-coverage": "^2.0.2",
         "moneyphp/iso-currencies": "~1.0.0",
-        "sllh/php-cs-fixer-styleci-bridge": "^2.1"
+        "sllh/php-cs-fixer-styleci-bridge": "^2.1",
+        "php-http/message": "^1.4",
+        "php-http/mock-client": "^0.3.3"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",

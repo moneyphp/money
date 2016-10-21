@@ -2,19 +2,18 @@
 
 namespace spec\Money\Exchange;
 
+use Exchanger\Contract\ExchangeRate;
+use Exchanger\Exception\Exception;
 use Money\Currency;
+use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange\SwapExchange;
-use Swap\Exception\Exception;
-use Swap\Model\CurrencyPair;
-use Swap\Model\Rate;
-use Swap\SwapInterface;
+use Swap\Swap;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 final class SwapExchangeSpec extends ObjectBehavior
 {
-    function let(SwapInterface $swap)
+    function let(Swap $swap)
     {
         $this->beConstructedWith($swap);
     }
@@ -24,23 +23,25 @@ final class SwapExchangeSpec extends ObjectBehavior
         $this->shouldHaveType(SwapExchange::class);
     }
 
-    function it_exchanges_currencies(SwapInterface $swap)
+    function it_exchanges_currencies(Swap $swap, ExchangeRate $exchangeRate)
     {
-        $swap->quote(Argument::type(CurrencyPair::class))->willReturn(new Rate(1.0));
+        $exchangeRate->getValue()->willReturn(1.0);
+
+        $swap->latest('EUR/USD')->willReturn($exchangeRate);
 
         $currencyPair = $this->quote($base = new Currency('EUR'), $counter = new Currency('USD'));
 
-        $currencyPair->shouldHaveType(\Money\CurrencyPair::class);
+        $currencyPair->shouldHaveType(CurrencyPair::class);
         $currencyPair->getBaseCurrency()->shouldReturn($base);
         $currencyPair->getCounterCurrency()->shouldReturn($counter);
         $currencyPair->getConversionRatio()->shouldReturn(1.0);
     }
 
-    function it_cannot_exchange_currencies(SwapInterface $swap)
+    function it_throws_an_exception_when_cannot_exchange_currencies(Swap $swap)
     {
-        $swap->quote(Argument::type(CurrencyPair::class))->willThrow(Exception::class);
+        $swap->latest('EUR/XYZ')->willThrow(Exception::class);
 
         $this->shouldThrow(UnresolvableCurrencyPairException::class)
-            ->duringQuote(new Currency('EUR'), new Currency('USD'));
+            ->duringQuote(new Currency('EUR'), new Currency('XYZ'));
     }
 }
