@@ -20,4 +20,4 @@ Install the library using composer. Execute the following command in your comman
 
 .. code-block:: bash
 
-    $ composer require mathiasverraes/money
+    $ composer require moneyphp/money
