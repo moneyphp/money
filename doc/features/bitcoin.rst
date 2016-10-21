@@ -1,3 +1,5 @@
+.. _bitcoin:
+
 Bitcoin
 =======
 
@@ -32,4 +34,4 @@ Please see the example below how to use the Bitcoin currency:
 
 In most cases you probably don't know the exact currency you are going to format or parse.
 For such scenarios, we have an aggregate formatter and a parser which lets you configure multiple parsers
-and then choose the best based on the value. See more in :doc:`Formatting` and :doc:`Parsing` section.
+and then choose the best based on the value. See more in :ref:`Formatting <formatting>` and :ref:`Parsing <parsing>` section.

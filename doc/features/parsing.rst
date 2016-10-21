@@ -1,3 +1,5 @@
+.. _parsing:
+
 Parsing
 =======
 
@@ -87,4 +89,4 @@ This is very useful if you want to use one parser as a service in DI context.
 Bitcoin Parser
 --------------
 
-See :doc:`Bitcoin`.
+See :ref:`Bitcoin <bitcoin>`.
