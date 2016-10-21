@@ -6,13 +6,11 @@ Money for PHP
 
    Introduction
    GettingStarted
-   Immutability
-   Allocation
+   Parsing
+   Operation
+   Comparison
+   Formatting
    Currencies
    CurrencyConversion
-   Json
-   IntegerLimit
-   Formatting
-   Parsing
-   Bitcoin
+   GettingAdvanced
    Inspiration

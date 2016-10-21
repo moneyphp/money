@@ -1,5 +1,8 @@
+Introduction
+============
+
 Why a Money library for PHP?
-============================
+----------------------------
 
 Also see http://blog.verraes.net/2011/04/fowler-money-pattern-in-php/
 

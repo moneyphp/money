@@ -1,6 +1,18 @@
 Getting started
 ===============
 
+Installation
+------------
+
+Install the library using composer. Execute the following command in your command line.
+
+.. code-block:: bash
+
+    $ composer require mathiasverraes/money
+
+Instantiation
+-------------
+
 All amounts are represented in the smallest unit (eg. cents), so USD 5.00 is written as
 
 .. code-block:: php
@@ -12,12 +24,4 @@ All amounts are represented in the smallest unit (eg. cents), so USD 5.00 is wri
     // or shorter:
     $fiver = Money::USD(500);
 
-
-Installation
-------------
-
-Install the library using composer. Execute the following command in your command line.
-
-.. code-block:: bash
-
-    $ composer require mathiasverraes/money
+See :doc:`Parsing` for additional ways to instantiate a Money object from strings.
