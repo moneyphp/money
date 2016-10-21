@@ -32,7 +32,7 @@
         "cache/taggable-cache": "^0.4.0",
         "phpspec/phpspec": "^2.5",
         "henrikbjorn/phpspec-code-coverage": "^2.0.2",
-        "moneyphp/iso-currencies": "dev-master",
+        "moneyphp/iso-currencies": "~1.0.0",
         "sllh/php-cs-fixer-styleci-bridge": "^2.1"
     },
     "suggest": {
