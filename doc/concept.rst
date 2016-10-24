@@ -3,6 +3,8 @@ Concept
 
 This section introduces the concept and basic features of the library
 
+.. _immutability:
+
 Immutability
 ------------
 

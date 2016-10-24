@@ -44,9 +44,11 @@ subtle intricacies of handling money.
 
    features/allocation
    features/bitcoin
+   features/comparison
    features/currencies
    features/currency-conversion
    features/formatting
+   features/operation
    features/parsing
 
 .. |clearfloat|  raw:: html

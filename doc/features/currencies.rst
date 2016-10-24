@@ -12,7 +12,7 @@ ISOCurrencies
 -------------
 
 As it's name says, the ISO currencies implementation provides all available ISO4217 currencies. It uses the official
- ISO 4217 Maintenance Agency as source for the data.
+ISO 4217 Maintenance Agency as source for the data.
 
 
 .. code-block:: php
