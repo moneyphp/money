@@ -13,3 +13,5 @@ unprobable
 Foemmel
 Hieatt
 Mee
+USD
+greaterThanOrEqual
