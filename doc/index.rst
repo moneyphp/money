@@ -42,14 +42,20 @@ subtle intricacies of handling money.
    :caption: Features
    :maxdepth: 3
 
-   features/allocation
-   features/bitcoin
+   features/operation
    features/comparison
+   features/allocation
+   features/parsing
+   features/formatting
+
+.. toctree::
+   :hidden:
+   :caption: Advanced Features
+   :maxdepth: 3
+
    features/currencies
    features/currency-conversion
-   features/formatting
-   features/operation
-   features/parsing
+   features/bitcoin
 
 .. |clearfloat|  raw:: html
 
