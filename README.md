@@ -8,7 +8,7 @@
 
 [![Email](https://img.shields.io/badge/email-team@moneyphp.org-blue.svg?style=flat-square)](mailto:team@moneyphp.org)
 
-![Money PHP](https://raw.githubusercontent.com/moneyphp/money/master/resources/logo.png)
+![Money PHP](/resources/logo.png?raw=true)
 
 PHP 5.5+ library to make working with money safer, easier, and fun!
 
