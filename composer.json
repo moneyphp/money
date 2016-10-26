@@ -56,8 +56,14 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpspec run && vendor/bin/phpunit",
-        "test-ci": "vendor/bin/phpspec run -c phpspec.ci.yml && vendor/bin/phpunit --coverage-text",
+        "test": [
+            "vendor/bin/phpspec run",
+            "vendor/bin/phpunit"
+        ],
+        "test-ci": [
+            "vendor/bin/phpspec run -c phpspec.ci.yml",
+            "vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml"
+        ],
         "update-currencies": "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php"
     },
     "extra": {
