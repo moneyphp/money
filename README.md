@@ -47,13 +47,11 @@ Features
 - Currency repositories (ISO currencies included)
 - Money exchange (including Swap implementation)
 
-Integration
------------
-
-See [`MoneyBundle`][2] or [`TbbcMoneyBundle`][4] for [Symfony integration][3].
-
 Testing
 -------
+
+We are using both [phpspec](http://www.phpspec.net/) and [phpunit](https://phpunit.de/) to test this library. To run all the tests at once you can use the command below.
+
 ```bash
 $ composer test
 ```
