@@ -54,11 +54,6 @@ $ composer require moneyphp/money
 - Money exchange (including Swap implementation)
 
 
-## Integration
-
-See [MoneyBundle][https://github.com/pink-tie/MoneyBundle] or [TbbcMoneyBundle][https://github.com/TheBigBrainsCompany/TbbcMoneyBundle] for [Symfony integration][http://symfony.com].
-
-
 ## Documentation
 
 Please see the [official documentation](http://moneyphp.org).
