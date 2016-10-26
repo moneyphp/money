@@ -33,7 +33,7 @@ assert($part2->equals(Money::EUR(333)));
 assert($part3->equals(Money::EUR(333)));
 ```
 
-The documentation is available at http://money.readthedocs.org
+The documentation is available at http://moneyphp.org
 
 
 ## Install
