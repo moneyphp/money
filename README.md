@@ -51,7 +51,7 @@ $ composer require moneyphp/money
 - Big integer support utilizing different, transparent calculation logic upon availability (bcmath, gmp, plain php)
 - Money formatting (including intl formatter)
 - Currency repositories (ISO currencies included)
-- Money exchange (including Swap implementation)
+- Money exchange (including [Swap](http://swap.voutzinos.org) implementation)
 
 
 ## Documentation
