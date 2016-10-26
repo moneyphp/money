@@ -19,7 +19,7 @@ you need to represent money, use this Money value object. Since version
 3.0 this library uses [strings internally](https://github.com/moneyphp/money/pull/136)
 in order to support unlimited integers.
 
-```php
+``` php
 <?php
 
 use Money\Money;
@@ -70,15 +70,15 @@ $ composer test
 
 ## Contributing
 
-We would love to see you helping us to make this library better and better. Please keep in mind we do not use suffixes
-and prefixes in class names, so not `CurrenciesInterface` but `Currencies`. Other than that, Style CI will help you
-using the same code style as we are using. Please provide tests when creating a PR and clear descriptions of bugs when
-filing issues.
+We would love to see you helping us to make this library better and better.
+Please keep in mind we do not use suffixes and prefixes in class names,
+so not `CurrenciesInterface`, but `Currencies`. Other than that, Style CI will help you
+using the same code style as we are using. Please provide tests when creating a PR and clear descriptions of bugs when filing issues.
 
 
 ## Security
 
-If you discover any security related issues, please contact us at [security@moneyphp.org](mailto:security@moneyphp.org).
+If you discover any security related issues, please contact us at [team@moneyphp.org](mailto:team@moneyphp.org).
 
 
 ## License
