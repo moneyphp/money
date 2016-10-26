@@ -35,7 +35,7 @@ Installation
 Install the library using [composer][1]. It is listed on [Packagist][5].
 
 ``` bash
-composer require mathiasverraes/money
+composer require moneyphp/money
 ```
 
 Features
@@ -81,4 +81,4 @@ contributions, in code and via his blog, this library would not be where it stan
 [2]: https://github.com/pink-tie/MoneyBundle/
 [3]: http://symfony.com/
 [4]: https://github.com/TheBigBrainsCompany/TbbcMoneyBundle
-[5]: https://packagist.org/packages/mathiasverraes/money
+[5]: https://packagist.org/packages/moneyphp/money
