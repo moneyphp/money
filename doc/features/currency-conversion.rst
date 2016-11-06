@@ -5,6 +5,7 @@ To convert a Money instance from one Currency to another, you need the Converter
 Currencies and Exchange. Exchange returns a `CurrencyPair`, which is the combination of the base
 currency, counter currency and the conversion ratio.
 
+
 Fixed Exchange
 --------------
 
@@ -26,6 +27,38 @@ You can use a fixed exchange to convert `Money` into another Currency.
 
     $eur100 = Money::EUR(100);
     $usd125 = $converter->convert($eur100, new Currency('USD'));
+
+
+Reversed Currencies Exchange
+----------------------------
+
+In some cases you might want the Exchange to resolve the reverse of the Currency Pair
+as well if the original cannot be found. To add this behaviour to any Exchange
+you need to wrap it in in a `ReversedCurrenciesExchange`. If a reverse Currency Pair
+can be found, it's simply used as a divisor of 1 to calculate the reverse
+conversion ratio.
+
+For example this can be useful if you use a `FixedExchange` and you don't want to
+define the currency pairs in both directions.
+
+.. code:: php
+
+    use Money\Converter;
+    use Money\Currency;
+    use Money\Exchange\FixedExchange;
+    use Money\Exchange\ReversedCurrenciesExchange;
+
+    $exchange = new ReversedCurrenciesExchange(new FixedExchange([
+        'EUR' => [
+            'USD' => 1.25
+        ]
+    ]));
+
+    $converter = new Converter(new ISOCurrencies(), $exchange);
+
+    $usd125 = Money::USD(125);
+    $eur100 = $converter->convert($usd125, new Currency('EUR'));
+
 
 Third Party Exchange
 --------------------
@@ -51,7 +84,7 @@ Then conversion is quite simple:
 
     $converter = new Converter(new ISOCurrencies(), $exchange);
     $eur100 = Money::EUR(100);
-    $usd125 = $converter->convert($eur100, $pair);
+    $usd125 = $converter->convert($eur100, new Currency('USD'));
 
 
 .. _Swap: https://github.com/florianv/swap
