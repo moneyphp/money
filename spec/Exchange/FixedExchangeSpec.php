@@ -5,6 +5,8 @@ namespace spec\Money\Exchange;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
+use Money\Exchange;
+use Money\Exchange\FixedExchange;
 use PhpSpec\ObjectBehavior;
 
 final class FixedExchangeSpec extends ObjectBehavior
@@ -16,6 +18,16 @@ final class FixedExchangeSpec extends ObjectBehavior
                 'USD' => 1.25
             ]
         ]);
+    }
+
+    function it_is_initializable()
+    {
+        $this->shouldHaveType(FixedExchange::class);
+    }
+
+    function it_is_an_exchange()
+    {
+        $this->shouldImplement(Exchange::class);
     }
 
     function it_exchanges_currencies()
