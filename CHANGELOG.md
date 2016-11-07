@@ -1,6 +1,13 @@
 # Change Log
 
 
+## UNRELEASED
+
+### Added
+
+- Reversed Currencies Exchange to try resolving reverse of a currency pair
+
+
 ## 3.0.0 - 2016-10-26
 
 ### Added
