@@ -19,6 +19,7 @@
 - **[BC break]** Replaced StringToUnitsParser with DecimalMoneyParser
 - **[BC break]** Moved `Money\Exception\Exception` to `Money\Exception`
 - **[BC break]** UnkownCurrencyException is now DomainException instead of RuntimeException
+- **[Doctrine break]** In `Currency` the private variable `name` was renamed to `code`, which could break your Doctrine mapping if you are using embeddables or any other Reflection related implementation.
 
 
 ## 3.0.0-beta.3 - 2016-10-04
