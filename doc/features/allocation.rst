@@ -15,11 +15,11 @@ is to keep handing out the remainder until all money is spent. In other words:
     use Money\Money;
 
     $profit = Money::EUR(5);
-    list($my_cut, $investors_cut) = $profit->allocate(70, 30);
+    list($my_cut, $investors_cut) = $profit->allocate([70, 30]);
     // $my_cut is 4 cents, $investors_cut is 1 cent
 
     // The order is important:
-    list($investors_cut, $my_cut) = $profit->allocate(30, 70);
+    list($investors_cut, $my_cut) = $profit->allocate([30, 70]);
     // $my_cut is 3 cents, $investors_cut is 2 cents
 
 
