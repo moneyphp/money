@@ -301,7 +301,7 @@ final class Money implements \JsonSerializable
         $this->assertOperand($multiplier);
         $this->assertRoundingMode($roundingMode);
 
-        $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
+        $product = $this->round($this->getCalculator()->multiply($this->amount, (string) $multiplier), $roundingMode);
 
         return $this->newInstance($product);
     }
@@ -324,7 +324,7 @@ final class Money implements \JsonSerializable
             throw new \InvalidArgumentException('Division by zero');
         }
 
-        $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
+        $quotient = $this->round($this->getCalculator()->divide($this->amount, (string) $divisor), $roundingMode);
 
         return $this->newInstance($quotient);
     }
