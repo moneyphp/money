@@ -4,7 +4,6 @@ namespace Money;
 
 use Money\Calculator\BcMathCalculator;
 use Money\Calculator\GmpCalculator;
-use Money\Calculator\PhpCalculator;
 
 /**
  * PreciseMoney Value Object.
@@ -45,7 +44,6 @@ final class PreciseMoney implements \JsonSerializable
     private static $calculators = [
         BcMathCalculator::class,
         GmpCalculator::class,
-        PhpCalculator::class,
     ];
 
     /**
