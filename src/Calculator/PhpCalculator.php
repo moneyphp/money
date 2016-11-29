@@ -32,9 +32,38 @@ final class PhpCalculator implements Calculator
      */
     public function add($amount, $addend)
     {
-        $result = $amount + $addend;
+        $amount = Number::fromString($amount);
+        $addend = Number::fromString($addend);
 
-        return (string) $result;
+        if ($amount->isInteger() && $addend->isInteger()) {
+            $result = (string) $amount + (string) $addend;
+
+            return (string) $result;
+        }
+
+        $integer = $amount->getIntegerPart() + $addend->getIntegerPart();
+        if ($amount->isInteger()) {
+            return $integer.'.'.$addend->getFractionalPart();
+        }
+
+        if ($addend->isInteger()) {
+            return $integer.'.'.$amount->getFractionalPart();
+        }
+
+        $largestDigits = max(strlen($amount->getFractionalPart()), strlen($addend->getFractionalPart()));
+        $basedAmount = $amount->getIntegerPart().str_pad($amount->getFractionalPart(), $largestDigits, '0');
+        $basedAddend = $addend->getIntegerPart().str_pad($addend->getFractionalPart(), $largestDigits, '0');
+
+        $basedResult = $basedAmount + $basedAddend;
+        $integerPart = substr($basedResult, 0, $largestDigits * -1);
+        if ($integerPart === '-') {
+            $integerPart = '-0';
+        }
+
+        return (string) (new Number(
+            $integerPart,
+            rtrim(substr($basedResult, $largestDigits * -1), '0')
+        ));
     }
 
     /**
@@ -65,9 +94,9 @@ final class PhpCalculator implements Calculator
 
         $leadingZeros = str_pad('', max(strlen($basedAmount), strlen($basedSubtrahend)), '0');
         if ($basedResult[0] === '-') {
-            $basedResult = '-'.$leadingZeros . substr($basedResult, 1);
+            $basedResult = '-'.$leadingZeros.substr($basedResult, 1);
         } else {
-            $basedResult = $leadingZeros . $basedResult;
+            $basedResult = $leadingZeros.$basedResult;
         }
 
         $integerPart = $this->trimLeadingZeros(substr($basedResult, 0, $largestDigits * -1));
@@ -88,7 +117,7 @@ final class PhpCalculator implements Calculator
     private function trimLeadingZeros($value)
     {
         if ($value[0] === '-') {
-            return '-' . ltrim(substr($value, 1), '0');
+            return '-'.ltrim(substr($value, 1), '0');
         }
 
         return ltrim($value, '0');

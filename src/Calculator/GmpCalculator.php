@@ -41,7 +41,7 @@ final class GmpCalculator implements Calculator
         $b = Number::fromString($b);
 
         if ($a->isInteger() && $b->isInteger()) {
-            return gmp_cmp((string)$a, (string)$b);
+            return gmp_cmp((string) $a, (string) $b);
         }
 
         $compareIntegers = gmp_cmp($a->getIntegerPart(), $b->getIntegerPart());
@@ -115,9 +115,9 @@ final class GmpCalculator implements Calculator
 
         $leadingZeros = str_pad('', max(strlen($basedAmount), strlen($basedSubtrahend)), '0');
         if ($basedResult[0] === '-') {
-            $basedResult = '-'.$leadingZeros . substr($basedResult, 1);
+            $basedResult = '-'.$leadingZeros.substr($basedResult, 1);
         } else {
-            $basedResult = $leadingZeros . $basedResult;
+            $basedResult = $leadingZeros.$basedResult;
         }
 
         $integerPart = $this->trimLeadingZeros(substr($basedResult, 0, $largestDigits * -1));
@@ -138,7 +138,7 @@ final class GmpCalculator implements Calculator
     private function trimLeadingZeros($value)
     {
         if ($value[0] === '-') {
-            return '-' . ltrim(substr($value, 1), '0');
+            return '-'.ltrim(substr($value, 1), '0');
         }
 
         return ltrim($value, '0');

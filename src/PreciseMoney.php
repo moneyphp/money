@@ -49,8 +49,8 @@ final class PreciseMoney implements \JsonSerializable
     ];
 
     /**
-     * @param string $amount   Amount, expressed in the smallest units of $currency (eg cents)
-     * @param Currency   $currency
+     * @param string   $amount   Amount, expressed in the smallest units of $currency (eg cents)
+     * @param Currency $currency
      *
      * @throws \InvalidArgumentException If amount is not integer
      */

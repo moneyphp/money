@@ -167,14 +167,6 @@ final class PreciseMoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringMultiply('INVALID_OPERAND');
     }
 
-    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_multiplication(Calculator $calculator)
-    {
-        $calculator->multiply(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
-        $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
-
-        $this->shouldThrow(\InvalidArgumentException::class)->duringMultiply(1.0, 'INVALID_ROUNDING_MODE');
-    }
-
     function it_divides_the_amount(Calculator $calculator)
     {
         $this->beConstructedWith(4, new Currency(self::CURRENCY));
@@ -196,15 +188,6 @@ final class PreciseMoneySpec extends ObjectBehavior
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
         $this->shouldThrow(\InvalidArgumentException::class)->duringDivide('INVALID_OPERAND');
-    }
-
-    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_division(Calculator $calculator)
-    {
-        $calculator->compare('1.0', '0')->shouldNotBeCalled();
-        $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
-        $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
-
-        $this->shouldThrow(\InvalidArgumentException::class)->duringDivide(1.0, 'INVALID_ROUNDING_MODE');
     }
 
     function it_throws_an_exception_when_divisor_is_zero(Calculator $calculator)
