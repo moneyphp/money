@@ -112,6 +112,7 @@ final class PhpCalculator implements Calculator
 
     /**
      * @param $value
+     *
      * @return string
      */
     private function trimLeadingZeros($value)

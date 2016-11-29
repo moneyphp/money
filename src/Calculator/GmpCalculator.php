@@ -133,6 +133,7 @@ final class GmpCalculator implements Calculator
 
     /**
      * @param $value
+     *
      * @return string
      */
     private function trimLeadingZeros($value)
