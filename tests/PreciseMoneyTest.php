@@ -178,6 +178,17 @@ final class PreciseMoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(PreciseMoney::class, (new PreciseMoney(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 
+    public function test_it_supports_adding_decimals()
+    {
+        $one = new PreciseMoney('1', new Currency('EUR'));
+        $onePointFive = new PreciseMoney('1.5', new Currency('EUR'));
+
+        $result = $one->add($onePointFive);
+
+        $this->assertInstanceOf(PreciseMoney::class, $result);
+        $this->assertEquals('2.5', $result->getAmount());
+    }
+
     public function equalityExamples()
     {
         return [

@@ -45,7 +45,36 @@ final class GmpCalculator implements Calculator
      */
     public function add($amount, $addend)
     {
-        return gmp_strval(gmp_add($amount, $addend));
+        $amount = Number::fromString($amount);
+        $addend = Number::fromString($addend);
+
+        if ($amount->isInteger() && $addend->isInteger()) {
+            return gmp_strval(gmp_add((string) $amount, (string) $addend));
+        }
+
+        $integer = gmp_add($amount->getIntegerPart(), $addend->getIntegerPart());
+        if ($amount->isInteger()) {
+            return $integer.'.'.$addend->getFractionalPart();
+        }
+
+        if ($addend->isInteger()) {
+            return $integer.'.'.$amount->getFractionalPart();
+        }
+
+        $largestDigits = max(strlen($amount->getFractionalPart()), strlen($addend->getFractionalPart()));
+        $basedAmount = $amount->getIntegerPart().str_pad($amount->getFractionalPart(), $largestDigits, '0');
+        $basedAddend = $addend->getIntegerPart().str_pad($addend->getFractionalPart(), $largestDigits, '0');
+
+        $basedResult = gmp_strval(gmp_add($basedAmount, $basedAddend));
+        $integerPart = substr($basedResult, 0, $largestDigits * -1);
+        if ($integerPart === '-') {
+            $integerPart = '-0';
+        }
+
+        return (string) (new Number(
+            $integerPart,
+            rtrim(substr($basedResult, $largestDigits * -1), '0')
+        ));
     }
 
     /**

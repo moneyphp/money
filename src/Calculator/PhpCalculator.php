@@ -34,8 +34,6 @@ final class PhpCalculator implements Calculator
     {
         $result = $amount + $addend;
 
-        $this->assertInteger($result);
-
         return (string) $result;
     }
 
@@ -45,8 +43,6 @@ final class PhpCalculator implements Calculator
     public function subtract($amount, $subtrahend)
     {
         $result = $amount - $subtrahend;
-
-        $this->assertInteger($result);
 
         return (string) $result;
     }
@@ -169,17 +165,5 @@ final class PhpCalculator implements Calculator
         $this->assertIntegerBounds($amount);
 
         return (string) intval($amount);
-    }
-
-    /**
-     * Asserts that integer remains integer after arithmetic operations.
-     *
-     * @param int $amount
-     */
-    private function assertInteger($amount)
-    {
-        if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
-            throw new \UnexpectedValueException('The result of arithmetic operation is not an integer');
-        }
     }
 }

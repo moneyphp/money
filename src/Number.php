@@ -33,8 +33,8 @@ final class Number
             throw new \InvalidArgumentException('Invalid number');
         }
 
-        $this->integerPart = $integerPart ? $integerPart : '0';
-        $this->fractionalPart = $fractionalPart;
+        $this->integerPart = (string) ($integerPart ? $integerPart : '0');
+        $this->fractionalPart = (string) $fractionalPart;
     }
 
     /**

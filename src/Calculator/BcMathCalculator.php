@@ -45,7 +45,7 @@ final class BcMathCalculator implements Calculator
      */
     public function add($amount, $addend)
     {
-        return bcadd($amount, $addend, 0);
+        return (string) Number::fromString(bcadd($amount, $addend, $this->scale));
     }
 
     /**

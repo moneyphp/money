@@ -20,7 +20,7 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
      */
     public function it_adds_two_values($value1, $value2, $expected)
     {
-        $this->assertEquals($expected, $this->getCalculator()->add($value1, $value2));
+        $this->assertSame($expected, $this->getCalculator()->add($value1, $value2));
     }
 
     /**
@@ -101,6 +101,15 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
         return [
             [1, 1, '2'],
             [10, 5, '15'],
+            ['1.5', '2', '3.5'],
+            ['1.81', '2.34', '4.15'],
+            ['1.12', '2.13', '3.25'],
+            ['1.12', '2.134', '3.254'],
+            ['1', '2.5', '3.5'],
+            ['9.999', '0.001', '10'],
+            ['-5.891', '5.108', '-0.783'],
+            ['-1.1', '1.1', '0'],
+            ['1.1', '-1.1', '0'],
         ];
     }
 
