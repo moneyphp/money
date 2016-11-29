@@ -66,11 +66,11 @@ final class GmpCalculator implements Calculator
 
         $integer = gmp_add($amount->getIntegerPart(), $addend->getIntegerPart());
         if ($amount->isInteger()) {
-            return (string) $integer.'.'.$addend->getFractionalPart();
+            return gmp_strval($integer).'.'.$addend->getFractionalPart();
         }
 
         if ($addend->isInteger()) {
-            return (string) $integer.'.'.$amount->getFractionalPart();
+            return gmp_strval($integer).'.'.$amount->getFractionalPart();
         }
 
         $largestDigits = max(strlen($amount->getFractionalPart()), strlen($addend->getFractionalPart()));
