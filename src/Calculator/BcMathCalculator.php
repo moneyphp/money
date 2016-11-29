@@ -58,7 +58,7 @@ final class BcMathCalculator implements Calculator
      */
     public function subtract($amount, $subtrahend)
     {
-        return bcsub($amount, $subtrahend, 0);
+        return (string) Number::fromString(bcsub($amount, $subtrahend, $this->scale));
     }
 
     /**

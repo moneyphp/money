@@ -42,9 +42,56 @@ final class PhpCalculator implements Calculator
      */
     public function subtract($amount, $subtrahend)
     {
-        $result = $amount - $subtrahend;
+        $amount = Number::fromString($amount);
+        $subtrahend = Number::fromString($subtrahend);
 
-        return (string) $result;
+        if ($amount->isInteger() && $subtrahend->isInteger()) {
+            $result = (string) $amount - (string) $subtrahend;
+
+            return (string) $result;
+        }
+
+        $largestDigits = max(strlen($amount->getFractionalPart()), strlen($subtrahend->getFractionalPart()));
+
+        $basedAmount = $this->trimLeadingZeros(
+            $amount->getIntegerPart().str_pad($amount->getFractionalPart(), $largestDigits, '0')
+        );
+
+        $basedSubtrahend = $this->trimLeadingZeros(
+            $subtrahend->getIntegerPart().str_pad($subtrahend->getFractionalPart(), $largestDigits, '0')
+        );
+
+        $basedResult = $this->trimLeadingZeros($basedAmount - $basedSubtrahend);
+
+        $leadingZeros = str_pad('', max(strlen($basedAmount), strlen($basedSubtrahend)), '0');
+        if ($basedResult[0] === '-') {
+            $basedResult = '-'.$leadingZeros . substr($basedResult, 1);
+        } else {
+            $basedResult = $leadingZeros . $basedResult;
+        }
+
+        $integerPart = $this->trimLeadingZeros(substr($basedResult, 0, $largestDigits * -1));
+        if ($integerPart === '-') {
+            $integerPart = '-0';
+        }
+
+        return (string) (new Number(
+            $integerPart,
+            rtrim(substr($basedResult, $largestDigits * -1), '0')
+        ));
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    private function trimLeadingZeros($value)
+    {
+        if ($value[0] === '-') {
+            return '-' . ltrim(substr($value, 1), '0');
+        }
+
+        return ltrim($value, '0');
     }
 
     /**

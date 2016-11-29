@@ -26,7 +26,7 @@ final class Number
     public function __construct($integerPart, $fractionalPart = '')
     {
         if ($this->validateNumberAsInteger($integerPart) === false) {
-            throw new \InvalidArgumentException('Invalid number');
+            throw new \InvalidArgumentException('Invalid number'.$integerPart);
         }
 
         if ($fractionalPart !== '' && $this->validateNumberAsInteger($fractionalPart) === false) {

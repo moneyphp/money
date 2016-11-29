@@ -234,9 +234,9 @@ final class PreciseMoney implements \JsonSerializable
      * Returns a new Money object that represents
      * the difference of this and an other Money object.
      *
-     * @param Money $subtrahend
+     * @param PreciseMoney $subtrahend
      *
-     * @return Money
+     * @return PreciseMoney
      */
     public function subtract(PreciseMoney $subtrahend)
     {
@@ -263,45 +263,18 @@ final class PreciseMoney implements \JsonSerializable
     }
 
     /**
-     * Asserts that rounding mode is a valid integer value.
-     *
-     * @param int $roundingMode
-     *
-     * @throws \InvalidArgumentException If $roundingMode is not valid
-     */
-    private function assertRoundingMode($roundingMode)
-    {
-        if (!in_array(
-            $roundingMode, [
-            self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD,
-            self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN,
-            self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY,
-        ], true
-        )) {
-            throw new \InvalidArgumentException(
-                'Rounding mode should be Money::ROUND_HALF_DOWN | '.
-                'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.
-                'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.
-                'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY'
-            );
-        }
-    }
-
-    /**
      * Returns a new Money object that represents
      * the multiplied value by the given factor.
      *
      * @param float|int|string $multiplier
-     * @param int              $roundingMode
      *
      * @return Money
      */
-    public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
+    public function multiply($multiplier)
     {
         $this->assertOperand($multiplier);
-        $this->assertRoundingMode($roundingMode);
 
-        $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
+        $product = $this->getCalculator()->multiply($this->amount, $multiplier);
 
         return $this->newInstance($product);
     }
@@ -311,20 +284,18 @@ final class PreciseMoney implements \JsonSerializable
      * the divided value by the given factor.
      *
      * @param float|int|string $divisor
-     * @param int              $roundingMode
      *
      * @return Money
      */
-    public function divide($divisor, $roundingMode = self::ROUND_HALF_UP)
+    public function divide($divisor)
     {
         $this->assertOperand($divisor);
-        $this->assertRoundingMode($roundingMode);
 
         if ($this->getCalculator()->compare((string) $divisor, '0') === 0) {
             throw new \InvalidArgumentException('Division by zero');
         }
 
-        $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
+        $quotient = $this->getCalculator()->divide($this->amount, $divisor);
 
         return $this->newInstance($quotient);
     }
@@ -388,27 +359,6 @@ final class PreciseMoney implements \JsonSerializable
         }
 
         return $this->allocate(array_fill(0, $n, 1));
-    }
-
-    /**
-     * @param int|float $amount
-     * @param $rounding_mode
-     *
-     * @return string
-     */
-    private function round($amount, $rounding_mode)
-    {
-        $this->assertRoundingMode($rounding_mode);
-
-        if ($rounding_mode === self::ROUND_UP) {
-            return $this->getCalculator()->ceil($amount);
-        }
-
-        if ($rounding_mode === self::ROUND_DOWN) {
-            return $this->getCalculator()->floor($amount);
-        }
-
-        return $this->getCalculator()->round($amount, $rounding_mode);
     }
 
     /**

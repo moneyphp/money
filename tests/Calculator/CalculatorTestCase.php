@@ -96,6 +96,15 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->getCalculator()->round($value, $mode));
     }
 
+    /**
+     * @dataProvider compareExamples
+     * @test
+     */
+    public function it_compares_values($value1, $value2, $expected)
+    {
+        $this->assertEquals($expected, $this->getCalculator()->compare($value1, $value2));
+    }
+
     public function additionExamples()
     {
         return [
@@ -109,6 +118,7 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
             ['9.999', '0.001', '10'],
             ['-5.891', '5.108', '-0.783'],
             ['-1.1', '1.1', '0'],
+            ['-1.1', '-1.1', '-2.2'],
             ['1.1', '-1.1', '0'],
         ];
     }
@@ -118,6 +128,14 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
         return [
             [1, 1, '0'],
             [10, 5, '5'],
+            ['10.1', '0.1', '10'],
+            ['99.01', '99.02', '-0.01'],
+            ['10', '-0.01', '10.01'],
+            ['-10', '-0.01', '-9.99'],
+            ['-10.875', '-0.125', '-10.75'],
+            ['-10.875', '-0.025', '-10.85'],
+            ['-10.875', '0.125', '-11'],
+            ['-9', '-4', '-5'],
         ];
     }
 
@@ -182,6 +200,18 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
     {
         return [
             [10, 2, 4, '5'],
+        ];
+    }
+
+    public function compareExamples()
+    {
+        return [
+            ['1', '2', '-1'],
+            ['2', '1', '1'],
+            ['1', '1', '0'],
+            ['1.5', '2', '-1'],
+            ['2', '1.5', '1'],
+            ['2', '1.5', '1'],
         ];
     }
 }

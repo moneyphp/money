@@ -51,20 +51,6 @@ final class PreciseMoneyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider roundExamples
-     * @test
-     */
-    public function it_multiplies_the_amount($multiplier, $roundingMode, $result)
-    {
-        $money = new PreciseMoney(1, new Currency(self::CURRENCY));
-
-        $money = $money->multiply($multiplier, $roundingMode);
-
-        $this->assertInstanceOf(PreciseMoney::class, $money);
-        $this->assertEquals((string) $result, $money->getAmount());
-    }
-
-    /**
      * @dataProvider invalidOperandExamples
      * @expectedException \InvalidArgumentException
      * @test
@@ -187,6 +173,45 @@ final class PreciseMoneyTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(PreciseMoney::class, $result);
         $this->assertEquals('2.5', $result->getAmount());
+    }
+
+    public function test_it_supports_subtracting_decimals()
+    {
+        $one = new PreciseMoney('1', new Currency('EUR'));
+        $onePointFive = new PreciseMoney('1.5', new Currency('EUR'));
+
+        $result = $one->subtract($onePointFive);
+
+        $this->assertInstanceOf(PreciseMoney::class, $result);
+        $this->assertEquals('-0.5', $result->getAmount());
+    }
+
+    public function test_it_supports_multiplying_decimals()
+    {
+        $one = new PreciseMoney('1.5', new Currency('EUR'));
+
+        $result = $one->multiply('1.5');
+
+        $this->assertInstanceOf(PreciseMoney::class, $result);
+        $this->assertEquals('2.25', $result->getAmount());
+    }
+
+    public function test_it_supports_dividing_decimals()
+    {
+        $one = new PreciseMoney('1.5', new Currency('EUR'));
+
+        $result = $one->divide('1.5');
+
+        $this->assertInstanceOf(PreciseMoney::class, $result);
+        $this->assertEquals('1', $result->getAmount());
+    }
+
+    public function test_it_compares_decimals()
+    {
+        $one = new PreciseMoney('1.5', new Currency('EUR'));
+        $other = new PreciseMoney('-1.5', new Currency('EUR'));
+
+        $this->assertTrue($one->greaterThan($other));
     }
 
     public function equalityExamples()
