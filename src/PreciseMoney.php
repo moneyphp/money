@@ -49,18 +49,18 @@ final class PreciseMoney implements \JsonSerializable
     ];
 
     /**
-     * @param int|string $amount   Amount, expressed in the smallest units of $currency (eg cents)
+     * @param string $amount   Amount, expressed in the smallest units of $currency (eg cents)
      * @param Currency   $currency
      *
      * @throws \InvalidArgumentException If amount is not integer
      */
     public function __construct($amount, Currency $currency)
     {
-        if (filter_var($amount, FILTER_VALIDATE_INT) === false && !Number::fromString($amount)->isInteger()) {
-            throw new \InvalidArgumentException('Amount must be an integer(ish) value');
+        if (!is_int($amount) && !is_string($amount)) {
+            throw new \InvalidArgumentException('Amount must be a string');
         }
 
-        $this->amount = (string) $amount;
+        $this->amount = (string) Number::fromString((string) $amount);
         $this->currency = $currency;
     }
 
@@ -86,7 +86,7 @@ final class PreciseMoney implements \JsonSerializable
     /**
      * Returns a new Money instance based on the current one using the Currency.
      *
-     * @param int|string $amount
+     * @param string $amount
      *
      * @return Money
      *
@@ -164,7 +164,7 @@ final class PreciseMoney implements \JsonSerializable
     }
 
     /**
-     * @param \Money\Money $other
+     * @param PreciseMoney $other
      *
      * @return bool
      */

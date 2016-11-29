@@ -60,6 +60,11 @@ final class PreciseMoneySpec extends ObjectBehavior
         $this->beConstructedWith(5, new Currency(self::CURRENCY));
     }
 
+    function it_constructs_decimals()
+    {
+        $this->beConstructedWith('1.5', new Currency(self::CURRENCY));
+    }
+
     function it_constructs_string()
     {
         $this->beConstructedWith('5', new Currency(self::CURRENCY));
