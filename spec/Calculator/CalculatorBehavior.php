@@ -40,7 +40,7 @@ trait CalculatorBehavior
 
     function it_divides_a_value_by_another()
     {
-        $this->divide(rand(-100, 100), rand(-100, 100))->shouldBeString();
+        $this->divide(rand(-100, 100), rand(1, 100))->shouldBeString();
     }
 
     function it_ceils_a_value()
