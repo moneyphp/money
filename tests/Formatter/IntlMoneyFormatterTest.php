@@ -34,7 +34,7 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
         ))->willReturn($subunit);
 
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies->reveal());
-        $this->assertEquals($result, $moneyFormatter->format($money));
+        $this->assertSame($result, $moneyFormatter->format($money));
     }
 
     public static function moneyExamples()
