@@ -43,8 +43,12 @@ final class DecimalMoneyFormatter implements MoneyFormatter
         $valueLength = strlen($valueBase);
 
         if ($valueLength > $subunit) {
-            $formatted = substr($valueBase, 0, $valueLength - $subunit).'.';
-            $formatted .= substr($valueBase, $valueLength - $subunit);
+            $formatted = substr($valueBase, 0, $valueLength - $subunit);
+            $decimalDigits = substr($valueBase, $valueLength - $subunit);
+
+            if (strlen($decimalDigits) > 0) {
+                $formatted .= '.'.$decimalDigits;
+            }
         } else {
             $formatted = '0.'.str_pad('', $subunit - $valueLength, '0').$valueBase;
         }

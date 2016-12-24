@@ -26,7 +26,7 @@ final class BitcoinMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 
         $currencies->subunitFor($currency)->willReturn(8);
 
-        $this->assertEquals($formatted, $formatter->format($money));
+        $this->assertSame($formatted, $formatter->format($money));
     }
 
     public function bitcoinExamples()

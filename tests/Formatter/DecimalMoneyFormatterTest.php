@@ -26,7 +26,7 @@ final class DecimalMoneyFormatterTest extends \PHPUnit_Framework_TestCase
         ))->willReturn($subunit);
 
         $moneyFormatter = new DecimalMoneyFormatter($currencies->reveal());
-        $this->assertEquals($result, $moneyFormatter->format($money));
+        $this->assertSame($result, $moneyFormatter->format($money));
     }
 
     public static function moneyExamples()
