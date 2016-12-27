@@ -195,7 +195,7 @@ final class Number
                 return false;
             }
 
-            $position++;
+            ++$position;
         }
 
         return true;
