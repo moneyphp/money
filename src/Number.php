@@ -20,17 +20,35 @@ final class Number
     private $fractionalPart;
 
     /**
+     * @var array
+     */
+    private static $numbers = [0 => 1, 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1, 7 => 1, 8 => 1, 9 => 1];
+
+    /**
+     * @var array
+     */
+    private static $signs = ['-' => 1, '+' => 1];
+
+    /**
      * @param string $integerPart
      * @param string $fractionalPart
      */
     public function __construct($integerPart, $fractionalPart = '')
     {
-        if ($this->validateNumberAsInteger($integerPart) === false) {
-            throw new \InvalidArgumentException('Invalid number');
+        if ($integerPart !== '' && $this->validateNumberAsInteger($integerPart) === false) {
+            throw new \InvalidArgumentException(
+                'Invalid number, integer part ' . $integerPart . ' is not an integer'
+            );
         }
 
         if ($fractionalPart !== '' && $this->validateNumberAsInteger($fractionalPart) === false) {
-            throw new \InvalidArgumentException('Invalid number');
+            throw new \InvalidArgumentException(
+                'Invalid number, fractional part ' . $integerPart . ' is not an integer'
+            );
+        }
+
+        if ($integerPart === '-') {
+            $integerPart = '-0';
         }
 
         $this->integerPart = $integerPart ? $integerPart : '0';
@@ -170,22 +188,14 @@ final class Number
      */
     private static function validateNumberAsInteger($number)
     {
-        // Number allowed to be a negative one
-        $number = ltrim($number, '-');
-
-        // Check if number is invalid because of integer overflow
-        $invalid = array_filter(
-            str_split($number, strlen((string) PHP_INT_MAX) - 1),
-            function ($chunk) {
-                // Leading zeros should not invalidate the chunk
-                $chunk = ltrim($chunk, '0');
-
-                // Allow chunks containing zeros only
-                return '' !== $chunk && false === filter_var($chunk, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
+        $digits = str_split($number);
+        foreach ($digits as $position => $digit) {
+            if (!isset(static::$numbers[$digit]) && !($position === 0 && isset(static::$signs[$digit]))) {
+                return false;
             }
-        );
+        }
 
-        return count($invalid) === 0;
+        return true;
     }
 
     /**
