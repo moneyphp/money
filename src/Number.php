@@ -170,6 +170,9 @@ final class Number
      */
     private static function validateNumberAsInteger($number)
     {
+        // Number allowed to be a negative one
+        $number = ltrim($number, '-');
+
         // Check if number is invalid because of integer overflow
         $invalid = array_filter(
             str_split($number, strlen((string) PHP_INT_MAX) - 1),
@@ -178,7 +181,7 @@ final class Number
                 $chunk = ltrim($chunk, '0');
 
                 // Allow chunks containing zeros only
-                return '' !== $chunk && false === filter_var($chunk, FILTER_VALIDATE_INT);
+                return '' !== $chunk && false === filter_var($chunk, FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
             }
         );
 

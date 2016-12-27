@@ -77,4 +77,21 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider invalidNumberExamples
+     * @expectedException \InvalidArgumentException
+     * @test
+     */
+    public function it_fails_parsing_invalid_numbers($number)
+    {
+        $number = Number::fromString($number);
+    }
+
+    public function invalidNumberExamples()
+    {
+        return [
+            ['123456789012345678-123456'],
+        ];
+    }
 }
