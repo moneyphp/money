@@ -188,11 +188,14 @@ final class Number
      */
     private static function validateNumberAsInteger($number)
     {
-        $digits = str_split($number);
-        foreach ($digits as $position => $digit) {
+        $position = 0;
+        while (isset($number[$position])) {
+            $digit = $number[$position];
             if (!isset(static::$numbers[$digit]) && !($position === 0 && isset(static::$signs[$digit]))) {
                 return false;
             }
+
+            $position++;
         }
 
         return true;
