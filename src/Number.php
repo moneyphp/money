@@ -37,13 +37,13 @@ final class Number
     {
         if ($integerPart !== '' && $this->validateNumberAsInteger($integerPart) === false) {
             throw new \InvalidArgumentException(
-                'Invalid number, integer part ' . $integerPart . ' is not an integer'
+                'Invalid number, integer part '.$integerPart.' is not an integer'
             );
         }
 
         if ($fractionalPart !== '' && $this->validateNumberAsInteger($fractionalPart) === false) {
             throw new \InvalidArgumentException(
-                'Invalid number, fractional part ' . $integerPart . ' is not an integer'
+                'Invalid number, fractional part '.$integerPart.' is not an integer'
             );
         }
 
