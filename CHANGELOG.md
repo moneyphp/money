@@ -7,6 +7,10 @@
 
 - Reversed Currencies Exchange to try resolving reverse of a currency pair
 
+### Fixed
+
+- Passing integer validation when chunk started with a dash
+
 
 ## 3.0.0 - 2016-10-26
 
