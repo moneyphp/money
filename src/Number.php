@@ -27,7 +27,7 @@ final class Number
     /**
      * @var array
      */
-    private static $signs = ['-' => 1, '+' => 1];
+    private static $signs = ['-' => 1];
 
     /**
      * @param string $integerPart
@@ -35,13 +35,13 @@ final class Number
      */
     public function __construct($integerPart, $fractionalPart = '')
     {
-        if ($integerPart !== '' && $this->validateNumberAsInteger($integerPart) === false) {
+        if ($integerPart !== '' && $this->validateAsIntegerPart($integerPart) === false) {
             throw new \InvalidArgumentException(
                 'Invalid number, integer part '.$integerPart.' is not an integer'
             );
         }
 
-        if ($fractionalPart !== '' && $this->validateNumberAsInteger($fractionalPart) === false) {
+        if ($fractionalPart !== '' && $this->validateAsFractionalPart($fractionalPart) === false) {
             throw new \InvalidArgumentException(
                 'Invalid number, fractional part '.$integerPart.' is not an integer'
             );
@@ -49,6 +49,8 @@ final class Number
 
         if ($integerPart === '-') {
             $integerPart = '-0';
+        } else {
+            $integerPart = ltrim($integerPart, '0');
         }
 
         $this->integerPart = $integerPart ? $integerPart : '0';
@@ -186,12 +188,32 @@ final class Number
      *
      * @return bool
      */
-    private static function validateNumberAsInteger($number)
+    private static function validateAsIntegerPart($number)
     {
         $position = 0;
         while (isset($number[$position])) {
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit]) && !($position === 0 && isset(static::$signs[$digit]))) {
+                return false;
+            }
+
+            ++$position;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $number
+     *
+     * @return bool
+     */
+    private static function validateAsFractionalPart($number)
+    {
+        $position = 0;
+        while (isset($number[$position])) {
+            $digit = $number[$position];
+            if (!isset(static::$numbers[$digit])) {
                 return false;
             }
 

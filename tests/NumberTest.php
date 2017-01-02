@@ -14,19 +14,21 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
     {
         $number = Number::fromString($number);
 
-        $this->assertEquals($decimal, $number->isDecimal());
-        $this->assertEquals($half, $number->isHalf());
-        $this->assertEquals($currentEven, $number->isCurrentEven());
-        $this->assertEquals($negative, $number->isNegative());
-        $this->assertEquals($integerPart, $number->getIntegerPart());
-        $this->assertEquals($fractionalPart, $number->getFractionalPart());
-        $this->assertEquals($negative ? '-1' : '1', $number->getIntegerRoundingMultiplier());
+        $this->assertSame($decimal, $number->isDecimal());
+        $this->assertSame($half, $number->isHalf());
+        $this->assertSame($currentEven, $number->isCurrentEven());
+        $this->assertSame($negative, $number->isNegative());
+        $this->assertSame($integerPart, $number->getIntegerPart());
+        $this->assertSame($fractionalPart, $number->getFractionalPart());
+        $this->assertSame($negative ? '-1' : '1', $number->getIntegerRoundingMultiplier());
     }
 
     public function numberExamples()
     {
         return [
             ['0', false, false, true, false, '0', ''],
+            ['000', false, false, true, false, '0', ''],
+            ['005', false, false, false, false, '5', ''],
             ['0.00', false, false, true, false, '0', ''],
             ['0.5', true, true, true, false, '0', '5'],
             ['0.500', true, true, true, false, '0', '5'],
@@ -45,9 +47,8 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
             ['10.9', true, false, true, false, '10', '9'],
             ['-10', false, false, true, true, '-10', ''],
             ['-0', false, false, true, true, '-0', ''],
-            ['+5', false, false, false, false, '5', ''],
             ['-10.5', true, true, true, true, '-10', '5'],
-            ['.5', true, true, true, false, '-0', '5'],
+            ['.5', true, true, true, false, '0', '5'],
             ['-.5', true, true, true, true, '-0', '5'],
             [(string) PHP_INT_MAX, false, false, false, false, (string) PHP_INT_MAX, ''],
             [(string) -PHP_INT_MAX, false, false, false, true, (string) -PHP_INT_MAX, ''],
@@ -97,6 +98,9 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
             ['123456789012345678-123456'],
             ['---123'],
             ['123456789012345678+13456'],
+            ['-123456789012345678.-13456'],
+            ['+123456789'],
+            ['+123456789012345678.+13456'],
         ];
     }
 }
