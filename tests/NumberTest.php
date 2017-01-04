@@ -48,8 +48,6 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
             ['-10', false, false, true, true, '-10', ''],
             ['-0', false, false, true, true, '-0', ''],
             ['-10.5', true, true, true, true, '-10', '5'],
-            ['.5', true, true, true, false, '0', '5'],
-            ['-.5', true, true, true, true, '-0', '5'],
             [(string) PHP_INT_MAX, false, false, false, false, (string) PHP_INT_MAX, ''],
             [(string) -PHP_INT_MAX, false, false, false, true, (string) -PHP_INT_MAX, ''],
             [
@@ -95,6 +93,9 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
     public function invalidNumberExamples()
     {
         return [
+            [''],
+            ['.5'],
+            ['-.5'],
             ['123456789012345678-123456'],
             ['---123'],
             ['123456789012345678+13456'],

@@ -25,33 +25,24 @@ final class Number
     private static $numbers = [0 => 1, 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1, 7 => 1, 8 => 1, 9 => 1];
 
     /**
-     * @var array
-     */
-    private static $signs = ['-' => 1];
-
-    /**
      * @param string $integerPart
      * @param string $fractionalPart
      */
     public function __construct($integerPart, $fractionalPart = '')
     {
-        if ($integerPart !== '' && $this->validateAsIntegerPart($integerPart) === false) {
+        if ($this->validateAsIntegerPart($integerPart) === false) {
             throw new \InvalidArgumentException(
                 'Invalid number, integer part '.$integerPart.' is not an integer'
             );
         }
 
-        if ($fractionalPart !== '' && $this->validateAsFractionalPart($fractionalPart) === false) {
+        if ($this->validateAsFractionalPart($fractionalPart) === false) {
             throw new \InvalidArgumentException(
-                'Invalid number, fractional part '.$integerPart.' is not an integer'
+                'Invalid number, fractional part '.$fractionalPart.' is not an integer'
             );
         }
 
-        if ($integerPart === '-') {
-            $integerPart = '-0';
-        } else {
-            $integerPart = ltrim($integerPart, '0');
-        }
+        $integerPart = ltrim($integerPart, '0');
 
         $this->integerPart = $integerPart ? $integerPart : '0';
         $this->fractionalPart = $fractionalPart;
@@ -190,10 +181,14 @@ final class Number
      */
     private static function validateAsIntegerPart($number)
     {
+        if ('' === $number || '-' === $number) {
+            return false;
+        }
+
         $position = 0;
         while (isset($number[$position])) {
             $digit = $number[$position];
-            if (!isset(static::$numbers[$digit]) && !($position === 0 && isset(static::$signs[$digit]))) {
+            if (!isset(static::$numbers[$digit]) && !($position === 0 && $digit === '-')) {
                 return false;
             }
 
@@ -210,6 +205,10 @@ final class Number
      */
     private static function validateAsFractionalPart($number)
     {
+        if ($number === '') {
+            return true;
+        }
+
         $position = 0;
         while (isset($number[$position])) {
             $digit = $number[$position];
