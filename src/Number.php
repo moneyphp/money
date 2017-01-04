@@ -30,22 +30,12 @@ final class Number
      */
     public function __construct($integerPart, $fractionalPart = '')
     {
-        if ($this->validateAsIntegerPart($integerPart) === false) {
-            throw new \InvalidArgumentException(
-                'Invalid number, integer part '.$integerPart.' is not an integer'
-            );
+        if ('' === $integerPart && '' === $fractionalPart) {
+            throw new \InvalidArgumentException('Empty number is invalid');
         }
 
-        if ($this->validateAsFractionalPart($fractionalPart) === false) {
-            throw new \InvalidArgumentException(
-                'Invalid number, fractional part '.$fractionalPart.' is not an integer'
-            );
-        }
-
-        $integerPart = ltrim($integerPart, '0');
-
-        $this->integerPart = $integerPart ? $integerPart : '0';
-        $this->fractionalPart = $fractionalPart;
+        $this->integerPart = $this->parseIntegerPart((string) $integerPart);
+        $this->fractionalPart = $this->parseFractionalPart((string) $fractionalPart);
     }
 
     /**
@@ -177,49 +167,64 @@ final class Number
     /**
      * @param string $number
      *
-     * @return bool
+     * @return string
      */
-    private static function validateAsIntegerPart($number)
+    private static function parseIntegerPart($number)
     {
-        if ('' === $number || '-' === $number) {
-            return false;
+        if ('' === $number || '0' === $number) {
+            return '0';
+        }
+
+        if ('-' === $number) {
+            return '-0';
+        }
+
+        $number = ltrim($number, '0');
+        if ('' === $number) {
+            throw new \InvalidArgumentException(
+                'Invalid integer part '.$number
+            );
         }
 
         $position = 0;
         while (isset($number[$position])) {
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit]) && !($position === 0 && $digit === '-')) {
-                return false;
+                throw new \InvalidArgumentException(
+                    'Invalid integer part '.$number.'. Invalid digit '.$digit . ' found'
+                );
             }
 
             ++$position;
         }
 
-        return true;
+        return $number;
     }
 
     /**
      * @param string $number
      *
-     * @return bool
+     * @return string
      */
-    private static function validateAsFractionalPart($number)
+    private static function parseFractionalPart($number)
     {
         if ($number === '') {
-            return true;
+            return $number;
         }
 
         $position = 0;
         while (isset($number[$position])) {
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit])) {
-                return false;
+                throw new \InvalidArgumentException(
+                    'Invalid fractional part '.$number.'. Invalid digit '.$digit . ' found'
+                );
             }
 
             ++$position;
         }
 
-        return true;
+        return $number;
     }
 
     /**

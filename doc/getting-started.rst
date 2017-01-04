@@ -38,7 +38,7 @@ The Money object only supports integer(ish) values on instantiation. The followi
     // leading zero's are accepted
     $fiver = new Money('00500', new Currency('USD'));
 
-    // multiple zero's is accepted
+    // multiple zero's is not accepted, throws \InvalidArgumentException
     $fiver = new Money('000', new Currency('USD'));
 
     // plus sign is not accepted, throws \InvalidArgumentException
