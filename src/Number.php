@@ -191,7 +191,7 @@ final class Number
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit]) && !($position === 0 && $digit === '-')) {
                 throw new \InvalidArgumentException(
-                    'Invalid integer part '.$number.'. Invalid digit '.$digit . ' found'
+                    'Invalid integer part '.$number.'. Invalid digit '.$digit.' found'
                 );
             }
 
@@ -217,7 +217,7 @@ final class Number
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit])) {
                 throw new \InvalidArgumentException(
-                    'Invalid fractional part '.$number.'. Invalid digit '.$digit . ' found'
+                    'Invalid fractional part '.$number.'. Invalid digit '.$digit.' found'
                 );
             }
 
