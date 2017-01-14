@@ -45,7 +45,7 @@ Greater Than
 .. code-block:: php
 
     $value1 = Money::USD(800);                  // $8.00
-    $value2 = Money::USD(700);                  // $8.00
+    $value2 = Money::USD(700);                  // $7.00
 
     $result = $value1->greaterThan($value2);    // true
 
@@ -68,7 +68,7 @@ Less Than
 .. code-block:: php
 
     $value1 = Money::USD(800);              // $8.00
-    $value2 = Money::USD(700);              // $8.00
+    $value2 = Money::USD(700);              // $7.00
 
     $result = $value1->lessThan($value2);   // false
 
