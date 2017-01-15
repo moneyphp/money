@@ -32,11 +32,38 @@ final class PhpCalculator implements Calculator
      */
     public function add($amount, $addend)
     {
-        $result = $amount + $addend;
+        $amount = Number::fromString($amount);
+        $addend = Number::fromString($addend);
 
-        $this->assertInteger($result);
+        if ($amount->isInteger() && $addend->isInteger()) {
+            $result = (string) $amount + (string) $addend;
 
-        return (string) $result;
+            return (string) $result;
+        }
+
+        $integer = $amount->getIntegerPart() + $addend->getIntegerPart();
+        if ($amount->isInteger()) {
+            return $integer.'.'.$addend->getFractionalPart();
+        }
+
+        if ($addend->isInteger()) {
+            return $integer.'.'.$amount->getFractionalPart();
+        }
+
+        $largestDigits = max(strlen($amount->getFractionalPart()), strlen($addend->getFractionalPart()));
+        $basedAmount = $amount->getIntegerPart().str_pad($amount->getFractionalPart(), $largestDigits, '0');
+        $basedAddend = $addend->getIntegerPart().str_pad($addend->getFractionalPart(), $largestDigits, '0');
+
+        $basedResult = $basedAmount + $basedAddend;
+        $integerPart = substr($basedResult, 0, $largestDigits * -1);
+        if ($integerPart === '-') {
+            $integerPart = '-0';
+        }
+
+        return (string) (new Number(
+            $integerPart,
+            rtrim(substr($basedResult, $largestDigits * -1), '0')
+        ));
     }
 
     /**
@@ -44,11 +71,57 @@ final class PhpCalculator implements Calculator
      */
     public function subtract($amount, $subtrahend)
     {
-        $result = $amount - $subtrahend;
+        $amount = Number::fromString($amount);
+        $subtrahend = Number::fromString($subtrahend);
 
-        $this->assertInteger($result);
+        if ($amount->isInteger() && $subtrahend->isInteger()) {
+            $result = (string) $amount - (string) $subtrahend;
 
-        return (string) $result;
+            return (string) $result;
+        }
+
+        $largestDigits = max(strlen($amount->getFractionalPart()), strlen($subtrahend->getFractionalPart()));
+
+        $basedAmount = $this->trimLeadingZeros(
+            $amount->getIntegerPart().str_pad($amount->getFractionalPart(), $largestDigits, '0')
+        );
+
+        $basedSubtrahend = $this->trimLeadingZeros(
+            $subtrahend->getIntegerPart().str_pad($subtrahend->getFractionalPart(), $largestDigits, '0')
+        );
+
+        $basedResult = $this->trimLeadingZeros($basedAmount - $basedSubtrahend);
+
+        $leadingZeros = str_pad('', max(strlen($basedAmount), strlen($basedSubtrahend)), '0');
+        if ($basedResult[0] === '-') {
+            $basedResult = '-'.$leadingZeros.substr($basedResult, 1);
+        } else {
+            $basedResult = $leadingZeros.$basedResult;
+        }
+
+        $integerPart = $this->trimLeadingZeros(substr($basedResult, 0, $largestDigits * -1));
+        if ($integerPart === '-') {
+            $integerPart = '-0';
+        }
+
+        return (string) (new Number(
+            $integerPart,
+            rtrim(substr($basedResult, $largestDigits * -1), '0')
+        ));
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    private function trimLeadingZeros($value)
+    {
+        if ($value[0] === '-') {
+            return '-'.ltrim(substr($value, 1), '0');
+        }
+
+        return ltrim($value, '0');
     }
 
     /**
@@ -169,17 +242,5 @@ final class PhpCalculator implements Calculator
         $this->assertIntegerBounds($amount);
 
         return (string) intval($amount);
-    }
-
-    /**
-     * Asserts that integer remains integer after arithmetic operations.
-     *
-     * @param int $amount
-     */
-    private function assertInteger($amount)
-    {
-        if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
-            throw new \UnexpectedValueException('The result of arithmetic operation is not an integer');
-        }
     }
 }

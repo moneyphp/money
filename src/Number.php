@@ -26,15 +26,15 @@ final class Number
     public function __construct($integerPart, $fractionalPart = '')
     {
         if ($this->validateNumberAsInteger($integerPart) === false) {
-            throw new \InvalidArgumentException('Invalid number');
+            throw new \InvalidArgumentException('Invalid number'.$integerPart);
         }
 
         if ($fractionalPart !== '' && $this->validateNumberAsInteger($fractionalPart) === false) {
             throw new \InvalidArgumentException('Invalid number');
         }
 
-        $this->integerPart = $integerPart ? $integerPart : '0';
-        $this->fractionalPart = $fractionalPart;
+        $this->integerPart = (string) ($integerPart ? $integerPart : '0');
+        $this->fractionalPart = (string) $fractionalPart;
     }
 
     /**

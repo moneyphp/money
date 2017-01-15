@@ -37,7 +37,19 @@ final class GmpCalculator implements Calculator
      */
     public function compare($a, $b)
     {
-        return gmp_cmp($a, $b);
+        $a = Number::fromString($a);
+        $b = Number::fromString($b);
+
+        if ($a->isInteger() && $b->isInteger()) {
+            return gmp_cmp((string) $a, (string) $b);
+        }
+
+        $compareIntegers = gmp_cmp($a->getIntegerPart(), $b->getIntegerPart());
+        if ($compareIntegers !== '0') {
+            return $compareIntegers;
+        }
+
+        return gmp_cmp($a->getFractionalPart(), $b->getFractionalPart());
     }
 
     /**
@@ -45,7 +57,36 @@ final class GmpCalculator implements Calculator
      */
     public function add($amount, $addend)
     {
-        return gmp_strval(gmp_add($amount, $addend));
+        $amount = Number::fromString($amount);
+        $addend = Number::fromString($addend);
+
+        if ($amount->isInteger() && $addend->isInteger()) {
+            return gmp_strval(gmp_add((string) $amount, (string) $addend));
+        }
+
+        $integer = gmp_add($amount->getIntegerPart(), $addend->getIntegerPart());
+        if ($amount->isInteger()) {
+            return gmp_strval($integer).'.'.$addend->getFractionalPart();
+        }
+
+        if ($addend->isInteger()) {
+            return gmp_strval($integer).'.'.$amount->getFractionalPart();
+        }
+
+        $largestDigits = max(strlen($amount->getFractionalPart()), strlen($addend->getFractionalPart()));
+        $basedAmount = $amount->getIntegerPart().str_pad($amount->getFractionalPart(), $largestDigits, '0');
+        $basedAddend = $addend->getIntegerPart().str_pad($addend->getFractionalPart(), $largestDigits, '0');
+
+        $basedResult = gmp_strval(gmp_add($basedAmount, $basedAddend));
+        $integerPart = substr($basedResult, 0, $largestDigits * -1);
+        if ($integerPart === '-') {
+            $integerPart = '-0';
+        }
+
+        return (string) (new Number(
+            $integerPart,
+            rtrim(substr($basedResult, $largestDigits * -1), '0')
+        ));
     }
 
     /**
@@ -53,7 +94,55 @@ final class GmpCalculator implements Calculator
      */
     public function subtract($amount, $subtrahend)
     {
-        return gmp_strval(gmp_sub($amount, $subtrahend));
+        $amount = Number::fromString($amount);
+        $subtrahend = Number::fromString($subtrahend);
+
+        if ($amount->isInteger() && $subtrahend->isInteger()) {
+            return gmp_strval(gmp_sub((string) $amount, (string) $subtrahend));
+        }
+
+        $largestDigits = max(strlen($amount->getFractionalPart()), strlen($subtrahend->getFractionalPart()));
+
+        $basedAmount = $this->trimLeadingZeros(
+            $amount->getIntegerPart().str_pad($amount->getFractionalPart(), $largestDigits, '0')
+        );
+
+        $basedSubtrahend = $this->trimLeadingZeros(
+            $subtrahend->getIntegerPart().str_pad($subtrahend->getFractionalPart(), $largestDigits, '0')
+        );
+
+        $basedResult = $this->trimLeadingZeros(gmp_strval(gmp_sub($basedAmount, $basedSubtrahend)));
+
+        $leadingZeros = str_pad('', max(strlen($basedAmount), strlen($basedSubtrahend)), '0');
+        if ($basedResult[0] === '-') {
+            $basedResult = '-'.$leadingZeros.substr($basedResult, 1);
+        } else {
+            $basedResult = $leadingZeros.$basedResult;
+        }
+
+        $integerPart = $this->trimLeadingZeros(substr($basedResult, 0, $largestDigits * -1));
+        if ($integerPart === '-') {
+            $integerPart = '-0';
+        }
+
+        return (string) (new Number(
+            $integerPart,
+            rtrim(substr($basedResult, $largestDigits * -1), '0')
+        ));
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    private function trimLeadingZeros($value)
+    {
+        if ($value[0] === '-') {
+            return '-'.ltrim(substr($value, 1), '0');
+        }
+
+        return ltrim($value, '0');
     }
 
     /**
