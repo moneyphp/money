@@ -27,7 +27,6 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['0', false, false, true, false, '0', ''],
-            ['005', false, false, false, false, '5', ''],
             ['0.00', false, false, true, false, '0', ''],
             ['0.5', true, true, true, false, '0', '5'],
             ['0.500', true, true, true, false, '0', '5'],
@@ -96,6 +95,7 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
         return [
             [''],
             ['000'],
+            ['005'],
             ['123456789012345678-123456'],
             ['---123'],
             ['123456789012345678+13456'],

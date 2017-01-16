@@ -19,7 +19,8 @@ See :doc:`features/parsing` for additional ways to instantiate a Money object fr
 
 Accepted integer values
 -----------------------
-The Money object only supports integer(ish) values on instantiation. The following is (not) supported.
+The Money object only supports integer(ish) values on instantiation. The following is (not) supported. When a
+non-supported value is passed a `\InvalidArgumentException` will be thrown.
 
 .. code-block:: php
 
@@ -35,13 +36,13 @@ The Money object only supports integer(ish) values on instantiation. The followi
     // string is accepted if fractional part is zero
     $fiver = new Money('500.00', new Currency('USD'));
 
-    // leading zero's are accepted
+    // leading zero's are not accepted
     $fiver = new Money('00500', new Currency('USD'));
 
-    // multiple zero's is not accepted, throws \InvalidArgumentException
+    // multiple zero's are not accepted
     $fiver = new Money('000', new Currency('USD'));
 
-    // plus sign is not accepted, throws \InvalidArgumentException
+    // plus sign is not accepted
     $fiver = new Money('+500', new Currency('USD'));
 
 

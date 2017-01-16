@@ -179,15 +179,9 @@ final class Number
             return '-0';
         }
 
-        $number = ltrim($number, '0');
-        if ('' === $number) {
-            throw new \InvalidArgumentException(
-                'Invalid integer part '.$number
-            );
-        }
+        $nonZero = false;
 
-        $position = 0;
-        while (isset($number[$position])) {
+        for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit]) && !($position === 0 && $digit === '-')) {
                 throw new \InvalidArgumentException(
@@ -195,7 +189,13 @@ final class Number
                 );
             }
 
-            ++$position;
+            if ($nonZero === false && $digit === '0') {
+                throw new \InvalidArgumentException(
+                    'Leading zero\'s are not allowed'
+                );
+            }
+
+            $nonZero = true;
         }
 
         return $number;
@@ -212,16 +212,13 @@ final class Number
             return $number;
         }
 
-        $position = 0;
-        while (isset($number[$position])) {
+        for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit])) {
                 throw new \InvalidArgumentException(
                     'Invalid fractional part '.$number.'. Invalid digit '.$digit.' found'
                 );
             }
-
-            ++$position;
         }
 
         return $number;

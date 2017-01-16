@@ -187,7 +187,6 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
             [self::AMOUNT + 1, new Currency(self::OTHER_CURRENCY), false],
             [(string) self::AMOUNT, new Currency(self::CURRENCY), true],
             [((string) self::AMOUNT).'.000', new Currency(self::CURRENCY), true],
-            [('000'.(string) self::AMOUNT), new Currency(self::CURRENCY), true],
         ];
     }
 
