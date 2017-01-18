@@ -7,6 +7,10 @@
 
 - Reversed Currencies Exchange to try resolving reverse of a currency pair
 
+### Fixed
+
+- Money constructed from a string with fractional zeroes equals to a Money constructed without the fractional part (eg. `'5.00'` and `'5'`)
+
 
 ## 3.0.0 - 2016-10-26
 

@@ -81,6 +81,12 @@ final class MoneySpec extends ObjectBehavior
         $this->equals(new Money(self::AMOUNT, new Currency(self::CURRENCY)))->shouldReturn(true);
     }
 
+    function it_equals_to_money_costructed_with_fractional_part_of_zeroes()
+    {
+        $amountWithFractionalPart = sprintf('%d.00', self::AMOUNT);
+        $this->equals(new Money($amountWithFractionalPart, new Currency(self::CURRENCY)))->shouldReturn(true);
+    }
+
     function it_compares_two_amounts(Calculator $calculator)
     {
         $calculator->compare((string) self::AMOUNT, (string) self::AMOUNT)->willReturn(0);
