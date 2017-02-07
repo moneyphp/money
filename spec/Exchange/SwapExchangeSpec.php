@@ -53,10 +53,11 @@ final class SwapExchangeSpec extends ObjectBehavior
             ->duringQuote(new Currency('EUR'), new Currency('XYZ'));
     }
 
-    function it_exchanges_currencies_for_a_historical_date(Swap $swap, ExchangeRate $exchangeRate, \DateTime $date)
+    function it_exchanges_currencies_for_a_historical_date(Swap $swap, ExchangeRate $exchangeRate)
     {
         $exchangeRate->getValue()->willReturn(1.0);
 
+        $date = new \DateTime();
         $swap->historical('EUR/USD', $date)->willReturn($exchangeRate);
 
         $currencyPair = $this->historical($base = new Currency('EUR'), $counter = new Currency('USD'), $date);
@@ -67,8 +68,10 @@ final class SwapExchangeSpec extends ObjectBehavior
         $currencyPair->getConversionRatio()->shouldReturn(1.0);
     }
 
-    function it_throws_an_exception_when_cannot_exchange_historical_currencies(Swap $swap, \DateTime $date)
+    function it_throws_an_exception_when_cannot_exchange_historical_currencies(Swap $swap)
     {
+        $date = new \DateTime();
+
         $swap->historical('EUR/XYZ', $date)->willThrow(Exception::class);
 
         $this->shouldThrow(UnresolvableCurrencyPairException::class)
