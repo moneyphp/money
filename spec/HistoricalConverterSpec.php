@@ -24,11 +24,12 @@ final class HistoricalConverterSpec extends ObjectBehavior
         $this->shouldHaveType(HistoricalConverter::class);
     }
 
-    function it_converts_to_a_different_currency(Currencies $currencies, HistoricalExchange $exchange, DateTime $date)
+    function it_converts_to_a_different_currency(Currencies $currencies, HistoricalExchange $exchange)
     {
         $baseCurrency = new Currency($baseCurrencyCode = 'ABC');
         $counterCurrency = new Currency($counterCurrencyCode = 'XYZ');
         $pair = new CurrencyPair($baseCurrency, $counterCurrency, 0.5);
+        $date = new DateTime();
 
         $currencies->subunitFor($baseCurrency)->willReturn(100);
         $currencies->subunitFor($counterCurrency)->willReturn(100);
@@ -46,11 +47,12 @@ final class HistoricalConverterSpec extends ObjectBehavior
         $money->getCurrency()->getCode()->shouldBe($counterCurrencyCode);
     }
 
-    function it_converts_using_rounding_modes(Currencies $currencies, HistoricalExchange $exchange, DateTime $date)
+    function it_converts_using_rounding_modes(Currencies $currencies, HistoricalExchange $exchange)
     {
         $baseCurrency = new Currency('EUR');
         $counterCurrency = new Currency('USD');
         $pair = new CurrencyPair($baseCurrency, $counterCurrency, 1.25);
+        $date = new DateTime();
 
         $currencies->subunitFor($baseCurrency)->willReturn(2);
         $currencies->subunitFor($counterCurrency)->willReturn(2);
