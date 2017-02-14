@@ -6,6 +6,13 @@
 ### Added
 
 - Reversed Currencies Exchange to try resolving reverse of a currency pair
+- Documentation on allowed integer(ish) values when constructing Money
+
+### Fixed
+
+- Passing integer validation when chunk started with a dash
+- Passing integer validation when the fractional part started with a dash
+- Money constructed from a string with fractional zeroes equals to a Money constructed without the fractional part (eg. `'5.00'` and `'5'`)
 
 
 ## 3.0.0 - 2016-10-26

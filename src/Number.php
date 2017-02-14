@@ -20,21 +20,22 @@ final class Number
     private $fractionalPart;
 
     /**
+     * @var array
+     */
+    private static $numbers = [0 => 1, 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1, 7 => 1, 8 => 1, 9 => 1];
+
+    /**
      * @param string $integerPart
      * @param string $fractionalPart
      */
     public function __construct($integerPart, $fractionalPart = '')
     {
-        if ($this->validateNumberAsInteger($integerPart) === false) {
-            throw new \InvalidArgumentException('Invalid number');
+        if ('' === $integerPart && '' === $fractionalPart) {
+            throw new \InvalidArgumentException('Empty number is invalid');
         }
 
-        if ($fractionalPart !== '' && $this->validateNumberAsInteger($fractionalPart) === false) {
-            throw new \InvalidArgumentException('Invalid number');
-        }
-
-        $this->integerPart = $integerPart ? $integerPart : '0';
-        $this->fractionalPart = $fractionalPart;
+        $this->integerPart = $this->parseIntegerPart((string) $integerPart);
+        $this->fractionalPart = $this->parseFractionalPart((string) $fractionalPart);
     }
 
     /**
@@ -166,23 +167,62 @@ final class Number
     /**
      * @param string $number
      *
-     * @return bool
+     * @return string
      */
-    private static function validateNumberAsInteger($number)
+    private static function parseIntegerPart($number)
     {
-        // Check if number is invalid because of integer overflow
-        $invalid = array_filter(
-            str_split($number, strlen((string) PHP_INT_MAX) - 1),
-            function ($chunk) {
-                // Leading zeros should not invalidate the chunk
-                $chunk = ltrim($chunk, '0');
+        if ('' === $number || '0' === $number) {
+            return '0';
+        }
 
-                // Allow chunks containing zeros only
-                return '' !== $chunk && false === filter_var($chunk, FILTER_VALIDATE_INT);
+        if ('-' === $number) {
+            return '-0';
+        }
+
+        $nonZero = false;
+
+        for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
+            $digit = $number[$position];
+
+            if (!isset(static::$numbers[$digit]) && !(0 === $position && '-' === $digit)) {
+                throw new \InvalidArgumentException(
+                    sprintf('Invalid integer part %s. Invalid digit %2 found', $number, $digit)
+                );
             }
-        );
 
-        return count($invalid) === 0;
+            if (false === $nonZero && '0' === $digit) {
+                throw new \InvalidArgumentException(
+                    'Leading zeros are not allowed'
+                );
+            }
+
+            $nonZero = true;
+        }
+
+        return $number;
+    }
+
+    /**
+     * @param string $number
+     *
+     * @return string
+     */
+    private static function parseFractionalPart($number)
+    {
+        if ('' === $number) {
+            return $number;
+        }
+
+        for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
+            $digit = $number[$position];
+            if (!isset(static::$numbers[$digit])) {
+                throw new \InvalidArgumentException(
+                    'Invalid fractional part '.$number.'. Invalid digit '.$digit.' found'
+                );
+            }
+        }
+
+        return $number;
     }
 
     /**

@@ -56,8 +56,13 @@ final class Money implements \JsonSerializable
      */
     public function __construct($amount, Currency $currency)
     {
-        if (filter_var($amount, FILTER_VALIDATE_INT) === false && !Number::fromString($amount)->isInteger()) {
-            throw new \InvalidArgumentException('Amount must be an integer(ish) value');
+        if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
+            $numberFromString = Number::fromString($amount);
+            if (!$numberFromString->isInteger()) {
+                throw new \InvalidArgumentException('Amount must be an integer(ish) value');
+            }
+
+            $amount = $numberFromString->getIntegerPart();
         }
 
         $this->amount = (string) $amount;
