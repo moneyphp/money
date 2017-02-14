@@ -12,6 +12,7 @@
 
 - Passing integer validation when chunk started with a dash
 - Passing integer validation when the fractional part started with a dash
+- Formatting problem for Bitcoin currency with small amounts in PHP < 7.0
 - Money constructed from a string with fractional zeroes equals to a Money constructed without the fractional part (eg. `'5.00'` and `'5'`)
 
 
