@@ -183,15 +183,16 @@ final class Number
 
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
-            if (!isset(static::$numbers[$digit]) && !($position === 0 && $digit === '-')) {
+
+            if (!isset(static::$numbers[$digit]) && !(0 === $position && '-' === $digit)) {
                 throw new \InvalidArgumentException(
-                    'Invalid integer part '.$number.'. Invalid digit '.$digit.' found'
+                    sprintf('Invalid integer part %s. Invalid digit %2 found', $number, $digit)
                 );
             }
 
-            if ($nonZero === false && $digit === '0') {
+            if (false === $nonZero && '0' === $digit) {
                 throw new \InvalidArgumentException(
-                    'Leading zero\'s are not allowed'
+                    'Leading zeros are not allowed'
                 );
             }
 
@@ -208,7 +209,7 @@ final class Number
      */
     private static function parseFractionalPart($number)
     {
-        if ($number === '') {
+        if ('' === $number) {
             return $number;
         }
 
