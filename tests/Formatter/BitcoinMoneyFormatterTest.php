@@ -41,6 +41,7 @@ final class BitcoinMoneyFormatterTest extends \PHPUnit_Framework_TestCase
             [100000500000, "\0xC9\0x831000.01", 2],
             [100099500000, "\0xC9\0x831001.00", 2],
             [999999600000, "\0xC9\0x8310000.00", 2],
+            [100, "\0xC9\0x830.00", 2],
         ];
     }
 }

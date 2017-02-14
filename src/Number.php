@@ -235,8 +235,9 @@ final class Number
     public static function roundMoneyValue($moneyValue, $targetDigits, $havingDigits)
     {
         $valueLength = strlen($moneyValue);
+        $shouldRound = $targetDigits < $havingDigits && $valueLength - $havingDigits + $targetDigits > 0;
 
-        if ($targetDigits < $havingDigits && $moneyValue[$valueLength - $havingDigits + $targetDigits] >= 5) {
+        if ($shouldRound && $moneyValue[$valueLength - $havingDigits + $targetDigits] >= 5) {
             $position = $valueLength - $havingDigits + $targetDigits;
             $addend = 1;
 
