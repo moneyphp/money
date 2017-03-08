@@ -16,11 +16,11 @@ final class GmpCalculatorTest extends CalculatorTestCase
 
     public function testMultiplyZero()
     {
-        $this->assertSame('.0', $this->getCalculator()->multiply('0', '0.8'));
+        $this->assertSame('0', $this->getCalculator()->multiply('0', '0.8'));
     }
 
     public function testFloorZero()
     {
-        $this->assertSame('0', $this->getCalculator()->floor('.0'));
+        $this->assertSame('0', $this->getCalculator()->floor('0'));
     }
 }
