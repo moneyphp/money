@@ -37,6 +37,17 @@ final class GmpCalculator implements Calculator
      */
     public function compare($a, $b)
     {
+        $aNum = Number::fromString((string) $a);
+        $bNum = Number::fromString((string) $b);
+
+        if ($aNum->isDecimal() || $bNum->isDecimal()) {
+            $aDecLength = strlen($aNum->getFractionalPart());
+            $bDecLength = strlen($bNum->getFractionalPart());
+
+            $a = $aNum->getIntegerPart().str_pad($aNum->getFractionalPart(), $bDecLength, 0, STR_PAD_RIGHT);
+            $b = $bNum->getIntegerPart().str_pad($bNum->getFractionalPart(), $aDecLength, 0, STR_PAD_RIGHT);
+        }
+
         return gmp_cmp($a, $b);
     }
 
