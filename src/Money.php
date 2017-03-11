@@ -259,7 +259,7 @@ final class Money implements \JsonSerializable
      */
     private function assertOperand($operand)
     {
-        if (!is_numeric($operand)) {
+        if (!is_numeric((string) $operand)) {
             throw new \InvalidArgumentException(sprintf(
                 'Operand should be a numeric value, "%s" given.',
                 is_object($operand) ? get_class($operand) : gettype($operand)
@@ -306,7 +306,7 @@ final class Money implements \JsonSerializable
         $this->assertOperand($multiplier);
         $this->assertRoundingMode($roundingMode);
 
-        $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
+        $product = $this->round($this->getCalculator()->multiply($this->amount, (string) $multiplier), $roundingMode);
 
         return $this->newInstance($product);
     }
@@ -329,7 +329,7 @@ final class Money implements \JsonSerializable
             throw new \InvalidArgumentException('Division by zero');
         }
 
-        $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
+        $quotient = $this->round($this->getCalculator()->divide($this->amount, (string) $divisor), $roundingMode);
 
         return $this->newInstance($quotient);
     }
