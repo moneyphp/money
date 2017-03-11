@@ -86,9 +86,11 @@ final class GmpCalculator implements Calculator
             }
 
             $resultBase = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplierBase)));
-            if ($resultBase === '0') {
+
+            if ('0' === $resultBase) {
                 return '0';
             }
+
             $resultLength = strlen($resultBase);
             $result = substr($resultBase, 0, $resultLength - $decimalPlaces);
             $result .= '.'.substr($resultBase, $resultLength - $decimalPlaces);
