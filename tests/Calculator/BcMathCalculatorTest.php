@@ -47,4 +47,13 @@ final class BcMathCalculatorTest extends CalculatorTestCase
 
         $this->assertEquals($expected, $this->getCalculator()->subtract($value1, $value2));
     }
+
+    /**
+     * @test
+     */
+    public function it_compares_numbers_close_to_zero()
+    {
+        $this->assertEquals(1, $this->getCalculator()->compare('1', '0.0005'));
+        $this->assertEquals(1, $this->getCalculator()->compare('1', '0.000000000000000000000000005'));
+    }
 }

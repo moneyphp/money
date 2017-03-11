@@ -96,6 +96,15 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->getCalculator()->round($value, $mode));
     }
 
+    /**
+     * @dataProvider compareExamples
+     * @test
+     */
+    public function it_compares_values($left, $right, $expected)
+    {
+        $this->assertEquals($expected, $this->getCalculator()->compare($left, $right));
+    }
+
     public function additionExamples()
     {
         return [
@@ -173,6 +182,20 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
     {
         return [
             [10, 2, 4, '5'],
+        ];
+    }
+
+    public function compareExamples()
+    {
+        return [
+            [1, 0, 1],
+            [1, 1, 0],
+            [0, 1, -1],
+            ['1', '0', 1],
+            ['1', '1', 0],
+            ['0', '1', -1],
+            ['1', '0.0005', 1],
+            ['1', '0.000000000000000000000000005', 1],
         ];
     }
 }
