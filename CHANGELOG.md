@@ -1,6 +1,8 @@
 # Change Log
 
-## Unreleased
+## 3.0.2 - 2017-03-11
+
+### Fixed
 
 - BCMath / GMP: comparing values smaller than one
 - GMP: multiplying with zero
