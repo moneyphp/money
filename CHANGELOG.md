@@ -1,5 +1,9 @@
 # Change Log
 
+## Unreleased
+
+- bcmath: comparing values smaller than one
+
 
 ## 3.0.1 - 2017-02-14
 
@@ -14,7 +18,6 @@
 - Passing integer validation when the fractional part started with a dash
 - Formatting problem for Bitcoin currency with small amounts in PHP < 7.0
 - Money constructed from a string with fractional zeroes equals to a Money constructed without the fractional part (eg. `'5.00'` and `'5'`)
-- bcmath: comparing values smaller than one
 
 
 ## 3.0.0 - 2016-10-26
