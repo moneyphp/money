@@ -14,7 +14,7 @@ use Money\Exception\UnknownCurrencyException;
 final class ISOCurrencies implements Currencies
 {
     /**
-     * List of known currencies.
+     * Map of known currencies indexed by code.
      *
      * @var array
      */
@@ -25,11 +25,7 @@ final class ISOCurrencies implements Currencies
      */
     public function contains(Currency $currency)
     {
-        if (null === self::$currencies) {
-            self::$currencies = $this->loadCurrencies();
-        }
-
-        return isset(self::$currencies[$currency->getCode()]);
+        return isset($this->getCurrencies()[$currency->getCode()]);
     }
 
     /**
@@ -37,15 +33,11 @@ final class ISOCurrencies implements Currencies
      */
     public function subunitFor(Currency $currency)
     {
-        if (null === self::$currencies) {
-            self::$currencies = $this->loadCurrencies();
-        }
-
-        if (!isset(self::$currencies[$currency->getCode()])) {
+        if (!$this->contains($currency)) {
             throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
         }
 
-        return self::$currencies[$currency->getCode()]['minorUnit'];
+        return $this->getCurrencies()[$currency->getCode()]['minorUnit'];
     }
 
     /**
@@ -53,18 +45,28 @@ final class ISOCurrencies implements Currencies
      */
     public function getIterator()
     {
-        if (null === self::$currencies) {
-            self::$currencies = $this->loadCurrencies();
-        }
-
         return new \ArrayIterator(
             array_map(
                 function ($code) {
                     return new Currency($code);
                 },
-                array_keys(self::$currencies)
+                array_keys($this->getCurrencies())
             )
         );
+    }
+
+    /**
+     * Returns a map of known currencies indexed by code.
+     *
+     * @return array
+     */
+    private function getCurrencies()
+    {
+        if (null === self::$currencies) {
+            self::$currencies = $this->loadCurrencies();
+        }
+
+        return self::$currencies;
     }
 
     /**
