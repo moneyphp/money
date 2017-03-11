@@ -49,7 +49,6 @@ final class BcMathCalculatorTest extends CalculatorTestCase
     }
 
     /**
-     * @dataProvider subtractionExamples
      * @test
      */
     public function it_compares_numbers_close_to_zero()

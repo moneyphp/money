@@ -194,6 +194,8 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
             ['1', '0', 1],
             ['1', '1', 0],
             ['0', '1', -1],
+            ['1', '0.0005', 1],
+            ['1', '0.000000000000000000000000005', 1],
         ];
     }
 }
