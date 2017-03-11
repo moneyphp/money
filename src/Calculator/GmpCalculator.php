@@ -41,11 +41,12 @@ final class GmpCalculator implements Calculator
         $bNum = Number::fromString((string) $b);
 
         if ($aNum->isDecimal() || $bNum->isDecimal()) {
-            $aDecLength = strlen($aNum->getFractionalPart());
-            $bDecLength = strlen($bNum->getFractionalPart());
+            $integersCompared = gmp_cmp($aNum->getIntegerPart(), $bNum->getIntegerPart());
+            if ($integersCompared !== 0) {
+                return $integersCompared;
+            }
 
-            $a = $aNum->getIntegerPart().str_pad($aNum->getFractionalPart(), $bDecLength, 0, STR_PAD_RIGHT);
-            $b = $bNum->getIntegerPart().str_pad($bNum->getFractionalPart(), $aDecLength, 0, STR_PAD_RIGHT);
+            return gmp_cmp($aNum->getFractionalPart(), $bNum->getFractionalPart());
         }
 
         return gmp_cmp($a, $b);
