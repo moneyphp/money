@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-- bcmath: comparing values smaller than one
+- BCMath / GMP: comparing values smaller than one
+- GMP: multiplying with zero
+- ISOCurrencies: minor refactoring, remove duplication of code
 
 
 ## 3.0.1 - 2017-02-14
