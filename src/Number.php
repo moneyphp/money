@@ -125,7 +125,7 @@ final class Number
             throw new \InvalidArgumentException('Floating point expected');
         }
 
-        return self::fromString(sprintf('%.8g', $floatingPoint));
+        return self::fromString(sprintf('%.8F', $floatingPoint));
     }
 
     /**
