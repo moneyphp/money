@@ -1,5 +1,11 @@
 # Change Log
 
+## Unversioned
+
+### Fixed
+
+- Multiplying and dividing with a locale that use commas as separator
+
 ## 3.0.2 - 2017-03-11
 
 ### Fixed
