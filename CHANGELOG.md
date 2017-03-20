@@ -2,7 +2,7 @@
 
 ## Unversioned
 
-### Fixes
+### Fixed
 
 - Multiplying and dividing with a locale that use commas as separator
 
