@@ -1,6 +1,6 @@
 # Change Log
 
-## Unversioned
+## 3.0.3 - 2017-03-22
 
 ### Fixed
 
