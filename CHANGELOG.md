@@ -4,6 +4,7 @@
 
 ### Fixed
 
+- Parsing empty strings and number starting or ending with a decimal point for DecimalMoneyParser
 - Multiplying and dividing with a locale that use commas as separator
 
 ## 3.0.2 - 2017-03-11

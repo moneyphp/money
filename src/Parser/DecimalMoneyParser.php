@@ -16,7 +16,7 @@ use Money\Number;
  */
 final class DecimalMoneyParser implements MoneyParser
 {
-    const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)(?:\.(?P<fraction>\d+))?$/';
+    const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
     /**
      * @var Currencies
@@ -48,6 +48,11 @@ final class DecimalMoneyParser implements MoneyParser
 
         $currency = new Currency($forceCurrency);
         $decimal = trim($money);
+
+        if ($decimal === '') {
+            return new Money(0, $currency);
+        }
+
         $subunit = $this->currencies->subunitFor($currency);
 
         if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches)) {

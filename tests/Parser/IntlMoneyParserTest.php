@@ -50,6 +50,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
             ['$1', 100],
             ['$.99', 99],
             ['-$.99', -99],
+            ['$99.', 9900],
         ];
     }
 
