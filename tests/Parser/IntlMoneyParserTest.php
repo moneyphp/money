@@ -37,6 +37,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
             ['$1000.0', 100000],
             ['$1000.00', 100000],
             ['$0.01', 1],
+            ['$0.00', 0],
             ['$1', 100],
             ['-$1000', -100000],
             ['-$1000.0', -100000],

@@ -30,6 +30,7 @@ final class BitcoinMoneyParserTest extends \PHPUnit_Framework_TestCase
             ["\0xC9\0x831000.0",  100000],
             ["\0xC9\0x831000.00", 100000],
             ["\0xC9\0x830.01", 1],
+            ["\0xC9\0x830.00", 0],
             ["\0xC9\0x831", 100],
             ["-\0xC9\0x831000", -100000],
             ["-\0xC9\0x831000.0", -100000],
