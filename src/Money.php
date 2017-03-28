@@ -25,7 +25,7 @@ final class Money implements \JsonSerializable
     /**
      * Internal value.
      *
-     * @var int
+     * @var string
      */
     private $amount;
 
