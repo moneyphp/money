@@ -19,12 +19,12 @@ use Money\Exchange;
 final class ExchangerExchange implements Exchange
 {
     /**
-     * @var \Exchanger\Contract\ExchangeRateProvider
+     * @var ExchangeRateProvider
      */
     private $exchanger;
 
     /**
-     * @param \Exchanger\Contract\ExchangeRateProvider $exchanger
+     * @param ExchangeRateProvider $exchanger
      */
     public function __construct(ExchangeRateProvider $exchanger)
     {
