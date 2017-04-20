@@ -177,6 +177,19 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $money->getAmount());
     }
 
+    /**
+     * @dataProvider negativeExamples
+     * @test
+     */
+    public function it_calculates_the_negative_amount($amount, $result)
+    {
+        $money = new Money($amount, new Currency(self::CURRENCY));
+
+        $money = $money->negative();
+
+        $this->assertEquals($result, $money->getAmount());
+    }
+
     public function test_it_converts_to_json()
     {
         $this->assertEquals(
@@ -267,6 +280,18 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
             [0, 0],
             [-1, 1],
             ['1', 1],
+            ['0', 0],
+            ['-1', 1],
+        ];
+    }
+
+    public function negativeExamples()
+    {
+        return [
+            [1, -1],
+            [0, 0],
+            [-1, 1],
+            ['1', -1],
             ['0', 0],
             ['-1', 1],
         ];

@@ -433,6 +433,14 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * @return Money
+     */
+    public function negative()
+    {
+        return $this->newInstance(0)->subtract($this);
+    }
+
+    /**
      * Checks if the value represented by this object is zero.
      *
      * @return bool
