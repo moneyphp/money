@@ -54,6 +54,16 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
         $this->assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
+    /**
+     * @test
+     */
+    public function it_does_not_have_blank_currency()
+    {
+        $currencies = new ISOCurrencies();
+
+        $this->assertFalse($currencies->contains(new Currency('')));
+    }
+
     public function currencyCodeExamples()
     {
         $currencies = require __DIR__.'/../../resources/currency.php';
