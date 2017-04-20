@@ -1,5 +1,16 @@
 # Change Log
 
+## 3.0.4 - 2017-04-20
+
+### Fixed
+
+- ISOCurrencies will no longer have a blank currency
+
+### Changed
+
+- Updated ISO Currencies
+- Removed old Belarusian ruble from ISOCurrencies (BYR)
+
 ## 3.0.3 - 2017-03-22
 
 ### Fixed
