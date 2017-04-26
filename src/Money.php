@@ -525,4 +525,14 @@ final class Money implements \JsonSerializable
 
         return self::$calculator;
     }
+
+    /**
+     * Handle to string formatting.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s %s', $this->getAmount(), $this->getCurrency());
+    }
 }
