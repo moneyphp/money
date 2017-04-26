@@ -41,6 +41,24 @@ final class ISOCurrencies implements Currencies
     }
 
     /**
+     * Returns the numeric code for a currency.
+     *
+     * @param Currency $currency
+     *
+     * @return int
+     *
+     * @throws UnknownCurrencyException If currency is not available in the current context
+     */
+    public function numericCodeFor(Currency $currency)
+    {
+        if (!$this->contains($currency)) {
+            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+        }
+
+        return $this->getCurrencies()[$currency->getCode()]['numericCode'];
+    }
+
+    /**
      * @return \Traversable
      */
     public function getIterator()
