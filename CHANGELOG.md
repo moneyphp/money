@@ -1,5 +1,12 @@
 # Change Log
 
+## 3.0.5 - 2017-04-24
+
+### Added
+
+- numericCodeFor method to ISOCurrencies
+
+
 ## 3.0.4 - 2017-04-21
 
 ### Fixed
