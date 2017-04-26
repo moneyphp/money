@@ -43,6 +43,29 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider currencyCodeExamples
+     * @test
+     */
+    public function it_provides_numeric_code($currency)
+    {
+        $currencies = new ISOCurrencies();
+
+        $this->assertInternalType('int', $currencies->numericCodeFor(new Currency($currency)));
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_exception_when_providing_numeric_code_and_currency_is_unknown()
+    {
+        $this->setExpectedException(UnknownCurrencyException::class);
+
+        $currencies = new ISOCurrencies();
+
+        $currencies->numericCodeFor(new Currency('XXXXXX'));
+    }
+
+    /**
      * @test
      */
     public function it_is_iterable()
