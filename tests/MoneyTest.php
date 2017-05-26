@@ -193,7 +193,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     public function test_it_converts_to_json()
     {
         $this->assertEquals(
-            '{"amount":"350","currency":"EUR"}',
+            '{"amount":350,"currency":"EUR"}',
             json_encode(Money::EUR(350))
         );
     }
