@@ -10,6 +10,10 @@ use Money\Calculator\PhpCalculator;
  * Money Value Object.
  *
  * @author Mathias Verraes
+ *
+ * @method static \Money\Money USD($value)
+ * @method static \Money\Money EUR($value)
+ * @method static \Money\Money GPB($value)
  */
 final class Money implements \JsonSerializable
 {
