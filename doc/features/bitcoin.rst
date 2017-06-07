@@ -27,7 +27,7 @@ Please see the example below how to use the Bitcoin currency:
     echo $formatter->format($money); // prints Ƀ1000.00
 
     // parse bitcoin
-    $parser = new BitcoinMoneyParser($intlParser, 2);
+    $parser = new BitcoinMoneyParser(2);
     $money = $parser->parse("\0xC9\0x831000.00", 'XBT');
     echo $money->getAmount(); // outputs 100000000000
 
