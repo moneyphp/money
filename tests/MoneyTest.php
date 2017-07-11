@@ -296,4 +296,37 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
             ['-1', 1],
         ];
     }
+	
+	
+	
+	
+    /**
+     * @dataProvider roundExamples
+     * @test
+     */
+    public function it_multiplies_other_money($multiplier, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY));
+		$other = new Money($multiplier, new Currency(self::CURRENCY));
+
+        $money = $money->multiply($other, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider roundExamples
+     */
+    public function it_divides_other_money($divisor, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY));
+		$oher = new Money(1 / $divisor, new Currency(self::CURRENCY));
+
+        $money = $money->divide($oher, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
 }
