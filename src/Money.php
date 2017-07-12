@@ -259,9 +259,9 @@ final class Money implements \JsonSerializable
      */
     private function assertOperand($operand)
     {
-        if (!is_numeric($operand)) {
+        if (!is_numeric($operand) && !($operand instanceof self)) {
             throw new \InvalidArgumentException(sprintf(
-                'Operand should be a numeric value, "%s" given.',
+                'Operand should be a numeric value or Money instance, "%s" given.',
                 is_object($operand) ? get_class($operand) : gettype($operand)
             ));
         }
@@ -296,7 +296,7 @@ final class Money implements \JsonSerializable
      * Returns a new Money object that represents
      * the multiplied value by the given factor.
      *
-     * @param float|int|string $multiplier
+     * @param float|int|string|self $multiplier
      * @param int              $roundingMode
      *
      * @return Money
@@ -308,8 +308,11 @@ final class Money implements \JsonSerializable
 
         if (is_float($multiplier)) {
             $multiplier = (string) Number::fromFloat($multiplier);
+        } else if ($multiplier instanceof self) {
+            $this->assertSameCurrency($multiplier);
+            
+            $multiplier = $multiplier->getAmount();
         }
-
         $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
 
         return $this->newInstance($product);
@@ -319,7 +322,7 @@ final class Money implements \JsonSerializable
      * Returns a new Money object that represents
      * the divided value by the given factor.
      *
-     * @param float|int|string $divisor
+     * @param float|int|string|self $divisor
      * @param int              $roundingMode
      *
      * @return Money
@@ -329,8 +332,13 @@ final class Money implements \JsonSerializable
         $this->assertOperand($divisor);
         $this->assertRoundingMode($roundingMode);
 
+
         if (is_float($divisor)) {
             $divisor = (string) Number::fromFloat($divisor);
+        } else if ($divisor instanceof self) {
+            $this->assertSameCurrency($divisor);
+
+            $divisor = $divisor->getAmount();
         }
 
         if ($this->getCalculator()->compare((string) $divisor, '0') === 0) {
