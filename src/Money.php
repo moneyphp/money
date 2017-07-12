@@ -333,14 +333,12 @@ final class Money implements \JsonSerializable
         $this->assertRoundingMode($roundingMode);
 
 
-        if ($divisor instanceof self) {
+        if (is_float($divisor)) {
+            $divisor = (string) Number::fromFloat($divisor);
+        }else if ($divisor instanceof self) {
             $this->assertSameCurrency($divisor);
 
             $divisor = $divisor->getAmount();
-        }
-
-        if (is_float($divisor)) {
-            $divisor = (string) Number::fromFloat($divisor);
         }
 
         if ($this->getCalculator()->compare((string) $divisor, '0') === 0) {
