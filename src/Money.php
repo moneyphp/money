@@ -259,7 +259,7 @@ final class Money implements \JsonSerializable
      */
     private function assertOperand($operand)
     {
-        if (!is_numeric($operand) && !$operand instanceof self) {
+        if (!is_numeric($operand) && !($operand instanceof self)) {
             throw new \InvalidArgumentException(sprintf(
                 'Operand should be a numeric value or Money instance, "%s" given.',
                 is_object($operand) ? get_class($operand) : gettype($operand)
@@ -305,17 +305,14 @@ final class Money implements \JsonSerializable
     {
         $this->assertOperand($multiplier);
         $this->assertRoundingMode($roundingMode);
-		
-		if ($multiplier instanceof self) {
-			$this->assertSameCurrency($multiplier);
-			
-			$multiplier = $multiplier->getAmount();
-		}
-		
+
         if (is_float($multiplier)) {
             $multiplier = (string) Number::fromFloat($multiplier);
+        } else if ($multiplier instanceof self) {
+            $this->assertSameCurrency($multiplier);
+            
+            $multiplier = $multiplier->getAmount();
         }
-
         $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
 
         return $this->newInstance($product);
@@ -335,13 +332,13 @@ final class Money implements \JsonSerializable
         $this->assertOperand($divisor);
         $this->assertRoundingMode($roundingMode);
 
-		
-		if ($divisor instanceof self) {
-			$this->assertSameCurrency($divisor);
-			
-			$divisor = $divisor->getAmount();
-		}
-		
+
+        if ($divisor instanceof self) {
+            $this->assertSameCurrency($divisor);
+
+            $divisor = $divisor->getAmount();
+        }
+
         if (is_float($divisor)) {
             $divisor = (string) Number::fromFloat($divisor);
         }
