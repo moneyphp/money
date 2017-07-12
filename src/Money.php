@@ -335,7 +335,7 @@ final class Money implements \JsonSerializable
 
         if (is_float($divisor)) {
             $divisor = (string) Number::fromFloat($divisor);
-        }else if ($divisor instanceof self) {
+        } else if ($divisor instanceof self) {
             $this->assertSameCurrency($divisor);
 
             $divisor = $divisor->getAmount();
