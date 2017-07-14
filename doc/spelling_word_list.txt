@@ -3,6 +3,7 @@ integrations
 formatters
 eg
 Bitcoin
+subunit
 subunits
 parsers
 Json
