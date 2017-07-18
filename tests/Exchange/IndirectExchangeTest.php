@@ -54,7 +54,7 @@ final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_calcualates_adjacent_nodes()
+    public function it_calculates_adjacent_nodes()
     {
         $exchange = $this->createExchange();
 
