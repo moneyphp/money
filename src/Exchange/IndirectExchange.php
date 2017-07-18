@@ -59,10 +59,10 @@ final class IndirectExchange implements Exchange
      */
     private function getConversions(Currency $baseCurrency, Currency $counterCurrency)
     {
-        $nodes = $this->initializeNodes();
-
-        $startNode = $nodes[$baseCurrency->getCode()];
+        $startNode = $this->initializeNode($baseCurrency);
         $startNode->discovered = true;
+
+        $nodes = [$baseCurrency->getCode() => $startNode];
 
         $frontier = new SplQueue();
         $frontier->enqueue($startNode);
@@ -80,6 +80,10 @@ final class IndirectExchange implements Exchange
 
             /** @var Currency $candidateCurrency */
             foreach ($this->currencies as $candidateCurrency) {
+                if (!isset($nodes[$candidateCurrency->getCode()])) {
+                    $nodes[$candidateCurrency->getCode()] = $this->initializeNode($candidateCurrency);
+                }
+
                 /** @var stdClass $node */
                 $node = $nodes[$candidateCurrency->getCode()];
 
@@ -103,24 +107,19 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @return stdClass[]
+     * @param Currency $currency
+     *
+     * @return stdClass
      */
-    private function initializeNodes()
+    private function initializeNode(Currency $currency)
     {
-        $currencies = [];
+        $node = new stdClass();
 
-        /** @var Currency $currency */
-        foreach ($this->currencies as $currency) {
-            $node = new stdClass();
+        $node->currency = $currency;
+        $node->discovered = false;
+        $node->parent = null;
 
-            $node->currency = $currency;
-            $node->discovered = false;
-            $node->parent = null;
-
-            $currencies[$currency->getCode()] = $node;
-        }
-
-        return $currencies;
+        return $node;
     }
 
     /**
