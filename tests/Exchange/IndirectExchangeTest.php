@@ -48,7 +48,7 @@ final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        return new IndirectExchange($baseExchange, new ISOCurrencies);
+        return new IndirectExchange($baseExchange, new ISOCurrencies());
     }
 
     /**
