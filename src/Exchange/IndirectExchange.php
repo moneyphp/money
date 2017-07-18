@@ -126,6 +126,7 @@ final class IndirectExchange implements Exchange
     /**
      * @param array    $currencies
      * @param stdClass $goalNode
+     *
      * @return CurrencyPair[]
      */
     private function reconstructConversionChain(array $currencies, stdClass $goalNode)
