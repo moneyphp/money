@@ -89,7 +89,7 @@ final class IndirectExchange implements Exchange
 
                 if (!$node->discovered) {
                     try {
-                        // Check if the candidate is a neighbor. This will thrown an exception if it isn't.
+                        // Check if the candidate is a neighbor. This will throw an exception if it isn't.
                         $this->exchange->quote($currentCurrency, $candidateCurrency);
 
                         $node->discovered = true;
