@@ -7,8 +7,6 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
-use SplQueue;
-use stdClass;
 
 /**
  * Provides a way to get an exchange rate through a minimal set of intermediate conversions.
@@ -64,11 +62,11 @@ final class IndirectExchange implements Exchange
 
         $nodes = [$baseCurrency->getCode() => $startNode];
 
-        $frontier = new SplQueue();
+        $frontier = new \SplQueue();
         $frontier->enqueue($startNode);
 
         while ($frontier->count()) {
-            /** @var stdClass $currentNode */
+            /** @var \stdClass $currentNode */
             $currentNode = $frontier->dequeue();
 
             /** @var Currency $currentCurrency */
@@ -84,7 +82,7 @@ final class IndirectExchange implements Exchange
                     $nodes[$candidateCurrency->getCode()] = $this->initializeNode($candidateCurrency);
                 }
 
-                /** @var stdClass $node */
+                /** @var \stdClass $node */
                 $node = $nodes[$candidateCurrency->getCode()];
 
                 if (!$node->discovered) {
@@ -109,11 +107,11 @@ final class IndirectExchange implements Exchange
     /**
      * @param Currency $currency
      *
-     * @return stdClass
+     * @return \stdClass
      */
     private function initializeNode(Currency $currency)
     {
-        $node = new stdClass();
+        $node = new \stdClass();
 
         $node->currency = $currency;
         $node->discovered = false;
@@ -124,11 +122,11 @@ final class IndirectExchange implements Exchange
 
     /**
      * @param array    $currencies
-     * @param stdClass $goalNode
+     * @param \stdClass $goalNode
      *
      * @return CurrencyPair[]
      */
-    private function reconstructConversionChain(array $currencies, stdClass $goalNode)
+    private function reconstructConversionChain(array $currencies, \stdClass $goalNode)
     {
         $current = $goalNode;
         $conversions = [];
