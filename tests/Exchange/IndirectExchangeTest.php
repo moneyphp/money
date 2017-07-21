@@ -2,6 +2,7 @@
 
 namespace Tests\Money\Exchange;
 
+use Money\Calculator\PhpCalculator;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Exception\UnresolvableCurrencyPairException;
@@ -48,7 +49,7 @@ final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
 
-        return new IndirectExchange($baseExchange, new ISOCurrencies());
+        return new IndirectExchange($baseExchange, new ISOCurrencies(), new PhpCalculator());
     }
 
     /**

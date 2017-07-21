@@ -2,6 +2,7 @@
 
 namespace Money\Exchange;
 
+use Money\Calculator;
 use Money\Currencies;
 use Money\Currency;
 use Money\CurrencyPair;
@@ -16,6 +17,11 @@ use Money\Exchange;
 final class IndirectExchange implements Exchange
 {
     /**
+     * @var Calculator
+     */
+    private $calculator;
+
+    /**
      * @var Currencies
      */
     private $currencies;
@@ -26,13 +32,15 @@ final class IndirectExchange implements Exchange
     private $exchange;
 
     /**
-     * @param Exchange   $exchange
+     * @param Exchange $exchange
      * @param Currencies $currencies
+     * @param Calculator $calculator
      */
-    public function __construct(Exchange $exchange, Currencies $currencies)
+    public function __construct(Exchange $exchange, Currencies $currencies, Calculator $calculator)
     {
         $this->exchange = $exchange;
         $this->currencies = $currencies;
+        $this->calculator = $calculator;
     }
 
     /**
@@ -41,8 +49,8 @@ final class IndirectExchange implements Exchange
     public function quote(Currency $baseCurrency, Currency $counterCurrency)
     {
         $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), function ($carry, CurrencyPair $pair) {
-            return $carry * $pair->getConversionRatio();
-        }, 1.0);
+            return $this->calculator->multiply($carry, $pair->getConversionRatio());
+        }, '1.0');
 
         return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
     }
