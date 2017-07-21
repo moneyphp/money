@@ -32,7 +32,7 @@ final class IndirectExchange implements Exchange
     private $exchange;
 
     /**
-     * @param Exchange $exchange
+     * @param Exchange   $exchange
      * @param Currencies $currencies
      * @param Calculator $calculator
      */
