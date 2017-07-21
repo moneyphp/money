@@ -20,9 +20,9 @@ final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
         $pair = $exchange->quote(new Currency('USD'), new Currency('AOA'));
 
         // USD => EUR => AOA
-        static::assertEquals('USD', $pair->getBaseCurrency()->getCode());
-        static::assertEquals('AOA', $pair->getCounterCurrency()->getCode());
-        static::assertEquals(12, $pair->getConversionRatio());
+        $this->assertEquals('USD', $pair->getBaseCurrency()->getCode());
+        $this->assertEquals('AOA', $pair->getCounterCurrency()->getCode());
+        $this->assertEquals(12, $pair->getConversionRatio());
     }
 
     private function createExchange()
@@ -60,9 +60,9 @@ final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
 
         $pair = $exchange->quote(new Currency('USD'), new Currency('EUR'));
 
-        static::assertEquals('USD', $pair->getBaseCurrency()->getCode());
-        static::assertEquals('EUR', $pair->getCounterCurrency()->getCode());
-        static::assertEquals(4, $pair->getConversionRatio());
+        $this->assertEquals('USD', $pair->getBaseCurrency()->getCode());
+        $this->assertEquals('EUR', $pair->getCounterCurrency()->getCode());
+        $this->assertEquals(4, $pair->getConversionRatio());
     }
 
     /**
@@ -72,7 +72,7 @@ final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
     {
         $exchange = $this->createExchange();
 
-        static::setExpectedException(UnresolvableCurrencyPairException::class);
+        $this->setExpectedException(UnresolvableCurrencyPairException::class);
 
         $exchange->quote(new Currency('USD'), new Currency('ARS'));
     }
