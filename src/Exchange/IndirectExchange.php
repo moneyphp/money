@@ -129,7 +129,7 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @param array    $currencies
+     * @param array     $currencies
      * @param \stdClass $goalNode
      *
      * @return CurrencyPair[]
