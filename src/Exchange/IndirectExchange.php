@@ -3,6 +3,9 @@
 namespace Money\Exchange;
 
 use Money\Calculator;
+use Money\Calculator\BcMathCalculator;
+use Money\Calculator\GmpCalculator;
+use Money\Calculator\PhpCalculator;
 use Money\Currencies;
 use Money\Currency;
 use Money\CurrencyPair;
@@ -19,7 +22,16 @@ final class IndirectExchange implements Exchange
     /**
      * @var Calculator
      */
-    private $calculator;
+    private static $calculator;
+
+    /**
+     * @var array
+     */
+    private static $calculators = [
+        BcMathCalculator::class,
+        GmpCalculator::class,
+        PhpCalculator::class,
+    ];
 
     /**
      * @var Currencies
@@ -34,13 +46,23 @@ final class IndirectExchange implements Exchange
     /**
      * @param Exchange   $exchange
      * @param Currencies $currencies
-     * @param Calculator $calculator
      */
-    public function __construct(Exchange $exchange, Currencies $currencies, Calculator $calculator)
+    public function __construct(Exchange $exchange, Currencies $currencies)
     {
         $this->exchange = $exchange;
         $this->currencies = $currencies;
-        $this->calculator = $calculator;
+    }
+
+    /**
+     * @param string $calculator
+     */
+    public static function registerCalculator($calculator)
+    {
+        if (is_a($calculator, Calculator::class, true) === false) {
+            throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
+        }
+
+        array_unshift(self::$calculators, $calculator);
     }
 
     /**
@@ -49,7 +71,7 @@ final class IndirectExchange implements Exchange
     public function quote(Currency $baseCurrency, Currency $counterCurrency)
     {
         $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), function ($carry, CurrencyPair $pair) {
-            return $this->calculator->multiply($carry, $pair->getConversionRatio());
+            return static::getCalculator()->multiply($carry, $pair->getConversionRatio());
         }, '1.0');
 
         return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
@@ -146,5 +168,36 @@ final class IndirectExchange implements Exchange
         }
 
         return array_reverse($conversions);
+    }
+
+    /**
+     * @return Calculator
+     */
+    private function getCalculator()
+    {
+        if (null === self::$calculator) {
+            self::$calculator = self::initializeCalculator();
+        }
+
+        return self::$calculator;
+    }
+
+    /**
+     * @return Calculator
+     *
+     * @throws \RuntimeException If cannot find calculator for money calculations
+     */
+    private static function initializeCalculator()
+    {
+        $calculators = self::$calculators;
+
+        foreach ($calculators as $calculator) {
+            /** @var Calculator $calculator */
+            if ($calculator::supported()) {
+                return new $calculator();
+            }
+        }
+
+        throw new \RuntimeException('Cannot find calculator for money calculations');
     }
 }
