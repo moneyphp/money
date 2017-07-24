@@ -70,11 +70,15 @@ final class IndirectExchange implements Exchange
      */
     public function quote(Currency $baseCurrency, Currency $counterCurrency)
     {
-        $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), function ($carry, CurrencyPair $pair) {
-            return static::getCalculator()->multiply($carry, $pair->getConversionRatio());
-        }, '1.0');
+        try {
+            return $this->exchange->quote($baseCurrency, $counterCurrency);
+        } catch (UnresolvableCurrencyPairException $exception) {
+            $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), function ($carry, CurrencyPair $pair) {
+                return static::getCalculator()->multiply($carry, $pair->getConversionRatio());
+            }, '1.0');
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
+            return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
+        }
     }
 
     /**
