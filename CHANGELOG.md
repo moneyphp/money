@@ -1,5 +1,17 @@
 # Change Log
 
+## 3.0.6 - 2017-07-25
+
+### Fixed
+
+- Tests for HHVM
+- Incorrect documentation on Bitcoin parser
+
+### Added
+
+- IndirectExchange: a way to get an exchange rate through a minimal set of intermediate conversions.
+
+
 ## 3.0.5 - 2017-04-26
 
 ### Added
