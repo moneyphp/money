@@ -71,8 +71,10 @@ Because of PHP's integer limit, money values are stored as string internally and
 
 
 .. note::
-    Remember, because of the integer limit in PHP, you should inject a string that represents your huge amount.
-
+    Remember, because of the integer limit in PHP, you should inject a string that represents your
+    huge amount with a good reason behind. As a rule of thumb -- for security reasons -- it is recommended
+    to apply the least privilege principle when dealing with integers.
+    
 
 JSON
 ----
