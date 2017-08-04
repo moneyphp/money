@@ -7,14 +7,14 @@ use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 
 /**
- * Cache the result of currency checking.
+ * A simple array currency list that can be initialized with custom currencies.
  *
  * @author George Mponos <gmponos@gmail.com>
  */
-final class SimpleCurrencies implements Currencies
+final class ArrayCurrencies implements Currencies
 {
     /**
-     * Map of known currencies indexed by code.
+     * Map of currencies indexed by code.
      *
      * @var array
      */
@@ -23,9 +23,21 @@ final class SimpleCurrencies implements Currencies
     public function __construct(array $currencies)
     {
         foreach ($currencies as $currencyCode => $currency) {
-            if (isset($currency['minorUnit']) || !isset($currency['numericCode'])) {
+            if (empty($currencyCode) || !is_string($currencyCode)) {
                 throw new \InvalidArgumentException(
-                    sprintf('Currency %s does not contain minorUnit or numericCode key', $currencyCode)
+                    sprintf('Currency code must be a string and not empty. "%" given', $currencyCode)
+                );
+            }
+
+            if (!isset($currency['minorUnit']) || !is_int($currency['minorUnit']) || $currency['minorUnit'] < 0) {
+                throw new \InvalidArgumentException(
+                    sprintf('Currency %s does not a valid minorUnit. Must be a positive integer.', $currencyCode)
+                );
+            }
+
+            if (!isset($currency['numericCode']) || !is_int($currency['numericCode']) || $currency['numericCode'] < 0) {
+                throw new \InvalidArgumentException(
+                    sprintf('Currency %s does not a valid numericCode. Must be a positive integer.', $currencyCode)
                 );
             }
         }
@@ -47,7 +59,7 @@ final class SimpleCurrencies implements Currencies
     public function subunitFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+            throw new UnknownCurrencyException('Cannot find ISO currency ' . $currency->getCode());
         }
 
         return $this->currencies[$currency->getCode()]['minorUnit'];
@@ -65,7 +77,7 @@ final class SimpleCurrencies implements Currencies
     public function numericCodeFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+            throw new UnknownCurrencyException('Cannot find ISO currency ' . $currency->getCode());
         }
 
         return $this->currencies[$currency->getCode()]['numericCode'];
