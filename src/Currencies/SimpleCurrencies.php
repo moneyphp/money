@@ -47,7 +47,7 @@ final class SimpleCurrencies implements Currencies
     public function subunitFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency ' . $currency->getCode());
+            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
         }
 
         return $this->currencies[$currency->getCode()]['minorUnit'];
@@ -65,7 +65,7 @@ final class SimpleCurrencies implements Currencies
     public function numericCodeFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency ' . $currency->getCode());
+            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
         }
 
         return $this->currencies[$currency->getCode()]['numericCode'];
