@@ -100,7 +100,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
     public function it_does_not_initialize_if_array_is_invalid(array $currencies)
     {
         $this->setExpectedException(\InvalidArgumentException::class);
-        
+
         new ArrayCurrencies($currencies);
     }
 
