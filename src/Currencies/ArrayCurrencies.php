@@ -31,13 +31,13 @@ final class ArrayCurrencies implements Currencies
 
             if (!isset($currency['minorUnit']) || !is_int($currency['minorUnit']) || $currency['minorUnit'] < 0) {
                 throw new \InvalidArgumentException(
-                    sprintf('Currency %s does not a valid minorUnit. Must be a positive integer.', $currencyCode)
+                    sprintf('Currency %s does not have a valid minorUnit. Must be a positive integer.', $currencyCode)
                 );
             }
 
             if (!isset($currency['numericCode']) || !is_int($currency['numericCode']) || $currency['numericCode'] < 0) {
                 throw new \InvalidArgumentException(
-                    sprintf('Currency %s does not a valid numericCode. Must be a positive integer.', $currencyCode)
+                    sprintf('Currency %s does not have a valid numericCode. Must be a positive integer.', $currencyCode)
                 );
             }
         }
@@ -59,7 +59,7 @@ final class ArrayCurrencies implements Currencies
     public function subunitFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+            throw new UnknownCurrencyException('Cannot find currency '.$currency->getCode());
         }
 
         return $this->currencies[$currency->getCode()]['minorUnit'];
@@ -77,7 +77,7 @@ final class ArrayCurrencies implements Currencies
     public function numericCodeFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+            throw new UnknownCurrencyException('Cannot find currency '.$currency->getCode());
         }
 
         return $this->currencies[$currency->getCode()]['numericCode'];
