@@ -49,9 +49,9 @@ Greater Than
 
     $result = $value1->greaterThan($value2);    // true
 
-.. code-block:: php
-
 You can also use ``greaterThanOrEqual()`` to additionally check for equality.
+
+.. code-block:: php
 
     $value1 = Money::USD(800);                          // $8.00
     $value2 = Money::USD(800);                          // $8.00
