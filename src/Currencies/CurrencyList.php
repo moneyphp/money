@@ -7,11 +7,11 @@ use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 
 /**
- * A simple array currency list that can be initialized with custom currencies.
+ * An array currency list that can be initialized with custom currencies.
  *
  * @author George Mponos <gmponos@gmail.com>
  */
-final class ArrayCurrencies implements Currencies
+final class CurrencyList implements Currencies
 {
     /**
      * Map of currencies indexed by code.

@@ -49,10 +49,10 @@ The Bitcoin currencies provides a single currency: the Bitcoin. It uses XBT as i
     $currencies->contains(new Currency('USD')); // returns boolean whether USD is available in this repository (false)
     $currencies->subunitFor(new Currency('XBT')); // returns the subunit for the Bitcoin (8)
 
-ArrayCurrencies
+CurrencyList
 -----------------
 
-The ArrayCurrencies class provides a way for the developer to instantiate his own custom currencies. When initializing
+The CurrencyList class provides a way for the developer to instantiate his own custom currencies. When initializing
 this class the developer must pass as argument an array containing his currencies. This array must have a 
 specific form as shown at the example below.
 
@@ -61,10 +61,10 @@ string. Also `minorUnit` and `numericCode` keys must exists and have a positive 
 
 .. code-block:: php
 
-    use Money\Currencies\ArrayCurrencies;
+    use Money\Currencies\CurrencyList;
     use Money\Currency;
 
-    $currencies = new ArrayCurrencies([
+    $currencies = new CurrencyList([
         'MY1' => [
             'minorUnit' => 2,
             'numericCode' => 1,

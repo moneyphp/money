@@ -2,11 +2,11 @@
 
 namespace spec\Money\Currencies;
 
-use Money\Currencies\ArrayCurrencies;
+use Money\Currencies\CurrencyList;
 use Money\Currency;
 use PhpSpec\ObjectBehavior;
 
-final class ArrayCurrenciesSpec extends ObjectBehavior
+final class CurrencyListSpec extends ObjectBehavior
 {
     use Matchers;
 
@@ -21,7 +21,7 @@ final class ArrayCurrenciesSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(ArrayCurrencies::class);
+        $this->shouldHaveType(CurrencyList::class);
     }
 
     function it_contains_bitcoin()

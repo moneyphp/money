@@ -2,11 +2,11 @@
 
 namespace Tests\Money\Currencies;
 
-use Money\Currencies\ArrayCurrencies;
+use Money\Currencies\CurrencyList;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 
-final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
+final class CurrencyListTest extends \PHPUnit_Framework_TestCase
 {
     private static $correctCurrencies = [
         'MY1' => ['minorUnit' => 2, 'numericCode' => 1],
@@ -20,7 +20,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_has_currencies($currency)
     {
-        $currencies = new ArrayCurrencies(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::$correctCurrencies);
 
         $this->assertTrue($currencies->contains(new Currency($currency)));
     }
@@ -31,7 +31,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_provides_subunit($currency)
     {
-        $currencies = new ArrayCurrencies(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::$correctCurrencies);
 
         $this->assertInternalType('int', $currencies->subunitFor(new Currency($currency)));
     }
@@ -41,7 +41,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
     {
-        $currencies = new ArrayCurrencies(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::$correctCurrencies);
 
         $this->setExpectedException(UnknownCurrencyException::class);
 
@@ -54,7 +54,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_provides_numeric_code($currency)
     {
-        $currencies = new ArrayCurrencies(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::$correctCurrencies);
 
         $this->assertInternalType('int', $currencies->numericCodeFor(new Currency($currency)));
     }
@@ -64,7 +64,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_an_exception_when_providing_numeric_code_and_currency_is_unknown()
     {
-        $currencies = new ArrayCurrencies(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::$correctCurrencies);
 
         $this->setExpectedException(UnknownCurrencyException::class);
 
@@ -76,7 +76,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_is_iterable()
     {
-        $currencies = new ArrayCurrencies(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::$correctCurrencies);
 
         $iterator = $currencies->getIterator();
 
@@ -88,7 +88,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_does_not_have_blank_currency()
     {
-        $currencies = new ArrayCurrencies(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::$correctCurrencies);
 
         $this->assertFalse($currencies->contains(new Currency('')));
     }
@@ -101,7 +101,7 @@ final class ArrayCurrenciesTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(\InvalidArgumentException::class);
 
-        new ArrayCurrencies($currencies);
+        new CurrencyList($currencies);
     }
 
     public function currencyCodeExamples()
