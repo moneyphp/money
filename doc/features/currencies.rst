@@ -50,11 +50,11 @@ The Bitcoin currencies provides a single currency: the Bitcoin. It uses XBT as i
     $currencies->subunitFor(new Currency('XBT')); // returns the subunit for the Bitcoin (8)
 
 CurrencyList
------------------
+-------------
 
-The CurrencyList class provides a way for the developer to instantiate his own custom currencies. When initializing
-this class the developer must pass as argument an array containing his currencies. This array must have a 
-specific form as shown at the example below.
+The CurrencyList class provides a way for a developer to build a custom currency repository.
+The class accepts an associative array indexed by the currency code
+and another associative array as the value containing `minorUnit` and `numericCode` keys and positive integer values.
 
 More specifically it must be an associative array. A currency code key must exists for all currencies and it must be a 
 string. Also `minorUnit` and `numericCode` keys must exists and have a positive integer value.

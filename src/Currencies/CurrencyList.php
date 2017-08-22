@@ -7,7 +7,7 @@ use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 
 /**
- * An array currency list that can be initialized with custom currencies.
+ * A list of custom currencies.
  *
  * @author George Mponos <gmponos@gmail.com>
  */
@@ -29,13 +29,21 @@ final class CurrencyList implements Currencies
                 );
             }
 
-            if (!isset($currency['minorUnit']) || !is_int($currency['minorUnit']) || $currency['minorUnit'] < 0) {
+            if (
+                !isset($currency['minorUnit']) ||
+                !is_int($currency['minorUnit']) ||
+                $currency['minorUnit'] < 0
+            ) {
                 throw new \InvalidArgumentException(
                     sprintf('Currency %s does not have a valid minorUnit. Must be a positive integer.', $currencyCode)
                 );
             }
 
-            if (!isset($currency['numericCode']) || !is_int($currency['numericCode']) || $currency['numericCode'] < 0) {
+            if (
+                !isset($currency['numericCode']) || 
+                !is_int($currency['numericCode']) || 
+                $currency['numericCode'] < 0
+            ) {
                 throw new \InvalidArgumentException(
                     sprintf('Currency %s does not have a valid numericCode. Must be a positive integer.', $currencyCode)
                 );
