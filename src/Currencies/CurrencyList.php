@@ -40,8 +40,8 @@ final class CurrencyList implements Currencies
             }
 
             if (
-                !isset($currency['numericCode']) || 
-                !is_int($currency['numericCode']) || 
+                !isset($currency['numericCode']) ||
+                !is_int($currency['numericCode']) ||
                 $currency['numericCode'] < 0
             ) {
                 throw new \InvalidArgumentException(
