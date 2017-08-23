@@ -2,6 +2,7 @@
 
 namespace spec\Money\Currencies;
 
+use Money\Currencies;
 use Money\Currencies\CurrencyList;
 use Money\Currency;
 use PhpSpec\ObjectBehavior;
