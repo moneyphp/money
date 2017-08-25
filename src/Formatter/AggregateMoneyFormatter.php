@@ -23,7 +23,7 @@ final class AggregateMoneyFormatter implements MoneyFormatter
      */
     public function __construct(array $formatters)
     {
-        if (empty($parsers)) {
+        if (empty($formatters)) {
             throw new \InvalidArgumentException(sprintf('Initialize an empty %s is not possible', self::class));
         }
 
