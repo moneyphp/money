@@ -30,12 +30,13 @@ final class IntlMoneyParserSpec extends ObjectBehavior
 
     function it_parses_money(\NumberFormatter $numberFormatter, Currencies $currencies)
     {
-        $currency = null;
+        $currencyString = null;
 
-        $numberFormatter->parseCurrency('€1.00', $currency)->willReturn(1);
+        $numberFormatter->parseCurrency('€1.00', $currencyString)->willReturn(1);
         $currencies->subunitFor(Argument::type(Currency::class))->willReturn(2);
 
-        $money = $this->parse('€1.00', 'EUR');
+        $currency = new Currency('EUR');
+        $money = $this->parse('€1.00', $currency);
 
         $money->shouldHaveType(Money::class);
         $money->getAmount()->shouldReturn('100');
@@ -44,11 +45,13 @@ final class IntlMoneyParserSpec extends ObjectBehavior
 
     function it_throws_an_exception_when_money_cannot_be_parsed(\NumberFormatter $numberFormatter)
     {
-        $currency = null;
+        $currencyString = null;
 
-        $numberFormatter->parseCurrency('INVALID', $currency)->willReturn(false);
+        $numberFormatter->parseCurrency('INVALID', $currencyString)->willReturn(false);
         $numberFormatter->getErrorMessage()->willReturn('Some message');
 
-        $this->shouldThrow(ParserException::class)->duringParse('INVALID', 'EUR');
+        $currency = new Currency('EUR');
+
+        $this->shouldThrow(ParserException::class)->duringParse('INVALID', $currency);
     }
 }

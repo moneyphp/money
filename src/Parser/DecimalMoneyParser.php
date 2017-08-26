@@ -46,7 +46,15 @@ final class DecimalMoneyParser implements MoneyParser
             );
         }
 
-        $currency = new Currency($forceCurrency);
+        /*
+         * This conversion is only required whilst currency can be either a string or a
+         * Currency object.
+         */
+        $currency = $forceCurrency;
+        if (!$currency instanceof Currency) {
+            $currency = new Currency($currency);
+        }
+
         $decimal = trim($money);
 
         if ($decimal === '') {

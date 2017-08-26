@@ -45,14 +45,8 @@ final class IntlMoneyParser implements MoneyParser
             throw new ParserException('Formatted raw money should be string, e.g. $1.00');
         }
 
-        $currencyCode = null;
-        $decimal = $this->formatter->parseCurrency($money, $currencyCode);
-
-        if (null !== $forceCurrency) {
-            $currencyCode = $forceCurrency;
-        }
-
-        $currency = new Currency($currencyCode);
+        $currency = null;
+        $decimal = $this->formatter->parseCurrency($money, $currency);
 
         if (false === $decimal) {
             throw new ParserException(
@@ -60,8 +54,21 @@ final class IntlMoneyParser implements MoneyParser
             );
         }
 
-        $decimal = (string) $decimal;
+        if (null !== $forceCurrency) {
+            $currency = $forceCurrency;
+        }
+
+        /*
+         * This conversion is only required whilst currency can be either a string or a
+         * Currency object.
+         */
+        if (!$currency instanceof Currency) {
+            $currency = new Currency($currency);
+        }
+
         $subunit = $this->currencies->subunitFor($currency);
+
+        $decimal = (string) $decimal;
         $decimalPosition = strpos($decimal, '.');
 
         if (false !== $decimalPosition) {
