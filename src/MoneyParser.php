@@ -12,8 +12,8 @@ interface MoneyParser
     /**
      * Parses a string into a Money object (including currency).
      *
-     * @param string     $money
-     * @param mixed|null $forceCurrency
+     * @param string               $money
+     * @param Currency|string|null $forceCurrency
      *
      * @return Money
      *
