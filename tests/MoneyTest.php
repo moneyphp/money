@@ -197,8 +197,9 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     public function it_calculates_the_modulus_of_an_amount($left, $right, $expected)
     {
         $money = new Money($left, new Currency(self::CURRENCY));
+        $rightMoney = new Money($right, new Currency(self::CURRENCY));
 
-        $money = $money->mod($left % $right);
+        $money = $money->mod($rightMoney);
 
         $this->assertInstanceOf(Money::class, $money);
         $this->assertEquals($expected, $money->getAmount());
