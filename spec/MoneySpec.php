@@ -320,6 +320,23 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBeLike(1);
     }
 
+    function it_calculates_a_modulus_with_an_other_money(Calculator $calculator)
+    {
+        $result = self::AMOUNT % self::OTHER_AMOUNT;
+        $calculator->mod((string) self::AMOUNT, (string) self::OTHER_AMOUNT)->willReturn((string) $result);
+        $money = $this->mod(new Money(self::OTHER_AMOUNT, new Currency(self::CURRENCY)));
+
+        $money->shouldHaveType(Money::class);
+        $money->getAmount()->shouldBe((string) $result);
+    }
+
+    function it_throws_an_exception_when_currency_is_different_during_modulus(Calculator $calculator)
+    {
+        $calculator->mod((string) self::AMOUNT, (string) self::AMOUNT)->shouldNotBeCalled();
+
+        $this->shouldThrow(\InvalidArgumentException::class)->duringMod(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
+    }
+
     public function getMatchers()
     {
         return [
