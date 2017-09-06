@@ -228,4 +228,12 @@ final class BcMathCalculator implements Calculator
     {
         return $this->floor(bcdiv(bcmul($amount, $ratio, $this->scale), $total, $this->scale));
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function mod($amount, $divisor)
+    {
+        return bcmod($amount, $divisor);
+    }
 }
