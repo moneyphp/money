@@ -343,6 +343,22 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * Returns a new Money object that represents
+     * the remainder after dividing the value by
+     * the given factor.
+     *
+     * @param Money $divisor
+     *
+     * @return Money
+     */
+    public function mod(Money $divisor)
+    {
+        $this->assertSameCurrency($divisor);
+
+        return new self($this->getCalculator()->mod($this->amount, $divisor->amount), $this->currency);
+    }
+
+    /**
      * Allocate the money according to a list of ratios.
      *
      * @param array $ratios
