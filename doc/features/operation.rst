@@ -47,6 +47,20 @@ Divisions can be performed using ``divide()``.
 
     $result = $value->divide(2);    // €4.00
 
+.. _modulus:
+
+Modulus
+-------
+
+Modulus operations can be performed using ``mod()``.
+
+.. code-block:: php
+
+    $value = Money::EUR(830);        // €8.30
+    $divisor = Money::EUR(300);      // €3.00
+
+    $result = $value->mod($divisor); // €2.30
+
 .. _rounding_modes:
 
 Rounding Modes
