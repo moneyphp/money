@@ -25,7 +25,7 @@ final class CurrencyList implements Currencies
         foreach ($currencies as $currencyCode => $currency) {
             if (empty($currencyCode) || !is_string($currencyCode)) {
                 throw new \InvalidArgumentException(
-                    sprintf('Currency code must be a string and not empty. "%" given', $currencyCode)
+                    sprintf('Currency code must be a string and not empty. "%s" given', $currencyCode)
                 );
             }
 
