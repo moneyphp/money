@@ -37,7 +37,7 @@ final class BcMathCalculator implements Calculator
      */
     public function compare($a, $b)
     {
-        return bccomp($a, $b);
+        return bccomp($a, $b, $this->scale);
     }
 
     /**
