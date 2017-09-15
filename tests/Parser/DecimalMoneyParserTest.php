@@ -76,6 +76,10 @@ final class DecimalMoneyParserTest extends \PHPUnit_Framework_TestCase
             ['', 'USD', 2, 0],
             ['.99', 'USD', 2, 99],
             ['99.', 'USD', 2, 9900],
+            ['-9.999', 'USD', 2, -1000],
+            ['9.999', 'USD', 2, 1000],
+            ['9.99', 'USD', 2, 999],
+            ['-9.99', 'USD', 2, -999],
         ];
     }
 }
