@@ -254,10 +254,11 @@ final class Number
                 } else {
                     if ($moneyValue[$position - 1] === '-') {
                         $moneyValue[$position - 1] = $newValue[0];
-                        $moneyValue = '-' . $moneyValue;
+                        $moneyValue = '-'.$moneyValue;
                     } else {
                         $moneyValue[$position - 1] = $newValue[0];
                     }
+
                     break;
                 }
             }
