@@ -38,16 +38,6 @@ final class CurrencyList implements Currencies
                     sprintf('Currency %s does not have a valid minorUnit. Must be a positive integer.', $currencyCode)
                 );
             }
-
-            if (
-                !isset($currency['numericCode']) ||
-                !is_int($currency['numericCode']) ||
-                $currency['numericCode'] < 0
-            ) {
-                throw new \InvalidArgumentException(
-                    sprintf('Currency %s does not have a valid numericCode. Must be a positive integer.', $currencyCode)
-                );
-            }
         }
 
         $this->currencies = $currencies;
@@ -71,24 +61,6 @@ final class CurrencyList implements Currencies
         }
 
         return $this->currencies[$currency->getCode()]['minorUnit'];
-    }
-
-    /**
-     * Returns the numeric code for a currency.
-     *
-     * @param Currency $currency
-     *
-     * @return int
-     *
-     * @throws UnknownCurrencyException If currency is not available in the current context
-     */
-    public function numericCodeFor(Currency $currency)
-    {
-        if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find currency '.$currency->getCode());
-        }
-
-        return $this->currencies[$currency->getCode()]['numericCode'];
     }
 
     /**

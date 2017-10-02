@@ -14,9 +14,9 @@ final class CurrencyListSpec extends ObjectBehavior
     function let()
     {
         $this->beConstructedWith([
-            'MY1' => ['minorUnit' => 2, 'numericCode' => 1],
-            'MY2' => ['minorUnit' => 0, 'numericCode' => 2],
-            'MY3' => ['minorUnit' => 1, 'numericCode' => 3],
+            'MY1' => ['minorUnit' => 2],
+            'MY2' => ['minorUnit' => 0],
+            'MY3' => ['minorUnit' => 1],
         ]);
     }
 
