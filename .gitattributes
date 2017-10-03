@@ -1,3 +1,5 @@
+/doc/             export-ignore
+/resources/logo.png export-ignore
 /spec/            export-ignore
 /tests/           export-ignore
 /.editorconfig    export-ignore
