@@ -54,10 +54,10 @@ CurrencyList
 
 The CurrencyList class provides a way for a developer to build a custom currency repository.
 The class accepts an associative array indexed by the currency code
-and another associative array as the value containing `minorUnit` and `numericCode` keys and positive integer values.
+and another associative array as the value containing `minorUnit` key and positive integer values.
 
 More specifically it must be an associative array. A currency code key must exists for all currencies and it must be a 
-string. Also `minorUnit` and `numericCode` keys must exists and have a positive integer value.
+string. Also `minorUnit` keys must exists and have a positive integer value.
 
 .. code-block:: php
 
@@ -67,7 +67,6 @@ string. Also `minorUnit` and `numericCode` keys must exists and have a positive 
     $currencies = new CurrencyList([
         'MY1' => [
             'minorUnit' => 2,
-            'numericCode' => 1,
         ],
     ]);
 
