@@ -10,6 +10,9 @@ use Money\Calculator\PhpCalculator;
  * Money Value Object.
  *
  * @author Mathias Verraes
+ *
+ * @method static Money EUR(int $amount) Create a new Money object of amount $amount in currency EUR.
+ * @method static Money USD(int $amount) Create a new Money object of amount $amount in currency USD.
  */
 final class Money implements \JsonSerializable
 {
