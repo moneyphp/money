@@ -58,11 +58,25 @@ final class MoneySpec extends ObjectBehavior
     function it_constructs_integer()
     {
         $this->beConstructedWith(5, new Currency(self::CURRENCY));
+        $this->getAmount()->shouldBe('5');
     }
 
     function it_constructs_string()
     {
         $this->beConstructedWith('5', new Currency(self::CURRENCY));
+        $this->getAmount()->shouldBe('5');
+    }
+
+    function it_constructs_float()
+    {
+        $this->beConstructedWith(5.00, new Currency(self::CURRENCY));
+        $this->getAmount()->shouldBe('5');
+    }
+
+    function it_constructs_float_with_scientific_notation()
+    {
+        $this->beConstructedWith(1.7976931348623E+308, new Currency(self::CURRENCY));
+        $this->getAmount()->shouldBe('179769313486229994100682891303053148263627268423377803312421732791699473767707013363194982151154908054747719771310521883701314414818221444542456715764545533040329265559729229271763858732704880089275927461695259646152755047203268216825549013844516126079135752249260292543221745333646402418039172054416281829376');
     }
 
     function it_constructs_integer_with_decimals_of_zero()
