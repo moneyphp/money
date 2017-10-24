@@ -80,7 +80,7 @@ Most parsers throw an exception when the string's format is not supported.
     ]);
 
     $dollars = $moneyParser->parse('1 USD');
-    $bitcoin = $moneyParser->parse("\0xC9\0x831.00");
+    $bitcoin = $moneyParser->parse("Ƀ1.00");
 
 
 This is very useful if you want to use one parser as a service in DI context.
