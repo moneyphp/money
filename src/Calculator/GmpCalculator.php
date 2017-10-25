@@ -292,6 +292,16 @@ final class GmpCalculator implements Calculator
      */
     public function mod($amount, $divisor)
     {
-        return gmp_strval(gmp_mod($amount, $divisor));
+        // gmp_mod() only calculates non-negative integers, so we use absolutes
+        $remainder = gmp_mod($this->absolute($amount), $this->absolute($divisor));
+
+        // If the amount was negative, we negate the result of the modulus operation
+        $amount = Number::fromString((string) $amount);
+
+        if (true === $amount->isNegative()) {
+            $remainder = gmp_neg($remainder);
+        }
+
+        return gmp_strval($remainder);
     }
 }
