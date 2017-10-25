@@ -215,6 +215,9 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
             [9, 3, '0'],
             [1006, 10, '6'],
             [1007, 10, '7'],
+            [-13, -5, '-3'],
+            [-13, 5, '-3'],
+            [13, -5, '3'],
         ];
     }
 }
