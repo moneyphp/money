@@ -1,4 +1,5 @@
 <?php
+
 namespace Commands\Money;
 
 
@@ -23,8 +24,7 @@ class GenerateDocMoneyStatic extends Command
             ->setName('generate:doc:money-static')
             ->setDescription('Generates a helper class with static methods.')
             ->setHelp('Generates a Money helper class with all overloaded static methods.')
-
-            ->addOption('path', null, InputOption::VALUE_REQUIRED, 'The filepath where to store the helper file.', realpath(__DIR__.'/..'))
+            ->addOption('path', null, InputOption::VALUE_REQUIRED, 'The filepath where to store the helper file.', realpath(__DIR__ . '/..'))
             ->addOption('currencies', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Additional currencies classes to load.')
             ->addOption('indent', null, InputOption::VALUE_REQUIRED, 'The amount of spaces to use for indent.', 4);
     }
@@ -32,7 +32,7 @@ class GenerateDocMoneyStatic extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $indent = $input->getOption('indent');
-        if(is_numeric($indent) && is_int($indent * 1) && $indent >= 0) {
+        if (is_numeric($indent) && is_int($indent * 1) && $indent >= 0) {
             $this->indent = $indent;
         }
 
@@ -41,9 +41,9 @@ class GenerateDocMoneyStatic extends Command
             new BitcoinCurrencies(),
         ];
 
-        foreach($input->getOption('currencies') as $currenciesClass) {
-            if(!class_exists($currenciesClass)) {
-                $output->writeln('<fg=yellow>'.$currenciesClass.' is no class</>');
+        foreach ($input->getOption('currencies') as $currenciesClass) {
+            if (!class_exists($currenciesClass)) {
+                $output->writeln('<fg=yellow>' . $currenciesClass . ' is no class</>');
                 continue;
             }
             $currenciesClasses[] = new $currenciesClass();
@@ -51,20 +51,20 @@ class GenerateDocMoneyStatic extends Command
 
         try {
             $currencies = new AggregateCurrencies($currenciesClasses);
-        } catch(\InvalidArgumentException $ex) {
-            $output->writeln('<fg=red>'.$ex->getMessage().'</>');
+        } catch (\InvalidArgumentException $ex) {
+            $output->writeln('<fg=red>' . $ex->getMessage() . '</>');
             return;
         }
 
         $path = $input->getOption('path');
-        if(!is_dir($path)) {
-            $output->writeln('<fg=red>'.$path.' does not exist</>');
+        if (!is_dir($path)) {
+            $output->writeln('<fg=red>' . $path . ' does not exist</>');
             return;
         }
 
-        $filepath = realpath($path).'/_ide_helper.money.php';
+        $filepath = realpath($path) . '/_ide_helper.money.php';
 
-        $output->writeln('<fg=blue>Generate '.Money::class.' static method helper class</>');
+        $output->writeln('<fg=blue>Generate ' . Money::class . ' static method helper class</>');
         $output->writeln('<fg=magenta>Target-File:</>');
         $output->writeln($filepath);
         $output->writeln('<fg=magenta>Currencies-Classes:</>');
@@ -78,18 +78,18 @@ class GenerateDocMoneyStatic extends Command
         $this->pushBuffer('');
         $this->pushBuffer('class Money');
         $this->pushBuffer('{');
-        foreach($currencies as $currency) {
+        foreach ($currencies as $currency) {
             $code = $currency->getCode();
             $this->pushBuffer(
-                $this->getIndent(1).'public static function '.$code.'($amount) {'.PHP_EOL.
-                $this->getIndent(2).'return new self($amount, new Currency(\''.$code.'\'));'.PHP_EOL.
-                $this->getIndent(1).'}'.PHP_EOL
+                $this->getIndent(1) . 'public static function ' . $code . '($amount) {' . PHP_EOL .
+                $this->getIndent(2) . 'return new self($amount, new Currency(\'' . $code . '\'));' . PHP_EOL .
+                $this->getIndent(1) . '}' . PHP_EOL
             );
         }
-        $this->buffer = trim($this->buffer).PHP_EOL;
+        $this->buffer = trim($this->buffer) . PHP_EOL;
         $this->pushBuffer('}');
 
-        if(file_put_contents($filepath, $this->buffer)) {
+        if (file_put_contents($filepath, $this->buffer)) {
             $output->writeln('<fg=green>helper class successfully written</>');
             return;
         }
@@ -98,7 +98,7 @@ class GenerateDocMoneyStatic extends Command
 
     protected function pushBuffer($line)
     {
-        $this->buffer .= $line.PHP_EOL;
+        $this->buffer .= $line . PHP_EOL;
     }
 
     protected function getIndent($amount = 1)
