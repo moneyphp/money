@@ -38,8 +38,8 @@ class Comparator extends \SebastianBergmann\Comparator\Comparator
      * @param Money $expected
      * @param Money $actual
      * @param float $delta
-     * @param bool $canonicalize
-     * @param bool $ignoreCase
+     * @param bool  $canonicalize
+     * @param bool  $ignoreCase
      * @param array $processed
      */
     public function assertEquals(
