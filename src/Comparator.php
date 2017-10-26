@@ -57,7 +57,7 @@ class Comparator extends \SebastianBergmann\Comparator\Comparator
                 $this->formatter->format($expected),
                 $this->formatter->format($actual),
                 false,
-                "Failed asserting that two Money objects are equal."
+                'Failed asserting that two Money objects are equal.'
             );
         }
     }
