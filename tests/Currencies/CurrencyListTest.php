@@ -9,9 +9,9 @@ use Money\Exception\UnknownCurrencyException;
 final class CurrencyListTest extends \PHPUnit_Framework_TestCase
 {
     private static $correctCurrencies = [
-        'MY1' => ['minorUnit' => 2],
-        'MY2' => ['minorUnit' => 0],
-        'MY3' => ['minorUnit' => 1],
+        'MY1' => 2,
+        'MY2' => 0,
+        'MY3' => 1,
     ];
 
     /**
@@ -93,15 +93,13 @@ final class CurrencyListTest extends \PHPUnit_Framework_TestCase
     public function invalidInstantiation()
     {
         return [
-            [['minorUnit' => 2]],
-            [[1 => ['minorUnit' => 2]]],
-            [['' => ['minorUnit' => 2]]],
-            [['OWO' => ['not_minorUnit' => 2]]],
+            [[1 => 2]],
+            [['' => 2]],
             [['OWO' => []]],
             [['OWO' => null]],
             [['OWO' => '']],
-            [['OWO' => ['minorUnit' => -2]]],
-            [['OWO' => ['minorUnit' => 2.1]]],
+            [['OWO' => -2]],
+            [['OWO' => 2.1]],
         ];
     }
 }

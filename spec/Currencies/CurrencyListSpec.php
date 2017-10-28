@@ -14,9 +14,9 @@ final class CurrencyListSpec extends ObjectBehavior
     function let()
     {
         $this->beConstructedWith([
-            'MY1' => ['minorUnit' => 2],
-            'MY2' => ['minorUnit' => 0],
-            'MY3' => ['minorUnit' => 1],
+            'MY1' => 2,
+            'MY2' => 0,
+            'MY3' => 1,
         ]);
     }
 
@@ -35,7 +35,7 @@ final class CurrencyListSpec extends ObjectBehavior
         $this->contains(new Currency('MY1'))->shouldReturn(true);
     }
 
-    function it_does_not_contains_currency()
+    function it_does_not_contain_currency()
     {
         $this->contains(new Currency('EUR'))->shouldReturn(false);
     }

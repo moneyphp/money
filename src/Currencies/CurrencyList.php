@@ -22,20 +22,16 @@ final class CurrencyList implements Currencies
 
     public function __construct(array $currencies)
     {
-        foreach ($currencies as $currencyCode => $currency) {
+        foreach ($currencies as $currencyCode => $subunit) {
             if (empty($currencyCode) || !is_string($currencyCode)) {
                 throw new \InvalidArgumentException(
                     sprintf('Currency code must be a string and not empty. "%s" given', $currencyCode)
                 );
             }
 
-            if (
-                !isset($currency['minorUnit']) ||
-                !is_int($currency['minorUnit']) ||
-                $currency['minorUnit'] < 0
-            ) {
+            if (!is_int($subunit) || $subunit < 0) {
                 throw new \InvalidArgumentException(
-                    sprintf('Currency %s does not have a valid minorUnit. Must be a positive integer.', $currencyCode)
+                    sprintf('Currency %s does not have a valid minor unit. Must be a positive integer.', $currencyCode)
                 );
             }
         }
@@ -57,10 +53,10 @@ final class CurrencyList implements Currencies
     public function subunitFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find currency '.$currency->getCode());
+            throw new UnknownCurrencyException('Cannot find currency ' . $currency->getCode());
         }
 
-        return $this->currencies[$currency->getCode()]['minorUnit'];
+        return $this->currencies[$currency->getCode()];
     }
 
     /**
