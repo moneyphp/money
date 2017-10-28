@@ -22,6 +22,10 @@ final class AggregateMoneyParser implements MoneyParser
      */
     public function __construct(array $parsers)
     {
+        if (empty($parsers)) {
+            throw new \InvalidArgumentException(sprintf('Initialize an empty %s is not possible', self::class));
+        }
+
         foreach ($parsers as $parser) {
             if (false === $parser instanceof MoneyParser) {
                 throw new \InvalidArgumentException('All parsers must implement '.MoneyParser::class);

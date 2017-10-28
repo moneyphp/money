@@ -79,7 +79,7 @@
   'AZN' => 
   array (
     'alphabeticCode' => 'AZN',
-    'currency' => 'Azerbaijanian Manat',
+    'currency' => 'Azerbaijan Manat',
     'minorUnit' => 2,
     'numericCode' => 944,
   ),
@@ -289,7 +289,7 @@
   'KMF' => 
   array (
     'alphabeticCode' => 'KMF',
-    'currency' => 'Comoro Franc',
+    'currency' => 'Comorian Franc ',
     'minorUnit' => 0,
     'numericCode' => 174,
   ),
@@ -464,7 +464,7 @@
   'GNF' => 
   array (
     'alphabeticCode' => 'GNF',
-    'currency' => 'Guinea Franc',
+    'currency' => 'Guinean Franc',
     'minorUnit' => 0,
     'numericCode' => 324,
   ),
@@ -611,7 +611,7 @@
   'LAK' => 
   array (
     'alphabeticCode' => 'LAK',
-    'currency' => 'Kip',
+    'currency' => 'Lao Kip',
     'minorUnit' => 2,
     'numericCode' => 418,
   ),

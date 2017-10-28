@@ -1,5 +1,21 @@
 # Change Log
 
+## 3.0.8 - 2017-10-03
+
+### Fixed
+
+- Rounding issue in Number class.
+- Reduce composer package file size by leaving out docs and logo.
+- Missing Travis tests for PHP 7.2.
+
+
+## 3.0.7 - 2017-08-07
+
+### Updated
+
+- Currencies
+
+
 ## 3.0.6 - 2017-07-25
 
 ### Fixed
