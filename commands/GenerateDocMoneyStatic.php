@@ -21,7 +21,7 @@ class GenerateDocMoneyStatic extends Command
     protected function configure()
     {
         $this
-            ->setName('generate:doc:money-static')
+            ->setName('generate:money-static:helper')
             ->setDescription('Generates a helper class with static methods.')
             ->setHelp('Generates a Money helper class with all overloaded static methods.')
             ->addOption('path', null, InputOption::VALUE_REQUIRED, 'The filepath where to store the helper file.', realpath(__DIR__ . '/..'))
