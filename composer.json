@@ -67,7 +67,7 @@
             "vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
-        "generate-ide-helper": "./money-console generate:doc:money-static"
+        "generate-ide-helper": "./money-console generate:money-static:helper"
     },
     "bin": [
         "money-console"
