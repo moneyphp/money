@@ -17,6 +17,14 @@ All amounts are represented in the smallest unit (eg. cents), so USD 5.00 is wri
 
 See :doc:`features/parsing` for additional ways to instantiate a Money object from strings.
 
+CLP 3 would be instantiated as follows because it doesn't have subunits.
+
+.. code-block:: php
+
+    $three = new Money(3, new Currency('CLP'));
+    
+For more information about subunits see :doc:`features/currencies.html#isocurrencies`
+
 Accepted integer values
 -----------------------
 The Money object only supports integer(ish) values on instantiation. The following is (not) supported. When a
@@ -44,8 +52,6 @@ non-supported value is passed a `\InvalidArgumentException` will be thrown.
 
     // plus sign is not accepted
     $fiver = new Money('+500', new Currency('USD'));
-
-
 
 Installation
 ------------
