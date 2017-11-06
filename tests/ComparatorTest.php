@@ -49,7 +49,7 @@ final class ComparatorTest extends \PHPUnit_Framework_TestCase
             return;
         }
 
-        $this->fail("ComparisonFailure should have been thrown");
+        $this->fail('ComparisonFailure should have been thrown.');
     }
 
     public function testComparatorComparesEqualValues()
