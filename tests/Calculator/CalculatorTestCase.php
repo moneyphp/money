@@ -105,6 +105,15 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->getCalculator()->compare($left, $right));
     }
 
+    /**
+     * @dataProvider modExamples
+     * @test
+     */
+    public function it_calculates_the_modulus_of_a_value($left, $right, $expected)
+    {
+        $this->assertEquals($expected, $this->getCalculator()->mod($left, $right));
+    }
+
     public function additionExamples()
     {
         return [
@@ -196,6 +205,19 @@ abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
             ['0', '1', -1],
             ['1', '0.0005', 1],
             ['1', '0.000000000000000000000000005', 1],
+        ];
+    }
+
+    public function modExamples()
+    {
+        return [
+            [11, 5, '1'],
+            [9, 3, '0'],
+            [1006, 10, '6'],
+            [1007, 10, '7'],
+            [-13, -5, '-3'],
+            [-13, 5, '-3'],
+            [13, -5, '3'],
         ];
     }
 }

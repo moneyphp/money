@@ -190,6 +190,21 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $money->getAmount());
     }
 
+    /**
+     * @dataProvider modExamples
+     * @test
+     */
+    public function it_calculates_the_modulus_of_an_amount($left, $right, $expected)
+    {
+        $money = new Money($left, new Currency(self::CURRENCY));
+        $rightMoney = new Money($right, new Currency(self::CURRENCY));
+
+        $money = $money->mod($rightMoney);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals($expected, $money->getAmount());
+    }
+
     public function test_it_converts_to_json()
     {
         $this->assertEquals(
@@ -294,6 +309,16 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
             ['1', -1],
             ['0', 0],
             ['-1', 1],
+        ];
+    }
+
+    public function modExamples()
+    {
+        return [
+            [11, 5, '1'],
+            [9, 3, '0'],
+            [1006, 10, '6'],
+            [1007, 10, '7'],
         ];
     }
 }

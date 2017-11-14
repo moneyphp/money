@@ -140,6 +140,18 @@ final class PhpCalculator implements Calculator
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function mod($amount, $divisor)
+    {
+        $result = $amount % $divisor;
+
+        $this->assertIntegerBounds($result);
+
+        return (string) $result;
+    }
+
+    /**
      * Asserts that an integer value didn't become something else
      * (after some arithmetic operation).
      *

@@ -72,6 +72,11 @@ trait CalculatorBehavior
         $this->share(10, 2, 4)->shouldBeString();
     }
 
+    function it_calculates_the_modulus()
+    {
+        $this->mod(11, 5)->shouldBeString();
+    }
+
     public function getMatchers()
     {
         return [
