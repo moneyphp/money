@@ -49,6 +49,29 @@ The Bitcoin currencies provides a single currency: the Bitcoin. It uses XBT as i
     $currencies->contains(new Currency('USD')); // returns boolean whether USD is available in this repository (false)
     $currencies->subunitFor(new Currency('XBT')); // returns the subunit for the Bitcoin (8)
 
+CurrencyList
+------------
+
+The CurrencyList class provides a way for a developer to create a custom currency repository.
+The class accepts an array of currency code and minor unit pairs. In case of an invalid array an exception is thrown.
+
+.. code-block:: php
+
+    use Money\Currencies\CurrencyList;
+    use Money\Currency;
+
+    $currencies = new CurrencyList([
+        'MY1' => 2,
+    ]);
+
+    foreach ($currencies as $currency) {
+        echo $currency->getCode(); // prints MY1
+    }
+
+    $currencies->contains(new Currency('MY1')); // returns boolean whether MY1 is available in this repository (true)
+    $currencies->contains(new Currency('USD')); // returns boolean whether USD is available in this repository (false)
+    $currencies->subunitFor(new Currency('MY1')); // returns the subunit for the currency MY1
+
 
 Aggregate Currencies
 --------------------
