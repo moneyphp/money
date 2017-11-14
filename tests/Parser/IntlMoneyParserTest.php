@@ -25,8 +25,11 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
             Argument::which('getCode', 'USD')
         ))->willReturn(2);
 
+        $currencyCode = 'USD';
+        $currency = new Currency($currencyCode);
+
         $parser = new IntlMoneyParser($formatter, $currencies->reveal());
-        $this->assertEquals($units, $parser->parse($string, 'USD')->getAmount());
+        $this->assertEquals($units, $parser->parse($string, $currency)->getAmount());
     }
 
     public static function formattedMoneyExamples()
@@ -63,8 +66,10 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
+        $currencyCode = 'USD';
+        $currency = new Currency($currencyCode);
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', 'USD');
+        $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', $currency);
     }
 
     public function testDifferentLocale()
@@ -79,13 +84,28 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('CAD', $money->getCurrency()->getCode());
     }
 
-    public function testForceCurrency()
+    public function testCurrencyForceCurrency()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
+        $currencyCode = 'CAD';
+        $currency = new Currency($currencyCode);
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('$1000.00', 'CAD');
+        $money = $parser->parse('$1000.00', $currency);
+
+        $this->assertEquals('100000', $money->getAmount());
+        $this->assertEquals('CAD', $money->getCurrency()->getCode());
+    }
+
+    public function testStringForceCurrency()
+    {
+        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
+
+        $currencyCode = 'CAD';
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
+        $money = $parser->parse('$1000.00', $currencyCode);
 
         $this->assertEquals('100000', $money->getAmount());
         $this->assertEquals('CAD', $money->getCurrency()->getCode());
