@@ -91,13 +91,13 @@ final class GmpCalculator implements Calculator
                 return '0';
             }
 
-            $result = substr($resultBase, $decimalPlaces *-1);
+            $result = substr($resultBase, $decimalPlaces * -1);
             $resultLength = strlen($result);
             if ($decimalPlaces > $resultLength) {
-                return '0.' . str_pad('', $decimalPlaces - $resultLength, '0') . $result;
+                return '0.'.str_pad('', $decimalPlaces - $resultLength, '0').$result;
             }
 
-            return substr($resultBase, 0, $decimalPlaces *-1) . '.' . $result;
+            return substr($resultBase, 0, $decimalPlaces * -1).'.'.$result;
         }
 
         return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((string) $multiplier)));
