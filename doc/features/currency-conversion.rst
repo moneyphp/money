@@ -91,6 +91,29 @@ Then conversion is quite simple:
 .. _Composer: https://getcomposer.org
 
 
+Third Party Exchange At Historical Date
+---------------------------------------
+
+Next to the ``Money\Exchange`` mentioned before, we also provide a way to integrate external
+sources of conversion rates at historical dates by implementing the ``Money\HistoricalExchange``
+interface. There is a default one as mentioned above.
+
+Then conversion is quite simple:
+
+.. code:: php
+
+    use Money\Money;
+    use Money\HistoricalConverter;
+
+    // $swap = Implementation of \Swap\SwapInterface
+    $exchange = new HistoricalSwapExchange($swap);
+
+    $converter = new HistoricalConverter(new ISOCurrencies(), $exchange);
+    $date = new \DateTime();
+    $eur100 = Money::EUR(100);
+    $usd125 = $converter->convert($eur100, new Currency('USD'), $date);
+
+
 CurrencyPair
 ------------
 
