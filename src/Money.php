@@ -5,6 +5,7 @@ namespace Money;
 use Money\Calculator\BcMathCalculator;
 use Money\Calculator\GmpCalculator;
 use Money\Calculator\PhpCalculator;
+use Money\Traits\OperatorOverloads;
 
 /**
  * Money Value Object.
@@ -13,6 +14,8 @@ use Money\Calculator\PhpCalculator;
  */
 final class Money implements \JsonSerializable
 {
+    use OperatorOverloads;
+
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
