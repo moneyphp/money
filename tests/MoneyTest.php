@@ -19,6 +19,8 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $money = Money::XYZ(20);
 
         $this->assertInstanceOf(Money::class, $money);
+
+        $this->assertEquals(new Money(20, new Currency("XYZ")), $money);
         $this->assertEquals('20', $money->getAmount());
         $this->assertEquals('XYZ', $money->getCurrency()->getCode());
     }
