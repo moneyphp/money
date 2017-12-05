@@ -14,9 +14,9 @@ use SebastianBergmann\Comparator\ComparisonFailure;
  *
  * Add this to your bootstrap file:
  *
- * \SebastianBergmann\Comparator\Factory::getInstance()->register(new \Money\Comparator);
+ * \SebastianBergmann\Comparator\Factory::getInstance()->register(new \Money\PHPUnit\Comparator());
  */
-class Comparator extends \SebastianBergmann\Comparator\Comparator
+final class Comparator extends \SebastianBergmann\Comparator\Comparator
 {
     /**
      * @var IntlMoneyFormatter
