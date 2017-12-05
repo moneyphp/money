@@ -1,9 +1,12 @@
 <?php
 
-namespace Money;
+namespace Money\PHPUnit;
 
+use Money\Currencies\AggregateCurrencies;
+use Money\Currencies\BitcoinCurrencies;
 use Money\Currencies\ISOCurrencies;
 use Money\Formatter\IntlMoneyFormatter;
+use Money\Money;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
@@ -24,7 +27,11 @@ class Comparator extends \SebastianBergmann\Comparator\Comparator
     {
         parent::__construct();
 
-        $currencies = new ISOCurrencies();
+        $currencies = new AggregateCurrencies([
+            new ISOCurrencies(),
+            new BitcoinCurrencies()
+        ]);
+
         $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $this->formatter = new IntlMoneyFormatter($numberFormatter, $currencies);
     }

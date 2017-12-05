@@ -2,7 +2,7 @@
 
 namespace Tests\Money;
 
-use Money\Comparator;
+use Money\PHPUnit\Comparator;
 use Money\Money;
 
 final class ComparatorTest extends \PHPUnit_Framework_TestCase
