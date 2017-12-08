@@ -87,6 +87,7 @@ final class DecimalMoneyParserTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['INVALID'],
+            ['.'],
         ];
     }
 
