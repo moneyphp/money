@@ -7,3 +7,6 @@ finder:
 
 enabled:
     - short_array_syntax
+
+disabled:
+    - yoda_style
