@@ -186,7 +186,7 @@ final class Number
 
             if (!isset(static::$numbers[$digit]) && !(0 === $position && '-' === $digit)) {
                 throw new \InvalidArgumentException(
-                    sprintf('Invalid integer part %s. Invalid digit %2 found', $number, $digit)
+                    sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit)
                 );
             }
 
@@ -217,7 +217,7 @@ final class Number
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit])) {
                 throw new \InvalidArgumentException(
-                    'Invalid fractional part '.$number.'. Invalid digit '.$digit.' found'
+                    sprintf('Invalid fractional part %1$s. Invalid digit %2$s found', $number, $digit)
                 );
             }
         }
