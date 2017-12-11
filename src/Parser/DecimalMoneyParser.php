@@ -64,7 +64,7 @@ final class DecimalMoneyParser implements MoneyParser
 
         $subunit = $this->currencies->subunitFor($currency);
 
-        if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches)) {
+        if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches) || !isset($matches['digits'])) {
             throw new ParserException(sprintf(
                 'Cannot parse "%s" to Money.',
                 $decimal
