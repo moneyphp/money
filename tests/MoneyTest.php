@@ -10,8 +10,11 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
     use RoundExamples;
 
     const AMOUNT = 10;
+
     const OTHER_AMOUNT = 5;
+
     const CURRENCY = 'EUR';
+
     const OTHER_CURRENCY = 'USD';
 
     public function test_it_creates_money_using_factories()
