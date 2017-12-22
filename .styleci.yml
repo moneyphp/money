@@ -10,3 +10,4 @@ enabled:
 
 disabled:
     - yoda_style
+    - self_accessor
