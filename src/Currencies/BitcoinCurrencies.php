@@ -12,6 +12,7 @@ use Money\Exception\UnknownCurrencyException;
 final class BitcoinCurrencies implements Currencies
 {
     const CODE = 'XBT';
+
     const SYMBOL = "\xC9\x83";
 
     /**
