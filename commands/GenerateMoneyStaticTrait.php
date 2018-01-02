@@ -16,6 +16,7 @@ class GenerateMoneyStaticTrait extends AbstractGenerateMoneyStatic
     protected function generateFile(AggregateCurrencies $currencies)
     {
         $this->pushBuffer('<?php');
+        $this->pushBuffer('');
         $this->pushBuffer('namespace Money;');
         $this->pushBuffer('');
         $this->pushBuffer('trait StaticHelperMethodsTrait');
@@ -23,7 +24,8 @@ class GenerateMoneyStaticTrait extends AbstractGenerateMoneyStatic
         foreach ($currencies as $currency) {
             $code = $currency->getCode();
             $this->pushBuffer(
-                $this->getIndent(1) . 'public static function ' . $code . '($amount) {' . PHP_EOL .
+                $this->getIndent(1) . 'public static function ' . $code . '($amount)' . PHP_EOL .
+                $this->getIndent(1) . '{' . PHP_EOL .
                 $this->getIndent(2) . 'return new self($amount, new Currency(\'' . $code . '\'));' . PHP_EOL .
                 $this->getIndent(1) . '}' . PHP_EOL
             );
