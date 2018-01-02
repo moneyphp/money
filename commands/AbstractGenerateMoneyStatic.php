@@ -6,14 +6,20 @@ namespace Commands\Money;
 use Money\Currencies\AggregateCurrencies;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Currencies\ISOCurrencies;
-use Money\Money;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class GenerateDocMoneyStatic extends Command
+abstract class AbstractGenerateMoneyStatic extends Command
 {
+    protected $name = null;
+    protected $description = null;
+    protected $help = null;
+
+    protected $filepath = null;
+    protected $filename = null;
+
     protected $buffer = '';
 
     protected $indent = 4;
@@ -21,10 +27,10 @@ class GenerateDocMoneyStatic extends Command
     protected function configure()
     {
         $this
-            ->setName('generate:money-static:helper')
-            ->setDescription('Generates a helper class with static methods.')
-            ->setHelp('Generates a Money helper class with all overloaded static methods.')
-            ->addOption('path', null, InputOption::VALUE_REQUIRED, 'The filepath where to store the helper file.', realpath(__DIR__ . '/..'))
+            ->setName($this->name)
+            ->setDescription($this->description)
+            ->setHelp($this->help)
+            ->addOption('path', null, InputOption::VALUE_REQUIRED, 'The filepath where to store the file.', realpath(__DIR__ . '/' . $this->filepath))
             ->addOption('currencies', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Additional currencies classes to load.')
             ->addOption('indent', null, InputOption::VALUE_REQUIRED, 'The amount of spaces to use for indent.', 4);
     }
@@ -62,9 +68,8 @@ class GenerateDocMoneyStatic extends Command
             return;
         }
 
-        $filepath = realpath($path) . '/_ide_helper.money.php';
+        $filepath = realpath($path) . '/'.$this->filename;
 
-        $output->writeln('<fg=blue>Generate ' . Money::class . ' static method helper class</>');
         $output->writeln('<fg=magenta>Target-File:</>');
         $output->writeln($filepath);
         $output->writeln('<fg=magenta>Currencies-Classes:</>');
@@ -73,28 +78,16 @@ class GenerateDocMoneyStatic extends Command
         $output->writeln('<fg=magenta>Found-Currencies:</>');
         $output->writeln(iterator_count($currencies));
 
-        $this->pushBuffer('<?php');
-        $this->pushBuffer('namespace Money;');
-        $this->pushBuffer('');
-        $this->pushBuffer('class Money');
-        $this->pushBuffer('{');
-        foreach ($currencies as $currency) {
-            $code = $currency->getCode();
-            $this->pushBuffer(
-                $this->getIndent(1) . 'public static function ' . $code . '($amount) {' . PHP_EOL .
-                $this->getIndent(2) . 'return new self($amount, new Currency(\'' . $code . '\'));' . PHP_EOL .
-                $this->getIndent(1) . '}' . PHP_EOL
-            );
-        }
-        $this->buffer = trim($this->buffer) . PHP_EOL;
-        $this->pushBuffer('}');
+        $this->generateFile($currencies);
 
         if (file_put_contents($filepath, $this->buffer)) {
-            $output->writeln('<fg=green>helper class successfully written</>');
+            $output->writeln('<fg=green>file successfully written</>');
             return;
         }
         $output->writeln('<fg=red>an error occurred and the file was not written</>');
     }
+
+    abstract protected function generateFile(AggregateCurrencies $currencies);
 
     protected function pushBuffer($line)
     {
