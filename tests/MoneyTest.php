@@ -233,6 +233,31 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 
+    public function test_it_returns_ratio_of()
+    {
+        $currency = new Currency('EUR');
+        $zero = new Money(0, $currency);
+        $three = new Money(3, $currency);
+        $six = new Money(6, $currency);
+
+        $this->assertEquals(0, $zero->ratioOf($six));
+        $this->assertEquals(0.5, $three->ratioOf($six));
+        $this->assertEquals(1, $three->ratioOf($three));
+        $this->assertEquals(2, $six->ratioOf($three));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function test_it_throws_when_calculating_ratio_of_zero()
+    {
+        $currency = new Currency('EUR');
+        $zero = new Money(0, $currency);
+        $six = new Money(6, $currency);
+
+        $this->assertEquals(2, $six->ratioOf($zero));
+    }
+
     public function equalityExamples()
     {
         return [
