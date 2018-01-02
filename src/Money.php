@@ -433,6 +433,10 @@ final class Money implements \JsonSerializable
      */
     public function ratioOf(Money $money)
     {
+        if (!$money->amount) {
+            throw new \InvalidArgumentException('Cannot calculate a ratio of zero');
+        }
+
         return $this->getCalculator()->divide($this->amount, $money->amount);
     }
 
