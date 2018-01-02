@@ -397,6 +397,10 @@ final class Money implements \JsonSerializable
         }
 
         for ($i = 0; $this->getCalculator()->compare($remainder, 0) === 1; ++$i) {
+            if (!$results[$i]->amount) {
+                continue;
+            }
+
             $results[$i]->amount = (string) $this->getCalculator()->add($results[$i]->amount, 1);
             $remainder = $this->getCalculator()->subtract($remainder, 1);
         }
