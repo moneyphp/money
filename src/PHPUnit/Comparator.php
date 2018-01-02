@@ -29,7 +29,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
 
         $currencies = new AggregateCurrencies([
             new ISOCurrencies(),
-            new BitcoinCurrencies()
+            new BitcoinCurrencies(),
         ]);
 
         $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
