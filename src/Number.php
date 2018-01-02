@@ -179,14 +179,22 @@ final class Number
             return $this;
         }
 
+        $sign = '';
+        $integerPart = $this->integerPart;
+
+        if ($integerPart[0] === '-') {
+            $sign = '-';
+            $integerPart = substr($integerPart, 1);
+        }
+
         if ($number >= 0) {
-            $integerPart = ltrim($this->integerPart, '0');
+            $integerPart = ltrim($integerPart, '0');
             $lengthIntegerPart = strlen($integerPart);
             $integers = $lengthIntegerPart - min($number, $lengthIntegerPart);
             $zeroPad = $number - min($number, $lengthIntegerPart);
 
             return new Number(
-                substr($integerPart, 0, $integers),
+                $sign.substr($integerPart, 0, $integers),
                 rtrim(str_pad('', $zeroPad, '0').substr($integerPart, $integers).$this->fractionalPart, '0')
             );
         }
@@ -197,7 +205,7 @@ final class Number
         $zeroPad = $number - min($number, $lengthFractionalPart);
 
         return new Number(
-            ltrim($this->integerPart.substr($this->fractionalPart, 0, $lengthFractionalPart - $fractions).str_pad('', $zeroPad, '0'), '0'),
+            $sign.ltrim($integerPart.substr($this->fractionalPart, 0, $lengthFractionalPart - $fractions).str_pad('', $zeroPad, '0'), '0'),
             substr($this->fractionalPart, $lengthFractionalPart - $fractions)
         );
     }
