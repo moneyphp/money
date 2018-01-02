@@ -114,4 +114,14 @@ interface Calculator
      * @return string
      */
     public function share($amount, $ratio, $total);
+
+    /**
+     * Get the modulus of an amount.
+     *
+     * @param string           $amount
+     * @param int|float|string $divisor
+     *
+     * @return string
+     */
+    public function mod($amount, $divisor);
 }

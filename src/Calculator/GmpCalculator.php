@@ -91,11 +91,13 @@ final class GmpCalculator implements Calculator
                 return '0';
             }
 
-            $resultLength = strlen($resultBase);
-            $result = substr($resultBase, 0, $resultLength - $decimalPlaces);
-            $result .= '.'.substr($resultBase, $resultLength - $decimalPlaces);
+            $result = substr($resultBase, $decimalPlaces * -1);
+            $resultLength = strlen($result);
+            if ($decimalPlaces > $resultLength) {
+                return '0.'.str_pad('', $decimalPlaces - $resultLength, '0').$result;
+            }
 
-            return $result;
+            return substr($resultBase, 0, $decimalPlaces * -1).'.'.$result;
         }
 
         return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((string) $multiplier)));
@@ -285,5 +287,23 @@ final class GmpCalculator implements Calculator
     public function share($amount, $ratio, $total)
     {
         return $this->floor($this->divide($this->multiply($amount, $ratio), $total));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function mod($amount, $divisor)
+    {
+        // gmp_mod() only calculates non-negative integers, so we use absolutes
+        $remainder = gmp_mod($this->absolute($amount), $this->absolute($divisor));
+
+        // If the amount was negative, we negate the result of the modulus operation
+        $amount = Number::fromString((string) $amount);
+
+        if (true === $amount->isNegative()) {
+            $remainder = gmp_neg($remainder);
+        }
+
+        return gmp_strval($remainder);
     }
 }

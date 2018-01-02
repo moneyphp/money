@@ -45,19 +45,28 @@ final class IntlMoneyParser implements MoneyParser
             throw new ParserException('Formatted raw money should be string, e.g. $1.00');
         }
 
-        $currencyCode = null;
-        $decimal = $this->formatter->parseCurrency($money, $currencyCode);
-
-        if (null !== $forceCurrency) {
-            $currencyCode = $forceCurrency;
-        }
-
-        $currency = new Currency($currencyCode);
+        $currency = null;
+        $decimal = $this->formatter->parseCurrency($money, $currency);
 
         if (false === $decimal) {
             throw new ParserException(
                 'Cannot parse '.$money.' to Money. '.$this->formatter->getErrorMessage()
             );
+        }
+
+        if (null !== $forceCurrency) {
+            $currency = $forceCurrency;
+        } else {
+            $currency = new Currency($currency);
+        }
+
+        /*
+         * This conversion is only required whilst currency can be either a string or a
+         * Currency object.
+         */
+        if (!$currency instanceof Currency) {
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+            $currency = new Currency($currency);
         }
 
         $decimal = (string) $decimal;

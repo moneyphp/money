@@ -16,12 +16,19 @@ final class Money implements \JsonSerializable
     use StaticHelperMethodsTrait;
 
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+
     const ROUND_UP = 5;
+
     const ROUND_DOWN = 6;
+
     const ROUND_HALF_POSITIVE_INFINITY = 7;
+
     const ROUND_HALF_NEGATIVE_INFINITY = 8;
 
     /**
@@ -342,6 +349,22 @@ final class Money implements \JsonSerializable
         $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
 
         return $this->newInstance($quotient);
+    }
+
+    /**
+     * Returns a new Money object that represents
+     * the remainder after dividing the value by
+     * the given factor.
+     *
+     * @param Money $divisor
+     *
+     * @return Money
+     */
+    public function mod(Money $divisor)
+    {
+        $this->assertSameCurrency($divisor);
+
+        return new self($this->getCalculator()->mod($this->amount, $divisor->amount), $this->currency);
     }
 
     /**

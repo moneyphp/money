@@ -39,13 +39,13 @@ final class Converter
     public function convert(Money $money, Currency $counterCurrency, $roundingMode = Money::ROUND_HALF_UP)
     {
         $baseCurrency = $money->getCurrency();
-        $ratio = $this->exchange->quote($baseCurrency, $counterCurrency)->getConversionRatio();
+        $ratio = (string) $this->exchange->quote($baseCurrency, $counterCurrency)->getConversionRatio();
 
         $baseCurrencySubunit = $this->currencies->subunitFor($baseCurrency);
         $counterCurrencySubunit = $this->currencies->subunitFor($counterCurrency);
         $subunitDifference = $baseCurrencySubunit - $counterCurrencySubunit;
 
-        $ratio = $ratio / pow(10, $subunitDifference);
+        $ratio = (string) Number::fromString($ratio)->base10($subunitDifference);
 
         $counterValue = $money->multiply($ratio, $roundingMode);
 

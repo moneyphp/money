@@ -24,7 +24,7 @@ final class DecimalMoneyParserTest extends \PHPUnit_Framework_TestCase
 
         $parser = new DecimalMoneyParser($currencies->reveal());
 
-        $this->assertEquals($result, $parser->parse($decimal, $currency)->getAmount());
+        $this->assertEquals($result, $parser->parse($decimal, new Currency($currency))->getAmount());
     }
 
     public static function formattedMoneyExamples()
@@ -81,5 +81,49 @@ final class DecimalMoneyParserTest extends \PHPUnit_Framework_TestCase
             ['9.99', 'USD', 2, 999],
             ['-9.99', 'USD', 2, -999],
         ];
+    }
+
+    public static function invalidMoneyExamples()
+    {
+        return [
+            ['INVALID'],
+            ['.'],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidMoneyExamples
+     * @expectedException \Money\Exception\ParserException
+     */
+    public function testInvalidInputsThrowParseException($input)
+    {
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
+
+        $parser = new DecimalMoneyParser($currencies->reveal());
+
+        $parser->parse($input, new Currency('USD'))->getAmount();
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
+     */
+    public function testCurrencyExpectsAnObject()
+    {
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
+
+        $parser = new DecimalMoneyParser($currencies->reveal());
+
+        $parser->parse('1.0', 'USD')->getAmount();
     }
 }

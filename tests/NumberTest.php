@@ -90,6 +90,16 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
         Number::fromString($number);
     }
 
+    /**
+     * @dataProvider base10Examples
+     * @test
+     */
+    public function testBase10($numberString, $baseNumber, $expectedResult)
+    {
+        $number = Number::fromString($numberString);
+        $this->assertSame($expectedResult, (string) $number->base10($baseNumber));
+    }
+
     public function invalidNumberExamples()
     {
         return [
@@ -102,6 +112,22 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
             ['-123456789012345678.-13456'],
             ['+123456789'],
             ['+123456789012345678.+13456'],
+        ];
+    }
+
+    public function base10Examples()
+    {
+        return [
+            ['0', 10, '0'],
+            ['5', 1, '0.5'],
+            ['50', 2, '0.5'],
+            ['50', 3, '0.05'],
+            ['0.5', 2, '0.005'],
+            ['500', 2, '5'],
+            ['500', 0, '500'],
+            ['500', -2, '50000'],
+            ['0.5', -2, '50'],
+            ['0.5', -3, '500'],
         ];
     }
 }

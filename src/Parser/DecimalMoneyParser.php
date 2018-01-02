@@ -46,7 +46,16 @@ final class DecimalMoneyParser implements MoneyParser
             );
         }
 
-        $currency = new Currency($forceCurrency);
+        /*
+         * This conversion is only required whilst currency can be either a string or a
+         * Currency object.
+         */
+        $currency = $forceCurrency;
+        if (!$currency instanceof Currency) {
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+            $currency = new Currency($currency);
+        }
+
         $decimal = trim($money);
 
         if ($decimal === '') {
@@ -55,7 +64,7 @@ final class DecimalMoneyParser implements MoneyParser
 
         $subunit = $this->currencies->subunitFor($currency);
 
-        if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches)) {
+        if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches) || !isset($matches['digits'])) {
             throw new ParserException(sprintf(
                 'Cannot parse "%s" to Money.',
                 $decimal

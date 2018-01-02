@@ -59,6 +59,10 @@ final class ConverterTest extends \PHPUnit_Framework_TestCase
             ['JPY', 'USD', 0, 2, 0.0099, 1000, 990],
             ['USD', 'EUR', 2, 2, 0.89, 100, 89],
             ['EUR', 'USD', 2, 2, 1.12, 100, 112],
+            ['XBT', 'USD', 8, 2, 6597, 1, 0],
+            ['XBT', 'USD', 8, 2, 6597, 10, 0],
+            ['XBT', 'USD', 8, 2, 6597, 100, 1],
+            ['ETH', 'EUR', 18, 2, 330.84, '100000000000000000', 3308],
         ];
     }
 }

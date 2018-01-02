@@ -1,5 +1,19 @@
 # Change Log
 
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+
+## 3.0.9 - 2017-11-05
+
+### Fixed
+
+- Bitcoin currency symbol
+
+
 ## 3.0.8 - 2017-10-03
 
 ### Fixed
@@ -11,21 +25,21 @@
 
 ## 3.0.7 - 2017-08-07
 
-### Updated
+### Changed
 
 - Currencies
 
 
 ## 3.0.6 - 2017-07-25
 
+### Added
+
+- IndirectExchange: a way to get an exchange rate through a minimal set of intermediate conversions.
+
 ### Fixed
 
 - Tests for HHVM
 - Incorrect documentation on Bitcoin parser
-
-### Added
-
-- IndirectExchange: a way to get an exchange rate through a minimal set of intermediate conversions.
 
 
 ## 3.0.5 - 2017-04-26
@@ -37,11 +51,6 @@
 
 ## 3.0.4 - 2017-04-21
 
-### Fixed
-
-- ISOCurrencies will no longer have a blank currency
-- Double symbol when formatting negative Bitcoin amounts 
-
 ### Added
 
 - Negative method
@@ -50,6 +59,11 @@
 
 - Updated ISO Currencies
 - Removed old Belarusian ruble from ISOCurrencies (BYR)
+
+### Fixed
+
+- ISOCurrencies will no longer have a blank currency
+- Double symbol when formatting negative Bitcoin amounts
 
 
 ## 3.0.3 - 2017-03-22
@@ -205,3 +219,20 @@
              at https://gist.github.com/4485025 in case you need it.
 - 2013-01-08 Use vendor/autoload.php instead of lib/bootstrap.php (or use PSR-0 autolaoding)
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
+
+
+[Unreleased]: https://github.com/moneyphp/money/compare/v3.0.9...HEAD
+[3.0.9]: https://github.com/moneyphp/money/compare/v3.0.8...v3.0.9
+[3.0.8]: https://github.com/moneyphp/money/compare/v3.0.7...v3.0.8
+[3.0.7]: https://github.com/moneyphp/money/compare/v3.0.6...v3.0.7
+[3.0.6]: https://github.com/moneyphp/money/compare/v3.0.5...v3.0.6
+[3.0.5]: https://github.com/moneyphp/money/compare/v3.0.4...v3.0.5
+[3.0.4]: https://github.com/moneyphp/money/compare/v3.0.3...v3.0.4
+[3.0.3]: https://github.com/moneyphp/money/compare/v3.0.2...v3.0.3
+[3.0.2]: https://github.com/moneyphp/money/compare/v3.0.1...v3.0.2
+[3.0.1]: https://github.com/moneyphp/money/compare/v3.0.0...v3.0.1
+[3.0.0]: https://github.com/moneyphp/money/compare/v3.0.0-beta.4...v3.0.0
+[3.0.0-beta4]: https://github.com/moneyphp/money/compare/v3.0.0-beta.3...v3.0.0-beta.4
+[3.0.0-beta3]: https://github.com/moneyphp/money/compare/v3.0.0-beta.2...v3.0.0-beta.3
+[3.0.0-beta2]: https://github.com/moneyphp/money/compare/v3.0.0-beta...v3.0.0-beta.2
+[3.0.0-beta]: https://github.com/moneyphp/money/compare/v3.0.0-alpha...v3.0.0-beta
