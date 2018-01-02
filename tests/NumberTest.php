@@ -97,7 +97,7 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
     public function testBase10($numberString, $baseNumber, $expectedResult)
     {
         $number = Number::fromString($numberString);
-        $this->assertSame($expectedResult, (string)$number->base10($baseNumber));
+        $this->assertSame($expectedResult, (string) $number->base10($baseNumber));
     }
 
     public function invalidNumberExamples()

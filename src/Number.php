@@ -186,7 +186,7 @@ final class Number
 
             return new Number(
                 substr($integerPart, 0, $integers),
-                rtrim(str_pad('', $zeroPad, '0').substr($integerPart, $integers) . $this->fractionalPart, '0')
+                rtrim(str_pad('', $zeroPad, '0').substr($integerPart, $integers).$this->fractionalPart, '0')
             );
         }
 
