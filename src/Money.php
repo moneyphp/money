@@ -427,6 +427,16 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * @param Money $money
+     *
+     * @return string
+     */
+    public function ratioOf(Money $money)
+    {
+        return $this->getCalculator()->divide($this->amount, $money->amount);
+    }
+
+    /**
      * @param int|float $amount
      * @param $rounding_mode
      *
