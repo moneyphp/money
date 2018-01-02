@@ -56,6 +56,8 @@ final class IntlMoneyParser implements MoneyParser
 
         if (null !== $forceCurrency) {
             $currency = $forceCurrency;
+        } else {
+            $currency = new Currency($currency);
         }
 
         /*

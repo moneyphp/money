@@ -105,7 +105,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
 
         $currencyCode = 'CAD';
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('$1000.00', $currencyCode);
+        $money = $parser->parse('$1000.00', new Currency($currencyCode));
 
         $this->assertEquals(Money::CAD(100000), $money);
     }
@@ -132,5 +132,18 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $money = $parser->parse('$1000.005');
 
         $this->assertEquals('100001', $money->getAmount());
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
+     */
+    public function testForceCurrencyExpectsAnObject()
+    {
+        $formatter = new \NumberFormatter('en_CA', \NumberFormatter::CURRENCY);
+        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
+
+        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
+        $parser->parse('$1000.00', 'EUR');
     }
 }
