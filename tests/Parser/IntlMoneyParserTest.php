@@ -5,6 +5,7 @@ namespace Tests\Money\Parser;
 use Money\Currencies;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
+use Money\Money;
 use Money\Parser\IntlMoneyParser;
 use Prophecy\Argument;
 
@@ -80,8 +81,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $money = $parser->parse('$1000.00');
 
-        $this->assertEquals('100000', $money->getAmount());
-        $this->assertEquals('CAD', $money->getCurrency()->getCode());
+        $this->assertEquals(Money::CAD(100000), $money);
     }
 
     public function testCurrencyForceCurrency()
@@ -107,8 +107,7 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $money = $parser->parse('$1000.00', $currencyCode);
 
-        $this->assertEquals('100000', $money->getAmount());
-        $this->assertEquals('CAD', $money->getCurrency()->getCode());
+        $this->assertEquals(Money::CAD(100000), $money);
     }
 
     public function testFractionDigits()

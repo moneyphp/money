@@ -82,4 +82,30 @@ final class DecimalMoneyParserTest extends \PHPUnit_Framework_TestCase
             ['-9.99', 'USD', 2, -999],
         ];
     }
+
+    public static function invalidMoneyExamples()
+    {
+        return [
+            ['INVALID'],
+            ['.'],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidMoneyExamples
+     * @expectedException \Money\Exception\ParserException
+     */
+    public function testInvalidInputsThrowParseException($input)
+    {
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
+
+        $parser = new DecimalMoneyParser($currencies->reveal());
+
+        $parser->parse($input, 'USD')->getAmount();
+    }
 }

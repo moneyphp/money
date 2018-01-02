@@ -53,7 +53,7 @@ final class CurrencyList implements Currencies
     public function subunitFor(Currency $currency)
     {
         if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find currency ' . $currency->getCode());
+            throw new UnknownCurrencyException('Cannot find currency '.$currency->getCode());
         }
 
         return $this->currencies[$currency->getCode()];
