@@ -166,6 +166,7 @@ final class Number
 
     /**
      * @param int $number
+     *
      * @return Number
      */
     public function base10($number)
