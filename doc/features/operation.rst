@@ -89,3 +89,18 @@ Absolute Value
     $value = Money::EUR(-800);       // -€8.00
 
     $result = $value->absolute();    // €8.00
+
+.. _ratios:
+
+Ratio's
+--------------
+
+``ratioOf()`` provides the ratio of a Money object in comparison to another Money object.
+
+.. code-block:: php
+
+    $three = Money::EUR(300);        // €3.00
+    $six = Money::EUR(600);          // €6.00
+
+    $result = $three->ratioOf($six); // 0.5
+    $result = $six->ratioOf($three); // 2

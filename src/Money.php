@@ -437,7 +437,7 @@ final class Money implements \JsonSerializable
      */
     public function ratioOf(Money $money)
     {
-        if (!$money->amount) {
+        if ($money->isZero()) {
             throw new \InvalidArgumentException('Cannot calculate a ratio of zero');
         }
 

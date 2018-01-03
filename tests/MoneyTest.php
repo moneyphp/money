@@ -255,7 +255,7 @@ final class MoneyTest extends \PHPUnit_Framework_TestCase
         $zero = new Money(0, $currency);
         $six = new Money(6, $currency);
 
-        $this->assertEquals(2, $six->ratioOf($zero));
+        $six->ratioOf($zero);
     }
 
     public function equalityExamples()
