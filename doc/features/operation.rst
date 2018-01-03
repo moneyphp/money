@@ -90,10 +90,10 @@ Absolute Value
 
     $result = $value->absolute();    // €8.00
 
-.. _ratios:
+.. _ratio_of:
 
-Ratio's
---------------
+Ratio Of
+--------
 
 ``ratioOf()`` provides the ratio of a Money object in comparison to another Money object.
 
