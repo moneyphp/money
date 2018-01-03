@@ -14,7 +14,7 @@ use Money\Number;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class IntlMoneyParser implements MoneyParser
+final class IntlLocalizedDecimalParser implements MoneyParser
 {
     /**
      * @var \NumberFormatter
@@ -45,8 +45,13 @@ final class IntlMoneyParser implements MoneyParser
             throw new ParserException('Formatted raw money should be string, e.g. $1.00');
         }
 
-        $currency = null;
-        $decimal = $this->formatter->parseCurrency($money, $currency);
+        if (null === $forceCurrency) {
+            throw new ParserException(
+                'IntlLocalizedDecimalParser cannot parse currency symbols. Use forceCurrency argument'
+            );
+        }
+
+        $decimal = $this->formatter->parse($money);
 
         if (false === $decimal) {
             throw new ParserException(
@@ -54,23 +59,17 @@ final class IntlMoneyParser implements MoneyParser
             );
         }
 
-        if (null !== $forceCurrency) {
-            $currency = $forceCurrency;
-        } else {
-            $currency = new Currency($currency);
-        }
-
         /*
          * This conversion is only required whilst currency can be either a string or a
          * Currency object.
          */
-        if (!$currency instanceof Currency) {
+        if (!$forceCurrency instanceof Currency) {
             @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
-            $currency = new Currency($currency);
+            $forceCurrency = new Currency($forceCurrency);
         }
 
         $decimal = (string) $decimal;
-        $subunit = $this->currencies->subunitFor($currency);
+        $subunit = $this->currencies->subunitFor($forceCurrency);
         $decimalPosition = strpos($decimal, '.');
 
         if (false !== $decimalPosition) {
@@ -98,14 +97,14 @@ final class IntlMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, $currency);
+        return new Money($decimal, $forceCurrency);
     }
 
     /**
      * @param string $locale
      * @param Currencies $currencies
      *
-     * @return IntlMoneyParser
+     * @return IntlLocalizedDecimalParser
      */
     public static function fromLocale($locale, Currencies $currencies)
     {
@@ -113,16 +112,16 @@ final class IntlMoneyParser implements MoneyParser
             throw new \InvalidArgumentException('Locale must be a string');
         }
 
-        return new self(new \NumberFormatter($locale, \NumberFormatter::CURRENCY), $currencies);
+        return new self(new \NumberFormatter($locale, \NumberFormatter::DECIMAL), $currencies);
     }
 
     /**
      * @param Currencies $currencies
      *
-     * @return IntlMoneyParser
+     * @return IntlLocalizedDecimalParser
      */
     public static function fromCurrentLocale(Currencies $currencies)
     {
-        return new self(new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::CURRENCY), $currencies);
+        return new self(new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL), $currencies);
     }
 }
