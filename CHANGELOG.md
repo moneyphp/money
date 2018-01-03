@@ -7,6 +7,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## 3.1.0 - to be announced
+
+### Added
+
+- CurrencyList to instantiate in-memory currencies
+- modulus method to Money
+- ratioOf method to Money
+- Comparator for easier testing Money object with PHPUnit
+
+### Changed
+
+- MoneyParser's parse method now expects a Currency object
+- Passing currency code to MoneyParser::parse is deprecated
+
+### Fixed
+
+- Do not allocate remainder to a ratio of zero
+- Conversion result is always 0 when subunit difference is large enough
+- Unexpected result when converting small Bitcoin amounts
+- Fixed StyleCI being too aggressive
+
+
 ## 3.0.9 - 2017-11-05
 
 ### Fixed
