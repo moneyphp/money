@@ -10,7 +10,7 @@
 
 ![Money PHP](/resources/logo.png?raw=true)
 
-PHP 5.5+ library to make working with money safer, easier, and fun!
+PHP library to make working with money safer, easier, and fun!
 
 > "If I had a dime for every time I've seen someone use FLOAT to store currency, I'd have $999.997634" -- [Bill Karwin](https://twitter.com/billkarwin/status/347561901460447232)
 
@@ -34,6 +34,13 @@ assert($part3->equals(Money::EUR(333)));
 ```
 
 The documentation is available at http://moneyphp.org
+
+
+## Requirements
+
+PHP 5.6+. Other than that, this library has no external requirements. MoneyPHP will not provide any support to
+PHP versions that are [not supported by the language itself](http://php.net/supported-versions.php). There might be
+additional dependencies for specific feature, e.g. the swap implementation.
 
 
 ## Install
