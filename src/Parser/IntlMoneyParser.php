@@ -102,7 +102,7 @@ final class IntlMoneyParser implements MoneyParser
     }
 
     /**
-     * @param string $locale
+     * @param string     $locale
      * @param Currencies $currencies
      *
      * @return IntlMoneyParser

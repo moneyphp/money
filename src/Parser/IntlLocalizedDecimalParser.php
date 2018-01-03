@@ -101,7 +101,7 @@ final class IntlLocalizedDecimalParser implements MoneyParser
     }
 
     /**
-     * @param string $locale
+     * @param string     $locale
      * @param Currencies $currencies
      *
      * @return IntlLocalizedDecimalParser
