@@ -127,34 +127,6 @@ final class IntlLocalizedDecimalParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('100001', $money->getAmount());
     }
 
-    public function testInstantiateUsingFromLocale()
-    {
-        $parser = IntlLocalizedDecimalParser::fromLocale('en_US', new ISOCurrencies());
-        $money = $parser->parse('1000.01', new Currency('USD'));
-
-        $this->assertEquals('100001', $money->getAmount());
-    }
-
-    public function testInstantiateUsingFromCurrentLocale()
-    {
-        $locale = \Locale::getDefault();
-        \Locale::setDefault('en_US');
-
-        $parser = IntlLocalizedDecimalParser::fromCurrentLocale(new ISOCurrencies());
-        $money = $parser->parse('1000.01', new Currency('USD'));
-
-        $this->assertEquals('100001', $money->getAmount());
-
-        \Locale::setDefault($locale);
-    }
-
-    public function testInstantiateFailsWhenLocaleIsNotString()
-    {
-        $this->setExpectedException(\InvalidArgumentException::class);
-
-        IntlLocalizedDecimalParser::fromLocale(0, new ISOCurrencies());
-    }
-
     /**
      * @group legacy
      * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.

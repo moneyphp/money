@@ -3,7 +3,6 @@
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
-use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
@@ -36,32 +35,6 @@ final class IntlMoneyFormatterTest extends \PHPUnit_Framework_TestCase
 
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies->reveal());
         $this->assertSame($result, $moneyFormatter->format($money));
-    }
-
-    public function testInstantiateUsingFromLocale()
-    {
-        $parser = IntlMoneyFormatter::fromLocale('en_US', new ISOCurrencies());
-
-        $this->assertEquals('$1.00', $parser->format(Money::USD(100)));
-    }
-
-    public function testInstantiateFailsWhenLocaleIsNotString()
-    {
-        $this->setExpectedException(\InvalidArgumentException::class);
-
-        IntlMoneyFormatter::fromLocale(0, new ISOCurrencies());
-    }
-
-    public function testInstantiateUsingFromCurrentLocale()
-    {
-        $locale = \Locale::getDefault();
-        \Locale::setDefault('en_US');
-
-        $parser = IntlMoneyFormatter::fromCurrentLocale(new ISOCurrencies());
-
-        $this->assertEquals('$1.00', $parser->format(Money::USD(100)));
-
-        \Locale::setDefault($locale);
     }
 
     public static function moneyExamples()

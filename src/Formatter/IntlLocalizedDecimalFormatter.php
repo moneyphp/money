@@ -66,29 +66,4 @@ final class IntlLocalizedDecimalFormatter implements MoneyFormatter
 
         return $this->formatter->format($formatted);
     }
-
-    /**
-     * @param string     $locale
-     * @param Currencies $currencies
-     *
-     * @return IntlLocalizedDecimalFormatter
-     */
-    public static function fromLocale($locale, Currencies $currencies)
-    {
-        if (!is_string($locale)) {
-            throw new \InvalidArgumentException('Locale must be a string');
-        }
-
-        return new self(new \NumberFormatter($locale, \NumberFormatter::DECIMAL), $currencies);
-    }
-
-    /**
-     * @param Currencies $currencies
-     *
-     * @return IntlLocalizedDecimalFormatter
-     */
-    public static function fromCurrentLocale(Currencies $currencies)
-    {
-        return new self(new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL), $currencies);
-    }
 }

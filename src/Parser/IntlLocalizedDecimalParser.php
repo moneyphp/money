@@ -99,29 +99,4 @@ final class IntlLocalizedDecimalParser implements MoneyParser
 
         return new Money($decimal, $forceCurrency);
     }
-
-    /**
-     * @param string     $locale
-     * @param Currencies $currencies
-     *
-     * @return IntlLocalizedDecimalParser
-     */
-    public static function fromLocale($locale, Currencies $currencies)
-    {
-        if (!is_string($locale)) {
-            throw new \InvalidArgumentException('Locale must be a string');
-        }
-
-        return new self(new \NumberFormatter($locale, \NumberFormatter::DECIMAL), $currencies);
-    }
-
-    /**
-     * @param Currencies $currencies
-     *
-     * @return IntlLocalizedDecimalParser
-     */
-    public static function fromCurrentLocale(Currencies $currencies)
-    {
-        return new self(new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::DECIMAL), $currencies);
-    }
 }

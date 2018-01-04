@@ -100,29 +100,4 @@ final class IntlMoneyParser implements MoneyParser
 
         return new Money($decimal, $currency);
     }
-
-    /**
-     * @param string     $locale
-     * @param Currencies $currencies
-     *
-     * @return IntlMoneyParser
-     */
-    public static function fromLocale($locale, Currencies $currencies)
-    {
-        if (!is_string($locale)) {
-            throw new \InvalidArgumentException('Locale must be a string');
-        }
-
-        return new self(new \NumberFormatter($locale, \NumberFormatter::CURRENCY), $currencies);
-    }
-
-    /**
-     * @param Currencies $currencies
-     *
-     * @return IntlMoneyParser
-     */
-    public static function fromCurrentLocale(Currencies $currencies)
-    {
-        return new self(new \NumberFormatter(\Locale::getDefault(), \NumberFormatter::CURRENCY), $currencies);
-    }
 }

@@ -3,7 +3,6 @@
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
-use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Formatter\IntlLocalizedDecimalFormatter;
 use Money\Money;
@@ -32,32 +31,6 @@ final class IntlLocalizedDecimalFormatterTest extends \PHPUnit_Framework_TestCas
 
         $moneyFormatter = new IntlLocalizedDecimalFormatter($numberFormatter, $currencies->reveal());
         $this->assertSame($result, $moneyFormatter->format($money));
-    }
-
-    public function testInstantiateUsingFromLocale()
-    {
-        $parser = IntlLocalizedDecimalFormatter::fromLocale('en_US', new ISOCurrencies());
-
-        $this->assertEquals('1', $parser->format(Money::USD(100)));
-    }
-
-    public function testInstantiateFailsWhenLocaleIsNotString()
-    {
-        $this->setExpectedException(\InvalidArgumentException::class);
-
-        IntlLocalizedDecimalFormatter::fromLocale(0, new ISOCurrencies());
-    }
-
-    public function testInstantiateUsingFromCurrentLocale()
-    {
-        $locale = \Locale::getDefault();
-        \Locale::setDefault('en_US');
-
-        $parser = IntlLocalizedDecimalFormatter::fromCurrentLocale(new ISOCurrencies());
-
-        $this->assertEquals('1', $parser->format(Money::USD(100)));
-
-        \Locale::setDefault($locale);
     }
 
     public static function moneyExamples()
