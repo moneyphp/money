@@ -15,8 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - modulus method to Money
 - ratioOf method to Money
 - Comparator for easier testing Money object with PHPUnit
-- IntlLocalizedDecimalParser
-- fromLocale and fromCurrentLocale added to IntlMoneyParserto easier instantiate parser
+- IntlLocalizedDecimalParser and IntlLocalizedDecimalFormatter
 
 ### Changed
 
