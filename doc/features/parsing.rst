@@ -12,7 +12,7 @@ Money comes with the following implementations out of the box:
 
 
 Intl Money Parser
------------
+-----------------
 
 As its name says, this parser requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
 correct subunit for the specific currency, you should also provide the specific currency repository.
@@ -38,7 +38,7 @@ correct subunit for the specific currency, you should also provide the specific 
 
 
 Intl Localized Decimal Parser
------------
+-----------------------------
 
 As its name says, this parser requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
 correct subunit for the specific currency, you should also provide the specific currency repository.
