@@ -37,7 +37,7 @@ correct subunit for the specific currency, you should also provide the specific 
 
 
 Intl Decimal Formatter
---------------
+----------------------
 
 As its name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
 correct subunit for the specific currency, you should also provide the specific currency repository.
