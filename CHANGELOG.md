@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - MoneyParser's parse method now expects a Currency object
 - Passing currency code to MoneyParser::parse is deprecated
+- Dropped PHP 5.5
 
 ### Fixed
 
