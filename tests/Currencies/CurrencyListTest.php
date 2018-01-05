@@ -43,7 +43,7 @@ final class CurrencyListTest extends \PHPUnit_Framework_TestCase
     {
         $currencies = new CurrencyList(self::$correctCurrencies);
 
-        $this->setExpectedException(UnknownCurrencyException::class);
+        $this->expectException(UnknownCurrencyException::class);
 
         $currencies->subunitFor(new Currency('XXXXXX'));
     }
@@ -76,7 +76,7 @@ final class CurrencyListTest extends \PHPUnit_Framework_TestCase
      */
     public function it_does_not_initialize_if_array_is_invalid(array $currencies)
     {
-        $this->setExpectedException(\InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
 
         new CurrencyList($currencies);
     }

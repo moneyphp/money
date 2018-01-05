@@ -72,7 +72,7 @@ final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
     {
         $exchange = $this->createExchange();
 
-        $this->setExpectedException(UnresolvableCurrencyPairException::class);
+        $this->expectException(UnresolvableCurrencyPairException::class);
 
         $exchange->quote(new Currency('USD'), new Currency('ARS'));
     }

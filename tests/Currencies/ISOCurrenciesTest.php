@@ -35,7 +35,7 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
     {
-        $this->setExpectedException(UnknownCurrencyException::class);
+        $this->expectException(UnknownCurrencyException::class);
 
         $currencies = new ISOCurrencies();
 
@@ -58,7 +58,7 @@ final class ISOCurrenciesTest extends \PHPUnit_Framework_TestCase
      */
     public function it_throws_an_exception_when_providing_numeric_code_and_currency_is_unknown()
     {
-        $this->setExpectedException(UnknownCurrencyException::class);
+        $this->expectException(UnknownCurrencyException::class);
 
         $currencies = new ISOCurrencies();
 
