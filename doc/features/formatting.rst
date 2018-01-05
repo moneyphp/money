@@ -9,8 +9,8 @@ This is where formatters help you. You can turn a money object into a human read
 Money comes with the following implementations out of the box:
 
 
-Intl Formatter
---------------
+Intl Money Formatter
+--------------------
 
 As its name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
 correct subunit for the specific currency, you should also provide the specific currency repository.
@@ -34,6 +34,33 @@ correct subunit for the specific currency, you should also provide the specific 
     $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
 
     echo $moneyFormatter->format($money); // outputs $1.00
+
+
+Intl Decimal Formatter
+----------------------
+
+As its name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
+correct subunit for the specific currency, you should also provide the specific currency repository.
+
+
+.. warning::
+    Please be aware that using the `intl` extension can give different results in different environments.
+
+
+.. code-block:: php
+
+    use Money\Currencies\ISOCurrencies;
+    use Money\Currency;
+    use Money\Formatter\IntlMoneyFormatter;
+    use Money\Money;
+
+    $money = new Money(100000, new Currency('EUR'));
+    $currencies = new ISOCurrencies();
+
+    $numberFormatter = new \NumberFormatter('nl_NL', \NumberFormatter::DECIMAL);
+    $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
+
+    echo $moneyFormatter->format($money); // outputs 1.000,00
 
 
 Decimal Formatter

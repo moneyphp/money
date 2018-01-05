@@ -11,8 +11,8 @@ and moving the ``stringToUnits`` to ``StringToUnitsParser`` (later replaced by `
 Money comes with the following implementations out of the box:
 
 
-Intl Parser
------------
+Intl Money Parser
+-----------------
 
 As its name says, this parser requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
 correct subunit for the specific currency, you should also provide the specific currency repository.
@@ -35,6 +35,32 @@ correct subunit for the specific currency, you should also provide the specific 
     $money = $moneyParser->parse('$1.00');
 
     echo $money->getAmount(); // outputs 100
+
+
+Intl Localized Decimal Parser
+-----------------------------
+
+As its name says, this parser requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
+correct subunit for the specific currency, you should also provide the specific currency repository.
+
+
+.. warning::
+    Please be aware that using the `intl` extension can give different results in different environments.
+
+
+.. code-block:: php
+
+    use Money\Currencies\ISOCurrencies;
+    use Money\Parser\IntlMoneyParser;
+
+    $currencies = new ISOCurrencies();
+
+    $numberFormatter = new \NumberFormatter('nl_NL', \NumberFormatter::DECIMAL);
+    $moneyParser = new IntlMoneyParser($numberFormatter, $currencies);
+
+    $money = $moneyParser->parse('1.000,00');
+
+    echo $money->getAmount(); // outputs 100000
 
 
 Decimal Parser
