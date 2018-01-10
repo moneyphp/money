@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## 3.1.0 - 2018-01-10
+## [3.1.0] - 2018-01-10
 
 ### Added
 
@@ -34,14 +34,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fixed StyleCI being too aggressive
 
 
-## 3.0.9 - 2017-11-05
+## [3.0.9] - 2017-11-05
 
 ### Fixed
 
 - Bitcoin currency symbol
 
 
-## 3.0.8 - 2017-10-03
+## [3.0.8] - 2017-10-03
 
 ### Fixed
 
@@ -50,14 +50,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Missing Travis tests for PHP 7.2.
 
 
-## 3.0.7 - 2017-08-07
+## [3.0.7] - 2017-08-07
 
 ### Changed
 
 - Currencies
 
 
-## 3.0.6 - 2017-07-25
+## [3.0.6] - 2017-07-25
 
 ### Added
 
@@ -69,14 +69,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Incorrect documentation on Bitcoin parser
 
 
-## 3.0.5 - 2017-04-26
+## [3.0.5] - 2017-04-26
 
 ### Added
 
 - numericCodeFor method to ISOCurrencies
 
 
-## 3.0.4 - 2017-04-21
+## [3.0.4] - 2017-04-21
 
 ### Added
 
@@ -93,7 +93,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Double symbol when formatting negative Bitcoin amounts
 
 
-## 3.0.3 - 2017-03-22
+## [3.0.3] - 2017-03-22
 
 ### Fixed
 
@@ -101,7 +101,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Parsing zero for DecimalMoneyParser
 - Multiplying and dividing with a locale that use commas as separator
 
-## 3.0.2 - 2017-03-11
+## [3.0.2] - 2017-03-11
 
 ### Fixed
 
@@ -110,7 +110,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - ISOCurrencies: minor refactoring, remove duplication of code
 
 
-## 3.0.1 - 2017-02-14
+## [3.0.1] - 2017-02-14
 
 ### Added
 
@@ -125,7 +125,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Money constructed from a string with fractional zeroes equals to a Money constructed without the fractional part (eg. `'5.00'` and `'5'`)
 
 
-## 3.0.0 - 2016-10-26
+## [3.0.0] - 2016-10-26
 
 ### Added
 
@@ -139,7 +139,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - **[Doctrine break]** In `Currency` the private variable `name` was renamed to `code`, which could break your Doctrine mapping if you are using embeddables or any other Reflection related implementation.
 
 
-## 3.0.0-beta.3 - 2016-10-04
+## [3.0.0-beta.3] - 2016-10-04
 
 ### Added
 
@@ -158,7 +158,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Converting Money to currency with different number of subunits
 
 
-## 3.0.0-beta.2 - 2016-08-03
+## [3.0.0-beta.2] - 2016-08-03
 
 ### Added
 
@@ -184,7 +184,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Registration of own Calculator implementations
 
 
-## 3.0.0-beta - 2016-03-01
+## [3.0.0-beta] - 2016-03-01
 
 ### Added
 
