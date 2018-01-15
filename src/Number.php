@@ -117,7 +117,7 @@ final class Number
     /**
      * @param float $floatingPoint
      *
-     * @return Number
+     * @return self
      */
     public static function fromFloat($floatingPoint)
     {
