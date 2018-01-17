@@ -7,7 +7,7 @@ namespace Money;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class Converter
+final class Converter implements CurrencyConverter
 {
     /**
      * @var Currencies
