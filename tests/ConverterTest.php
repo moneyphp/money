@@ -65,7 +65,7 @@ final class ConverterTest extends \PHPUnit_Framework_TestCase
         $amount,
         $expectedAmount
     ) {
-        setlocale(LC_ALL, 'ru_RU.UTF-8');
+        $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
 
         $this->it_converts_to_a_different_currency(
             $baseCurrencyCode,
