@@ -52,6 +52,32 @@ final class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
     }
 
+    /**
+     * @dataProvider convertExamples
+     * @test
+     */
+    public function it_converts_to_a_different_currency_when_decimal_separator_is_comma(
+        $baseCurrencyCode,
+        $counterCurrencyCode,
+        $subunitBase,
+        $subunitCounter,
+        $ratio,
+        $amount,
+        $expectedAmount
+    ) {
+        $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
+
+        $this->it_converts_to_a_different_currency(
+            $baseCurrencyCode,
+            $counterCurrencyCode,
+            $subunitBase,
+            $subunitCounter,
+            $ratio,
+            $amount,
+            $expectedAmount
+        );
+    }
+
     public function convertExamples()
     {
         return [
