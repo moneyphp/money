@@ -89,6 +89,8 @@ final class ConverterTest extends \PHPUnit_Framework_TestCase
             ['XBT', 'USD', 8, 2, 6597, 10, 0],
             ['XBT', 'USD', 8, 2, 6597, 100, 1],
             ['ETH', 'EUR', 18, 2, 330.84, '100000000000000000', 3308],
+            ['BTC', 'USD', 8, 2, 13500, 100000000, 1350000],
+            ['USD', 'BTC', 2, 8, 1 / 13500, 1350000, 100000000],
         ];
     }
 }

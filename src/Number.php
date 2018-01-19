@@ -117,7 +117,7 @@ final class Number
     /**
      * @param float $floatingPoint
      *
-     * @return Number
+     * @return self
      */
     public static function fromFloat($floatingPoint)
     {
@@ -125,7 +125,7 @@ final class Number
             throw new \InvalidArgumentException('Floating point expected');
         }
 
-        return self::fromString(sprintf('%.8F', $floatingPoint));
+        return self::fromString(sprintf('%.14F', $floatingPoint));
     }
 
     /**
