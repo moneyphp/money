@@ -50,15 +50,16 @@ correct subunit for the specific currency, you should also provide the specific 
 
 .. code-block:: php
 
+    use Money\Currency;
     use Money\Currencies\ISOCurrencies;
-    use Money\Parser\IntlMoneyParser;
+    use Money\Parser\IntlLocalizedDecimalParser;
 
     $currencies = new ISOCurrencies();
 
     $numberFormatter = new \NumberFormatter('nl_NL', \NumberFormatter::DECIMAL);
-    $moneyParser = new IntlMoneyParser($numberFormatter, $currencies);
+    $moneyParser = new IntlLocalizedDecimalParser($numberFormatter, $currencies);
 
-    $money = $moneyParser->parse('1.000,00');
+    $money = $moneyParser->parse('1.000,00', new Currency('EUR'));
 
     echo $money->getAmount(); // outputs 100000
 
