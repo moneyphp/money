@@ -19,7 +19,7 @@ you need to represent money, use this Money value object. Since version
 3.0 this library uses [strings internally](https://github.com/moneyphp/money/pull/136)
 in order to support unlimited integers.
 
-``` php
+```php
 <?php
 
 use Money\Money;
@@ -47,7 +47,7 @@ additional dependencies for specific feature, e.g. the swap implementation.
 
 Via Composer
 
-``` bash
+```bash
 $ composer require moneyphp/money
 ```
 
@@ -70,7 +70,7 @@ Please see the [official documentation](http://moneyphp.org).
 
 We try to follow BDD and TDD, as such we use both [phpspec](http://www.phpspec.net) and [phpunit](https://phpunit.de) to test this library.
 
-``` bash
+```bash
 $ composer test
 ```
 
