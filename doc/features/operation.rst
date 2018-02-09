@@ -17,6 +17,16 @@ Additions can be performed using ``add()``.
 
     $result = $value1->add($value2);   // €13.00
 
+``add()`` accepts variadic arguments as well.
+
+.. code-block:: php
+
+    $value1 = Money::EUR(800);         // €8.00
+    $value2 = Money::EUR(500);         // €5.00
+    $value3 = Money::EUR(600);         // €6.00
+
+    $result = $value1->add($value2, $value3);   // €14.00
+
 Subtractions can be performed using ``subtract()``.
 
 .. code-block:: php

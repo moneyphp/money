@@ -116,6 +116,30 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe((string) $result);
     }
 
+    function it_adds_other_money_values(Calculator $calculator)
+    {
+        $result = self::AMOUNT + self::OTHER_AMOUNT + self::AMOUNT + self::OTHER_AMOUNT;
+
+        $calculator->add((string) self::AMOUNT, (string) self::OTHER_AMOUNT)->willReturn((string) (self::AMOUNT + self::OTHER_AMOUNT));
+        $calculator->add((string) (self::AMOUNT + self::OTHER_AMOUNT), (string) self::AMOUNT)->willReturn((string) (self::AMOUNT + self::OTHER_AMOUNT + self::AMOUNT));
+        $calculator->add((string) (self::AMOUNT + self::OTHER_AMOUNT + self::AMOUNT), (string) self::OTHER_AMOUNT)->willReturn((string) $result);
+        $money = $this->add(
+            new Money(self::OTHER_AMOUNT, new Currency(self::CURRENCY)),
+            new Money(self::AMOUNT, new Currency(self::CURRENCY)),
+            new Money(self::OTHER_AMOUNT, new Currency(self::CURRENCY))
+        );
+
+        $money->shouldHaveType(Money::class);
+        $money->getAmount()->shouldBe((string) $result);
+    }
+
+    function it_returns_the_same_money_when_no_addends_are_provided()
+    {
+        $money = $this->add();
+
+        $money->getAmount()->shouldBe($this->getAmount());
+    }
+
     function it_throws_an_exception_when_currency_is_different_during_addition(Calculator $calculator)
     {
         $calculator->add((string) self::AMOUNT, (string) self::AMOUNT)->shouldNotBeCalled();

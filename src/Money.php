@@ -231,15 +231,21 @@ final class Money implements \JsonSerializable
      * Returns a new Money object that represents
      * the sum of this and an other Money object.
      *
-     * @param Money $addend
+     * @param Money[] $addends
      *
      * @return Money
      */
-    public function add(Money $addend)
+    public function add(Money ...$addends)
     {
-        $this->assertSameCurrency($addend);
+        $amount = $this->amount;
 
-        return new self($this->getCalculator()->add($this->amount, $addend->amount), $this->currency);
+        foreach ($addends as $addend) {
+            $this->assertSameCurrency($addend);
+
+            $amount = $this->getCalculator()->add($amount, $addend->amount);
+        }
+
+        return new self($amount, $this->currency);
     }
 
     /**
