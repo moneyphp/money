@@ -122,6 +122,11 @@ final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('100001', $money->getAmount());
     }
 
+    /**
+     * TODO: investigate why this test fails with segmentation fault.
+     *
+     * @group segmentation
+     */
     public function testDifferentStyleWithPattern()
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);

@@ -74,6 +74,22 @@ We try to follow BDD and TDD, as such we use both [phpspec](http://www.phpspec.n
 $ composer test
 ```
 
+### Running the tests in Docker
+
+Money requires a set of dependencies, so you might want to run it in Docker.
+
+First, build the image locally:
+
+```bash
+$ docker build -t moneyphp .
+```
+
+Then run the tests:
+
+```bash
+$ docker run --rm -it -v $PWD:/app -w /app moneyphp vendor/bin/phpunit --exclude-group segmentation
+```
+
 
 ## Contributing
 
