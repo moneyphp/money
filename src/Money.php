@@ -252,15 +252,21 @@ final class Money implements \JsonSerializable
      * Returns a new Money object that represents
      * the difference of this and an other Money object.
      *
-     * @param Money $subtrahend
+     * @param Money[] $subtrahends
      *
      * @return Money
      */
-    public function subtract(Money $subtrahend)
+    public function subtract(Money ...$subtrahends)
     {
-        $this->assertSameCurrency($subtrahend);
+        $amount = $this->amount;
 
-        return new self($this->getCalculator()->subtract($this->amount, $subtrahend->amount), $this->currency);
+        foreach ($subtrahends as $subtrahend) {
+            $this->assertSameCurrency($subtrahend);
+
+            $amount = $this->getCalculator()->subtract($amount, $subtrahend->amount);
+        }
+
+        return new self($amount, $this->currency);
     }
 
     /**

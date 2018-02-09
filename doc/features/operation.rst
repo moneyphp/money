@@ -12,29 +12,39 @@ Additions can be performed using ``add()``.
 
 .. code-block:: php
 
-    $value1 = Money::EUR(800);         // €8.00
-    $value2 = Money::EUR(500);         // €5.00
+    $value1 = Money::EUR(800);       // €8.00
+    $value2 = Money::EUR(500);       // €5.00
 
-    $result = $value1->add($value2);   // €13.00
+    $result = $value1->add($value2); // €13.00
 
 ``add()`` accepts variadic arguments as well.
 
 .. code-block:: php
 
-    $value1 = Money::EUR(800);         // €8.00
-    $value2 = Money::EUR(500);         // €5.00
-    $value3 = Money::EUR(600);         // €6.00
+    $value1 = Money::EUR(800);                // €8.00
+    $value2 = Money::EUR(500);                // €5.00
+    $value3 = Money::EUR(600);                // €6.00
 
-    $result = $value1->add($value2, $value3);   // €14.00
+    $result = $value1->add($value2, $value3); // €19.00
 
 Subtractions can be performed using ``subtract()``.
 
 .. code-block:: php
 
-    $value1 = Money::EUR(800);               // €8.00
-    $value2 = Money::EUR(500);               // €5.00
+    $value1 = Money::EUR(800);            // €8.00
+    $value2 = Money::EUR(500);            // €5.00
 
-    $result = $value1->subtract($value2);    // €3.00
+    $result = $value1->subtract($value2); // €3.00
+
+``subtract()`` accepts variadic arguments as well.
+
+.. code-block:: php
+
+    $value1 = Money::EUR(1400);                    // €14.00
+    $value2 = Money::EUR(500);                     // €5.00
+    $value3 = Money::EUR(600);                     // €6.00
+
+    $result = $value1->subtract($value2, $value3); // €3.00
 
 .. _multiplication_division:
 
