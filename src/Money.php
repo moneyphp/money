@@ -238,11 +238,12 @@ final class Money implements \JsonSerializable
     public function add(Money ...$addends)
     {
         $amount = $this->amount;
+        $calculator = $this->getCalculator();
 
         foreach ($addends as $addend) {
             $this->assertSameCurrency($addend);
 
-            $amount = $this->getCalculator()->add($amount, $addend->amount);
+            $amount = $calculator->add($amount, $addend->amount);
         }
 
         return new self($amount, $this->currency);
@@ -259,11 +260,12 @@ final class Money implements \JsonSerializable
     public function subtract(Money ...$subtrahends)
     {
         $amount = $this->amount;
+        $calculator = $this->getCalculator();
 
         foreach ($subtrahends as $subtrahend) {
             $this->assertSameCurrency($subtrahend);
 
-            $amount = $this->getCalculator()->subtract($amount, $subtrahend->amount);
+            $amount = $calculator->subtract($amount, $subtrahend->amount);
         }
 
         return new self($amount, $this->currency);
