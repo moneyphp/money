@@ -5,8 +5,9 @@ namespace Tests\Money\Parser;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Money;
 use Money\Parser\BitcoinMoneyParser;
+use PHPUnit\Framework\TestCase;
 
-final class BitcoinMoneyParserTest extends \PHPUnit_Framework_TestCase
+final class BitcoinMoneyParserTest extends TestCase
 {
     /**
      * @dataProvider bitcoinExamples

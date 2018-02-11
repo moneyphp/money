@@ -6,9 +6,10 @@ use Money\Currencies;
 use Money\Currency;
 use Money\Formatter\IntlLocalizedDecimalFormatter;
 use Money\Money;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
-final class IntlLocalizedDecimalFormatterTest extends \PHPUnit_Framework_TestCase
+final class IntlLocalizedDecimalFormatterTest extends TestCase
 {
     /**
      * @dataProvider moneyExamples

@@ -3,8 +3,9 @@
 namespace Tests\Money;
 
 use Money\Number;
+use PHPUnit\Framework\TestCase;
 
-final class NumberTest extends \PHPUnit_Framework_TestCase
+final class NumberTest extends TestCase
 {
     /**
      * @dataProvider numberExamples

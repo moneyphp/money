@@ -5,9 +5,10 @@ namespace Tests\Money\Parser;
 use Money\Currencies;
 use Money\Currency;
 use Money\Parser\DecimalMoneyParser;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
-final class DecimalMoneyParserTest extends \PHPUnit_Framework_TestCase
+final class DecimalMoneyParserTest extends TestCase
 {
     /**
      * @dataProvider formattedMoneyExamples

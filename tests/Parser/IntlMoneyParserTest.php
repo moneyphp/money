@@ -7,9 +7,10 @@ use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Money;
 use Money\Parser\IntlMoneyParser;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 
-final class IntlMoneyParserTest extends \PHPUnit_Framework_TestCase
+final class IntlMoneyParserTest extends TestCase
 {
     /**
      * @dataProvider formattedMoneyExamples

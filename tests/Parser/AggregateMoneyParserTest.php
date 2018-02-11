@@ -3,8 +3,9 @@
 namespace Tests\Money\Parser;
 
 use Money\Parser\AggregateMoneyParser;
+use PHPUnit\Framework\TestCase;
 
-final class AggregateMoneyParserTest extends \PHPUnit_Framework_TestCase
+final class AggregateMoneyParserTest extends TestCase
 {
     /**
      * @test
