@@ -60,7 +60,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertIntegerBounds($result);
 
-        return (string) $result;
+        return $this->castString($result);
     }
 
     /**
@@ -72,7 +72,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertIntegerBounds($result);
 
-        return (string) $result;
+        return $this->castString($result);
     }
 
     /**
@@ -193,5 +193,21 @@ final class PhpCalculator implements Calculator
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
             throw new \UnexpectedValueException('The result of arithmetic operation is not an integer');
         }
+    }
+
+    /**
+     * Casts an amount to string ensuring that the decimal separator is dot regardless of the locale.
+     *
+     * @param int|float $amount
+     *
+     * @return string
+     */
+    private function castString($amount)
+    {
+        if (is_float($amount)) {
+            return sprintf('%.14F', $amount);
+        }
+
+        return (string) $amount;
     }
 }
