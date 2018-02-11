@@ -2,10 +2,6 @@
 
 namespace Money;
 
-use Money\Calculator\BcMathCalculator;
-use Money\Calculator\GmpCalculator;
-use Money\Calculator\PhpCalculator;
-
 /**
  * Money Value Object.
  *
@@ -45,15 +41,6 @@ final class Money implements \JsonSerializable
      * @var Calculator
      */
     private static $calculator;
-
-    /**
-     * @var array
-     */
-    private static $calculators = [
-        BcMathCalculator::class,
-        GmpCalculator::class,
-        PhpCalculator::class,
-    ];
 
     /**
      * @param int|string $amount   Amount, expressed in the smallest units of $currency (eg cents)
@@ -537,30 +524,7 @@ final class Money implements \JsonSerializable
      */
     public static function registerCalculator($calculator)
     {
-        if (is_a($calculator, Calculator::class, true) === false) {
-            throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
-        }
-
-        array_unshift(self::$calculators, $calculator);
-    }
-
-    /**
-     * @return Calculator
-     *
-     * @throws \RuntimeException If cannot find calculator for money calculations
-     */
-    private static function initializeCalculator()
-    {
-        $calculators = self::$calculators;
-
-        foreach ($calculators as $calculator) {
-            /** @var Calculator $calculator */
-            if ($calculator::supported()) {
-                return new $calculator();
-            }
-        }
-
-        throw new \RuntimeException('Cannot find calculator for money calculations');
+        Calculator\Registry::registerCalculator($calculator);
     }
 
     /**
@@ -569,7 +533,7 @@ final class Money implements \JsonSerializable
     private function getCalculator()
     {
         if (null === self::$calculator) {
-            self::$calculator = self::initializeCalculator();
+            self::$calculator = Calculator\Registry::getCalculator();
         }
 
         return self::$calculator;
