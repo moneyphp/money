@@ -591,7 +591,7 @@
   array (
     'alphabeticCode' => 'KRW',
     'currency' => 'Won',
-    'minorUnit' => 0,
+    'minorUnit' => 2,
     'numericCode' => 410,
   ),
   'KWD' => 
