@@ -2,7 +2,7 @@
 
 namespace Tests\Money\Calculator;
 
-final class LocaleAwarePhpCalculatorTest extends PhpCalculatorTest
+final class LocaleAwareGmpCalculatorTest extends GmpCalculatorTest
 {
     public function setUp()
     {

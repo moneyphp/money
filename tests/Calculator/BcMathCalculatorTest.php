@@ -7,7 +7,7 @@ use Money\Calculator\BcMathCalculator;
 /**
  * @requires extension bcmath
  */
-final class BcMathCalculatorTest extends CalculatorTestCase
+class BcMathCalculatorTest extends CalculatorTestCase
 {
     private $defaultScale;
 
