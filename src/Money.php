@@ -445,8 +445,8 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param int|float $amount
-     * @param $rounding_mode
+     * @param string $amount
+     * @param int    $rounding_mode
      *
      * @return string
      */
