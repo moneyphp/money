@@ -71,6 +71,24 @@ final class Number
     }
 
     /**
+     * @param float|int|string $number
+     *
+     * @return self
+     */
+    public static function fromNumber($number)
+    {
+        if (is_float($number)) {
+            return self::fromString(sprintf('%.14F', $number));
+        } else if (is_int($number)) {
+            return new self($number);
+        } else if (is_string($number)) {
+            return self::fromString($number);
+        }
+
+        throw new \InvalidArgumentException('Valid numeric value expected');
+    }
+
+    /**
      * @return bool
      */
     public function isDecimal()

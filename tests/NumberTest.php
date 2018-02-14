@@ -23,6 +23,35 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($negative ? '-1' : '1', $number->getIntegerRoundingMultiplier());
     }
 
+    /**
+     * @dataProvider invalidNumberExamples
+     * @expectedException \InvalidArgumentException
+     * @test
+     */
+    public function it_fails_parsing_invalid_numbers($number)
+    {
+        Number::fromString($number);
+    }
+
+    /**
+     * @dataProvider base10Examples
+     * @test
+     */
+    public function base10($numberString, $baseNumber, $expectedResult)
+    {
+        $number = Number::fromString($numberString);
+        $this->assertSame($expectedResult, (string) $number->base10($baseNumber));
+    }
+
+    /**
+     * @dataProvider numericExamples
+     * @test
+     */
+    public function it_creates_a_number_from_a_numeric_value($number)
+    {
+        Number::fromNumber($number);
+    }
+
     public function numberExamples()
     {
         return [
@@ -80,26 +109,6 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @dataProvider invalidNumberExamples
-     * @expectedException \InvalidArgumentException
-     * @test
-     */
-    public function it_fails_parsing_invalid_numbers($number)
-    {
-        Number::fromString($number);
-    }
-
-    /**
-     * @dataProvider base10Examples
-     * @test
-     */
-    public function testBase10($numberString, $baseNumber, $expectedResult)
-    {
-        $number = Number::fromString($numberString);
-        $this->assertSame($expectedResult, (string) $number->base10($baseNumber));
-    }
-
     public function invalidNumberExamples()
     {
         return [
@@ -132,6 +141,20 @@ final class NumberTest extends \PHPUnit_Framework_TestCase
             ['-5', -3, '-5000'],
             ['-0.05', -3, '-50'],
             ['-0.5', -3, '-500'],
+        ];
+    }
+
+    public function numericExamples()
+    {
+        return [
+            [1],
+            [-1],
+            [1.0],
+            [-1.0],
+            ['1'],
+            ['-1'],
+            ['1.0'],
+            ['-1.0'],
         ];
     }
 }
