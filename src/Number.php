@@ -64,7 +64,7 @@ final class Number
     public static function fromFloat($number)
     {
         if (is_float($number) === false) {
-            throw new \InvalidArgumentException('Floating point expected');
+            throw new \InvalidArgumentException('Floating point value expected');
         }
 
         return self::fromString(sprintf('%.14F', $number));
