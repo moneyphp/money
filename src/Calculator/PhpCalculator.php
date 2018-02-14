@@ -112,20 +112,20 @@ final class PhpCalculator implements Calculator
             $number = Number::fromString($this->castString($number));
 
             if ($number->isHalf() === true) {
-                return $this->castInteger(ceil($this->castString($number)));
+                return $this->castInteger(ceil((string) $number));
             }
 
-            return $this->castInteger(round($this->castString($number), 0, Money::ROUND_HALF_UP));
+            return $this->castInteger(round((string) $number, 0, Money::ROUND_HALF_UP));
         }
 
         if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
             $number = Number::fromString($this->castString($number));
 
             if ($number->isHalf() === true) {
-                return $this->castInteger(floor($this->castString($number)));
+                return $this->castInteger(floor((string) $number));
             }
 
-            return $this->castInteger(round($this->castString($number), 0, Money::ROUND_HALF_DOWN));
+            return $this->castInteger(round((string) $number, 0, Money::ROUND_HALF_DOWN));
         }
 
         return $this->castInteger(round($number, 0, $roundingMode));
