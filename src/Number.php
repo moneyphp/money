@@ -79,9 +79,9 @@ final class Number
     {
         if (is_float($number)) {
             return self::fromString(sprintf('%.14F', $number));
-        } else if (is_int($number)) {
+        } elseif (is_int($number)) {
             return new self($number);
-        } else if (is_string($number)) {
+        } elseif (is_string($number)) {
             return self::fromString($number);
         }
 
