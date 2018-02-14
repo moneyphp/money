@@ -57,17 +57,17 @@ final class Number
     }
 
     /**
-     * @param float $floatingPoint
+     * @param float $number
      *
      * @return self
      */
-    public static function fromFloat($floatingPoint)
+    public static function fromFloat($number)
     {
-        if (is_float($floatingPoint) === false) {
+        if (is_float($number) === false) {
             throw new \InvalidArgumentException('Floating point expected');
         }
 
-        return self::fromString(sprintf('%.14F', $floatingPoint));
+        return self::fromString(sprintf('%.14F', $number));
     }
 
     /**
