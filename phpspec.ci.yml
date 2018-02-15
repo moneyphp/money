@@ -4,7 +4,8 @@ suites:
         psr4_prefix: Money
 formatter.name: pretty
 extensions:
-    - PhpSpec\Extension\CodeCoverageExtension
-code_coverage:
-    format: clover
-    output: build/spec_coverage.xml
+    LeanPHP\PhpSpec\CodeCoverage\CodeCoverageExtension:
+        format:
+            - clover
+        output:
+            clover: build/spec_coverage.xml
