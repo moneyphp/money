@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- `Number::fromNumber` to be used when the actual type is not known
+
+### Changed
+
+- Refactored `Number` usage to make the code cleaner and use less casting
+
 ### Fixed
 
 - Float cast to string issue on certain locales
