@@ -66,7 +66,9 @@ final class BcMathCalculator implements Calculator
      */
     public function multiply($amount, $multiplier)
     {
-        return bcmul($amount, $multiplier, $this->scale);
+        $multiplier = Number::fromNumber($multiplier);
+
+        return bcmul($amount, (string) $multiplier, $this->scale);
     }
 
     /**
@@ -74,7 +76,9 @@ final class BcMathCalculator implements Calculator
      */
     public function divide($amount, $divisor)
     {
-        return bcdiv($amount, $divisor, $this->scale);
+        $divisor = Number::fromNumber($divisor);
+
+        return bcdiv($amount, (string) $divisor, $this->scale);
     }
 
     /**
@@ -82,13 +86,13 @@ final class BcMathCalculator implements Calculator
      */
     public function ceil($number)
     {
-        $number = Number::fromString((string) $number);
+        $number = Number::fromNumber($number);
 
-        if ($number->isDecimal() === false) {
+        if ($number->isInteger()) {
             return (string) $number;
         }
 
-        if ($number->isNegative() === true) {
+        if ($number->isNegative()) {
             return bcadd((string) $number, '0', 0);
         }
 
@@ -100,13 +104,13 @@ final class BcMathCalculator implements Calculator
      */
     public function floor($number)
     {
-        $number = Number::fromString((string) $number);
+        $number = Number::fromNumber($number);
 
-        if ($number->isDecimal() === false) {
+        if ($number->isInteger()) {
             return (string) $number;
         }
 
-        if ($number->isNegative() === true) {
+        if ($number->isNegative()) {
             return bcadd((string) $number, '-1', 0);
         }
 
@@ -126,9 +130,9 @@ final class BcMathCalculator implements Calculator
      */
     public function round($number, $roundingMode)
     {
-        $number = Number::fromString((string) $number);
+        $number = Number::fromNumber($number);
 
-        if ($number->isDecimal() === false) {
+        if ($number->isInteger()) {
             return (string) $number;
         }
 
@@ -149,7 +153,7 @@ final class BcMathCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_EVEN === $roundingMode) {
-            if ($number->isCurrentEven() === true) {
+            if ($number->isCurrentEven()) {
                 return bcadd((string) $number, '0', 0);
             }
 
@@ -161,7 +165,7 @@ final class BcMathCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_ODD === $roundingMode) {
-            if ($number->isCurrentEven() === true) {
+            if ($number->isCurrentEven()) {
                 return bcadd(
                     (string) $number,
                     $number->getIntegerRoundingMultiplier(),
@@ -173,7 +177,7 @@ final class BcMathCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_POSITIVE_INFINITY === $roundingMode) {
-            if ($number->isNegative() === true) {
+            if ($number->isNegative()) {
                 return bcadd((string) $number, '0', 0);
             }
 
@@ -185,7 +189,7 @@ final class BcMathCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
-            if ($number->isNegative() === true) {
+            if ($number->isNegative()) {
                 return bcadd(
                     (string) $number,
                     $number->getIntegerRoundingMultiplier(),

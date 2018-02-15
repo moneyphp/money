@@ -36,4 +36,9 @@ final class NumberSpec extends ObjectBehavior
     {
         $this->shouldThrow(\InvalidArgumentException::class)->duringFromFloat(1);
     }
+
+    function it_throws_an_exception_when_number_is_not_numeric_during_creation_from_number()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->duringFromNumber(false);
+    }
 }

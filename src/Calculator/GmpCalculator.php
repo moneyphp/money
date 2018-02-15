@@ -37,8 +37,8 @@ final class GmpCalculator implements Calculator
      */
     public function compare($a, $b)
     {
-        $aNum = Number::fromString((string) $a);
-        $bNum = Number::fromString((string) $b);
+        $aNum = Number::fromNumber($a);
+        $bNum = Number::fromNumber($b);
 
         if ($aNum->isDecimal() || $bNum->isDecimal()) {
             $integersCompared = gmp_cmp($aNum->getIntegerPart(), $bNum->getIntegerPart());
@@ -73,7 +73,7 @@ final class GmpCalculator implements Calculator
      */
     public function multiply($amount, $multiplier)
     {
-        $multiplier = Number::fromString((string) $multiplier);
+        $multiplier = Number::fromNumber($multiplier);
 
         if ($multiplier->isDecimal()) {
             $decimalPlaces = strlen($multiplier->getFractionalPart());
@@ -108,17 +108,15 @@ final class GmpCalculator implements Calculator
      */
     public function divide($amount, $divisor)
     {
-        $divisor = Number::fromString((string) $divisor);
+        $divisor = Number::fromNumber($divisor);
 
         if ($divisor->isDecimal()) {
             $decimalPlaces = strlen($divisor->getFractionalPart());
 
             if ($divisor->getIntegerPart()) {
-                $divisor = Number::fromString(
-                    $divisor->getIntegerPart().$divisor->getFractionalPart()
-                );
+                $divisor = new Number($divisor->getIntegerPart().$divisor->getFractionalPart());
             } else {
-                $divisor = Number::fromString(ltrim($divisor->getFractionalPart(), '0'));
+                $divisor = new Number(ltrim($divisor->getFractionalPart(), '0'));
             }
 
             $amount = gmp_strval(gmp_mul(gmp_init($amount), gmp_init('1'.str_pad('', $decimalPlaces, '0'))));
@@ -146,13 +144,13 @@ final class GmpCalculator implements Calculator
      */
     public function ceil($number)
     {
-        $number = Number::fromString((string) $number);
+        $number = Number::fromNumber($number);
 
-        if ($number->isDecimal() === false) {
+        if ($number->isInteger()) {
             return (string) $number;
         }
 
-        if ($number->isNegative() === true) {
+        if ($number->isNegative()) {
             return $this->add($number->getIntegerPart(), '0');
         }
 
@@ -164,13 +162,13 @@ final class GmpCalculator implements Calculator
      */
     public function floor($number)
     {
-        $number = Number::fromString((string) $number);
+        $number = Number::fromNumber($number);
 
-        if ($number->isDecimal() === false) {
+        if ($number->isInteger()) {
             return (string) $number;
         }
 
-        if ($number->isNegative() === true) {
+        if ($number->isNegative()) {
             return $this->add($number->getIntegerPart(), '-1');
         }
 
@@ -190,9 +188,9 @@ final class GmpCalculator implements Calculator
      */
     public function round($number, $roundingMode)
     {
-        $number = Number::fromString((string) $number);
+        $number = Number::fromNumber($number);
 
-        if ($number->isDecimal() === false) {
+        if ($number->isInteger()) {
             return (string) $number;
         }
 
@@ -212,7 +210,7 @@ final class GmpCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_EVEN === $roundingMode) {
-            if ($number->isCurrentEven() === true) {
+            if ($number->isCurrentEven()) {
                 return $this->add($number->getIntegerPart(), '0');
             }
 
@@ -223,7 +221,7 @@ final class GmpCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_ODD === $roundingMode) {
-            if ($number->isCurrentEven() === true) {
+            if ($number->isCurrentEven()) {
                 return $this->add(
                     $number->getIntegerPart(),
                     $number->getIntegerRoundingMultiplier()
@@ -234,7 +232,7 @@ final class GmpCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_POSITIVE_INFINITY === $roundingMode) {
-            if ($number->isNegative() === true) {
+            if ($number->isNegative()) {
                 return $this->add(
                     $number->getIntegerPart(),
                     '0'
@@ -248,7 +246,7 @@ final class GmpCalculator implements Calculator
         }
 
         if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
-            if ($number->isNegative() === true) {
+            if ($number->isNegative()) {
                 return $this->add(
                     $number->getIntegerPart(),
                     $number->getIntegerRoundingMultiplier()
@@ -298,9 +296,9 @@ final class GmpCalculator implements Calculator
         $remainder = gmp_mod($this->absolute($amount), $this->absolute($divisor));
 
         // If the amount was negative, we negate the result of the modulus operation
-        $amount = Number::fromString((string) $amount);
+        $amount = Number::fromNumber($amount);
 
-        if (true === $amount->isNegative()) {
+        if ($amount->isNegative()) {
             $remainder = gmp_neg($remainder);
         }
 

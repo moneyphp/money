@@ -39,6 +39,60 @@ final class Number
     }
 
     /**
+     * @param $number
+     *
+     * @return self
+     */
+    public static function fromString($number)
+    {
+        $decimalSeparatorPosition = strpos($number, '.');
+        if ($decimalSeparatorPosition === false) {
+            return new self($number, '');
+        }
+
+        return new self(
+            substr($number, 0, $decimalSeparatorPosition),
+            rtrim(substr($number, $decimalSeparatorPosition + 1), '0')
+        );
+    }
+
+    /**
+     * @param float $number
+     *
+     * @return self
+     */
+    public static function fromFloat($number)
+    {
+        if (is_float($number) === false) {
+            throw new \InvalidArgumentException('Floating point value expected');
+        }
+
+        return self::fromString(sprintf('%.14F', $number));
+    }
+
+    /**
+     * @param float|int|string $number
+     *
+     * @return self
+     */
+    public static function fromNumber($number)
+    {
+        if (is_float($number)) {
+            return self::fromString(sprintf('%.14F', $number));
+        }
+
+        if (is_int($number)) {
+            return new self($number);
+        }
+
+        if (is_string($number)) {
+            return self::fromString($number);
+        }
+
+        throw new \InvalidArgumentException('Valid numeric value expected');
+    }
+
+    /**
      * @return bool
      */
     public function isDecimal()
@@ -97,38 +151,6 @@ final class Number
     }
 
     /**
-     * @param $number
-     *
-     * @return self
-     */
-    public static function fromString($number)
-    {
-        $decimalSeparatorPosition = strpos($number, '.');
-        if ($decimalSeparatorPosition === false) {
-            return new self($number, '');
-        }
-
-        return new self(
-            substr($number, 0, $decimalSeparatorPosition),
-            rtrim(substr($number, $decimalSeparatorPosition + 1), '0')
-        );
-    }
-
-    /**
-     * @param float $floatingPoint
-     *
-     * @return self
-     */
-    public static function fromFloat($floatingPoint)
-    {
-        if (is_float($floatingPoint) === false) {
-            throw new \InvalidArgumentException('Floating point expected');
-        }
-
-        return self::fromString(sprintf('%.14F', $floatingPoint));
-    }
-
-    /**
      * @return bool
      */
     public function isNegative()
@@ -167,7 +189,7 @@ final class Number
     /**
      * @param int $number
      *
-     * @return Number
+     * @return self
      */
     public function base10($number)
     {
@@ -193,7 +215,7 @@ final class Number
             $integers = $lengthIntegerPart - min($number, $lengthIntegerPart);
             $zeroPad = $number - min($number, $lengthIntegerPart);
 
-            return new Number(
+            return new self(
                 $sign.substr($integerPart, 0, $integers),
                 rtrim(str_pad('', $zeroPad, '0').substr($integerPart, $integers).$this->fractionalPart, '0')
             );
@@ -204,7 +226,7 @@ final class Number
         $fractions = $lengthFractionalPart - min($number, $lengthFractionalPart);
         $zeroPad = $number - min($number, $lengthFractionalPart);
 
-        return new Number(
+        return new self(
             $sign.ltrim($integerPart.substr($this->fractionalPart, 0, $lengthFractionalPart - $fractions).str_pad('', $zeroPad, '0'), '0'),
             substr($this->fractionalPart, $lengthFractionalPart - $fractions)
         );

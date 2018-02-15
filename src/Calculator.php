@@ -97,8 +97,8 @@ interface Calculator
     /**
      * Round number, use rounding mode for tie-breaker.
      *
-     * @param string $number
-     * @param int    $roundingMode
+     * @param int|float|string $number
+     * @param int              $roundingMode
      *
      * @return string
      */

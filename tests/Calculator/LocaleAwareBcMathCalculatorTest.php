@@ -2,7 +2,7 @@
 
 namespace Tests\Money\Calculator;
 
-final class LocaleAwarePhpCalculatorTest extends PhpCalculatorTest
+final class LocaleAwareBcMathCalculatorTest extends BcMathCalculatorTest
 {
     public function setUp()
     {

@@ -7,7 +7,7 @@ use Money\Calculator\GmpCalculator;
 /**
  * @requires extension gmp
  */
-final class GmpCalculatorTest extends CalculatorTestCase
+class GmpCalculatorTest extends CalculatorTestCase
 {
     protected function getCalculator()
     {
