@@ -31,7 +31,7 @@
         "florianv/swap": "^3.0",
         "psr/cache": "^1.0",
         "cache/taggable-cache": "^0.4.0",
-        "phpspec/phpspec": "^3.0 || ^4.0",
+        "phpspec/phpspec": "^3.0",
         "leanphp/phpspec-code-coverage": "^3.0 || ^4.0",
         "doctrine/instantiator": "^1.0.5",
         "moneyphp/iso-currencies": "^3.0",
