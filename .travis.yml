@@ -47,7 +47,10 @@ script:
     - make -C doc SPHINXOPTS='-nW' html
     - make -C doc spelling
 
-after_success:
-    - if [[ $COVERAGE = true ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-    - if [[ $COVERAGE = true ]]; then php ocular.phar code-coverage:upload --format=php-clover build/spec_coverage.xml; fi
-    - if [[ $COVERAGE = true ]]; then php ocular.phar code-coverage:upload --format=php-clover build/unit_coverage.xml; fi
+after_success: >
+    if [[ $COVERAGE = true ]]; then
+        wget https://scrutinizer-ci.com/ocular.phar
+
+        php ocular.phar code-coverage:upload --format=php-clover build/spec_coverage.xml
+        php ocular.phar code-coverage:upload --format=php-clover build/unit_coverage.xml
+    fi
