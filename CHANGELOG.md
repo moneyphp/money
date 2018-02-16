@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- `Moneay::add` and `Money::subtract` now accept variadic arguments
+- `Money::add` and `Money::subtract` now accept variadic arguments
 
 
 ## [3.1.3] - 2018-02-16
