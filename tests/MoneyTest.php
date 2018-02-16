@@ -4,8 +4,9 @@ namespace Tests\Money;
 
 use Money\Currency;
 use Money\Money;
+use PHPUnit\Framework\TestCase;
 
-final class MoneyTest extends \PHPUnit_Framework_TestCase
+final class MoneyTest extends TestCase
 {
     use RoundExamples;
 

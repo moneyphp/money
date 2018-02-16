@@ -8,9 +8,10 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exchange;
 use Money\Money;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
 
-final class ConverterTest extends \PHPUnit_Framework_TestCase
+final class ConverterTest extends TestCase
 {
     /**
      * @dataProvider convertExamples

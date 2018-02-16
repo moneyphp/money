@@ -3,9 +3,10 @@
 namespace Tests\Money\Calculator;
 
 use Money\Calculator;
+use PHPUnit\Framework\TestCase;
 use Tests\Money\RoundExamples;
 
-abstract class CalculatorTestCase extends \PHPUnit_Framework_TestCase
+abstract class CalculatorTestCase extends TestCase
 {
     use RoundExamples;
 

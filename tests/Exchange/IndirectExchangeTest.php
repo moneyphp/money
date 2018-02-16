@@ -7,8 +7,9 @@ use Money\Currency;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange\FixedExchange;
 use Money\Exchange\IndirectExchange;
+use PHPUnit\Framework\TestCase;
 
-final class IndirectExchangeTest extends \PHPUnit_Framework_TestCase
+final class IndirectExchangeTest extends TestCase
 {
     /**
      * @test

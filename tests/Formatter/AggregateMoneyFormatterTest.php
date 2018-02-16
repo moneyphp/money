@@ -3,8 +3,9 @@
 namespace Tests\Money\Formatter;
 
 use Money\Formatter\AggregateMoneyFormatter;
+use PHPUnit\Framework\TestCase;
 
-final class AggregateMoneyFormatterTest extends \PHPUnit_Framework_TestCase
+final class AggregateMoneyFormatterTest extends TestCase
 {
     /**
      * @test

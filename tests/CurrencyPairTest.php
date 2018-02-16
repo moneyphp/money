@@ -4,8 +4,9 @@ namespace Tests\Money;
 
 use Money\Currency;
 use Money\CurrencyPair;
+use PHPUnit\Framework\TestCase;
 
-final class CurrencyPairTest extends \PHPUnit_Framework_TestCase
+final class CurrencyPairTest extends TestCase
 {
     public function test_it_converts_to_json()
     {

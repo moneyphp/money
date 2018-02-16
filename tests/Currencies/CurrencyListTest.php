@@ -5,8 +5,9 @@ namespace Tests\Money\Currencies;
 use Money\Currencies\CurrencyList;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
+use PHPUnit\Framework\TestCase;
 
-final class CurrencyListTest extends \PHPUnit_Framework_TestCase
+final class CurrencyListTest extends TestCase
 {
     private static $correctCurrencies = [
         'MY1' => 2,
