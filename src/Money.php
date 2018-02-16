@@ -13,6 +13,8 @@ use Money\Calculator\PhpCalculator;
  */
 final class Money implements \JsonSerializable
 {
+    use StaticHelperMethodsTrait;
+
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;

@@ -3,3 +3,4 @@ doc/_build/
 vendor/
 composer.lock
 phpunit.xml
+_ide_helper.money.php

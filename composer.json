@@ -37,7 +37,8 @@
         "moneyphp/iso-currencies": "^3.0",
         "sllh/php-cs-fixer-styleci-bridge": "^2.1",
         "php-http/message": "^1.4",
-        "php-http/mock-client": "^0.3.3"
+        "php-http/mock-client": "^0.3.3",
+        "symfony/console": "^3.3"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",
@@ -54,7 +55,8 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\Money\\": "tests/",
-            "spec\\Money\\": "spec/"
+            "spec\\Money\\": "spec/",
+            "Commands\\Money\\": "commands"
         }
     },
     "scripts": {
@@ -66,8 +68,12 @@
             "vendor/bin/phpspec run -c phpspec.ci.yml",
             "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
-        "update-currencies": "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php"
+        "update-currencies": "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
+        "generate-ide-helper": "./money-console generate:money-static:helper"
     },
+    "bin": [
+        "money-console"
+    ],
     "extra": {
         "branch-alias": {
             "dev-master": "3.0-dev"
