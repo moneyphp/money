@@ -21,10 +21,7 @@ final class MoneyFactoryTest extends TestCase
         $money = Money::{$code}(20);
 
         $this->assertInstanceOf(Money::class, $money);
-
         $this->assertEquals(new Money(20, $currency), $money);
-        $this->assertEquals('20', $money->getAmount());
-        $this->assertEquals($currency->getCode(), $money->getCurrency()->getCode());
     }
 
     public function currencyExamples()
