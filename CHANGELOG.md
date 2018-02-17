@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - [Exchanger](https://github.com/florianv/exchanger) exchange
+- Generated static factory to help IDEs understand code like `Money::EUR(500)`
 
 ### Changed
 
