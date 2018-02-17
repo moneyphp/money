@@ -45,6 +45,12 @@ $currencies = new Currencies\AggregateCurrencies([
     new Currencies\BitcoinCurrencies(),
 ]);
 
+$currencies = iterator_to_array($currencies);
+
+usort($currencies, function (\Money\Currency $a, \Money\Currency $b) {
+    return strcmp($a->getCode(), $b->getCode());
+});
+
 /** @var \Money\Currency[] $currencies */
 foreach ($currencies as $currency) {
     $methodBuffer .= sprintf(" * @method static Money %s(string \$amount)\n", $currency->getCode());
