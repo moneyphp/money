@@ -18,9 +18,9 @@ final class MoneySpec extends ObjectBehavior
     function let(Calculator $calculator)
     {
         // Override the calculator for testing
-        $reflection = new \ReflectionProperty(Money::class, 'calculator');
+        $reflection = new \ReflectionProperty(Calculator\Registry::class, 'calculator');
         $reflection->setAccessible(true);
-        $reflection->setValue(null, $calculator->getWrappedObject());
+        $reflection->setValue(Calculator\Registry::instance(), $calculator->getWrappedObject());
 
         $this->beConstructedWith(self::AMOUNT, new Currency(self::CURRENCY));
     }

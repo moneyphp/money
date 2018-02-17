@@ -5,6 +5,7 @@ namespace Tests\Money;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use Tests\Money\Calculator\CalculatorStub;
 
 final class MoneyTest extends TestCase
 {
@@ -271,6 +272,17 @@ final class MoneyTest extends TestCase
         $six = new Money(6, $currency);
 
         $six->ratioOf($zero);
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Registering calculator in Money\Money is deprecated since 3.2 and will be removed in 4.0. Please register the calculator in Money\Calculator\Registry.
+     * @test
+     * @runInSeparateProcess
+     */
+    public function it_uses_the_calculator_registry_for_registering_calculators()
+    {
+        Money::registerCalculator(CalculatorStub::class);
     }
 
     public function equalityExamples()

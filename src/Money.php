@@ -520,11 +520,17 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * Registers a calculator in the calculator registry.
+     *
      * @param string $calculator
+     *
+     * @deprecated since version 3.2.0, will be removed in 4.0.0.
      */
     public static function registerCalculator($calculator)
     {
-        Calculator\Registry::registerCalculator($calculator);
+        @trigger_error(sprintf('Registering calculator in %s is deprecated since 3.2 and will be removed in 4.0. Please register the calculator in %s.', __CLASS__, Calculator\Registry::class), E_USER_DEPRECATED);
+
+        Calculator\Registry::instance()->registerCalculator($calculator);
     }
 
     /**
@@ -532,10 +538,6 @@ final class Money implements \JsonSerializable
      */
     private function getCalculator()
     {
-        if (null === self::$calculator) {
-            self::$calculator = Calculator\Registry::getCalculator();
-        }
-
-        return self::$calculator;
+        return Calculator\Registry::instance()->getCalculator();
     }
 }
