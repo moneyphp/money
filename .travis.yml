@@ -26,6 +26,7 @@ env:
 branches:
     except:
         - /^analysis-.*$/
+        - /^flintci-.*$/
 
 matrix:
     fast_finish: true
