@@ -185,4 +185,24 @@ namespace Money;
  * @method static Money XAG(string $amount)
  * @method static Money XBT(string $amount)
  */
-trait MoneyFactory {}
+trait MoneyFactory
+{
+    /**
+     * Convenience factory method for a Money object.
+     *
+     * <code>
+     * $fiveDollar = Money::USD(500);
+     * </code>
+     *
+     * @param string $method
+     * @param array  $arguments
+     *
+     * @return Money
+     *
+     * @throws \InvalidArgumentException If amount is not integer(ish)
+     */
+    public static function __callStatic($method, $arguments)
+    {
+        return new Money($arguments[0], new Currency($method));
+    }
+}

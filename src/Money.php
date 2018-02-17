@@ -79,25 +79,6 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * Convenience factory method for a Money object.
-     *
-     * <code>
-     * $fiveDollar = Money::USD(500);
-     * </code>
-     *
-     * @param string $method
-     * @param array  $arguments
-     *
-     * @return Money
-     *
-     * @throws \InvalidArgumentException If amount is not integer(ish)
-     */
-    public static function __callStatic($method, $arguments)
-    {
-        return new self($arguments[0], new Currency($method));
-    }
-
-    /**
      * Returns a new Money instance based on the current one using the Currency.
      *
      * @param int|string $amount
