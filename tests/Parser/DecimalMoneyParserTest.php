@@ -29,7 +29,6 @@ final class DecimalMoneyParserTest extends TestCase
         $this->assertEquals($result, $parser->parse($decimal, new Currency($currency))->getAmount());
     }
 
-
     /**
      * @dataProvider invalidMoneyExamples
      * @test
