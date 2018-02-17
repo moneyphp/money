@@ -13,6 +13,8 @@ use Money\Calculator\PhpCalculator;
  */
 final class Money implements \JsonSerializable
 {
+    use MoneyFactory;
+
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
@@ -81,7 +83,7 @@ final class Money implements \JsonSerializable
      *
      * @return Money
      *
-     * @throws \InvalidArgumentException If amount is not integer
+     * @throws \InvalidArgumentException If amount is not integer(ish)
      */
     public static function __callStatic($method, $arguments)
     {
