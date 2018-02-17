@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Generated static factory to help IDEs understand code like `Money::EUR(500)`
+
 ### Changed
 
 - `Money::add` and `Money::subtract` now accept variadic arguments
