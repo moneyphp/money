@@ -60,7 +60,6 @@ trait CalculatorBehavior
         $result->shouldBeGreaterThanZero();
         $result->shouldBeString();
 
-
         $result = $this->absolute(rand(-100, -1));
 
         $result->shouldBeGreaterThanZero();

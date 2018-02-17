@@ -22,7 +22,8 @@ final class ConverterSpec extends ObjectBehavior
         $this->shouldHaveType(Converter::class);
     }
 
-    function it_converts_to_a_different_currency(Currencies $currencies, Exchange $exchange) {
+    function it_converts_to_a_different_currency(Currencies $currencies, Exchange $exchange)
+    {
         $baseCurrency = new Currency($baseCurrencyCode = 'ABC');
         $counterCurrency = new Currency($counterCurrencyCode = 'XYZ');
         $pair = new CurrencyPair($baseCurrency, $counterCurrency, 0.5);

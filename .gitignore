@@ -1,5 +1,9 @@
-build/
+.php_cs
+.php_cs.cache
+/build/
+/composer.lock
+/phpspec.yml
+/phpunit.xml
+/vendor/
+
 doc/_build/
-vendor/
-composer.lock
-phpunit.xml

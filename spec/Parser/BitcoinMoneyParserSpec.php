@@ -28,7 +28,7 @@ final class BitcoinMoneyParserSpec extends ObjectBehavior
 
     function it_parses_money()
     {
-        $money = $this->parse("Ƀ1000.00");
+        $money = $this->parse('Ƀ1000.00');
 
         $money->shouldHaveType(Money::class);
         $money->getCurrency()->getCode()->shouldReturn(BitcoinCurrencies::CODE);

@@ -31,7 +31,7 @@ matrix:
     fast_finish: true
     include:
         - php: 5.6
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" COVERAGE=true
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" COVERAGE=true TEST_COMMAND="composer test-coverage"
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi

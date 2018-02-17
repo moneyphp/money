@@ -11,7 +11,7 @@ use PhpSpec\ObjectBehavior;
 
 final class AggregateMoneyFormatterSpec extends ObjectBehavior
 {
-    function let (MoneyFormatter $moneyFormatter)
+    function let(MoneyFormatter $moneyFormatter)
     {
         $this->beConstructedWith([
             'EUR' => $moneyFormatter,
