@@ -19,20 +19,6 @@ final class MoneyTest extends TestCase
     const OTHER_CURRENCY = 'USD';
 
     /**
-     * @test
-     */
-    public function it_creates_money_using_factories()
-    {
-        $money = Money::XYZ(20);
-
-        $this->assertInstanceOf(Money::class, $money);
-
-        $this->assertEquals(new Money(20, new Currency('XYZ')), $money);
-        $this->assertEquals('20', $money->getAmount());
-        $this->assertEquals('XYZ', $money->getCurrency()->getCode());
-    }
-
-    /**
      * @dataProvider equalityExamples
      * @test
      */
