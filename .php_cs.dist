@@ -2,6 +2,7 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('spec')
+    ->exclude('resources')
     ->in(__DIR__)
 ;
 
@@ -10,6 +11,7 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
         'array_syntax' => ['syntax' => 'short'],
         'yoda_style' => false,
+        'self_accessor' => false,
     ])
     ->setFinder($finder)
 ;
