@@ -14,12 +14,19 @@ use Money\Calculator\PhpCalculator;
 final class Money implements \JsonSerializable
 {
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+
     const ROUND_UP = 5;
+
     const ROUND_DOWN = 6;
+
     const ROUND_HALF_POSITIVE_INFINITY = 7;
+
     const ROUND_HALF_NEGATIVE_INFINITY = 8;
 
     /**
