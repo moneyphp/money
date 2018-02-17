@@ -116,7 +116,7 @@ final class Money implements \JsonSerializable
      *
      * @return bool
      */
-    public function isSameCurrency(Money $other)
+    public function isSameCurrency(self $other)
     {
         return $this->currency->equals($other->currency);
     }
@@ -128,7 +128,7 @@ final class Money implements \JsonSerializable
      *
      * @throws \InvalidArgumentException If $other has a different currency
      */
-    private function assertSameCurrency(Money $other)
+    private function assertSameCurrency(self $other)
     {
         if (!$this->isSameCurrency($other)) {
             throw new \InvalidArgumentException('Currencies must be identical');
@@ -142,7 +142,7 @@ final class Money implements \JsonSerializable
      *
      * @return bool
      */
-    public function equals(Money $other)
+    public function equals(self $other)
     {
         return $this->isSameCurrency($other) && $this->amount === $other->amount;
     }
@@ -156,7 +156,7 @@ final class Money implements \JsonSerializable
      *
      * @return int
      */
-    public function compare(Money $other)
+    public function compare(self $other)
     {
         $this->assertSameCurrency($other);
 
@@ -170,7 +170,7 @@ final class Money implements \JsonSerializable
      *
      * @return bool
      */
-    public function greaterThan(Money $other)
+    public function greaterThan(self $other)
     {
         return $this->compare($other) === 1;
     }
@@ -180,7 +180,7 @@ final class Money implements \JsonSerializable
      *
      * @return bool
      */
-    public function greaterThanOrEqual(Money $other)
+    public function greaterThanOrEqual(self $other)
     {
         return $this->compare($other) >= 0;
     }
@@ -192,7 +192,7 @@ final class Money implements \JsonSerializable
      *
      * @return bool
      */
-    public function lessThan(Money $other)
+    public function lessThan(self $other)
     {
         return $this->compare($other) === -1;
     }
@@ -202,7 +202,7 @@ final class Money implements \JsonSerializable
      *
      * @return bool
      */
-    public function lessThanOrEqual(Money $other)
+    public function lessThanOrEqual(self $other)
     {
         return $this->compare($other) <= 0;
     }
@@ -235,7 +235,7 @@ final class Money implements \JsonSerializable
      *
      * @return Money
      */
-    public function add(Money $addend)
+    public function add(self $addend)
     {
         $this->assertSameCurrency($addend);
 
@@ -250,7 +250,7 @@ final class Money implements \JsonSerializable
      *
      * @return Money
      */
-    public function subtract(Money $subtrahend)
+    public function subtract(self $subtrahend)
     {
         $this->assertSameCurrency($subtrahend);
 
@@ -352,7 +352,7 @@ final class Money implements \JsonSerializable
      *
      * @return Money
      */
-    public function mod(Money $divisor)
+    public function mod(self $divisor)
     {
         $this->assertSameCurrency($divisor);
 
@@ -429,7 +429,7 @@ final class Money implements \JsonSerializable
      *
      * @return string
      */
-    public function ratioOf(Money $money)
+    public function ratioOf(self $money)
     {
         if ($money->isZero()) {
             throw new \InvalidArgumentException('Cannot calculate a ratio of zero');
