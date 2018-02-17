@@ -9,11 +9,12 @@ final class AggregateMoneyFormatterTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Initialize an empty Money\Formatter\AggregateMoneyFormatter is not possible
      */
-    public function can_be_initialized_with_empty_array()
+    public function it_can_be_initialized_with_empty_array()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Initialize an empty Money\\Formatter\\AggregateMoneyFormatter is not possible');
+
         new AggregateMoneyFormatter([]);
     }
 }

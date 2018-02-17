@@ -26,11 +26,12 @@ final class NumberTest extends TestCase
 
     /**
      * @dataProvider invalidNumberExamples
-     * @expectedException \InvalidArgumentException
      * @test
      */
     public function it_fails_parsing_invalid_numbers($number)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         Number::fromString($number);
     }
 
@@ -41,6 +42,7 @@ final class NumberTest extends TestCase
     public function base10($numberString, $baseNumber, $expectedResult)
     {
         $number = Number::fromString($numberString);
+
         $this->assertSame($expectedResult, (string) $number->base10($baseNumber));
     }
 

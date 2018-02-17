@@ -4,6 +4,7 @@ namespace Tests\Money\Parser;
 
 use Money\Currencies;
 use Money\Currency;
+use Money\Exception\ParserException;
 use Money\Parser\DecimalMoneyParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -28,7 +29,47 @@ final class DecimalMoneyParserTest extends TestCase
         $this->assertEquals($result, $parser->parse($decimal, new Currency($currency))->getAmount());
     }
 
-    public static function formattedMoneyExamples()
+
+    /**
+     * @dataProvider invalidMoneyExamples
+     * @test
+     */
+    public function it_throws_an_exception_upon_invalid_inputs($input)
+    {
+        $this->expectException(ParserException::class);
+
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
+
+        $parser = new DecimalMoneyParser($currencies->reveal());
+
+        $parser->parse($input, new Currency('USD'))->getAmount();
+    }
+
+    /**
+     * @group legacy
+     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
+     * @test
+     */
+    public function it_accepts_only_a_currency_object()
+    {
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
+
+        $parser = new DecimalMoneyParser($currencies->reveal());
+
+        $parser->parse('1.0', 'USD')->getAmount();
+    }
+
+    public function formattedMoneyExamples()
     {
         return [
             ['1000.50', 'USD', 2, 100050],
@@ -90,41 +131,5 @@ final class DecimalMoneyParserTest extends TestCase
             ['INVALID'],
             ['.'],
         ];
-    }
-
-    /**
-     * @dataProvider invalidMoneyExamples
-     * @expectedException \Money\Exception\ParserException
-     */
-    public function testInvalidInputsThrowParseException($input)
-    {
-        $currencies = $this->prophesize(Currencies::class);
-
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
-
-        $parser = new DecimalMoneyParser($currencies->reveal());
-
-        $parser->parse($input, new Currency('USD'))->getAmount();
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
-     */
-    public function testCurrencyExpectsAnObject()
-    {
-        $currencies = $this->prophesize(Currencies::class);
-
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
-
-        $parser = new DecimalMoneyParser($currencies->reveal());
-
-        $parser->parse('1.0', 'USD')->getAmount();
     }
 }

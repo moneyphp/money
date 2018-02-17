@@ -18,7 +18,10 @@ final class MoneyTest extends TestCase
 
     const OTHER_CURRENCY = 'USD';
 
-    public function test_it_creates_money_using_factories()
+    /**
+     * @test
+     */
+    public function it_creates_money_using_factories()
     {
         $money = Money::XYZ(20);
 
@@ -92,11 +95,12 @@ final class MoneyTest extends TestCase
 
     /**
      * @dataProvider invalidOperandExamples
-     * @expectedException \InvalidArgumentException
      * @test
      */
     public function it_throws_an_exception_when_operand_is_invalid_during_multiplication($operand)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $money = new Money(1, new Currency(self::CURRENCY));
 
         $money->multiply($operand);
@@ -117,11 +121,12 @@ final class MoneyTest extends TestCase
 
     /**
      * @dataProvider invalidOperandExamples
-     * @expectedException \InvalidArgumentException
      * @test
      */
     public function it_throws_an_exception_when_operand_is_invalid_during_division($operand)
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $money = new Money(1, new Currency(self::CURRENCY));
 
         $money->divide($operand);
@@ -215,7 +220,10 @@ final class MoneyTest extends TestCase
         $this->assertEquals($expected, $money->getAmount());
     }
 
-    public function test_it_converts_to_json()
+    /**
+     * @test
+     */
+    public function it_converts_to_json()
     {
         $this->assertEquals(
             '{"amount":"350","currency":"EUR"}',
@@ -223,7 +231,10 @@ final class MoneyTest extends TestCase
         );
     }
 
-    public function test_it_supports_max_int()
+    /**
+     * @test
+     */
+    public function it_supports_max_int()
     {
         $one = new Money(1, new Currency('EUR'));
 
@@ -232,7 +243,10 @@ final class MoneyTest extends TestCase
         $this->assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 
-    public function test_it_returns_ratio_of()
+    /**
+     * @test
+     */
+    public function it_returns_ratio_of()
     {
         $currency = new Currency('EUR');
         $zero = new Money(0, $currency);
@@ -246,10 +260,12 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @test
      */
-    public function test_it_throws_when_calculating_ratio_of_zero()
+    public function it_throws_when_calculating_ratio_of_zero()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $currency = new Currency('EUR');
         $zero = new Money(0, $currency);
         $six = new Money(6, $currency);
