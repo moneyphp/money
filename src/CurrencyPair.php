@@ -114,7 +114,7 @@ final class CurrencyPair implements \JsonSerializable
      *
      * @return bool
      */
-    public function equals(CurrencyPair $other)
+    public function equals(self $other)
     {
         return
             $this->baseCurrency->equals($other->baseCurrency)
