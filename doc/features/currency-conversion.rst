@@ -60,12 +60,17 @@ define the currency pairs in both directions.
     $eur100 = $converter->convert($usd125, new Currency('EUR'));
 
 
-Third Party Exchange
---------------------
+Third Party Integrations
+------------------------
 
 We also provide a way to integrate external sources of conversion rates by implementing
-the ``Money\Exchange`` interface. There is a default one in the core using Swap_
-which you can install via Composer_:
+the ``Money\Exchange`` interface.
+
+
+Swap
+^^^^
+
+Swap_ is a currency exchanger library widespread in the PHP ecosystem. You can install it via Composer_:
 
 .. code:: bash
 
@@ -78,6 +83,7 @@ Then conversion is quite simple:
 
     use Money\Money;
     use Money\Converter;
+    use Money\Exchange\SwapExchange;
 
     // $swap = Implementation of \Swap\SwapInterface
     $exchange = new SwapExchange($swap);
@@ -89,6 +95,35 @@ Then conversion is quite simple:
 
 .. _Swap: https://github.com/florianv/swap
 .. _Composer: https://getcomposer.org
+
+
+Exchanger
+^^^^^^^^^
+
+Exchanger_ is the currency exchange framework behind Swap_.
+
+.. code:: bash
+
+    $ composer require florianv/exchanger
+
+
+Then conversion is quite simple:
+
+.. code:: php
+
+    use Money\Money;
+    use Money\Converter;
+    use Money\Exchanger\ExchangerExchange;
+
+    // $exchanger = Implementation of \Exchanger\Contract\ExchangeRateProvider
+    $exchange = new ExchangerExchange($exchanger);
+
+    $converter = new Converter(new ISOCurrencies(), $exchange);
+    $eur100 = Money::EUR(100);
+    $usd125 = $converter->convert($eur100, new Currency('USD'));
+
+
+.. _Exchanger: https://github.com/florianv/exchanger
 
 
 CurrencyPair
