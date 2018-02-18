@@ -18,6 +18,7 @@ php:
     - 7.0
     - 7.1
     - 7.2
+    - nightly
 
 env:
     global:
@@ -30,6 +31,8 @@ branches:
 
 matrix:
     fast_finish: true
+    allow_failures:
+        - php: nightly
     include:
         - php: 5.6
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" COVERAGE=true TEST_COMMAND="composer test-coverage"
