@@ -28,6 +28,7 @@
         "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
+        "florianv/exchanger": "~0.3 || ^1.0",
         "florianv/swap": "^3.0",
         "psr/cache": "^1.0",
         "cache/taggable-cache": "^0.4.0",
@@ -44,6 +45,7 @@
         "ext-gmp": "Calculate without integer limits",
         "ext-intl": "Format Money objects with intl",
         "florianv/swap": "Exchange rates library for PHP",
+        "florianv/exchanger": "Exchange rates library for PHP",
         "psr/cache-implementation": "Used for Currency caching"
     },
     "autoload": {
