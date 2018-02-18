@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- [Exchanger](https://github.com/florianv/exchanger) exchange
+
 ### Changed
 
 - `Money::add` and `Money::subtract` now accept variadic arguments
