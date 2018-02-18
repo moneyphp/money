@@ -35,7 +35,7 @@ final class ExchangerExchangeSpec extends ObjectBehavior
 
     function it_exchanges_currencies(Exchanger $exchanger, ExchangeRate $exchangeRate)
     {
-        $exchangeRate->getValue()->willReturn(1.0);
+        $exchangeRate->getValue()->willReturn('1.0');
 
         $query = new ExchangeRateQuery(new ExchangerCurrencyPair('EUR', 'USD'));
         $exchanger->getExchangeRate($query)->willReturn($exchangeRate);
