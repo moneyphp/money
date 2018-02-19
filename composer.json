@@ -37,7 +37,7 @@
         "doctrine/instantiator": "^1.0.5",
         "moneyphp/iso-currencies": "^3.0",
         "php-http/message": "^1.4",
-        "php-http/mock-client": "^0.3.3"
+        "php-http/mock-client": "^1.0.0"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",
