@@ -52,7 +52,9 @@ final class NumberTest extends TestCase
      */
     public function it_creates_a_number_from_a_numeric_value($number)
     {
-        Number::fromNumber($number);
+        $number = Number::fromNumber($number);
+
+        $this->assertInstanceOf(Number::class, $number);
     }
 
     public function numberExamples()
