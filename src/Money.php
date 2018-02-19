@@ -13,6 +13,8 @@ use Money\Calculator\PhpCalculator;
  */
 final class Money implements \JsonSerializable
 {
+    use MoneyFactory;
+
     const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
     const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
@@ -74,25 +76,6 @@ final class Money implements \JsonSerializable
 
         $this->amount = (string) $amount;
         $this->currency = $currency;
-    }
-
-    /**
-     * Convenience factory method for a Money object.
-     *
-     * <code>
-     * $fiveDollar = Money::USD(500);
-     * </code>
-     *
-     * @param string $method
-     * @param array  $arguments
-     *
-     * @return Money
-     *
-     * @throws \InvalidArgumentException If amount is not integer
-     */
-    public static function __callStatic($method, $arguments)
-    {
-        return new self($arguments[0], new Currency($method));
     }
 
     /**

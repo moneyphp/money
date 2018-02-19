@@ -72,7 +72,10 @@
             "vendor/bin/phpspec run -c phpspec.ci.yml",
             "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
-        "update-currencies": "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php"
+        "update-currencies": [
+            "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
+            "php resources/generate-money-factory.php"
+        ]
     },
     "extra": {
         "branch-alias": {
