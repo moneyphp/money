@@ -79,6 +79,24 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * @param object|array $normalized
+     *
+     * @return Money
+     *
+     * @throws \InvalidArgumentException when the normalized version cannot be denormalized
+     */
+    public static function denormalize($normalized)
+    {
+        if (is_object($normalized) && isset($normalized->amount) && isset($normalized->currency)) {
+            return new Money($normalized->amount, new Currency($normalized->currency));
+        } elseif (is_array($normalized) && isset($normalized['amount']) && isset($normalized['currency'])) {
+            return new Money($normalized['amount'], new Currency($normalized['currency']));
+        }
+
+        throw new \InvalidArgumentException('Denormalization requires an object or an associative array with [amount, currency] properties/keys');
+    }
+
+    /**
      * Returns a new Money instance based on the current one using the Currency.
      *
      * @param int|string $amount

@@ -385,6 +385,36 @@ final class MoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringMod(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
     }
 
+    function it_denormalizes_money_from_a_stdclass_object()
+    {
+        $normalized = new \stdClass();
+        $normalized->amount = '123';
+        $normalized->currency = 'EUR';
+
+        $denormalized = $this->denormalize($normalized);
+
+        $denormalized->getAmount()->shouldReturn('123');
+        $denormalized->getCurrency()->getCode()->shouldReturn('EUR');
+    }
+
+    function it_denormalizes_money_from_an_array_object()
+    {
+        $normalized = [
+            'amount' => '123',
+            'currency' => 'EUR',
+        ];
+
+        $denormalized = $this->denormalize($normalized);
+
+        $denormalized->getAmount()->shouldReturn('123');
+        $denormalized->getCurrency()->getCode()->shouldReturn('EUR');
+    }
+
+    function it_throws_an_exception_when_money_cannot_be_denormalized()
+    {
+        $this->shouldThrow(\InvalidArgumentException::class)->duringDenormalize('EUR123');
+    }
+
     public function getMatchers()
     {
         return [
