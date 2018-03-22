@@ -276,6 +276,12 @@ final class MoneyTest extends TestCase
             }
 
             $this->addToAssertionCount(1);
+        } catch (\Exception $e) {
+            if (!$throws) {
+                throw $e;
+            }
+
+            $this->addToAssertionCount(1);
         }
     }
 
