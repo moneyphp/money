@@ -421,6 +421,14 @@ final class MoneyTest extends TestCase
                 null,
                 null
             ],
+            [
+                [Money::EUR(0)],
+                true,
+                Money::EUR(0),
+                Money::EUR(0),
+                Money::EUR(0),
+                Money::EUR(0)
+            ],
         ];
     }
 }
