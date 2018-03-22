@@ -395,7 +395,7 @@ final class MoneyTest extends TestCase
                 Money::EUR(5),
                 Money::EUR(15),
                 Money::EUR(30),
-                Money::EUR(10)
+                Money::EUR(10),
             ],
             [
                 [Money::EUR(-5), Money::EUR(-10), Money::EUR(-15)],
@@ -403,7 +403,7 @@ final class MoneyTest extends TestCase
                 Money::EUR(-15),
                 Money::EUR(-5),
                 Money::EUR(-30),
-                Money::EUR(-10)
+                Money::EUR(-10),
             ],
             [
                 [Money::USD(-5), Money::EUR(-10), Money::EUR(-15)],
@@ -411,7 +411,7 @@ final class MoneyTest extends TestCase
                 null,
                 null,
                 null,
-                null
+                null,
             ],
             [
                 [],
@@ -419,7 +419,7 @@ final class MoneyTest extends TestCase
                 null,
                 null,
                 null,
-                null
+                null,
             ],
             [
                 [Money::EUR(0)],
@@ -427,7 +427,7 @@ final class MoneyTest extends TestCase
                 Money::EUR(0),
                 Money::EUR(0),
                 Money::EUR(0),
-                Money::EUR(0)
+                Money::EUR(0),
             ],
         ];
     }
