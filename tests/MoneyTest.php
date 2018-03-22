@@ -259,6 +259,26 @@ final class MoneyTest extends TestCase
         $six->ratioOf($zero);
     }
 
+    /**
+     * @dataProvider aggregateExamples
+     * @test
+     */
+    public function it_calculates_aggregates($values, $throws, $min, $max, $sum, $avg)
+    {
+        try {
+            $this->assertEquals($min, Money::minimum(...$values));
+            $this->assertEquals($max, Money::maximum(...$values));
+            $this->assertEquals($sum, Money::sum(...$values));
+            $this->assertEquals($avg, Money::average(...$values));
+        } catch (\Exception $e) {
+            if (!$throws) {
+                throw $e;
+            }
+
+            $this->addToAssertionCount(1);
+        }
+    }
+
     public function equalityExamples()
     {
         return [
@@ -363,6 +383,36 @@ final class MoneyTest extends TestCase
             [9, 3, '0'],
             [1006, 10, '6'],
             [1007, 10, '7'],
+        ];
+    }
+
+    public function aggregateExamples()
+    {
+        return [
+            [
+                [Money::EUR(5), Money::EUR(10), Money::EUR(15)],
+                false,
+                Money::EUR(5),
+                Money::EUR(15),
+                Money::EUR(30),
+                Money::EUR(10)
+            ],
+            [
+                [Money::EUR(-5), Money::EUR(-10), Money::EUR(-15)],
+                false,
+                Money::EUR(-15),
+                Money::EUR(-5),
+                Money::EUR(-30),
+                Money::EUR(-10)
+            ],
+            [
+                [Money::USD(-5), Money::EUR(-10), Money::EUR(-15)],
+                true,
+                null,
+                null,
+                null,
+                null
+            ],
         ];
     }
 }
