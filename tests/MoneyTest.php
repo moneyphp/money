@@ -270,7 +270,7 @@ final class MoneyTest extends TestCase
             $this->assertEquals($max, Money::maximum(...$values));
             $this->assertEquals($sum, Money::sum(...$values));
             $this->assertEquals($avg, Money::average(...$values));
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if (!$throws) {
                 throw $e;
             }
@@ -407,6 +407,14 @@ final class MoneyTest extends TestCase
             ],
             [
                 [Money::USD(-5), Money::EUR(-10), Money::EUR(-15)],
+                true,
+                null,
+                null,
+                null,
+                null
+            ],
+            [
+                [],
                 true,
                 null,
                 null,
