@@ -4,6 +4,7 @@ namespace Tests\Money;
 
 use Money\Currency;
 use Money\Money;
+use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
@@ -411,7 +412,7 @@ final class MoneyTest extends TestCase
             ],
             [
                 [],
-                version_compare(PHP_VERSION, '7.0.0') >= 0 ? \Throwable::class : \Exception::class,
+                version_compare(PHP_VERSION, '7.0.0') >= 0 ? \ArgumentCountError::class : Error::class,
                 null,
                 null,
                 null,
