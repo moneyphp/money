@@ -265,24 +265,14 @@ final class MoneyTest extends TestCase
      */
     public function it_calculates_aggregates($values, $throws, $min, $max, $sum, $avg)
     {
-        try {
-            $this->assertEquals($min, Money::minimum(...$values));
-            $this->assertEquals($max, Money::maximum(...$values));
-            $this->assertEquals($sum, Money::sum(...$values));
-            $this->assertEquals($avg, Money::average(...$values));
-        } catch (\Throwable $e) {
-            if (!$throws) {
-                throw $e;
-            }
-
-            $this->addToAssertionCount(1);
-        } catch (\Exception $e) {
-            if (!$throws) {
-                throw $e;
-            }
-
-            $this->addToAssertionCount(1);
+        if ($throws !== null) {
+            $this->expectException($throws);
         }
+
+        $this->assertEquals($min, Money::minimum(...$values));
+        $this->assertEquals($max, Money::maximum(...$values));
+        $this->assertEquals($sum, Money::sum(...$values));
+        $this->assertEquals($avg, Money::average(...$values));
     }
 
     public function equalityExamples()
@@ -397,7 +387,7 @@ final class MoneyTest extends TestCase
         return [
             [
                 [Money::EUR(5), Money::EUR(10), Money::EUR(15)],
-                false,
+                null,
                 Money::EUR(5),
                 Money::EUR(15),
                 Money::EUR(30),
@@ -405,7 +395,7 @@ final class MoneyTest extends TestCase
             ],
             [
                 [Money::EUR(-5), Money::EUR(-10), Money::EUR(-15)],
-                false,
+                null,
                 Money::EUR(-15),
                 Money::EUR(-5),
                 Money::EUR(-30),
@@ -413,7 +403,7 @@ final class MoneyTest extends TestCase
             ],
             [
                 [Money::USD(-5), Money::EUR(-10), Money::EUR(-15)],
-                true,
+                \InvalidArgumentException::class,
                 null,
                 null,
                 null,
@@ -421,7 +411,7 @@ final class MoneyTest extends TestCase
             ],
             [
                 [],
-                true,
+                version_compare(PHP_VERSION, '7.0.0') >= 0 ? \Throwable::class : \Exception::class,
                 null,
                 null,
                 null,
@@ -429,7 +419,7 @@ final class MoneyTest extends TestCase
             ],
             [
                 [Money::EUR(0)],
-                true,
+                null,
                 Money::EUR(0),
                 Money::EUR(0),
                 Money::EUR(0),
