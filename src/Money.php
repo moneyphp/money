@@ -517,11 +517,11 @@ final class Money implements \JsonSerializable
 
     /**
      * @param Money   $first
-     * @param Money[] $collection
+     * @param Money   ...$collection
      *
      * @return Money
      */
-    public static function minimum(self $first, self ...$collection)
+    public static function min(self $first, self ...$collection)
     {
         $min = $first;
 
@@ -536,11 +536,11 @@ final class Money implements \JsonSerializable
 
     /**
      * @param Money   $first
-     * @param Money[] $collection
+     * @param Money   ...$collection
      *
      * @return Money
      */
-    public static function maximum(self $first, self ...$collection)
+    public static function max(self $first, self ...$collection)
     {
         $max = $first;
 
@@ -555,7 +555,7 @@ final class Money implements \JsonSerializable
 
     /**
      * @param Money   $first
-     * @param Money[] $collection
+     * @param Money   ...$collection
      *
      * @return Money
      */
@@ -566,11 +566,11 @@ final class Money implements \JsonSerializable
 
     /**
      * @param Money   $first
-     * @param Money[] $collection
+     * @param Money   ...$collection
      *
      * @return Money
      */
-    public static function average(self $first, self ...$collection)
+    public static function avg(self $first, self ...$collection)
     {
         return $first->add(...$collection)->divide(func_num_args());
     }

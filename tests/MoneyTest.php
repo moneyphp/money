@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
 {
-    use RoundExamples;
+    use AggregateExamples, RoundExamples;
 
     const AMOUNT = 10;
 
@@ -261,19 +261,79 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @dataProvider aggregateExamples
+     * @dataProvider sumExamples
      * @test
      */
-    public function it_calculates_aggregates($values, $throws, $min, $max, $sum, $avg)
+    public function it_calculates_sum($values, $sum)
     {
-        if ($throws !== null) {
-            $this->expectException($throws);
-        }
-
-        $this->assertEquals($min, Money::minimum(...$values));
-        $this->assertEquals($max, Money::maximum(...$values));
         $this->assertEquals($sum, Money::sum(...$values));
-        $this->assertEquals($avg, Money::average(...$values));
+    }
+
+    /**
+     * @dataProvider minExamples
+     * @test
+     */
+    public function it_calculates_min($values, $min)
+    {
+        $this->assertEquals($min, Money::min(...$values));
+    }
+
+    /**
+     * @dataProvider maxExamples
+     * @test
+     */
+    public function it_calculates_max($values, $max)
+    {
+        $this->assertEquals($max, Money::max(...$values));
+    }
+
+    /**
+     * @dataProvider avgExamples
+     * @test
+     */
+    public function it_calculates_avg($values, $avg)
+    {
+        $this->assertEquals($avg, Money::avg(...$values));
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_min_with_zero_arguments()
+    {
+        $this->expectException(\ArgumentCountError::class);
+        Money::min(...[]);
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_max_with_zero_arguments()
+    {
+        $this->expectException(\ArgumentCountError::class);
+        Money::max(...[]);
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_sum_with_zero_arguments()
+    {
+        $this->expectException(\ArgumentCountError::class);
+        Money::sum(...[]);
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_avg_with_zero_arguments()
+    {
+        $this->expectException(\ArgumentCountError::class);
+        Money::avg(...[]);
     }
 
     public function equalityExamples()
@@ -380,52 +440,6 @@ final class MoneyTest extends TestCase
             [9, 3, '0'],
             [1006, 10, '6'],
             [1007, 10, '7'],
-        ];
-    }
-
-    public function aggregateExamples()
-    {
-        return [
-            [
-                [Money::EUR(5), Money::EUR(10), Money::EUR(15)],
-                null,
-                Money::EUR(5),
-                Money::EUR(15),
-                Money::EUR(30),
-                Money::EUR(10),
-            ],
-            [
-                [Money::EUR(-5), Money::EUR(-10), Money::EUR(-15)],
-                null,
-                Money::EUR(-15),
-                Money::EUR(-5),
-                Money::EUR(-30),
-                Money::EUR(-10),
-            ],
-            [
-                [Money::USD(-5), Money::EUR(-10), Money::EUR(-15)],
-                \InvalidArgumentException::class,
-                null,
-                null,
-                null,
-                null,
-            ],
-            [
-                [],
-                version_compare(PHP_VERSION, '7.0.0') >= 0 ? \ArgumentCountError::class : Error::class,
-                null,
-                null,
-                null,
-                null,
-            ],
-            [
-                [Money::EUR(0)],
-                null,
-                Money::EUR(0),
-                Money::EUR(0),
-                Money::EUR(0),
-                Money::EUR(0),
-            ],
         ];
     }
 }
