@@ -301,7 +301,7 @@ final class MoneyTest extends TestCase
      */
     public function it_throws_when_calculating_min_with_zero_arguments()
     {
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(\Throwable::class);
         Money::min(...[]);
     }
 
@@ -311,7 +311,7 @@ final class MoneyTest extends TestCase
      */
     public function it_throws_when_calculating_max_with_zero_arguments()
     {
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(\Throwable::class);
         Money::max(...[]);
     }
 
@@ -321,7 +321,7 @@ final class MoneyTest extends TestCase
      */
     public function it_throws_when_calculating_sum_with_zero_arguments()
     {
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(\Throwable::class);
         Money::sum(...[]);
     }
 
@@ -331,7 +331,7 @@ final class MoneyTest extends TestCase
      */
     public function it_throws_when_calculating_avg_with_zero_arguments()
     {
-        $this->expectException(\ArgumentCountError::class);
+        $this->expectException(\Throwable::class);
         Money::avg(...[]);
     }
 
