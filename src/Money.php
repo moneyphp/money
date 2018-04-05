@@ -516,8 +516,8 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param Money   $first
-     * @param Money   ...$collection
+     * @param Money $first
+     * @param Money ...$collection
      *
      * @return Money
      */
@@ -535,8 +535,8 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param Money   $first
-     * @param Money   ...$collection
+     * @param Money $first
+     * @param Money ...$collection
      *
      * @return Money
      */
@@ -554,8 +554,8 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param Money   $first
-     * @param Money   ...$collection
+     * @param Money $first
+     * @param Money ...$collection
      *
      * @return Money
      */
@@ -565,8 +565,8 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param Money   $first
-     * @param Money   ...$collection
+     * @param Money $first
+     * @param Money ...$collection
      *
      * @return Money
      */
