@@ -4,7 +4,6 @@ namespace Tests\Money;
 
 use Money\Currency;
 use Money\Money;
-use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
