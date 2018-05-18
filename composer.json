@@ -20,24 +20,24 @@
         }
     ],
     "require": {
-        "php": ">=5.6"
+        "php": ">=7.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7 || ^6.4 || ^7.0",
-        "symfony/phpunit-bridge": "^4",
+        "phpunit/phpunit": "^7.1",
+        "symfony/phpunit-bridge": "^4.0",
         "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
-        "florianv/exchanger": "^1.0",
-        "florianv/swap": "^3.0",
+        "florianv/exchanger": "^1.2",
+        "florianv/swap": "^3.4",
         "psr/cache": "^1.0",
         "cache/taggable-cache": "^0.4.0",
-        "phpspec/phpspec": "^3.0",
-        "leanphp/phpspec-code-coverage": "^3.0 || ^4.0",
-        "doctrine/instantiator": "^1.0.5",
-        "moneyphp/iso-currencies": "^3.0",
-        "php-http/message": "^1.4",
-        "php-http/mock-client": "^1.0.0"
+        "phpspec/phpspec": "^4.3",
+        "leanphp/phpspec-code-coverage": "^4.2",
+        "doctrine/instantiator": "^1.1",
+        "moneyphp/iso-currencies": "^3.1",
+        "php-http/message": "^1.6",
+        "php-http/mock-client": "^1.1.0"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",
