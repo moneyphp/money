@@ -516,6 +516,66 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * @param Money $first
+     * @param Money ...$collection
+     *
+     * @return Money
+     */
+    public static function min(self $first, self ...$collection)
+    {
+        $min = $first;
+
+        foreach ($collection as $money) {
+            if ($money->lessThan($min)) {
+                $min = $money;
+            }
+        }
+
+        return $min;
+    }
+
+    /**
+     * @param Money $first
+     * @param Money ...$collection
+     *
+     * @return Money
+     */
+    public static function max(self $first, self ...$collection)
+    {
+        $max = $first;
+
+        foreach ($collection as $money) {
+            if ($money->greaterThan($max)) {
+                $max = $money;
+            }
+        }
+
+        return $max;
+    }
+
+    /**
+     * @param Money $first
+     * @param Money ...$collection
+     *
+     * @return Money
+     */
+    public static function sum(self $first, self ...$collection)
+    {
+        return $first->add(...$collection);
+    }
+
+    /**
+     * @param Money $first
+     * @param Money ...$collection
+     *
+     * @return Money
+     */
+    public static function avg(self $first, self ...$collection)
+    {
+        return $first->add(...$collection)->divide(func_num_args());
+    }
+
+    /**
      * @param string $calculator
      */
     public static function registerCalculator($calculator)

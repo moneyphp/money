@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
 {
-    use RoundExamples;
+    use AggregateExamples, RoundExamples;
 
     const AMOUNT = 10;
 
@@ -257,6 +257,82 @@ final class MoneyTest extends TestCase
         $six = new Money(6, $currency);
 
         $six->ratioOf($zero);
+    }
+
+    /**
+     * @dataProvider sumExamples
+     * @test
+     */
+    public function it_calculates_sum($values, $sum)
+    {
+        $this->assertEquals($sum, Money::sum(...$values));
+    }
+
+    /**
+     * @dataProvider minExamples
+     * @test
+     */
+    public function it_calculates_min($values, $min)
+    {
+        $this->assertEquals($min, Money::min(...$values));
+    }
+
+    /**
+     * @dataProvider maxExamples
+     * @test
+     */
+    public function it_calculates_max($values, $max)
+    {
+        $this->assertEquals($max, Money::max(...$values));
+    }
+
+    /**
+     * @dataProvider avgExamples
+     * @test
+     */
+    public function it_calculates_avg($values, $avg)
+    {
+        $this->assertEquals($avg, Money::avg(...$values));
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_min_with_zero_arguments()
+    {
+        $this->expectException(\Throwable::class);
+        Money::min(...[]);
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_max_with_zero_arguments()
+    {
+        $this->expectException(\Throwable::class);
+        Money::max(...[]);
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_sum_with_zero_arguments()
+    {
+        $this->expectException(\Throwable::class);
+        Money::sum(...[]);
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
+    public function it_throws_when_calculating_avg_with_zero_arguments()
+    {
+        $this->expectException(\Throwable::class);
+        Money::avg(...[]);
     }
 
     public function equalityExamples()
