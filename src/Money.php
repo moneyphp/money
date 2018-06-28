@@ -2,6 +2,7 @@
 
 namespace Money;
 
+use Money\Calculator;
 use Money\Calculator\BcMathCalculator;
 use Money\Calculator\GmpCalculator;
 use Money\Calculator\PhpCalculator;
@@ -63,7 +64,7 @@ final class Money implements \JsonSerializable
      *
      * @throws \InvalidArgumentException If amount is not integer
      */
-    public function __construct($amount, Currency $currency)
+    public function __construct($amount, Currency $currency, Calculator $calculator = null)
     {
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
             $numberFromString = Number::fromString($amount);
@@ -76,6 +77,7 @@ final class Money implements \JsonSerializable
 
         $this->amount = (string) $amount;
         $this->currency = $currency;
+        self::$calculator = $calculator;
     }
 
     /**

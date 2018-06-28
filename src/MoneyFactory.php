@@ -202,6 +202,6 @@ trait MoneyFactory
      */
     public static function __callStatic($method, $arguments)
     {
-        return new Money($arguments[0], new Currency($method));
+        return new Money($arguments[0], new Currency($method), $arguments[1]);
     }
 }

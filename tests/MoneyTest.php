@@ -4,6 +4,9 @@ namespace Tests\Money;
 
 use Money\Currency;
 use Money\Money;
+use Money\Calculator\BcMathCalculator;
+use Money\Calculator\GmpCalculator;
+use Money\Calculator\PhpCalculator;
 use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
@@ -25,6 +28,39 @@ final class MoneyTest extends TestCase
     public function it_equals_to_another_money($amount, $currency, $equality)
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
+
+        $this->assertEquals($equality, $money->equals(new Money($amount, $currency)));
+    }
+
+    /**
+     * @dataProvider equalityExamples
+     * @test
+     */
+    public function it_equals_to_another_money_with_bcmath_calculator($amount, $currency, $equality)
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY), new BcMathCalculator());
+
+        $this->assertEquals($equality, $money->equals(new Money($amount, $currency)));
+    }
+
+    /**
+     * @dataProvider equalityExamples
+     * @test
+     */
+    public function it_equals_to_another_money_with_gmp_calculator($amount, $currency, $equality)
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY), new GmpCalculator());
+
+        $this->assertEquals($equality, $money->equals(new Money($amount, $currency)));
+    }
+
+    /**
+     * @dataProvider equalityExamples
+     * @test
+     */
+    public function it_equals_to_another_money_with_php_calculator($amount, $currency, $equality)
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY), new PhpCalculator());
 
         $this->assertEquals($equality, $money->equals(new Money($amount, $currency)));
     }
@@ -52,12 +88,120 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @dataProvider comparisonExamples
+     * @test
+     */
+    public function it_compares_two_amounts_with_bcmath_calculator($other, $result)
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY), new BcMathCalculator());
+        $other = new Money($other, new Currency(self::CURRENCY), new BcMathCalculator());
+
+        $this->assertEquals($result, $money->compare($other));
+        $this->assertEquals(1 === $result, $money->greaterThan($other));
+        $this->assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
+        $this->assertEquals(-1 === $result, $money->lessThan($other));
+        $this->assertEquals(0 >= $result, $money->lessThanOrEqual($other));
+
+        if ($result === 0) {
+            $this->assertEquals($money, $other);
+        } else {
+            $this->assertNotEquals($money, $other);
+        }
+    }
+
+    /**
+     * @dataProvider comparisonExamples
+     * @test
+     */
+    public function it_compares_two_amounts_with_gmp_calculator($other, $result)
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY), new GmpCalculator());
+        $other = new Money($other, new Currency(self::CURRENCY), new GmpCalculator());
+
+        $this->assertEquals($result, $money->compare($other));
+        $this->assertEquals(1 === $result, $money->greaterThan($other));
+        $this->assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
+        $this->assertEquals(-1 === $result, $money->lessThan($other));
+        $this->assertEquals(0 >= $result, $money->lessThanOrEqual($other));
+
+        if ($result === 0) {
+            $this->assertEquals($money, $other);
+        } else {
+            $this->assertNotEquals($money, $other);
+        }
+    }
+
+    /**
+     * @dataProvider comparisonExamples
+     * @test
+     */
+    public function it_compares_two_amounts_with_php_calculator($other, $result)
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY), new PhpCalculator());
+        $other = new Money($other, new Currency(self::CURRENCY), new PhpCalculator());
+
+        $this->assertEquals($result, $money->compare($other));
+        $this->assertEquals(1 === $result, $money->greaterThan($other));
+        $this->assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
+        $this->assertEquals(-1 === $result, $money->lessThan($other));
+        $this->assertEquals(0 >= $result, $money->lessThanOrEqual($other));
+
+        if ($result === 0) {
+            $this->assertEquals($money, $other);
+        } else {
+            $this->assertNotEquals($money, $other);
+        }
+    }
+
+    /**
      * @dataProvider roundExamples
      * @test
      */
     public function it_multiplies_the_amount($multiplier, $roundingMode, $result)
     {
         $money = new Money(1, new Currency(self::CURRENCY));
+
+        $money = $money->multiply($multiplier, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider roundExamples
+     * @test
+     */
+    public function it_multiplies_the_amount_with_bcmath_calculator($multiplier, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY), new BcMathCalculator());
+
+        $money = $money->multiply($multiplier, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider roundExamples
+     * @test
+     */
+    public function it_multiplies_the_amount_with_gmp_calculator($multiplier, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY), new GmpCalculator());
+
+        $money = $money->multiply($multiplier, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider roundExamples
+     * @test
+     */
+    public function it_multiplies_the_amount_with_php_calculator($multiplier, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY), new PhpCalculator());
 
         $money = $money->multiply($multiplier, $roundingMode);
 
@@ -98,6 +242,45 @@ final class MoneyTest extends TestCase
     public function it_divides_the_amount($divisor, $roundingMode, $result)
     {
         $money = new Money(1, new Currency(self::CURRENCY));
+
+        $money = $money->divide(1 / $divisor, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider roundExamples
+     */
+    public function it_divides_the_amount_with_bcmath_calculator($divisor, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY), new BcMathCalculator());
+
+        $money = $money->divide(1 / $divisor, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider roundExamples
+     */
+    public function it_divides_the_amount_with_gmp_calculator($divisor, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY), new GmpCalculator());
+
+        $money = $money->divide(1 / $divisor, $roundingMode);
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals((string) $result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider roundExamples
+     */
+    public function it_divides_the_amount_with_php_calculator($divisor, $roundingMode, $result)
+    {
+        $money = new Money(1, new Currency(self::CURRENCY), new PhpCalculator());
 
         $money = $money->divide(1 / $divisor, $roundingMode);
 
@@ -179,12 +362,90 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @dataProvider absoluteExamples
+     * @test
+     */
+    public function it_calculates_the_absolute_amount_with_bcmath_calculator($amount, $result)
+    {
+        $money = new Money($amount, new Currency(self::CURRENCY), new BcMathCalculator());
+
+        $money = $money->absolute();
+
+        $this->assertEquals($result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider absoluteExamples
+     * @test
+     */
+    public function it_calculates_the_absolute_amount_with_gmp_calculator($amount, $result)
+    {
+        $money = new Money($amount, new Currency(self::CURRENCY), new GmpCalculator());
+
+        $money = $money->absolute();
+
+        $this->assertEquals($result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider absoluteExamples
+     * @test
+     */
+    public function it_calculates_the_absolute_amount_with_php_calculator($amount, $result)
+    {
+        $money = new Money($amount, new Currency(self::CURRENCY), new PhpCalculator());
+
+        $money = $money->absolute();
+
+        $this->assertEquals($result, $money->getAmount());
+    }
+
+    /**
      * @dataProvider negativeExamples
      * @test
      */
     public function it_calculates_the_negative_amount($amount, $result)
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
+
+        $money = $money->negative();
+
+        $this->assertEquals($result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider negativeExamples
+     * @test
+     */
+    public function it_calculates_the_negative_amount_with_bcmath_calculator($amount, $result)
+    {
+        $money = new Money($amount, new Currency(self::CURRENCY), new BcMathCalculator());
+
+        $money = $money->negative();
+
+        $this->assertEquals($result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider negativeExamples
+     * @test
+     */
+    public function it_calculates_the_negative_amount_with_gmp_calculator($amount, $result)
+    {
+        $money = new Money($amount, new Currency(self::CURRENCY), new GmpCalculator());
+
+        $money = $money->negative();
+
+        $this->assertEquals($result, $money->getAmount());
+    }
+
+    /**
+     * @dataProvider negativeExamples
+     * @test
+     */
+    public function it_calculates_the_negative_amount_with_php_calculator($amount, $result)
+    {
+        $money = new Money($amount, new Currency(self::CURRENCY), new PhpCalculator());
 
         $money = $money->negative();
 
