@@ -107,9 +107,9 @@ interface Calculator
     /**
      * Share amount among ratio / total portions.
      *
-     * @param string    $amount
-     * @param int|float $ratio
-     * @param int|float $total
+     * @param string           $amount
+     * @param int|float|string $ratio
+     * @param int|float|string $total
      *
      * @return string
      */
