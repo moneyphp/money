@@ -5,6 +5,7 @@ namespace Tests\Money\Parser;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\ParserException;
+use Money\Money;
 use Money\Parser\DecimalMoneyParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -30,6 +31,24 @@ final class DecimalMoneyParserTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_parses_exponential_number()
+    {
+        $currencies = $this->prophesize(Currencies::class);
+
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'EUR')
+        ))->willReturn('2');
+
+        $parser = new DecimalMoneyParser($currencies->reveal());
+
+        $value = 2.8865798640254e-15;
+        $this->assertInstanceOf(Money::class, $parser->parse((string)$value, new Currency('EUR')));
+    }
+
+    /**
      * @dataProvider invalidMoneyExamples
      * @test
      */
@@ -51,7 +70,8 @@ final class DecimalMoneyParserTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
+     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please
+     *     pass a Money\Currency instance instead.
      * @test
      */
     public function it_accepts_only_a_currency_object()
