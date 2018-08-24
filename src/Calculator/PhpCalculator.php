@@ -100,7 +100,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertIntegerBounds($result);
 
-        return (string) Number::fromNumber($result);
+        return (string) $result;
     }
 
     /**
@@ -148,7 +148,7 @@ final class PhpCalculator implements Calculator
 
         $this->assertIntegerBounds($result);
 
-        return (string) Number::fromNumber($result);
+        return (string) $result;
     }
 
     /**
@@ -179,7 +179,7 @@ final class PhpCalculator implements Calculator
     private function castInteger($amount)
     {
         $this->assertIntegerBounds($amount);
-        
+
         return (string) intval($amount);
     }
 
