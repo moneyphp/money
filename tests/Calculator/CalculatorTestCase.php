@@ -51,7 +51,7 @@ abstract class CalculatorTestCase extends TestCase
         $result = $this->getCalculator()->divide($value1, $value2);
         $this->assertEquals(substr($expected, 0, strlen($result)), $result);
     }
-    
+
     /**
      * @dataProvider divisionExactExamples
      * @test
@@ -171,7 +171,7 @@ abstract class CalculatorTestCase extends TestCase
             [1, 5.1555, '0.19396760740956'],
         ];
     }
-    
+
     public function divisionExactExamples()
     {
         return [
