@@ -58,7 +58,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function it_divides_a_value_by_another_exact($value1, $value2, $expected)
     {
-        $this->assertEquals($this->getCalculator()->divide($value1, $value2), $result);
+        $this->assertEquals($expected, $this->getCalculator()->divide($value1, $value2));
     }
 
     /**
