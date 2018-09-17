@@ -30,16 +30,22 @@ final class Converter
     }
 
     /**
-     * @param Money    $money
-     * @param Currency $counterCurrency
-     * @param int      $roundingMode
+     * @param Money             $money
+     * @param Currency          $counterCurrency
+     * @param int               $roundingMode
+     * @param CurrencyPair|null $currencyPair
      *
      * @return Money
      */
-    public function convert(Money $money, Currency $counterCurrency, $roundingMode = Money::ROUND_HALF_UP)
+    public function convert(Money $money, Currency $counterCurrency, $roundingMode = Money::ROUND_HALF_UP, CurrencyPair $currencyPair = null)
     {
         $baseCurrency = $money->getCurrency();
-        $ratio = $this->exchange->quote($baseCurrency, $counterCurrency)->getConversionRatio();
+
+        if ($currencyPair === null) {
+            $currencyPair = $this->exchange->quote($baseCurrency, $counterCurrency);
+        }
+
+        $ratio = $currencyPair->getConversionRatio();
 
         $baseCurrencySubunit = $this->currencies->subunitFor($baseCurrency);
         $counterCurrencySubunit = $this->currencies->subunitFor($counterCurrency);
