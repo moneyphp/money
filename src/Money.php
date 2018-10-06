@@ -387,13 +387,20 @@ final class Money implements \JsonSerializable
             $remainder = $this->getCalculator()->subtract($remainder, $share);
         }
 
-        for ($i = 0; $this->getCalculator()->compare($remainder, 0) === 1; ++$i) {
-            if (!$ratios[$i]) {
-                continue;
-            }
+        if ($this->getCalculator()->compare($remainder, '0') === 0) {
+            return $results;
+        }
 
-            $results[$i]->amount = (string) $this->getCalculator()->add($results[$i]->amount, 1);
-            $remainder = $this->getCalculator()->subtract($remainder, 1);
+        $fractions = array_map(function ($ratio) use ($total) {
+            $share = ($ratio / $total) * $this->amount;
+            return $share - floor($share);
+        }, $ratios);
+
+        while ($this->getCalculator()->compare($remainder, '0') === 1) {
+            $index = !empty($fractions) ? array_keys($fractions, max($fractions))[0] : 0;
+            $results[$index]->amount = $this->getCalculator()->add($results[$index]->amount, '1');
+            $remainder = $this->getCalculator()->subtract($remainder, '1');
+            unset($fractions[$index]);
         }
 
         return $results;
