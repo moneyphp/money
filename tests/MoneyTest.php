@@ -70,7 +70,11 @@ final class MoneyTest extends TestCase
      */
     public function it_multiplies_the_amount_with_locale_that_uses_comma_separator()
     {
-        $this->setLocale(LC_ALL, 'es_ES.utf8');
+        try {
+            $this->setLocale(LC_ALL, 'es_ES.utf8');
+        } catch (\PHPUnit\Framework\Exception $e) {
+            $this->setLocale(LC_ALL, 'es_ES.UTF-8');
+        }
 
         $money = new Money(100, new Currency(self::CURRENCY));
         $money = $money->multiply(10 / 100);
