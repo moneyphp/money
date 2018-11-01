@@ -42,7 +42,7 @@ non-supported value is passed a `\InvalidArgumentException` will be thrown.
     // multiple zero's are not accepted
     $fiver = new Money('000', new Currency('USD'));
 
-    // plus sign is not accepted
+    // plus sign is accepted
     $fiver = new Money('+500', new Currency('USD'));
 
 
