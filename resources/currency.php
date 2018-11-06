@@ -842,7 +842,7 @@
   'PHP' => 
   array (
     'alphabeticCode' => 'PHP',
-    'currency' => 'Philippine Piso',
+    'currency' => 'Philippine Peso',
     'minorUnit' => 2,
     'numericCode' => 608,
   ),
@@ -1122,7 +1122,7 @@
   'UYI' => 
   array (
     'alphabeticCode' => 'UYI',
-    'currency' => 'Uruguay Peso en Unidades Indexadas (URUIURUI)',
+    'currency' => 'Uruguay Peso en Unidades Indexadas (UI)',
     'minorUnit' => 0,
     'numericCode' => 940,
   ),

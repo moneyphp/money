@@ -73,7 +73,8 @@
         ],
         "update-currencies": [
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
-            "php resources/generate-money-factory.php"
+            "php resources/generate-money-factory.php",
+            "php resources/generate-money-range-factory.php"
         ]
     },
     "extra": {

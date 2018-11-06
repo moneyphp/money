@@ -5,6 +5,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('resources')
     ->in(__DIR__)
     ->notPath('src/MoneyFactory.php')
+    ->notPath('src/MoneyRangeFactory.php')
 ;
 
 return PhpCsFixer\Config::create()
