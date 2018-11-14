@@ -16,6 +16,20 @@ abstract class CalculatorTestCase extends TestCase
     abstract protected function getCalculator();
 
     /**
+     * @return bool
+     */
+    abstract protected function supported();
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        if (!$this->supported()) {
+            $this->markTestSkipped();
+        }
+    }
+
+    /**
      * @dataProvider additionExamples
      * @test
      */

@@ -3,6 +3,7 @@
 namespace Money;
 
 use Money\Calculator\BcMathCalculator;
+use Money\Calculator\DecimalCalculator;
 use Money\Calculator\GmpCalculator;
 use Money\Calculator\PhpCalculator;
 
@@ -52,6 +53,7 @@ final class Money implements \JsonSerializable
      * @var array
      */
     private static $calculators = [
+        DecimalCalculator::class,
         BcMathCalculator::class,
         GmpCalculator::class,
         PhpCalculator::class,

@@ -11,6 +11,11 @@ class BcMathCalculatorTest extends CalculatorTestCase
 {
     private $defaultScale;
 
+    protected function supported()
+    {
+        return BcMathCalculator::supported();
+    }
+
     protected function getCalculator()
     {
         return new BcMathCalculator();

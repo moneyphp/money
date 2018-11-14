@@ -9,6 +9,11 @@ use Money\Calculator\GmpCalculator;
  */
 class GmpCalculatorTest extends CalculatorTestCase
 {
+    protected function supported()
+    {
+        return GmpCalculator::supported();
+    }
+
     protected function getCalculator()
     {
         return new GmpCalculator();

@@ -7,6 +7,7 @@ sudo: false
 addons:
     apt_packages:
         - enchant
+        - libmpdec-dev
 
 cache:
     directories:
@@ -18,6 +19,7 @@ php:
     - 7.0
     - 7.1
     - 7.2
+    - 7.3
     - nightly
 
 env:
@@ -45,6 +47,7 @@ install:
     - if [[ "$COMPOSER_FLAGS" == *"--prefer-lowest"* ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --quiet; fi
     - travis_retry composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
     - pip install --user -r doc/requirements.txt
+    - pecl install decimal && echo "extension=decimal.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini || true
 
 script:
     - $TEST_COMMAND
