@@ -51,8 +51,7 @@ final class ExponentialMoneyParserTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please
-     *     pass a Money\Currency instance instead.
+     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
      * @test
      */
     public function it_accepts_only_a_currency_object()
