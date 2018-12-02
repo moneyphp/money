@@ -20,6 +20,7 @@ use Money\Number;
 final class ExponentialMoneyParser implements MoneyParser
 {
     const EXPO_DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?[eE][-+]\d+$/';
+
     const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
     /**
@@ -81,7 +82,6 @@ final class ExponentialMoneyParser implements MoneyParser
                 $expo
             ));
         }
-
 
         $negative = isset($matches['sign']) && $matches['sign'] === '-';
 
