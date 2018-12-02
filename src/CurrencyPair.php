@@ -19,33 +19,26 @@ final class CurrencyPair implements \JsonSerializable
     private $baseCurrency;
 
     /**
-     * Currency to convert to.
+     * Money $baseCurrency converts to in the counter currency.
      *
-     * @var Currency
-     */
-    private $counterCurrency;
-
-    /**
-     * @var float
+     * @var Money
      */
     private $conversionRatio;
 
     /**
      * @param Currency $baseCurrency
-     * @param Currency $counterCurrency
-     * @param float    $conversionRatio
+     * @param Money    $conversionRatio
      *
-     * @throws \InvalidArgumentException If conversion ratio is not numeric
+     * @throws \InvalidArgumentException If conversion conversionRatio is null
      */
-    public function __construct(Currency $baseCurrency, Currency $counterCurrency, $conversionRatio)
+    public function __construct(Currency $baseCurrency, Money $conversionRatio)
     {
-        if (!is_numeric($conversionRatio)) {
-            throw new \InvalidArgumentException('Conversion ratio must be numeric');
+        if (is_null($conversionRatio)) {
+            throw new \InvalidArgumentException('Conversion conversionRatio must not be null');
         }
 
         $this->counterCurrency = $counterCurrency;
-        $this->baseCurrency = $baseCurrency;
-        $this->conversionRatio = (float) $conversionRatio;
+        $this->conversionRatio = $conversionRatio;
     }
 
     /**
@@ -74,7 +67,17 @@ final class CurrencyPair implements \JsonSerializable
             );
         }
 
-        return new self(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
+        return new self(new Currency($matches[1]), new Money($matches[3], $matches[2]));
+    }
+
+    /**
+     * Returns the Money $baseCurrency converts to in the counter currency.
+     *
+     * @return Money
+     */
+    public function getConversionRatio()
+    {
+        return $this->conversionRatio;
     }
 
     /**
@@ -84,7 +87,7 @@ final class CurrencyPair implements \JsonSerializable
      */
     public function getCounterCurrency()
     {
-        return $this->counterCurrency;
+        return $this->conversionRatio->getCurrency();
     }
 
     /**
@@ -98,16 +101,6 @@ final class CurrencyPair implements \JsonSerializable
     }
 
     /**
-     * Returns the conversion ratio.
-     *
-     * @return float
-     */
-    public function getConversionRatio()
-    {
-        return $this->conversionRatio;
-    }
-
-    /**
      * Checks if an other CurrencyPair has the same parameters as this.
      *
      * @param CurrencyPair $other
@@ -118,8 +111,7 @@ final class CurrencyPair implements \JsonSerializable
     {
         return
             $this->baseCurrency->equals($other->baseCurrency)
-            && $this->counterCurrency->equals($other->counterCurrency)
-            && $this->conversionRatio === $other->conversionRatio
+            && $this->conversionRatio->equals($other->conversionRatio)
         ;
     }
 
@@ -132,8 +124,8 @@ final class CurrencyPair implements \JsonSerializable
     {
         return [
             'baseCurrency' => $this->baseCurrency,
-            'counterCurrency' => $this->counterCurrency,
-            'ratio' => $this->conversionRatio,
+            'counterCurrency' => $this->conversionRatio->getCurrency(),
+            'ratio' => $this->conversionRatio->getAmount(),
         ];
     }
 }

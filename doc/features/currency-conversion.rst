@@ -3,7 +3,7 @@ Currency Conversion
 
 To convert a Money instance from one Currency to another, you need the Converter. This class depends on
 Currencies and Exchange. Exchange returns a `CurrencyPair`, which is the combination of the base
-currency, counter currency and the conversion ratio.
+currency and a Money instance indicating the counter currency and conversion ratio.
 
 
 Fixed Exchange
@@ -136,8 +136,9 @@ the OOP notation to define a pair:
 
     use Money\Currency;
     use Money\CurrencyPair;
+    use Money\Money;
 
-    $pair = new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.2500);
+    $pair = new CurrencyPair(new Currency('EUR'), new Money(new Currency('USD'), 1.2500));
 
 
 But you can also parse ISO notations. For example, the quotation ``EUR/USD 1.2500``

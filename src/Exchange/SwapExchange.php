@@ -7,6 +7,7 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Money;
 use Swap\Swap;
 
 /**
@@ -40,6 +41,6 @@ final class SwapExchange implements Exchange
             throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
         }
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, $rate->getValue());
+        return new CurrencyPair($baseCurrency, new Money($counterCurrency, $rate->getValue()));
     }
 }

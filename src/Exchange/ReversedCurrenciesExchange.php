@@ -6,6 +6,7 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Money;
 
 /**
  * Tries the reverse of the currency pair if one is not available.
@@ -40,7 +41,7 @@ final class ReversedCurrenciesExchange implements Exchange
             try {
                 $currencyPair = $this->exchange->quote($counterCurrency, $baseCurrency);
 
-                return new CurrencyPair($baseCurrency, $counterCurrency, 1 / $currencyPair->getConversionRatio());
+                return new CurrencyPair($baseCurrency, new Money($counterCurrency, 1 / $currencyPair->getConversionRatio()));
             } catch (UnresolvableCurrencyPairException $inversedException) {
                 throw $exception;
             }

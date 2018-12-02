@@ -6,6 +6,7 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Money;
 
 /**
  * Provides a way to get exchange rate from a static list (array).
@@ -35,8 +36,10 @@ final class FixedExchange implements Exchange
         if (isset($this->list[$baseCurrency->getCode()][$counterCurrency->getCode()])) {
             return new CurrencyPair(
                 $baseCurrency,
-                $counterCurrency,
-                $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()]
+                new Money(
+                    $counterCurrency,
+                    $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()]
+                )
             );
         }
 
