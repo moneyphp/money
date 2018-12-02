@@ -15,8 +15,6 @@ final class ComparatorTest extends TestCase
 
     protected function setUp()
     {
-        parent::setUp();
-
         $this->comparator = new Comparator();
     }
 

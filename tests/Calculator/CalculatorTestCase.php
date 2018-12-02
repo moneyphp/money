@@ -53,6 +53,15 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
+     * @dataProvider divisionExactExamples
+     * @test
+     */
+    public function it_divides_a_value_by_another_exact($value1, $value2, $expected)
+    {
+        $this->assertEquals($expected, $this->getCalculator()->divide($value1, $value2));
+    }
+
+    /**
      * @dataProvider ceilExamples
      * @test
      */
@@ -160,6 +169,19 @@ abstract class CalculatorTestCase extends TestCase
             [98, 25, '3.92'],
             [98, 24, '4.083333333333333'],
             [1, 5.1555, '0.19396760740956'],
+        ];
+    }
+
+    public function divisionExactExamples()
+    {
+        return [
+            [6, 3, '2'],
+            [100, 25, '4'],
+            [2, 4, '0.5'],
+            [20, 0.5, '40'],
+            [2, 0.5, '4'],
+            [98, 28, '3.5'],
+            [98, 25, '3.92'],
         ];
     }
 

@@ -13,10 +13,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [Exchanger](https://github.com/florianv/exchanger) exchange
 - Generated static factory to help IDEs understand code like `Money::EUR(500)`
+- Aggregation functions
 
 ### Changed
 
 - `Money::add` and `Money::subtract` now accept variadic arguments
+
+### Fixed
+
+- Division causing unnecessary fractional parts
 
 
 ## [3.1.3] - 2018-02-16
