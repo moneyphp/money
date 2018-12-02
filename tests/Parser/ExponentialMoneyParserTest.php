@@ -66,7 +66,7 @@ final class ExponentialMoneyParserTest extends TestCase
 
         $parser = new ExponentialMoneyParser($currencies->reveal());
 
-        $parser->parse('1.0', 'USD')->getAmount();
+        $parser->parse('2.8865798640254e+15', 'USD')->getAmount();
     }
 
     public function formattedMoneyExamples()
