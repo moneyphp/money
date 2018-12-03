@@ -26,7 +26,9 @@ final class ConverterSpec extends ObjectBehavior
     {
         $baseCurrency = new Currency($baseCurrencyCode = 'ABC');
         $counterCurrency = new Currency($counterCurrencyCode = 'XYZ');
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, 0.5);
+        $counterRatioAmount = 0.5;
+        $conversionRatio = new Money($counterRatioAmount, $counterCurrency);
+        $pair = new CurrencyPair($baseCurrency, $conversionRatio);
 
         $currencies->subunitFor($baseCurrency)->willReturn(100);
         $currencies->subunitFor($counterCurrency)->willReturn(100);
@@ -47,7 +49,8 @@ final class ConverterSpec extends ObjectBehavior
     {
         $baseCurrency = new Currency('EUR');
         $counterCurrency = new Currency('USD');
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, 1.25);
+        $conversionRatio = new Money(1.25, $counterCurrency);
+        $pair = new CurrencyPair($baseCurrency, $conversionRatio);
 
         $currencies->subunitFor($baseCurrency)->willReturn(2);
         $currencies->subunitFor($counterCurrency)->willReturn(2);

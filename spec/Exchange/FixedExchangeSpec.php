@@ -7,6 +7,7 @@ use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 use Money\Exchange\FixedExchange;
+use Money\Money;
 use PhpSpec\ObjectBehavior;
 
 final class FixedExchangeSpec extends ObjectBehavior
@@ -39,8 +40,7 @@ final class FixedExchangeSpec extends ObjectBehavior
 
         $currencyPair->shouldHaveType(CurrencyPair::class);
         $currencyPair->getBaseCurrency()->shouldReturn($baseCurrency);
-        $currencyPair->getCounterCurrency()->shouldReturn($counterCurrency);
-        $currencyPair->getConversionRatio()->shouldReturn(1.25);
+        $currencyPair->getConversionRatio()->shouldReturn(new Money(1.25, $counterCurrency));
     }
 
     function it_cannot_exchange_currencies()

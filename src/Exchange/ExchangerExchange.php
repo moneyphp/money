@@ -10,6 +10,7 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Money;
 
 /**
  * Provides a way to get exchange rate from a third-party source and return a currency pair.
@@ -45,6 +46,6 @@ final class ExchangerExchange implements Exchange
             throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
         }
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, $rate->getValue());
+        return new CurrencyPair($baseCurrency, new Money($rate->getValue(), $counterCurrency));
     }
 }

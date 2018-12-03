@@ -28,7 +28,8 @@ final class ConverterTest extends TestCase
     ) {
         $baseCurrency = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, $ratio);
+        $conversionRatio = new Money($ratio, $counterCurrency);
+        $pair = new CurrencyPair($baseCurrency, $conversionRatio);
 
         /** @var Currencies|ObjectProphecy $currencies */
         $currencies = $this->prophesize(Currencies::class);

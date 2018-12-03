@@ -13,6 +13,7 @@ use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 use Money\Exchange\ExchangerExchange;
 use Money\Exchange\SwapExchange;
+use Money\Money;
 use Swap\Swap;
 use PhpSpec\ObjectBehavior;
 
@@ -45,7 +46,7 @@ final class ExchangerExchangeSpec extends ObjectBehavior
         $currencyPair->shouldHaveType(CurrencyPair::class);
         $currencyPair->getBaseCurrency()->shouldReturn($base);
         $currencyPair->getCounterCurrency()->shouldReturn($counter);
-        $currencyPair->getConversionRatio()->shouldReturn(1.0);
+        $currencyPair->getConversionRatio()->shouldReturn(new Money(1.0, $counter));
     }
 
     function it_throws_an_exception_when_cannot_exchange_currencies(Exchanger $exchanger)
