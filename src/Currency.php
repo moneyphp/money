@@ -27,7 +27,7 @@ final class Currency implements \JsonSerializable
             throw new \InvalidArgumentException('Currency code should be string');
         }
 
-        if ($code === ''){
+        if ($code === '') {
             @trigger_error('Passing an empty string as currency since 3.1 and will not be supported in 4.0.', E_USER_DEPRECATED);
         }
 
