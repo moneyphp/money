@@ -64,4 +64,12 @@ class BcMathCalculatorTest extends CalculatorTestCase
     {
         $this->assertEquals('0.00130154000000', $this->getCalculator()->add('0.00125148', '0.00005006'));
     }
+
+    /**
+     * @test
+     */
+    public function it_uses_scale_for_subtract()
+    {
+        $this->assertEquals('0.00120142', $this->getCalculator()->subtract('0.00125148', '0.00005006'));
+    }
 }
