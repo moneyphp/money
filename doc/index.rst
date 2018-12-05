@@ -47,6 +47,7 @@ subtle intricacies of handling money.
    features/allocation
    features/parsing
    features/formatting
+   features/aggregation
 
 .. toctree::
    :hidden:
