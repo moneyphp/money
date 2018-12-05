@@ -62,16 +62,6 @@ final class CurrencyListTest extends TestCase
     }
 
     /**
-     * @test
-     */
-    public function it_does_not_have_blank_currency()
-    {
-        $currencies = new CurrencyList(self::$correctCurrencies);
-
-        $this->assertFalse($currencies->contains(new Currency('')));
-    }
-
-    /**
      * @dataProvider invalidInstantiation
      * @test
      */
