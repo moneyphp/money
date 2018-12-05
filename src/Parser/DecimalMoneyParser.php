@@ -5,7 +5,6 @@ namespace Money\Parser;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\ParserException;
-use Money\Money;
 use Money\MoneyParser;
 
 /**
@@ -16,8 +15,6 @@ use Money\MoneyParser;
 final class DecimalMoneyParser implements MoneyParser
 {
     use DecimalParserTrait;
-
-    const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
     /**
      * @var Currencies
@@ -53,18 +50,12 @@ final class DecimalMoneyParser implements MoneyParser
          */
         $currency = $forceCurrency;
         if (!$currency instanceof Currency) {
-            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a ' . Currency::class . ' instance instead.', E_USER_DEPRECATED);
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
             $currency = new Currency($currency);
-        }
-
-        $decimal = trim($money);
-
-        if ($decimal === '') {
-            return new Money(0, $currency);
         }
 
         $subunit = $this->currencies->subunitFor($currency);
 
-        return $this->parseDecimal($decimal, $subunit, $currency);
+        return $this->parseDecimal($money, $subunit, $currency);
     }
 }

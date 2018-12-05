@@ -2,6 +2,7 @@
 
 namespace Money\Parser;
 
+use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\Number;
@@ -10,8 +11,13 @@ trait DecimalParserTrait
 {
     public static $decimalPattern = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
-    protected function parseDecimal($decimal, $subunit, $currency)
+    protected function parseDecimal($decimal, $subunit, Currency $currency)
     {
+        $decimal = trim($decimal);
+        if ($decimal === '') {
+            return new Money(0, $currency);
+        }
+
         if (!preg_match(self::$decimalPattern, $decimal, $matches) || !isset($matches['digits'])) {
             throw new ParserException(sprintf(
                 'Cannot parse "%s" to Money.',
@@ -24,7 +30,7 @@ trait DecimalParserTrait
         $decimal = $matches['digits'];
 
         if ($negative) {
-            $decimal = '-' . $decimal;
+            $decimal = '-'.$decimal;
         }
 
         if (isset($matches['fraction'])) {
@@ -42,7 +48,7 @@ trait DecimalParserTrait
         }
 
         if ($negative) {
-            $decimal = '-' . ltrim(substr($decimal, 1), '0');
+            $decimal = '-'.ltrim(substr($decimal, 1), '0');
         } else {
             $decimal = ltrim($decimal, '0');
         }
