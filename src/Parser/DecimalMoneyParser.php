@@ -7,7 +7,6 @@ use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
-use Money\Number;
 
 /**
  * Parses a decimal string into a Money object.
@@ -16,6 +15,8 @@ use Money\Number;
  */
 final class DecimalMoneyParser implements MoneyParser
 {
+    use DecimalParserTrait;
+
     const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
     /**
@@ -52,7 +53,7 @@ final class DecimalMoneyParser implements MoneyParser
          */
         $currency = $forceCurrency;
         if (!$currency instanceof Currency) {
-            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a ' . Currency::class . ' instance instead.', E_USER_DEPRECATED);
             $currency = new Currency($currency);
         }
 
@@ -64,45 +65,6 @@ final class DecimalMoneyParser implements MoneyParser
 
         $subunit = $this->currencies->subunitFor($currency);
 
-        if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches) || !isset($matches['digits'])) {
-            throw new ParserException(sprintf(
-                'Cannot parse "%s" to Money.',
-                $decimal
-            ));
-        }
-
-        $negative = isset($matches['sign']) && $matches['sign'] === '-';
-
-        $decimal = $matches['digits'];
-
-        if ($negative) {
-            $decimal = '-'.$decimal;
-        }
-
-        if (isset($matches['fraction'])) {
-            $fractionDigits = strlen($matches['fraction']);
-            $decimal .= $matches['fraction'];
-            $decimal = Number::roundMoneyValue($decimal, $subunit, $fractionDigits);
-
-            if ($fractionDigits > $subunit) {
-                $decimal = substr($decimal, 0, $subunit - $fractionDigits);
-            } elseif ($fractionDigits < $subunit) {
-                $decimal .= str_pad('', $subunit - $fractionDigits, '0');
-            }
-        } else {
-            $decimal .= str_pad('', $subunit, '0');
-        }
-
-        if ($negative) {
-            $decimal = '-'.ltrim(substr($decimal, 1), '0');
-        } else {
-            $decimal = ltrim($decimal, '0');
-        }
-
-        if ($decimal === '' || $decimal === '-') {
-            $decimal = '0';
-        }
-
-        return new Money($decimal, $currency);
+        return $this->parseDecimal($decimal, $subunit, $currency);
     }
 }
