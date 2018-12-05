@@ -155,7 +155,7 @@ final class Money implements \JsonSerializable
      */
     public function greaterThan(Money $other)
     {
-        return $this->compare($other) === 1;
+        return $this->compare($other) > 0;
     }
 
     /**
@@ -177,7 +177,7 @@ final class Money implements \JsonSerializable
      */
     public function lessThan(Money $other)
     {
-        return $this->compare($other) === -1;
+        return $this->compare($other) < 0;
     }
 
     /**
@@ -387,7 +387,7 @@ final class Money implements \JsonSerializable
             $remainder = $this->getCalculator()->subtract($remainder, $share);
         }
 
-        for ($i = 0; $this->getCalculator()->compare($remainder, 0) === 1; ++$i) {
+        for ($i = 0; $this->getCalculator()->compare($remainder, 0) > 0; ++$i) {
             if (!$ratios[$i]) {
                 continue;
             }
@@ -489,7 +489,7 @@ final class Money implements \JsonSerializable
      */
     public function isPositive()
     {
-        return $this->getCalculator()->compare($this->amount, 0) === 1;
+        return $this->getCalculator()->compare($this->amount, 0) > 0;
     }
 
     /**
@@ -499,7 +499,7 @@ final class Money implements \JsonSerializable
      */
     public function isNegative()
     {
-        return $this->getCalculator()->compare($this->amount, 0) === -1;
+        return $this->getCalculator()->compare($this->amount, 0) < 0;
     }
 
     /**

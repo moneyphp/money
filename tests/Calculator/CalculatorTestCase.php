@@ -107,12 +107,26 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @dataProvider compareExamples
+     * @dataProvider compareLessExamples
      * @test
      */
-    public function it_compares_values($left, $right, $expected)
+    public function it_compares_values_less($left, $right)
     {
-        $this->assertEquals($expected, $this->getCalculator()->compare($left, $right));
+        // Compare with both orders. One must return a value less than zero,
+        // the other must return a value greater than zero.
+        $this->assertLessThan(0, $this->getCalculator()->compare($left, $right));
+        $this->assertGreaterThan(0, $this->getCalculator()->compare($right, $left));
+    }
+
+    /**
+     * @dataProvider compareEqualExamples
+     * @test
+     */
+    public function it_compares_values($left, $right)
+    {
+        // Compare with both orders, both must return zero.
+        $this->assertEquals(0, $this->getCalculator()->compare($left, $right));
+        $this->assertEquals(0, $this->getCalculator()->compare($right, $left));
     }
 
     /**
@@ -218,17 +232,23 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function compareExamples()
+    public function compareLessExamples()
     {
         return [
-            [1, 0, 1],
-            [1, 1, 0],
-            [0, 1, -1],
-            ['1', '0', 1],
-            ['1', '1', 0],
-            ['0', '1', -1],
-            ['1', '0.0005', 1],
-            ['1', '0.000000000000000000000000005', 1],
+            [0, 1],
+            ['0', '1'],
+            ['0.0005', '1'],
+            ['0.000000000000000000000000005', '1'],
+            ['-1000', '1000', -1],
+        ];
+    }
+
+    public function compareEqualExamples()
+    {
+        return [
+            [1, 1],
+            ['1', '1'],
+            ['-1000', '-1000'],
         ];
     }
 

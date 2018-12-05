@@ -9,11 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [3.2.0] - 2018-12-05
+
 ### Added
 
 - [Exchanger](https://github.com/florianv/exchanger) exchange
 - Generated static factory to help IDEs understand code like `Money::EUR(500)`
-- Aggregation functions
+- Aggregation functions (min, max, avg, sum)
 
 ### Changed
 
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Division causing unnecessary fractional parts
+- Numeric comparison for negative numbers
 
 
 ## [3.1.3] - 2018-02-16
@@ -295,7 +299,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
 
-[Unreleased]: https://github.com/moneyphp/money/compare/v3.1.3...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v3.2.0...HEAD
+[3.2.0]: https://github.com/moneyphp/money/compare/v3.1.3...v3.2.0
 [3.1.3]: https://github.com/moneyphp/money/compare/v3.1.2...v3.1.3
 [3.1.2]: https://github.com/moneyphp/money/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/moneyphp/money/compare/v3.1.0...v3.1.1
