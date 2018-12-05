@@ -21,7 +21,7 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
     private $fractionDigits;
 
     /**
-     * @param int        $fractionDigits
+     * @param int $fractionDigits
      */
     public function __construct($fractionDigits)
     {
