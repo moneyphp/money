@@ -70,6 +70,13 @@ final class MoneySpec extends ObjectBehavior
         $this->beConstructedWith('5.00', new Currency(self::CURRENCY));
     }
 
+    function it_constructs_integer_with_plus()
+    {
+        $this->beConstructedWith('+500', new Currency(self::CURRENCY));
+
+        $this->shouldNotThrow(\InvalidArgumentException::class)->duringInstantiation();
+    }
+
     function it_tests_currency_equality()
     {
         $this->isSameCurrency(new Money(self::AMOUNT, new Currency(self::CURRENCY)))->shouldReturn(true);
