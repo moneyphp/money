@@ -41,6 +41,10 @@ final class BitcoinMoneyParser implements MoneyParser
             throw new ParserException('Value cannot be parsed as Bitcoin');
         }
 
+        if ($forceCurrency !== null && !$forceCurrency instanceof Currency) {
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+        }
+
         $decimal = str_replace(BitcoinCurrencies::SYMBOL, '', $money);
         $decimalSeparator = strpos($decimal, '.');
 
