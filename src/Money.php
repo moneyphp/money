@@ -392,6 +392,7 @@ final class Money implements \JsonSerializable
 
         $fractions = array_map(function ($ratio) use ($total) {
             $share = ($ratio / $total) * $this->amount;
+
             return $share - floor($share);
         }, $ratios);
 
