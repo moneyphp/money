@@ -2,7 +2,6 @@
 
 namespace Money\Formatter;
 
-use Money\Currencies;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Exception\FormatterException;
 use Money\Money;
@@ -22,18 +21,11 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
     private $fractionDigits;
 
     /**
-     * @var Currencies
-     */
-    private $currencies;
-
-    /**
      * @param int        $fractionDigits
-     * @param Currencies $currencies
      */
-    public function __construct($fractionDigits, Currencies $currencies)
+    public function __construct($fractionDigits)
     {
         $this->fractionDigits = $fractionDigits;
-        $this->currencies = $currencies;
     }
 
     /**
@@ -53,7 +45,7 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
             $valueBase = substr($valueBase, 1);
         }
 
-        $subunit = $this->currencies->subunitFor($money->getCurrency());
+        $subunit = BitcoinCurrencies::SUBUNIT;
         $valueBase = Number::roundMoneyValue($valueBase, $this->fractionDigits, $subunit);
         $valueLength = strlen($valueBase);
 

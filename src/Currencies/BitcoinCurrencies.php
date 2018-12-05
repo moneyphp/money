@@ -15,6 +15,8 @@ final class BitcoinCurrencies implements Currencies
 
     const SYMBOL = "\xC9\x83";
 
+    const SUBUNIT = 8;
+
     /**
      * {@inheritdoc}
      */
@@ -34,7 +36,7 @@ final class BitcoinCurrencies implements Currencies
             );
         }
 
-        return 8;
+        return self::SUBUNIT;
     }
 
     /**

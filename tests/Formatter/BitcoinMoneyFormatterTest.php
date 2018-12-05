@@ -2,12 +2,10 @@
 
 namespace Tests\Money\Formatter;
 
-use Money\Currencies;
 use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 
 final class BitcoinMoneyFormatterTest extends TestCase
 {
@@ -17,15 +15,10 @@ final class BitcoinMoneyFormatterTest extends TestCase
      */
     public function it_formats_money($value, $formatted, $fractionDigits)
     {
-        /** @var Currencies|ObjectProphecy $currencies */
-        $currencies = $this->prophesize(Currencies::class);
-
-        $formatter = new BitcoinMoneyFormatter($fractionDigits, $currencies->reveal());
+        $formatter = new BitcoinMoneyFormatter($fractionDigits);
 
         $currency = new Currency('XBT');
         $money = new Money($value, $currency);
-
-        $currencies->subunitFor($currency)->willReturn(8);
 
         $this->assertSame($formatted, $formatter->format($money));
     }

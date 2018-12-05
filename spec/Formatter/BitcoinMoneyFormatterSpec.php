@@ -12,9 +12,9 @@ use PhpSpec\ObjectBehavior;
 
 final class BitcoinMoneyFormatterSpec extends ObjectBehavior
 {
-    function let(Currencies $bitcoinCurrencies)
+    function let()
     {
-        $this->beConstructedWith(2, $bitcoinCurrencies);
+        $this->beConstructedWith(2);
     }
 
     function it_is_initializable()
@@ -27,14 +27,10 @@ final class BitcoinMoneyFormatterSpec extends ObjectBehavior
         $this->shouldImplement(MoneyFormatter::class);
     }
 
-    function it_formats_money(Currencies $bitcoinCurrencies)
+    function it_formats_money()
     {
-        $this->beConstructedWith(1, $bitcoinCurrencies);
-
         $currency = new Currency('XBT');
         $money = new Money(1000000, $currency);
-
-        $bitcoinCurrencies->subunitFor($currency)->willReturn(8);
 
         $formatted = $this->format($money);
 
