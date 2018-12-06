@@ -274,15 +274,15 @@ final class MoneySpec extends ObjectBehavior
             return (int) floor($args[0] * $args[1] / $args[2]);
         });
 
-        $calculator->subtract(Argument::type('numeric'), Argument::type('int'))->will(function ($args) {
+        $calculator->subtract(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
             return (string) $args[0] - $args[1];
         });
 
-        $calculator->add(Argument::type('numeric'), Argument::type('int'))->will(function ($args) {
+        $calculator->add(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
             return (string) ($args[0] + $args[1]);
         });
 
-        $calculator->compare(Argument::type('numeric'), Argument::type('int'))->will(function ($args) {
+        $calculator->compare(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
             return ($args[0] < $args[1]) ? -1 : (($args[0] > $args[1]) ? 1 : 0);
         });
 
@@ -307,15 +307,15 @@ final class MoneySpec extends ObjectBehavior
             return (int) floor($args[0] * $args[1] / $args[2]);
         });
 
-        $calculator->subtract(Argument::type('numeric'), Argument::type('int'))->will(function ($args) {
-            return $args[0] - $args[1];
+        $calculator->subtract(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
+            return (string)($args[0] - $args[1]);
         });
 
-        $calculator->add(Argument::type('numeric'), Argument::type('int'))->will(function ($args) {
-            return $args[0] + $args[1];
+        $calculator->add(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
+            return (string)($args[0] + $args[1]);
         });
 
-        $calculator->compare(Argument::type('numeric'), Argument::type('int'))->will(function ($args) {
+        $calculator->compare(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
             return ($args[0] < $args[1]) ? -1 : (($args[0] > $args[1]) ? 1 : 0);
         });
 

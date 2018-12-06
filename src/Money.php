@@ -381,19 +381,26 @@ final class Money implements \JsonSerializable
             if ($ratio < 0) {
                 throw new \InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
-
             $share = $this->getCalculator()->share($this->amount, $ratio, $total);
             $results[] = $this->newInstance($share);
             $remainder = $this->getCalculator()->subtract($remainder, $share);
         }
 
-        for ($i = 0; $this->getCalculator()->compare($remainder, 0) > 0; ++$i) {
-            if (!$ratios[$i]) {
-                continue;
-            }
+        if ($this->getCalculator()->compare($remainder, '0') === 0) {
+            return $results;
+        }
 
-            $results[$i]->amount = (string) $this->getCalculator()->add($results[$i]->amount, 1);
-            $remainder = $this->getCalculator()->subtract($remainder, 1);
+        $fractions = array_map(function ($ratio) use ($total) {
+            $share = ($ratio / $total) * $this->amount;
+
+            return $share - floor($share);
+        }, $ratios);
+
+        while ($this->getCalculator()->compare($remainder, '0') > 0) {
+            $index = !empty($fractions) ? array_keys($fractions, max($fractions))[0] : 0;
+            $results[$index]->amount = $this->getCalculator()->add($results[$index]->amount, '1');
+            $remainder = $this->getCalculator()->subtract($remainder, '1');
+            unset($fractions[$index]);
         }
 
         return $results;
