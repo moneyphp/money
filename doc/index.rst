@@ -7,7 +7,7 @@ This library intends to provide tools for storing and using monetary values in a
 Why a Money library for PHP?
 ----------------------------
 
-Also see http://blog.verraes.net/2011/04/fowler-money-pattern-in-php/
+Also see http://verraes.net/2011/04/fowler-money-pattern-in-php/
 
 This is a PHP implementation of the Money pattern, as described in [Fowler2002]_ :
 
