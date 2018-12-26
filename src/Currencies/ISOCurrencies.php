@@ -25,7 +25,23 @@ final class ISOCurrencies implements Currencies
      */
     public function contains(Currency $currency)
     {
-        return isset($this->getCurrencies()[$currency->getCode()]);
+        return $this->findCurrencyByCode($currency->getCode()) !== null;
+    }
+
+    /**
+     * @param string $code
+     * @return array|null
+     */
+    private function findCurrencyByCode($code)
+    {
+        foreach ($this->getCurrencies() as $currency) {
+            if (0 === strcasecmp($code, $currency['alphabeticCode']) ||
+                0 === strcasecmp($code, $currency['numericCode'])) {
+                return $currency;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -33,11 +49,13 @@ final class ISOCurrencies implements Currencies
      */
     public function subunitFor(Currency $currency)
     {
-        if (!$this->contains($currency)) {
+        $isoCurrency = $this->findCurrencyByCode($currency->getCode());
+
+        if (!$isoCurrency) {
             throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
         }
 
-        return $this->getCurrencies()[$currency->getCode()]['minorUnit'];
+        return $isoCurrency['minorUnit'];
     }
 
     /**
@@ -51,11 +69,13 @@ final class ISOCurrencies implements Currencies
      */
     public function numericCodeFor(Currency $currency)
     {
-        if (!$this->contains($currency)) {
+        $isoCurrency = $this->findCurrencyByCode($currency->getCode());
+
+        if (!$isoCurrency) {
             throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
         }
 
-        return $this->getCurrencies()[$currency->getCode()]['numericCode'];
+        return $isoCurrency['numericCode'];
     }
 
     /**

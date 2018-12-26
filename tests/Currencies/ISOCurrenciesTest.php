@@ -10,7 +10,8 @@ use PHPUnit\Framework\TestCase;
 final class ISOCurrenciesTest extends TestCase
 {
     /**
-     * @dataProvider currencyCodeExamples
+     * @dataProvider alphabeticCurrencyCodeExamples
+     * @dataProvider numericCurrencyCodeExamples
      * @test
      */
     public function it_has_iso_currencies($currency)
@@ -21,7 +22,8 @@ final class ISOCurrenciesTest extends TestCase
     }
 
     /**
-     * @dataProvider currencyCodeExamples
+     * @dataProvider alphabeticCurrencyCodeExamples
+     * @dataProvider numericCurrencyCodeExamples
      * @test
      */
     public function it_provides_subunit($currency)
@@ -44,7 +46,8 @@ final class ISOCurrenciesTest extends TestCase
     }
 
     /**
-     * @dataProvider currencyCodeExamples
+     * @dataProvider alphabeticCurrencyCodeExamples
+     * @dataProvider numericCurrencyCodeExamples
      * @test
      */
     public function it_provides_numeric_code($currency)
@@ -57,7 +60,7 @@ final class ISOCurrenciesTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_exception_when_providing_numeric_code_and_currency_is_unknown()
+    public function it_throws_an_exception_when_providing_and_currency_is_unknown()
     {
         $this->expectException(UnknownCurrencyException::class);
 
@@ -78,13 +81,22 @@ final class ISOCurrenciesTest extends TestCase
         $this->assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
-    public function currencyCodeExamples()
+    public function alphabeticCurrencyCodeExamples()
     {
         $currencies = require __DIR__.'/../../resources/currency.php';
         $currencies = array_keys($currencies);
 
         return array_map(function ($currency) {
             return [$currency];
+        }, $currencies);
+    }
+
+    public function numericCurrencyCodeExamples()
+    {
+        $currencies = require __DIR__.'/../../resources/currency.php';
+
+        return array_map(function ($currency) {
+            return [(string)$currency['numericCode']];
         }, $currencies);
     }
 }
