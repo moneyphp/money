@@ -30,6 +30,7 @@ final class ISOCurrencies implements Currencies
 
     /**
      * @param string $code
+     *
      * @return array|null
      */
     private function findCurrencyByCode($code)
