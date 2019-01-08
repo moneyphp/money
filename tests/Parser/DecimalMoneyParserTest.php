@@ -76,6 +76,7 @@ final class DecimalMoneyParserTest extends TestCase
             ['1000.0', 'USD', 2, 100000],
             ['1000', 'USD', 2, 100000],
             ['0.01', 'USD', 2, 1],
+            ['0.010', 'USD', 2, 1],
             ['0.00', 'USD', 2, 0],
             ['1', 'USD', 2, 100],
             ['-1000.50', 'USD', 2, -100050],
@@ -121,6 +122,10 @@ final class DecimalMoneyParserTest extends TestCase
             ['9.999', 'USD', 2, 1000],
             ['9.99', 'USD', 2, 999],
             ['-9.99', 'USD', 2, -999],
+            // rounding when more decimals are given than expected
+            ['0.011', 'USD', 2, 1],
+            ['0.015', 'USD', 2, 2],
+            ['0.019', 'USD', 2, 2],
         ];
     }
 
