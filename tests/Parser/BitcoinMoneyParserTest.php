@@ -63,6 +63,7 @@ final class BitcoinMoneyParserTest extends TestCase
             ["\xC9\x83.99", 99],
             ["\xC9\x8399.", 9900],
             ["\xC9\x830", '0'],
+            ["\xC9\x830.020000000", 2],
         ];
     }
 }

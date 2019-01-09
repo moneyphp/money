@@ -59,6 +59,7 @@ final class BitcoinMoneyParser implements MoneyParser
         $decimalSeparator = strpos($decimal, '.');
 
         if (false !== $decimalSeparator) {
+            $decimal = rtrim($decimal, '0');
             $lengthDecimal = strlen($decimal);
             $decimal = str_replace('.', '', $decimal);
             $decimal .= str_pad('', ($lengthDecimal - $decimalSeparator - $this->fractionDigits - 1) * -1, '0');
