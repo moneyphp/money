@@ -3,6 +3,7 @@
 namespace Tests\Money\Parser;
 
 use Money\Currencies\BitcoinCurrencies;
+use Money\Currency;
 use Money\Money;
 use Money\Parser\BitcoinMoneyParser;
 use PHPUnit\Framework\TestCase;
@@ -22,6 +23,20 @@ final class BitcoinMoneyParserTest extends TestCase
         $this->assertInstanceOf(Money::class, $money);
         $this->assertEquals($units, $money->getAmount());
         $this->assertEquals(BitcoinCurrencies::CODE, $money->getCurrency()->getCode());
+    }
+
+    /**
+     * @test
+     */
+    public function force_currency_works()
+    {
+        $moneyParser = new BitcoinMoneyParser(2);
+
+        $money = $moneyParser->parse("\xC9\x830.25", new Currency('ETH'));
+
+        $this->assertInstanceOf(Money::class, $money);
+        $this->assertEquals('25', $money->getAmount());
+        $this->assertEquals('ETH', $money->getCurrency()->getCode());
     }
 
     public function bitcoinExamples()

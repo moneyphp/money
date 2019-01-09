@@ -62,6 +62,20 @@ final class BitcoinMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, new Currency(BitcoinCurrencies::CODE));
+        if ($forceCurrency === null) {
+            $forceCurrency = new Currency(BitcoinCurrencies::CODE);
+        }
+
+        /*
+         * This conversion is only required whilst currency can be either a string or a
+         * Currency object.
+         */
+        $currency = $forceCurrency;
+        if (!$currency instanceof Currency) {
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+            $currency = new Currency($currency);
+        }
+
+        return new Money($decimal, $currency);
     }
 }
