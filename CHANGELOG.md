@@ -10,6 +10,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [3.2.1] - 2019-xx-xx
+
+### Changed
+
+- `Money::allocate` now maintains keys of ratios array
+- All parsers now emit a deprecation warning when passing currency as string
+
+### Fixed
+
+- Docs fix : plus sign in numeric strings is allowed
+- Added ext-json as required extension
+- Throw exception in case of empty currency
+- BCMath calculator now uses scale parameters for addition and subtracting
+- Fixed allocation remainder bug
+- Added PHP 7.3 in test suite
+- Fixed dockerignore to ignore Dockerfile
+- Fixed Bitcoin parsing bug when using trailing zeros
+
+
 ## [3.2.0] - 2018-12-05
 
 ### Added
