@@ -518,7 +518,7 @@ final class Money implements \JsonSerializable
     {
         return [
             'amount' => $this->amount,
-            'currency' => $this->currency,
+            'currency' => $this->currency->jsonSerialize(),
         ];
     }
 
