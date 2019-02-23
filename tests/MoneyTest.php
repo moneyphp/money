@@ -217,7 +217,7 @@ final class MoneyTest extends TestCase
         );
 
         $this->assertEquals(
-            ["amount" => "350", "currency" => "EUR"],
+            ['amount' => '350', 'currency' => 'EUR'],
             Money::EUR(350)->jsonSerialize()
         );
     }
