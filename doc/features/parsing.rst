@@ -101,7 +101,7 @@ Most parsers throw an exception when the string's format is not supported.
     $intlParser = new IntlMoneyParser($numberFormatter, 2);
     $bitcoinParser = new BitcoinMoneyParser(2);
 
-    $moneyParser = new AggregateParser([
+    $moneyParser = new AggregateMoneyParser([
         $intlParser,
         $bitcoinParser,
     ]);
