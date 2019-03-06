@@ -215,6 +215,11 @@ final class MoneyTest extends TestCase
             '{"amount":"350","currency":"EUR"}',
             json_encode(Money::EUR(350))
         );
+
+        $this->assertEquals(
+            ['amount' => '350', 'currency' => 'EUR'],
+            Money::EUR(350)->jsonSerialize()
+        );
     }
 
     /**
