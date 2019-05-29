@@ -26,7 +26,7 @@
     "require-dev": {
         "phpunit/phpunit": "^5.7 || ^6.4 || ^7.0",
         "symfony/phpunit-bridge": "^4",
-        "ext-bcmath": "*",
+        "phpseclib/bcmath_compat": ">=1.0.0"
         "ext-gmp": "*",
         "ext-intl": "*",
         "florianv/exchanger": "^1.0",
@@ -41,7 +41,7 @@
         "php-http/mock-client": "^1.0.0"
     },
     "suggest": {
-        "ext-bcmath": "Calculate without integer limits",
+        "phpseclib/bcmath_compat": "Calculate without integer limits",
         "ext-gmp": "Calculate without integer limits",
         "ext-intl": "Format Money objects with intl",
         "florianv/swap": "Exchange rates library for PHP",
