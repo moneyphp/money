@@ -8,7 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
 {
-    use AggregateExamples, RoundExamples;
+    use AggregateExamples;
+    use RoundExamples;
 
     const AMOUNT = 10;
 
@@ -449,5 +450,24 @@ final class MoneyTest extends TestCase
             [1006, 10, '6'],
             [1007, 10, '7'],
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function it_deserializes_from_var_export()
+    {
+        $this->assertEquals(
+            new Money(12345, new Currency('TEST')),
+            Money::__set_state([
+                'amount' => '12345',
+                'currency' => new Currency('TEST'),
+            ])
+        );
+        $test = new Money(12345, new Currency('TEST'));
+        $this->assertEquals(
+            $test,
+            eval('return '.var_export($test, true).';')
+        );
     }
 }

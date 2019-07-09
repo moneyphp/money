@@ -624,4 +624,16 @@ final class Money implements \JsonSerializable
 
         return self::$calculator;
     }
+
+    /**
+     * Deserialization from var_export().
+     *
+     * @param array $state
+     *
+     * @return Money
+     */
+    public static function __set_state($state)
+    {
+        return new self($state['amount'], $state['currency']);
+    }
 }

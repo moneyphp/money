@@ -14,4 +14,23 @@ final class CurrencyTest extends TestCase
     {
         $this->assertEquals('"USD"', json_encode(new Currency('USD')));
     }
+
+    /**
+     * @test
+     */
+    public function it_deserializes_from_var_export()
+    {
+        $this->assertEquals(
+            new Currency('TEST'),
+            Currency::__set_state([
+                'code' => 'TEST',
+            ])
+        );
+
+        $test = new Currency('TEST');
+        $this->assertEquals(
+            $test,
+            eval('return '.var_export($test, true).';')
+        );
+    }
 }

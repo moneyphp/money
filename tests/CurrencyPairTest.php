@@ -18,4 +18,28 @@ final class CurrencyPairTest extends TestCase
 
         $this->assertEquals($expectedJson, $actualJson);
     }
+
+    /**
+     * @test
+     */
+    public function it_deserializes_from_var_export()
+    {
+        $this->assertEquals(
+            new CurrencyPair(
+                new Currency('TEST1'),
+                new Currency('TEST2'),
+                2
+            ),
+            CurrencyPair::__set_state([
+                'baseCurrency' => new Currency('TEST1'),
+                'counterCurrency' => new Currency('TEST2'),
+                'conversionRatio' => 2,
+            ])
+        );
+        $test = new CurrencyPair(new Currency('TEST1'), new Currency('TEST2'), 2);
+        $this->assertEquals(
+            $test,
+            eval('return '.var_export($test, true).';')
+        );
+    }
 }

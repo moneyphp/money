@@ -136,4 +136,16 @@ final class CurrencyPair implements \JsonSerializable
             'ratio' => $this->conversionRatio,
         ];
     }
+
+    /**
+     * Deserialization from var_export().
+     *
+     * @param array $state
+     *
+     * @return Currency
+     */
+    public static function __set_state($state)
+    {
+        return new self($state['baseCurrency'], $state['counterCurrency'], $state['conversionRatio']);
+    }
 }
