@@ -64,6 +64,13 @@ final class IntlMoneyFormatter implements MoneyFormatter
             $formatted = '-'.$formatted;
         }
 
-        return $this->formatter->formatCurrency($formatted, $money->getCurrency()->getCode());
+        $factionDigests = $this->formatter->getAttribute(\NumberFormatter::FRACTION_DIGITS);
+        $this->formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $subunit);
+
+        $result = $this->formatter->formatCurrency($formatted, $money->getCurrency()->getCode());
+
+        $this->formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $factionDigests);
+
+        return $result;
     }
 }
