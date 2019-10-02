@@ -2,7 +2,6 @@
 
 [![Latest Version](https://img.shields.io/github/release/moneyphp/money.svg?style=flat-square)](https://github.com/moneyphp/money/releases)
 ![Build Status](https://github.com/moneyphp/money/workflows/CI/badge.svg?style=flat-square)
-[![Build Status](https://img.shields.io/travis/moneyphp/money/master.svg?style=flat-square)](https://travis-ci.org/moneyphp/money)
 [![Total Downloads](https://img.shields.io/packagist/dt/moneyphp/money.svg?style=flat-square)](https://packagist.org/packages/moneyphp/money)
 
 [![Email](https://img.shields.io/badge/email-team@moneyphp.org-blue.svg?style=flat-square)](mailto:team@moneyphp.org)
