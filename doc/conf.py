@@ -60,7 +60,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Money'
-copyright = u'2011-2016, Mathias Verraes, 2016 The Money PHP Team'
+copyright = u'2011-2019, Mathias Verraes, 2019 The Money PHP Team'
 author = u'The Money PHP Team'
 
 # The version info for the project you're documenting, acts as replacement for
