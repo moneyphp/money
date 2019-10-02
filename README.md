@@ -1,6 +1,7 @@
 # Money
 
 [![Latest Version](https://img.shields.io/github/release/moneyphp/money.svg?style=flat-square)](https://github.com/moneyphp/money/releases)
+![Build Status](https://github.com/moneyphp/money/workflows/CI/badge.svg?style=flat-square)
 [![Build Status](https://img.shields.io/travis/moneyphp/money/master.svg?style=flat-square)](https://travis-ci.org/moneyphp/money)
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/moneyphp/money.svg?style=flat-square)](https://scrutinizer-ci.com/g/moneyphp/money)
 [![Quality Score](https://img.shields.io/scrutinizer/g/moneyphp/money.svg?style=flat-square)](https://scrutinizer-ci.com/g/moneyphp/money)
