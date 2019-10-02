@@ -43,3 +43,27 @@ jobs:
 
       - name: Run tests
         run: composer test
+
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install enchant
+          pip install --user -r doc/requirements.txt
+
+      - name: Build docs
+        run: |
+          export PATH="/home/runner/.local/bin:$PATH"
+          make -C doc SPHINXOPTS='-nW' html
+          make -C doc spelling
