@@ -10,6 +10,8 @@ use Money\Calculator\PhpCalculator;
  * Money Value Object.
  *
  * @author Mathias Verraes
+ *
+ * @psalm-immutable
  */
 final class Money implements \JsonSerializable
 {
@@ -239,6 +241,8 @@ final class Money implements \JsonSerializable
      * @param Money[] $subtrahends
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public function subtract(Money ...$subtrahends)
     {
@@ -527,6 +531,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function min(self $first, self ...$collection)
     {
@@ -546,6 +552,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function max(self $first, self ...$collection)
     {
@@ -565,6 +573,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function sum(self $first, self ...$collection)
     {
@@ -576,6 +586,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function avg(self $first, self ...$collection)
     {
