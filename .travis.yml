@@ -37,11 +37,6 @@ matrix:
     include:
         - php: 5.6
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" COVERAGE=true TEST_COMMAND="composer test-coverage"
-        - php: 7.3
-          before_script:
-              - wget https://github.com/vimeo/psalm/releases/download/3.7.1/psalm.phar
-              - chmod +x psalm.phar
-          script: psalm.phar
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
