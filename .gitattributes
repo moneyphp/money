@@ -11,7 +11,9 @@ Dockerfile        export-ignore
 /phpspec.ci.yml   export-ignore
 /phpspec.yml.dist export-ignore
 /phpunit.xml.dist export-ignore
+/psalm.xml        export-ignore
 /spec/            export-ignore
+/static-analysis/ export-ignore
 /tests/           export-ignore
 
 /doc/               export-ignore

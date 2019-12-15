@@ -8,6 +8,8 @@ namespace Money;
  * Holds Currency specific data.
  *
  * @author Mathias Verraes
+ *
+ * @psalm-immutable
  */
 final class Currency implements \JsonSerializable
 {
