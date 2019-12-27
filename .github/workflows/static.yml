@@ -41,6 +41,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
+      - name: Install
+        uses: docker://composer
+        with:
+          args: install --ignore-platform-reqs
+
       - name: Psalm
         uses: docker://mickaelandrieu/psalm-ga
         with:
