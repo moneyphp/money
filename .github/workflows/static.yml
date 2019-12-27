@@ -15,6 +15,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
+      - name: Install
+        uses: docker://composer
+        with:
+          args: install --ignore-platform-reqs
+
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
         with:
