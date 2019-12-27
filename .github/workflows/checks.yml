@@ -20,6 +20,11 @@ jobs:
         with:
           args: install --ignore-platform-reqs
 
+      - name: Require normalize
+        uses: docker://composer
+        with:
+          args: require --dev --ignore-platform-reqs ergebnis/composer-normalize
+
       - name: Normalize
         uses: docker://composer
         with:
