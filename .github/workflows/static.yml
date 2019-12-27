@@ -53,6 +53,7 @@ jobs:
           args: install --ignore-platform-reqs
 
       - name: Psalm
-        uses: docker://mickaelandrieu/psalm-ga
+        uses: docker://muglug/psalm-github-actions
         with:
+          entrypoint: ./.github/workflows/psalm.entrypoint
           args: --threads=8 --diff --diff-methods
