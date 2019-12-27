@@ -82,33 +82,6 @@ jobs:
       - name: Run tests
         run: composer test
 
-  static-analysis:
-    name: Static Analysis
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: ['7.3']
-
-    steps:
-      - name: Set up PHP
-        uses: shivammathur/setup-php@1.3.6
-        with:
-          php-version: ${{ matrix.php }}
-          extension-csv: bcmath, gmp, intl, dom, mbstring
-
-      - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: Download dependencies
-        run: composer update --prefer-stable --prefer-lowest --prefer-dist --no-interaction
-
-      - name: Download Psalm
-        run: |
-          wget https://github.com/vimeo/psalm/releases/download/3.7.1/psalm.phar
-
-      - name: Run Static Analysis
-        run: php psalm.phar
-
   docs:
     name: Docs
     runs-on: ubuntu-latest
