@@ -35,11 +35,11 @@
         "doctrine/instantiator": "^1.0.5",
         "florianv/exchanger": "^1.0",
         "florianv/swap": "^3.0",
-        "leanphp/phpspec-code-coverage": "^3.0 || ^4.0",
+        "friends-of-phpspec/phpspec-code-coverage": "^3.1.1 || ^4.3",
         "moneyphp/iso-currencies": "^3.2.1",
         "php-http/message": "^1.4",
         "php-http/mock-client": "^1.0.0",
-        "phpspec/phpspec": "^3.0",
+        "phpspec/phpspec": "^3.4.3",
         "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.18 || ^8.5",
         "psr/cache": "^1.0",
         "symfony/phpunit-bridge": "^4"
