@@ -1,0 +1,3 @@
+#!/bin/sh -l
+
+sh -c "composer install --no-scripts --no-progress --ignore-platform-reqs --quiet && /composer/vendor/bin/phpstan $*"

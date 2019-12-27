@@ -18,6 +18,7 @@ jobs:
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
         with:
+          entrypoint: ./.github/workflows/phpstan.entrypoint
           args: analyze --no-progress
 
   php-cs-fixer:
