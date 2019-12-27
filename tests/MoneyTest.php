@@ -8,7 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
 {
-    use AggregateExamples, RoundExamples;
+    use AggregateExamples;
+    use RoundExamples;
 
     const AMOUNT = 10;
 
