@@ -842,7 +842,7 @@
   'PHP' => 
   array (
     'alphabeticCode' => 'PHP',
-    'currency' => 'Philippine Piso',
+    'currency' => 'Philippine Peso',
     'minorUnit' => 2,
     'numericCode' => 608,
   ),
@@ -1122,9 +1122,16 @@
   'UYI' => 
   array (
     'alphabeticCode' => 'UYI',
-    'currency' => 'Uruguay Peso en Unidades Indexadas (URUIURUI)',
+    'currency' => 'Uruguay Peso en Unidades Indexadas (UI)',
     'minorUnit' => 0,
     'numericCode' => 940,
+  ),
+  'UYW' => 
+  array (
+    'alphabeticCode' => 'UYW',
+    'currency' => 'Unidad Previsional',
+    'minorUnit' => 4,
+    'numericCode' => 927,
   ),
   'UZS' => 
   array (
@@ -1140,12 +1147,12 @@
     'minorUnit' => 0,
     'numericCode' => 548,
   ),
-  'VEF' => 
+  'VES' => 
   array (
-    'alphabeticCode' => 'VEF',
-    'currency' => 'Bolívar',
+    'alphabeticCode' => 'VES',
+    'currency' => 'Bolívar Soberano',
     'minorUnit' => 2,
-    'numericCode' => 937,
+    'numericCode' => 928,
   ),
   'VND' => 
   array (
