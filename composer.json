@@ -36,7 +36,7 @@
         "florianv/exchanger": "^1.0",
         "florianv/swap": "^3.0",
         "leanphp/phpspec-code-coverage": "^3.0 || ^4.0",
-        "moneyphp/iso-currencies": "^3.0",
+        "moneyphp/iso-currencies": "^3.2.1",
         "php-http/message": "^1.4",
         "php-http/mock-client": "^1.0.0",
         "phpspec/phpspec": "^3.0",
