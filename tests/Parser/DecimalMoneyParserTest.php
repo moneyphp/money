@@ -17,14 +17,11 @@ final class DecimalMoneyParserTest extends TestCase
      */
     public function it_parses_money($decimal, $currency, $subunit, $result)
     {
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = new Currencies\CurrencyList([
+            $currency => $subunit
+        ]);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn($subunit);
-
-        $parser = new DecimalMoneyParser($currencies->reveal());
+        $parser = new DecimalMoneyParser($currencies);
 
         $this->assertEquals($result, $parser->parse($decimal, new Currency($currency))->getAmount());
     }
@@ -35,17 +32,13 @@ final class DecimalMoneyParserTest extends TestCase
      */
     public function it_throws_an_exception_upon_invalid_inputs($input)
     {
+        $currencies = new Currencies\CurrencyList([
+            'USD' => 2
+        ]);
+
+        $parser = new DecimalMoneyParser($currencies);
+
         $this->expectException(ParserException::class);
-
-        $currencies = $this->prophesize(Currencies::class);
-
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
-
-        $parser = new DecimalMoneyParser($currencies->reveal());
-
         $parser->parse($input, new Currency('USD'))->getAmount();
     }
 
@@ -56,14 +49,11 @@ final class DecimalMoneyParserTest extends TestCase
      */
     public function it_accepts_only_a_currency_object()
     {
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = new Currencies\CurrencyList([
+            'USD' => 2
+        ]);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
-
-        $parser = new DecimalMoneyParser($currencies->reveal());
+        $parser = new DecimalMoneyParser($currencies);
 
         $parser->parse('1.0', 'USD')->getAmount();
     }
