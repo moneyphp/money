@@ -20,8 +20,8 @@ trait DecimalParser
     public static $decimalPattern = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
     /**
-     * @param string $decimal
-     * @param int $subunit
+     * @param string   $decimal
+     * @param int      $subunit
      * @param Currency $currency
      * @return Money
      */
