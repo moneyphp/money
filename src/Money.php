@@ -10,6 +10,8 @@ use Money\Calculator\PhpCalculator;
  * Money Value Object.
  *
  * @author Mathias Verraes
+ *
+ * @psalm-immutable
  */
 final class Money implements \JsonSerializable
 {
@@ -239,6 +241,8 @@ final class Money implements \JsonSerializable
      * @param Money[] $subtrahends
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public function subtract(Money ...$subtrahends)
     {
@@ -377,23 +381,30 @@ final class Money implements \JsonSerializable
             throw new \InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
         }
 
-        foreach ($ratios as $ratio) {
+        foreach ($ratios as $key => $ratio) {
             if ($ratio < 0) {
                 throw new \InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
-
             $share = $this->getCalculator()->share($this->amount, $ratio, $total);
-            $results[] = $this->newInstance($share);
+            $results[$key] = $this->newInstance($share);
             $remainder = $this->getCalculator()->subtract($remainder, $share);
         }
 
-        for ($i = 0; $this->getCalculator()->compare($remainder, 0) > 0; ++$i) {
-            if (!$ratios[$i]) {
-                continue;
-            }
+        if ($this->getCalculator()->compare($remainder, '0') === 0) {
+            return $results;
+        }
 
-            $results[$i]->amount = (string) $this->getCalculator()->add($results[$i]->amount, 1);
-            $remainder = $this->getCalculator()->subtract($remainder, 1);
+        $fractions = array_map(function ($ratio) use ($total) {
+            $share = ($ratio / $total) * $this->amount;
+
+            return $share - floor($share);
+        }, $ratios);
+
+        while ($this->getCalculator()->compare($remainder, '0') > 0) {
+            $index = !empty($fractions) ? array_keys($fractions, max($fractions))[0] : 0;
+            $results[$index]->amount = $this->getCalculator()->add($results[$index]->amount, '1');
+            $remainder = $this->getCalculator()->subtract($remainder, '1');
+            unset($fractions[$index]);
         }
 
         return $results;
@@ -511,7 +522,7 @@ final class Money implements \JsonSerializable
     {
         return [
             'amount' => $this->amount,
-            'currency' => $this->currency,
+            'currency' => $this->currency->jsonSerialize(),
         ];
     }
 
@@ -520,6 +531,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function min(self $first, self ...$collection)
     {
@@ -539,6 +552,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function max(self $first, self ...$collection)
     {
@@ -558,6 +573,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function sum(self $first, self ...$collection)
     {
@@ -569,6 +586,8 @@ final class Money implements \JsonSerializable
      * @param Money ...$collection
      *
      * @return Money
+     *
+     * @psalm-pure
      */
     public static function avg(self $first, self ...$collection)
     {

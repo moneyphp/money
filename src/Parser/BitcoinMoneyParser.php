@@ -34,7 +34,7 @@ final class BitcoinMoneyParser implements MoneyParser
      */
     public function parse($money, $forceCurrency = null)
     {
-        if (!is_string($money)) {
+        if (is_string($money) === false) {
             throw new ParserException('Formatted raw money should be string, e.g. $1.00');
         }
 
@@ -46,8 +46,6 @@ final class BitcoinMoneyParser implements MoneyParser
 
         $decimal = str_replace(BitcoinCurrencies::SYMBOL, '', $money);
 
-        $subunit = $this->fractionDigits;
-
-        return $this->parseDecimal($decimal, $subunit, $currency);
+        return $this->parseDecimal($decimal, $this->fractionDigits, $currency);
     }
 }

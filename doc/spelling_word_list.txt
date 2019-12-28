@@ -21,3 +21,7 @@ greaterThanOrEqual
 
 behaviour
 ish
+logging
+variadic
+
+euro

@@ -93,6 +93,8 @@ currency code.
 
 .. code-block:: php
 
+    use Money\Currencies\BitcoinCurrencies;
+    use Money\Currencies\ISOCurrencies;
     use Money\Currency;
     use Money\Formatter\AggregateMoneyFormatter;
     use Money\Formatter\BitcoinMoneyFormatter;
@@ -103,16 +105,16 @@ currency code.
     $bitcoin = new Money(100, new Currency('XBT'));
 
     $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
-    $intlFormatter = new IntlMoneyFormatter($numberFormatter);
-    $bitcoinFormatter = new BitcoinMoneyFormatter(2);
+    $intlFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
+    $bitcoinFormatter = new BitcoinMoneyFormatter(7, new BitcoinCurrencies());
 
-    $moneyFormatter = new AggregateFormatter([
+    $moneyFormatter = new AggregateMoneyFormatter([
         'USD' => $intlFormatter,
         'XBT' => $bitcoinFormatter,
     ]);
 
     echo $moneyFormatter->format($dollars); // outputs $1.00
-    echo $moneyFormatter->format($bitcoin); // outputs Ƀ1.00
+    echo $moneyFormatter->format($bitcoin); // outputs Ƀ0.0000010
 
 
 This is very useful if you want to use one formatter as a service in DI context

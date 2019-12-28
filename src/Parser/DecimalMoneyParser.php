@@ -14,6 +14,11 @@ use Money\MoneyParser;
  */
 final class DecimalMoneyParser implements MoneyParser
 {
+    /**
+     * @deprecated This stayed here for BC reasons.
+     */
+    const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
+
     use DecimalParserTrait;
 
     /**

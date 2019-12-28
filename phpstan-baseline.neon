@@ -1,0 +1,592 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Property Money\\\\Calculator\\\\BcMathCalculator\\:\\:\\$scale \\(string\\) does not accept int\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bccomp expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcadd expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$amount\\)\\: Unexpected token \"\\$amount\", expected type at offset 46$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$subtrahend\\)\\: Unexpected token \"\\$subtrahend\", expected type at offset 68$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcsub expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcmul expects int, string given\\.$#"
+			count: 2
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcdiv expects int, string given\\.$#"
+			count: 2
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$number\\)\\: Unexpected token \"\\$number\", expected type at offset 18$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$right_operand of function bcdiv expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$right_operand of function bcmul expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$right_operand of function bcmod expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Property Money\\\\Calculator\\\\GmpCalculator\\:\\:\\$scale \\(string\\) does not accept int\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$pad_length of function str_pad expects int, string given\\.$#"
+			count: 2
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Constant GMP_ROUND_MINUSINF not found\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$number\\)\\: Unexpected token \"\\$number\", expected type at offset 18$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of method Money\\\\Calculator\\\\GmpCalculator\\:\\:absolute\\(\\) expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Binary operation \"\\+\" between string and string results in an error\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Binary operation \"\\-\" between string and string results in an error\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Binary operation \"\\*\" between string and float\\|int\\|string results in an error\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertIntegerBounds\\(\\) expects int, float\\|int given\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:castInteger\\(\\) expects int, float\\|int given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function ceil expects float, string given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:castInteger\\(\\) expects int, float given\\.$#"
+			count: 6
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function floor expects float, string given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertIntegerBounds\\(\\) expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function round expects float, string given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function round expects float, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertIntegerBounds\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertInteger\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Property Money\\\\Converter\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Converter.php
+
+		-
+			message: "#^Method Money\\\\Converter\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Converter.php
+
+		-
+			message: "#^Interface Money\\\\Currencies extends generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Currencies.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and true will always evaluate to false\\.$#"
+			count: 1
+			path: src/Currencies/AggregateCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\AggregateCurrencies\\:\\:getIterator\\(\\) return type has no value type specified in iterable type Traversable\\<mixed, mixed\\>\\.$#"
+			count: 1
+			path: src/Currencies/AggregateCurrencies.php
+
+		-
+			message: "#^Parameter \\#1 \\$it of method AppendIterator\\:\\:append\\(\\) expects Iterator, Traversable\\<mixed, mixed\\> given\\.$#"
+			count: 1
+			path: src/Currencies/AggregateCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\BitcoinCurrencies\\:\\:getIterator\\(\\) return type has no value type specified in iterable type Traversable\\<mixed, mixed\\>\\.$#"
+			count: 1
+			path: src/Currencies/BitcoinCurrencies.php
+
+		-
+			message: "#^Property Money\\\\Currencies\\\\CachedCurrencies\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Currencies/CachedCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\CachedCurrencies\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Currencies/CachedCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\CachedCurrencies\\:\\:getIterator\\(\\) return type has no value type specified in iterable type Traversable\\<mixed, mixed\\>\\.$#"
+			count: 1
+			path: src/Currencies/CachedCurrencies.php
+
+		-
+			message: "#^Parameter \\#1 \\$it of class CallbackFilterIterator constructor expects Iterator, Traversable\\<mixed, mixed\\> given\\.$#"
+			count: 1
+			path: src/Currencies/CachedCurrencies.php
+
+		-
+			message: "#^Property Money\\\\Currencies\\\\CurrencyList\\:\\:\\$currencies type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Currencies/CurrencyList.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\CurrencyList\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Currencies/CurrencyList.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\CurrencyList\\:\\:getIterator\\(\\) return type has no value type specified in iterable type Traversable\\<mixed, mixed\\>\\.$#"
+			count: 1
+			path: src/Currencies/CurrencyList.php
+
+		-
+			message: "#^Property Money\\\\Currencies\\\\ISOCurrencies\\:\\:\\$currencies type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Currencies/ISOCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\ISOCurrencies\\:\\:getIterator\\(\\) return type has no value type specified in iterable type Traversable\\.$#"
+			count: 1
+			path: src/Currencies/ISOCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\ISOCurrencies\\:\\:getCurrencies\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Currencies/ISOCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currencies\\\\ISOCurrencies\\:\\:loadCurrencies\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Currencies/ISOCurrencies.php
+
+		-
+			message: "#^Method Money\\\\Currency\\:\\:isAvailableWithin\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Currency.php
+
+		-
+			message: "#^Method Money\\\\CurrencyPair\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/CurrencyPair.php
+
+		-
+			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
+			count: 1
+			path: src/Exchange/ExchangerExchange.php
+
+		-
+			message: "#^Property Money\\\\Exchange\\\\FixedExchange\\:\\:\\$list type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Exchange/FixedExchange.php
+
+		-
+			message: "#^Method Money\\\\Exchange\\\\FixedExchange\\:\\:__construct\\(\\) has parameter \\$list with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Exchange/FixedExchange.php
+
+		-
+			message: "#^Property Money\\\\Exchange\\\\IndirectExchange\\:\\:\\$calculators type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Property Money\\\\Exchange\\\\IndirectExchange\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Method Money\\\\Exchange\\\\IndirectExchange\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Method Money\\\\Exchange\\\\IndirectExchange\\:\\:registerCalculator\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Method Money\\\\Exchange\\\\IndirectExchange\\:\\:reconstructConversionChain\\(\\) has parameter \\$currencies with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Cannot instantiate interface Money\\\\Calculator\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
+			count: 1
+			path: src/Exchange/SwapExchange.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and true will always evaluate to false\\.$#"
+			count: 1
+			path: src/Formatter/AggregateMoneyFormatter.php
+
+		-
+			message: "#^Property Money\\\\Formatter\\\\BitcoinMoneyFormatter\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/BitcoinMoneyFormatter.php
+
+		-
+			message: "#^Method Money\\\\Formatter\\\\BitcoinMoneyFormatter\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/BitcoinMoneyFormatter.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function substr expects int, int\\|false given\\.$#"
+			count: 1
+			path: src/Formatter/BitcoinMoneyFormatter.php
+
+		-
+			message: "#^Property Money\\\\Formatter\\\\DecimalMoneyFormatter\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/DecimalMoneyFormatter.php
+
+		-
+			message: "#^Method Money\\\\Formatter\\\\DecimalMoneyFormatter\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/DecimalMoneyFormatter.php
+
+		-
+			message: "#^Property Money\\\\Formatter\\\\IntlLocalizedDecimalFormatter\\:\\:\\$formatter has unknown class NumberFormatter as its type\\.$#"
+			count: 1
+			path: src/Formatter/IntlLocalizedDecimalFormatter.php
+
+		-
+			message: "#^Property Money\\\\Formatter\\\\IntlLocalizedDecimalFormatter\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/IntlLocalizedDecimalFormatter.php
+
+		-
+			message: "#^Method Money\\\\Formatter\\\\IntlLocalizedDecimalFormatter\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/IntlLocalizedDecimalFormatter.php
+
+		-
+			message: "#^Parameter \\$formatter of method Money\\\\Formatter\\\\IntlLocalizedDecimalFormatter\\:\\:__construct\\(\\) has invalid typehint type NumberFormatter\\.$#"
+			count: 2
+			path: src/Formatter/IntlLocalizedDecimalFormatter.php
+
+		-
+			message: "#^Call to method format\\(\\) on an unknown class NumberFormatter\\.$#"
+			count: 1
+			path: src/Formatter/IntlLocalizedDecimalFormatter.php
+
+		-
+			message: "#^Property Money\\\\Formatter\\\\IntlMoneyFormatter\\:\\:\\$formatter has unknown class NumberFormatter as its type\\.$#"
+			count: 1
+			path: src/Formatter/IntlMoneyFormatter.php
+
+		-
+			message: "#^Property Money\\\\Formatter\\\\IntlMoneyFormatter\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/IntlMoneyFormatter.php
+
+		-
+			message: "#^Method Money\\\\Formatter\\\\IntlMoneyFormatter\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Formatter/IntlMoneyFormatter.php
+
+		-
+			message: "#^Parameter \\$formatter of method Money\\\\Formatter\\\\IntlMoneyFormatter\\:\\:__construct\\(\\) has invalid typehint type NumberFormatter\\.$#"
+			count: 2
+			path: src/Formatter/IntlMoneyFormatter.php
+
+		-
+			message: "#^Call to method formatCurrency\\(\\) on an unknown class NumberFormatter\\.$#"
+			count: 1
+			path: src/Formatter/IntlMoneyFormatter.php
+
+		-
+			message: "#^Property Money\\\\Money\\:\\:\\$calculators type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:assertSameCurrency\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$addends with type array\\<Money\\\\Money\\> is not subtype of native type array\\<int, Money\\\\Money\\>\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$subtrahends with type array\\<Money\\\\Money\\> is not subtype of native type array\\<int, Money\\\\Money\\>\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:assertOperand\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with string will always evaluate to false\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:assertRoundingMode\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:allocate\\(\\) has parameter \\$ratios with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Binary operation \"\\*\" between \\(float\\|int\\) and string results in an error\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Parameter \\#2 \\$b of method Money\\\\Calculator\\:\\:compare\\(\\) expects string, int given\\.$#"
+			count: 3
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:jsonSerialize\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:registerCalculator\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Cannot instantiate interface Money\\\\Calculator\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:__callStatic\\(\\) has parameter \\$arguments with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Property Money\\\\Number\\:\\:\\$numbers type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Method Money\\\\Number\\:\\:fromString\\(\\) has parameter \\$number with no typehint specified\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$number\\)\\: Unexpected token \"\\$number\", expected type at offset 18$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Parameter \\#1 \\$integerPart of class Money\\\\Number constructor expects string, int given\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Binary operation \"\\+\" between int and 1\\|string results in an error\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Access to constant CURRENCY on an unknown class NumberFormatter\\.$#"
+			count: 1
+			path: src/PHPUnit/Comparator.php
+
+		-
+			message: "#^Instantiated class NumberFormatter not found\\.$#"
+			count: 1
+			path: src/PHPUnit/Comparator.php
+
+		-
+			message: "#^Method Money\\\\PHPUnit\\\\Comparator\\:\\:assertEquals\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/PHPUnit/Comparator.php
+
+		-
+			message: "#^Method Money\\\\PHPUnit\\\\Comparator\\:\\:assertEquals\\(\\) has parameter \\$processed with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/PHPUnit/Comparator.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and true will always evaluate to false\\.$#"
+			count: 1
+			path: src/Parser/AggregateMoneyParser.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/Parser/BitcoinMoneyParser.php
+
+		-
+			message: "#^Property Money\\\\Parser\\\\DecimalMoneyParser\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Parser/DecimalMoneyParser.php
+
+		-
+			message: "#^Method Money\\\\Parser\\\\DecimalMoneyParser\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Parser/DecimalMoneyParser.php
+
+		-
+			message: "#^Property Money\\\\Parser\\\\IntlLocalizedDecimalParser\\:\\:\\$formatter has unknown class NumberFormatter as its type\\.$#"
+			count: 1
+			path: src/Parser/IntlLocalizedDecimalParser.php
+
+		-
+			message: "#^Property Money\\\\Parser\\\\IntlLocalizedDecimalParser\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Parser/IntlLocalizedDecimalParser.php
+
+		-
+			message: "#^Method Money\\\\Parser\\\\IntlLocalizedDecimalParser\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Parser/IntlLocalizedDecimalParser.php
+
+		-
+			message: "#^Parameter \\$formatter of method Money\\\\Parser\\\\IntlLocalizedDecimalParser\\:\\:__construct\\(\\) has invalid typehint type NumberFormatter\\.$#"
+			count: 2
+			path: src/Parser/IntlLocalizedDecimalParser.php
+
+		-
+			message: "#^Call to method parse\\(\\) on an unknown class NumberFormatter\\.$#"
+			count: 1
+			path: src/Parser/IntlLocalizedDecimalParser.php
+
+		-
+			message: "#^Call to method getErrorMessage\\(\\) on an unknown class NumberFormatter\\.$#"
+			count: 1
+			path: src/Parser/IntlLocalizedDecimalParser.php
+
+		-
+			message: "#^Property Money\\\\Parser\\\\IntlMoneyParser\\:\\:\\$formatter has unknown class NumberFormatter as its type\\.$#"
+			count: 1
+			path: src/Parser/IntlMoneyParser.php
+
+		-
+			message: "#^Property Money\\\\Parser\\\\IntlMoneyParser\\:\\:\\$currencies type has no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Parser/IntlMoneyParser.php
+
+		-
+			message: "#^Method Money\\\\Parser\\\\IntlMoneyParser\\:\\:__construct\\(\\) has parameter \\$currencies with no value type specified in iterable type Money\\\\Currencies\\.$#"
+			count: 1
+			path: src/Parser/IntlMoneyParser.php
+
+		-
+			message: "#^Parameter \\$formatter of method Money\\\\Parser\\\\IntlMoneyParser\\:\\:__construct\\(\\) has invalid typehint type NumberFormatter\\.$#"
+			count: 2
+			path: src/Parser/IntlMoneyParser.php
+
+		-
+			message: "#^Call to method parseCurrency\\(\\) on an unknown class NumberFormatter\\.$#"
+			count: 1
+			path: src/Parser/IntlMoneyParser.php
+
+		-
+			message: "#^Call to method getErrorMessage\\(\\) on an unknown class NumberFormatter\\.$#"
+			count: 1
+			path: src/Parser/IntlMoneyParser.php
+
+		-
+			message: "#^Parameter \\#1 \\$code of class Money\\\\Currency constructor expects string, null given\\.$#"
+			count: 1
+			path: src/Parser/IntlMoneyParser.php
+

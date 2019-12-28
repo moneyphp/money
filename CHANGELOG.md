@@ -10,6 +10,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [3.3.0] - 2019-12-27
+
+### Changed
+
+- Added types for `Money` to be understood as pure/immutable downstream (#576)
+
+### Fixed
+
+- JSON serialization (#551)
+- Several documentation fixes
+- Minor fixes
+
+
+## [3.2.1] - 2019-02-07
+
+### Changed
+
+- `Money::allocate` now maintains keys of ratios array
+- All parsers now emit a deprecation warning when passing currency as string
+
+### Fixed
+
+- Docs fix : plus sign in numeric strings is allowed
+- Added ext-json as required extension
+- Throw exception in case of empty currency
+- BCMath calculator now uses scale parameters for addition and subtracting
+- Fixed allocation remainder bug
+- Added PHP 7.3 in test suite
+- Fixed dockerignore to ignore Dockerfile
+- Fixed Bitcoin parsing bug when using trailing zeros
+
+
 ## [3.2.0] - 2018-12-05
 
 ### Added
@@ -299,7 +331,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
 
-[Unreleased]: https://github.com/moneyphp/money/compare/v3.2.0...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v3.3.0...HEAD
+[3.3.0]: https://github.com/moneyphp/money/compare/v3.2.1...v3.3.0
+[3.2.1]: https://github.com/moneyphp/money/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/moneyphp/money/compare/v3.1.3...v3.2.0
 [3.1.3]: https://github.com/moneyphp/money/compare/v3.1.2...v3.1.3
 [3.1.2]: https://github.com/moneyphp/money/compare/v3.1.1...v3.1.2

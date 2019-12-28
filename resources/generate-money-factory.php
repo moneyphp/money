@@ -53,7 +53,7 @@ usort($currencies, function (\Money\Currency $a, \Money\Currency $b) {
 
 /** @var \Money\Currency[] $currencies */
 foreach ($currencies as $currency) {
-    $methodBuffer .= sprintf(" * @method static Money %s(string \$amount)\n", $currency->getCode());
+    $methodBuffer .= sprintf(" * @method static Money %s(string|int \$amount)\n", $currency->getCode());
 }
 
 $buffer = str_replace('PHPDOC', rtrim($methodBuffer), $buffer);
