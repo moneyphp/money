@@ -15,7 +15,6 @@ use Money\Number;
  * @example `2.8865798640254e+15`
  *
  * @author George Mponos <gmponos@gmail.com>
- * @author Teoh Han Hui <teohhanhui@gmail.com>
  */
 final class ExponentialMoneyParser implements MoneyParser
 {
