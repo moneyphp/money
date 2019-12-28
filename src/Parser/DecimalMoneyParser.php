@@ -19,7 +19,7 @@ final class DecimalMoneyParser implements MoneyParser
      */
     const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
-    use DecimalParserTrait;
+    use DecimalParser;
 
     /**
      * @var Currencies

@@ -9,6 +9,8 @@ use Money\Number;
 
 /**
  * Common decimal parsing logic extracted from DecimalMoneyParser for reuse.
+ *
+ * @internal
  */
 trait DecimalParser
 {

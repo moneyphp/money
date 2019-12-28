@@ -14,7 +14,7 @@ use Money\MoneyParser;
  */
 final class BitcoinMoneyParser implements MoneyParser
 {
-    use DecimalParserTrait;
+    use DecimalParser;
 
     /**
      * @var int

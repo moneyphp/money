@@ -14,7 +14,7 @@ use Money\MoneyParser;
  */
 final class IntlMoneyParser implements MoneyParser
 {
-    use DecimalParserTrait;
+    use DecimalParser;
 
     /**
      * @var \NumberFormatter
