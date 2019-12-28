@@ -9,7 +9,6 @@ use Money\Exception\ParserException;
 use Money\Money;
 use Money\Parser\IntlMoneyParser;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
 final class IntlMoneyParserTest extends TestCase
 {

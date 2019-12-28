@@ -7,7 +7,6 @@ use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Parser\DecimalMoneyParser;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
 final class DecimalMoneyParserTest extends TestCase
 {
