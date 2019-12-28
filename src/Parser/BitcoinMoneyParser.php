@@ -57,6 +57,7 @@ final class BitcoinMoneyParser implements MoneyParser
         }
 
         $decimal = str_replace(BitcoinCurrencies::SYMBOL, '', $money);
+
         return $this->parseDecimal($decimal, $this->fractionDigits, $currency);
     }
 }
