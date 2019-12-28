@@ -7,7 +7,10 @@ use Money\Exception\ParserException;
 use Money\Money;
 use Money\Number;
 
-trait DecimalParserTrait
+/**
+ * Common decimal parsing logic extracted from DecimalMoneyParser for reuse.
+ */
+trait DecimalParser
 {
     public static $decimalPattern = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
