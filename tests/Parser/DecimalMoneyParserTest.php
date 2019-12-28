@@ -18,7 +18,7 @@ final class DecimalMoneyParserTest extends TestCase
     public function it_parses_money($decimal, $currency, $subunit, $result)
     {
         $currencies = new Currencies\CurrencyList([
-            $currency => $subunit
+            $currency => $subunit,
         ]);
 
         $parser = new DecimalMoneyParser($currencies);
@@ -33,7 +33,7 @@ final class DecimalMoneyParserTest extends TestCase
     public function it_throws_an_exception_upon_invalid_inputs($input)
     {
         $currencies = new Currencies\CurrencyList([
-            'USD' => 2
+            'USD' => 2,
         ]);
 
         $parser = new DecimalMoneyParser($currencies);
@@ -50,7 +50,7 @@ final class DecimalMoneyParserTest extends TestCase
     public function it_accepts_only_a_currency_object()
     {
         $currencies = new Currencies\CurrencyList([
-            'USD' => 2
+            'USD' => 2,
         ]);
 
         $parser = new DecimalMoneyParser($currencies);

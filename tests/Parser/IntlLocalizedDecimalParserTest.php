@@ -21,7 +21,7 @@ final class IntlLocalizedDecimalParserTest extends TestCase
         $formatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
 
         $currencies = new Currencies\CurrencyList([
-            'USD' => 2
+            'USD' => 2,
         ]);
 
         $currency = new Currency('USD');

@@ -24,7 +24,7 @@ final class IntlMoneyParserTest extends TestCase
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $currencies = new Currencies\CurrencyList([
-            'USD' => 2
+            'USD' => 2,
         ]);
 
         $currency = new Currency('USD');
