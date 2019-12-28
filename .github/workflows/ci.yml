@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@1.5.8
+        uses: shivammathur/setup-php@1.6.2
         with:
           php-version: '5.6'
-          extension-csv: bcmath, gmp, intl, dom, mbstring
+          extensions: bcmath, gmp, intl, dom, mbstring
 
       - name: Set up locales
         run: |
@@ -54,10 +54,10 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@1.5.8
+        uses: shivammathur/setup-php@1.6.2
         with:
           php-version: ${{ matrix.php }}
-          extension-csv: bcmath, gmp, intl, dom, mbstring
+          extensions: bcmath, gmp, intl, dom, mbstring
 
       - name: Set up locales
         run: |
