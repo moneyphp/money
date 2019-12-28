@@ -14,8 +14,17 @@ use Money\Number;
  */
 trait DecimalParser
 {
+    /**
+     * @var string
+     */
     public static $decimalPattern = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
+    /**
+     * @param string $decimal
+     * @param int $subunit
+     * @param Currency $currency
+     * @return Money
+     */
     protected function parseDecimal($decimal, $subunit, Currency $currency)
     {
         $decimal = trim($decimal);
