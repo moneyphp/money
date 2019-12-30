@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Download dependencies
-        run: composer update --prefer-stable --prefer-lowest --prefer-dist --no-interaction
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest
 
       - name: Run tests
         run: composer test
@@ -48,9 +48,6 @@ jobs:
       max-parallel: 10
       matrix:
         php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
-        include:
-          - php: '5.6'
-            composer_flags: '--prefer-stable --prefer-lowest'
 
     steps:
       - name: Set up PHP
@@ -77,7 +74,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Download dependencies
-        run: composer update ${{ matrix.composer_flags }} --prefer-dist --no-interaction
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest
 
       - name: Run tests
         run: composer test
