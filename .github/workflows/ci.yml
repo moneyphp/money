@@ -21,11 +21,11 @@ jobs:
       - name: Setup Problem Matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Set up locales
-        run: ./hack/setup-locales.sh
-
       - name: Checkout code
         uses: actions/checkout@v1
+
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
 
       - name: Download dependencies
         run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest
@@ -51,11 +51,11 @@ jobs:
       - name: Setup Problem Matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Set up locales
-        run: ./hack/setup-locales.sh
-
       - name: Checkout code
         uses: actions/checkout@v1
+
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
 
       - name: Download dependencies
         run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest
