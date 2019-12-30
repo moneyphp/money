@@ -9,6 +9,7 @@ use Money\Exception\ParserException;
 use Money\Money;
 use Money\Parser\IntlLocalizedDecimalParser;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 
 final class IntlLocalizedDecimalParserTest extends TestCase
 {
@@ -20,13 +21,17 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     {
         $formatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
 
-        $currencies = new Currencies\CurrencyList([
-            'USD' => 2,
-        ]);
+        $currencies = $this->prophesize(Currencies::class);
 
-        $currency = new Currency('USD');
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
 
-        $parser = new IntlLocalizedDecimalParser($formatter, $currencies);
+        $currencyCode = 'USD';
+        $currency = new Currency($currencyCode);
+
+        $parser = new IntlLocalizedDecimalParser($formatter, $currencies->reveal());
         $this->assertEquals($units, $parser->parse($string, $currency)->getAmount());
     }
 

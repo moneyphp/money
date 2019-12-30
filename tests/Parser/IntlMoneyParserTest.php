@@ -9,6 +9,7 @@ use Money\Exception\ParserException;
 use Money\Money;
 use Money\Parser\IntlMoneyParser;
 use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
 
 final class IntlMoneyParserTest extends TestCase
 {
@@ -22,13 +23,17 @@ final class IntlMoneyParserTest extends TestCase
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $currencies = new Currencies\CurrencyList([
-            'USD' => 2,
-        ]);
+        $currencies = $this->prophesize(Currencies::class);
 
-        $currency = new Currency('USD');
+        $currencies->subunitFor(Argument::allOf(
+            Argument::type(Currency::class),
+            Argument::which('getCode', 'USD')
+        ))->willReturn(2);
 
-        $parser = new IntlMoneyParser($formatter, $currencies);
+        $currencyCode = 'USD';
+        $currency = new Currency($currencyCode);
+
+        $parser = new IntlMoneyParser($formatter, $currencies->reveal());
         $this->assertEquals($units, $parser->parse($string, $currency)->getAmount());
     }
 
