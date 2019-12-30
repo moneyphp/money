@@ -18,6 +18,9 @@ jobs:
           php-version: '5.6'
           extensions: bcmath, gmp, intl, dom, mbstring
 
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
       - name: Set up locales
         run: |
           set -e \
@@ -55,6 +58,9 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: bcmath, gmp, intl, dom, mbstring
+
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Set up locales
         run: |
