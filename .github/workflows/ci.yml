@@ -18,25 +18,17 @@ jobs:
           php-version: '5.6'
           extensions: bcmath, gmp, intl, dom, mbstring
 
-      - name: Set up locales
-        run: |
-          set -e \
-          && echo en_US ISO-8859-1 | sudo tee -a /etc/locale.gen \
-          && echo en_US.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && echo en_CA ISO-8859-1 | sudo tee -a /etc/locale.gen \
-          && echo en_CA.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && echo es_ES ISO-8859-1 | sudo tee -a /etc/locale.gen \
-          && echo es_ES.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && echo ru_RU ISO-8859-5 | sudo tee -a /etc/locale.gen \
-          && echo ru_RU.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && sudo locale-gen \
-          && sudo update-locale
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Checkout code
         uses: actions/checkout@v1
 
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
+
       - name: Download dependencies
-        run: composer update --prefer-stable --prefer-lowest --prefer-dist --no-interaction
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest
 
       - name: Run tests
         run: composer test
@@ -48,9 +40,6 @@ jobs:
       max-parallel: 10
       matrix:
         php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
-        include:
-          - php: '5.6'
-            composer_flags: '--prefer-stable --prefer-lowest'
 
     steps:
       - name: Set up PHP
@@ -59,25 +48,17 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: bcmath, gmp, intl, dom, mbstring
 
-      - name: Set up locales
-        run: |
-          set -e \
-          && echo en_US ISO-8859-1 | sudo tee -a /etc/locale.gen \
-          && echo en_US.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && echo en_CA ISO-8859-1 | sudo tee -a /etc/locale.gen \
-          && echo en_CA.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && echo es_ES ISO-8859-1 | sudo tee -a /etc/locale.gen \
-          && echo es_ES.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && echo ru_RU ISO-8859-5 | sudo tee -a /etc/locale.gen \
-          && echo ru_RU.UTF-8 UTF-8 | sudo tee -a /etc/locale.gen \
-          && sudo locale-gen \
-          && sudo update-locale
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Checkout code
         uses: actions/checkout@v1
 
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
+
       - name: Download dependencies
-        run: composer update ${{ matrix.composer_flags }} --prefer-dist --no-interaction
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest
 
       - name: Run tests
         run: composer test
