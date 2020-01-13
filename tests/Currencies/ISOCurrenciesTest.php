@@ -83,7 +83,7 @@ final class ISOCurrenciesTest extends TestCase
         $currencies = require __DIR__.'/../../resources/currency.php';
         $currencies = array_keys($currencies);
 
-        return array_map(function ($currency) {
+        return array_map(static function ($currency) {
             return [$currency];
         }, $currencies);
     }

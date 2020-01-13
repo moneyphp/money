@@ -65,7 +65,7 @@ final class ISOCurrencies implements Currencies
     {
         return new \ArrayIterator(
             array_map(
-                function ($code) {
+                static function ($code) {
                     return new Currency($code);
                 },
                 array_keys($this->getCurrencies())

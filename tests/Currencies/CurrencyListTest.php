@@ -76,7 +76,7 @@ final class CurrencyListTest extends TestCase
     {
         $currencies = array_keys(self::$correctCurrencies);
 
-        return array_map(function ($currency) {
+        return array_map(static function ($currency) {
             return [$currency];
         }, $currencies);
     }

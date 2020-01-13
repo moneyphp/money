@@ -73,7 +73,7 @@ final class IndirectExchange implements Exchange
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);
         } catch (UnresolvableCurrencyPairException $exception) {
-            $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), function ($carry, CurrencyPair $pair) {
+            $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), static function ($carry, CurrencyPair $pair) {
                 return static::getCalculator()->multiply($carry, $pair->getConversionRatio());
             }, '1.0');
 
