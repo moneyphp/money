@@ -514,6 +514,20 @@ final class Money implements \JsonSerializable
     }
 
     /**
+     * Returns a new Money object that represents
+     * the absolute difference between this and an other Money object
+     *
+     * @param \Money\Money $subtrahend
+     * @return \Money\Money
+     */
+    public function difference(Money $subtrahend)
+    {
+        $this->assertSameCurrency($subtrahend);
+
+        return new self(abs($this->amount - $subtrahend->amount), $this->currency);
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @return array

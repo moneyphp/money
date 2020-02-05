@@ -341,6 +341,23 @@ final class MoneyTest extends TestCase
         Money::avg(...[]);
     }
 
+    /**
+     * @test
+     */
+    public function it_calculates_the_absolute_difference()
+    {
+        $currency = new Currency('EUR');
+        $zero = new Money(0, $currency);
+        $one = new Money(1, $currency);
+        $four = new Money(4, $currency);
+        $five = new Money(5, $currency);
+        $ten = new Money(10, $currency);
+
+        $this->assertEquals($four, $one->difference($five));
+        $this->assertEquals($five, $ten->difference($five));
+        $this->assertEquals($zero, $ten->difference($ten));
+    }
+
     public function equalityExamples()
     {
         return [
