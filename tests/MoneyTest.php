@@ -344,7 +344,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function it_calculates_the_absolute_difference()
+    public function it_returns_the_absolute_difference()
     {
         $currency = new Currency('EUR');
         $zero = new Money(0, $currency);
