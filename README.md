@@ -25,7 +25,7 @@ use Money\Money;
 $fiveEur = Money::EUR(500);
 $tenEur = $fiveEur->add($fiveEur);
 
-list($part1, $part2, $part3) = $tenEur->allocate(array(1, 1, 1));
+list($part1, $part2, $part3) = $tenEur->allocate([1, 1, 1]);
 assert($part1->equals(Money::EUR(334)));
 assert($part2->equals(Money::EUR(333)));
 assert($part3->equals(Money::EUR(333)));
