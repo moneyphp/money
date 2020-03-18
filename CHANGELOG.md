@@ -10,6 +10,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [3.3.1] - 2019-03-13
+
+### Fixed
+
+- GMP: division of negative values
+- GMP: compare 0.x value
+
+
 ## [3.3.0] - 2019-12-27
 
 ### Changed
