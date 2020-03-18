@@ -136,6 +136,10 @@ final class GmpCalculator implements Calculator
             )
         );
 
+        if ($divisionOfRemainder[0] === '-') {
+            $divisionOfRemainder = substr($divisionOfRemainder, 1);
+        }
+
         return gmp_strval($integer).'.'.str_pad($divisionOfRemainder, $this->scale, '0', STR_PAD_LEFT);
     }
 
@@ -303,5 +307,13 @@ final class GmpCalculator implements Calculator
         }
 
         return gmp_strval($remainder);
+    }
+
+    /**
+     * @test
+     */
+    public function it_divides_bug538()
+    {
+        $this->assertSame('-4.54545454545455', $this->getCalculator()->divide('-500', 110));
     }
 }
