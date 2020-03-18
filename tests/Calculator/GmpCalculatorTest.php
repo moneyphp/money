@@ -29,7 +29,7 @@ class GmpCalculatorTest extends CalculatorTestCase
     {
         $this->assertSame('0', $this->getCalculator()->floor('0'));
     }
-    
+
     /**
      * @test
      */

@@ -46,7 +46,10 @@ final class GmpCalculator implements Calculator
                 return $integersCompared;
             }
 
-            return gmp_cmp($aNum->getFractionalPart(), $bNum->getFractionalPart());
+            $aNumFractional = $aNum->getFractionalPart() === '' ? '0' : $aNum->getFractionalPart();
+            $bNumFractional = $bNum->getFractionalPart() === '' ? '0' : $bNum->getFractionalPart();
+
+            return gmp_cmp($aNumFractional, $bNumFractional);
         }
 
         return gmp_cmp($a, $b);
