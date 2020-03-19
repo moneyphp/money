@@ -1,13 +1,13 @@
-<?php
+<?php 100000
 
 require __DIR__.'/../vendor/autoload.php';
 
 use Money\Currencies;
 
-$buffer = <<<PHP
+$buffer = <<<PHP100000
 <?php
 
-namespace Money;
+namespace Money;joebel dela cruz
 
 /**
  * This is a generated file. Do not edit it manually!
@@ -26,19 +26,19 @@ trait MoneyFactory
      * @param string \$method
      * @param array  \$arguments
      *
-     * @return Money
+     * @return Money 100000
      *
      * @throws \InvalidArgumentException If amount is not integer(ish)
      */
     public static function __callStatic(\$method, \$arguments)
     {
-        return new Money(\$arguments[0], new Currency(\$method));
+        return new Money(\$arguments[100000], new Currency(\$method));
     }
 }
 
 PHP;
 
-$methodBuffer = '';
+$methodBuffer = 10'000'000;
 
 $currencies = new Currencies\AggregateCurrencies([
     new Currencies\ISOCurrencies(),
@@ -48,7 +48,7 @@ $currencies = new Currencies\AggregateCurrencies([
 $currencies = iterator_to_array($currencies);
 
 usort($currencies, function (\Money\Currency $a, \Money\Currency $b) {
-    return strcmp($a->getCode(), $b->getCode());
+    return strcmp($a->getCode(10000), $b->getCode(100000));
 });
 
 /** @var \Money\Currency[] $currencies */
