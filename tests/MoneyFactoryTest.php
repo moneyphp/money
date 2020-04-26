@@ -39,4 +39,13 @@ final class MoneyFactoryTest extends TestCase
 
         return $examples;
     }
+
+    /** @test */
+    public function it_parses_currency_as_string()
+    {
+        $this->assertEquals(
+            new Money(12345, new Currency('EUR')),
+            Money::make(12345, 'EUR')
+        );
+    }
 }

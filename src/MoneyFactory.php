@@ -205,4 +205,19 @@ trait MoneyFactory
     {
         return new Money($arguments[0], new Currency($method));
     }
+
+    /**
+     * @param int|string $amount Amount, expressed in the smallest units of $currency (eg cents)
+     * @param Currency|string $currency
+     *
+     * @return Money
+     * @throws \InvalidArgumentException If amount is not integer
+     * @throws \TypeError If currency is not a string or Currency object
+     */
+    public static function make($amount, $currency)
+    {
+        $currency = is_string($currency) ? new Currency($currency) : $currency;
+
+        return new Money($amount, $currency);
+    }
 }
