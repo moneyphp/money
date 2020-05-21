@@ -49,7 +49,16 @@ abstract class CalculatorTestCase extends TestCase
     public function it_divides_a_value_by_another($value1, $value2, $expected)
     {
         $result = $this->getCalculator()->divide($value1, $value2);
-        $this->assertEquals(substr($expected, 0, strlen($result)), $result);
+        $this->assertEquals(substr($expected, 0, 12), substr($result, 0, 12));
+    }
+
+    /**
+     * @dataProvider divisionExactExamples
+     * @test
+     */
+    public function it_divides_a_value_by_another_exact($value1, $value2, $expected)
+    {
+        $this->assertEquals($expected, $this->getCalculator()->divide($value1, $value2));
     }
 
     /**
@@ -98,12 +107,26 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @dataProvider compareExamples
+     * @dataProvider compareLessExamples
      * @test
      */
-    public function it_compares_values($left, $right, $expected)
+    public function it_compares_values_less($left, $right)
     {
-        $this->assertEquals($expected, $this->getCalculator()->compare($left, $right));
+        // Compare with both orders. One must return a value less than zero,
+        // the other must return a value greater than zero.
+        $this->assertLessThan(0, $this->getCalculator()->compare($left, $right));
+        $this->assertGreaterThan(0, $this->getCalculator()->compare($right, $left));
+    }
+
+    /**
+     * @dataProvider compareEqualExamples
+     * @test
+     */
+    public function it_compares_values($left, $right)
+    {
+        // Compare with both orders, both must return zero.
+        $this->assertEquals(0, $this->getCalculator()->compare($left, $right));
+        $this->assertEquals(0, $this->getCalculator()->compare($right, $left));
     }
 
     /**
@@ -160,6 +183,20 @@ abstract class CalculatorTestCase extends TestCase
             [98, 25, '3.92'],
             [98, 24, '4.083333333333333'],
             [1, 5.1555, '0.19396760740956'],
+            ['-500', 110, '-4.54545454545455'],
+        ];
+    }
+
+    public function divisionExactExamples()
+    {
+        return [
+            [6, 3, '2'],
+            [100, 25, '4'],
+            [2, 4, '0.5'],
+            [20, 0.5, '40'],
+            [2, 0.5, '4'],
+            [98, 28, '3.5'],
+            [98, 25, '3.92'],
         ];
     }
 
@@ -196,17 +233,23 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function compareExamples()
+    public function compareLessExamples()
     {
         return [
-            [1, 0, 1],
-            [1, 1, 0],
-            [0, 1, -1],
-            ['1', '0', 1],
-            ['1', '1', 0],
-            ['0', '1', -1],
-            ['1', '0.0005', 1],
-            ['1', '0.000000000000000000000000005', 1],
+            [0, 1],
+            ['0', '1'],
+            ['0.0005', '1'],
+            ['0.000000000000000000000000005', '1'],
+            ['-1000', '1000', -1],
+        ];
+    }
+
+    public function compareEqualExamples()
+    {
+        return [
+            [1, 1],
+            ['1', '1'],
+            ['-1000', '-1000'],
         ];
     }
 

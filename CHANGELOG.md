@@ -9,14 +9,63 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [3.3.1] - 2019-03-13
+
+### Fixed
+
+- GMP: division of negative values
+- GMP: compare 0.x value
+
+
+## [3.3.0] - 2019-12-27
+
+### Changed
+
+- Added types for `Money` to be understood as pure/immutable downstream (#576)
+
+### Fixed
+
+- JSON serialization (#551)
+- Several documentation fixes
+- Minor fixes
+
+
+## [3.2.1] - 2019-02-07
+
+### Changed
+
+- `Money::allocate` now maintains keys of ratios array
+- All parsers now emit a deprecation warning when passing currency as string
+
+### Fixed
+
+- Docs fix : plus sign in numeric strings is allowed
+- Added ext-json as required extension
+- Throw exception in case of empty currency
+- BCMath calculator now uses scale parameters for addition and subtracting
+- Fixed allocation remainder bug
+- Added PHP 7.3 in test suite
+- Fixed dockerignore to ignore Dockerfile
+- Fixed Bitcoin parsing bug when using trailing zeros
+
+
+## [3.2.0] - 2018-12-05
+
 ### Added
 
 - [Exchanger](https://github.com/florianv/exchanger) exchange
 - Generated static factory to help IDEs understand code like `Money::EUR(500)`
+- Aggregation functions (min, max, avg, sum)
 
 ### Changed
 
 - `Money::add` and `Money::subtract` now accept variadic arguments
+
+### Fixed
+
+- Division causing unnecessary fractional parts
+- Numeric comparison for negative numbers
 
 
 ## [3.1.3] - 2018-02-16
@@ -290,7 +339,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
 
-[Unreleased]: https://github.com/moneyphp/money/compare/v3.1.3...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v3.3.0...HEAD
+[3.3.0]: https://github.com/moneyphp/money/compare/v3.2.1...v3.3.0
+[3.2.1]: https://github.com/moneyphp/money/compare/v3.2.0...v3.2.1
+[3.2.0]: https://github.com/moneyphp/money/compare/v3.1.3...v3.2.0
 [3.1.3]: https://github.com/moneyphp/money/compare/v3.1.2...v3.1.3
 [3.1.2]: https://github.com/moneyphp/money/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/moneyphp/money/compare/v3.1.0...v3.1.1

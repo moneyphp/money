@@ -8,7 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 final class MoneyTest extends TestCase
 {
-    use AggregateExamples, RoundExamples;
+    use AggregateExamples;
+    use RoundExamples;
 
     const AMOUNT = 10;
 
@@ -215,6 +216,11 @@ final class MoneyTest extends TestCase
             '{"amount":"350","currency":"EUR"}',
             json_encode(Money::EUR(350))
         );
+
+        $this->assertEquals(
+            ['amount' => '350', 'currency' => 'EUR'],
+            Money::EUR(350)->jsonSerialize()
+        );
     }
 
     /**
@@ -383,6 +389,10 @@ final class MoneyTest extends TestCase
             [0, [0, 0, 1], [0, 0, 0]],
             [2, [1, 1, 1], [1, 1, 0]],
             [1, [1, 1], [1, 0]],
+            [1, [0.33, 0.66], [0, 1]],
+            [101, [3, 7], [30, 71]],
+            [101, [7, 3], [71, 30]],
+            [101, ['foo' => 7, 'bar' => 3], ['foo' => 71, 'bar' => 30]],
         ];
     }
 

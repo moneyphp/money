@@ -73,6 +73,7 @@ provide the correct subunit for the specific currency, you should provide the sp
 
 .. code-block:: php
 
+    use Money\Currency;
     use Money\Currencies\ISOCurrencies;
     use Money\Parser\DecimalMoneyParser;
 
@@ -80,7 +81,7 @@ provide the correct subunit for the specific currency, you should provide the sp
 
     $moneyParser = new DecimalMoneyParser($currencies);
 
-    $money = $moneyParser->parse('1000', 'USD');
+    $money = $moneyParser->parse('1000', new Currency('USD'));
 
     echo $money->getAmount(); // outputs 100000
 
@@ -101,7 +102,7 @@ Most parsers throw an exception when the string's format is not supported.
     $intlParser = new IntlMoneyParser($numberFormatter, 2);
     $bitcoinParser = new BitcoinMoneyParser(2);
 
-    $moneyParser = new AggregateParser([
+    $moneyParser = new AggregateMoneyParser([
         $intlParser,
         $bitcoinParser,
     ]);

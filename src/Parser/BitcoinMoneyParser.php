@@ -41,10 +41,25 @@ final class BitcoinMoneyParser implements MoneyParser
             throw new ParserException('Value cannot be parsed as Bitcoin');
         }
 
+        if ($forceCurrency === null) {
+            $forceCurrency = new Currency(BitcoinCurrencies::CODE);
+        }
+
+        /*
+         * This conversion is only required whilst currency can be either a string or a
+         * Currency object.
+         */
+        $currency = $forceCurrency;
+        if (!$currency instanceof Currency) {
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+            $currency = new Currency($currency);
+        }
+
         $decimal = str_replace(BitcoinCurrencies::SYMBOL, '', $money);
         $decimalSeparator = strpos($decimal, '.');
 
         if (false !== $decimalSeparator) {
+            $decimal = rtrim($decimal, '0');
             $lengthDecimal = strlen($decimal);
             $decimal = str_replace('.', '', $decimal);
             $decimal .= str_pad('', ($lengthDecimal - $decimalSeparator - $this->fractionDigits - 1) * -1, '0');
@@ -62,6 +77,6 @@ final class BitcoinMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, new Currency(BitcoinCurrencies::CODE));
+        return new Money($decimal, $currency);
     }
 }
