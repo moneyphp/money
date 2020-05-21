@@ -46,7 +46,7 @@ final class ExponentialMoneyParser implements MoneyParser
 
         if (null === $forceCurrency) {
             throw new ParserException(
-                'DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument'
+                'ExponentialMoneyParser cannot parse currency symbols. Use forceCurrency argument'
             );
         }
 
