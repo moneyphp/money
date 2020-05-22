@@ -46,7 +46,10 @@ final class GmpCalculator implements Calculator
                 return $integersCompared;
             }
 
-            return gmp_cmp($aNum->getFractionalPart(), $bNum->getFractionalPart());
+            $aNumFractional = $aNum->getFractionalPart() === '' ? '0' : $aNum->getFractionalPart();
+            $bNumFractional = $bNum->getFractionalPart() === '' ? '0' : $bNum->getFractionalPart();
+
+            return gmp_cmp($aNumFractional, $bNumFractional);
         }
 
         return gmp_cmp($a, $b);
@@ -135,6 +138,10 @@ final class GmpCalculator implements Calculator
                 GMP_ROUND_MINUSINF
             )
         );
+
+        if ($divisionOfRemainder[0] === '-') {
+            $divisionOfRemainder = substr($divisionOfRemainder, 1);
+        }
 
         return gmp_strval($integer).'.'.str_pad($divisionOfRemainder, $this->scale, '0', STR_PAD_LEFT);
     }
@@ -303,5 +310,13 @@ final class GmpCalculator implements Calculator
         }
 
         return gmp_strval($remainder);
+    }
+
+    /**
+     * @test
+     */
+    public function it_divides_bug538()
+    {
+        $this->assertSame('-4.54545454545455', $this->getCalculator()->divide('-500', 110));
     }
 }
