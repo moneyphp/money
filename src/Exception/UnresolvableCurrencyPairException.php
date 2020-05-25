@@ -20,7 +20,7 @@ final class UnresolvableCurrencyPairException extends \InvalidArgumentException 
      *
      * @return UnresolvableCurrencyPairException
      */
-    public static function createFromCurrencies(Currency $baseCurrency, Currency $counterCurrency)
+    public static function createFromCurrencies(Currency $baseCurrency, Currency $counterCurrency, int $code = 0, \Throwable $previous = null)
     {
         $message = sprintf(
             'Cannot resolve a currency pair for currencies: %s/%s',
@@ -28,6 +28,6 @@ final class UnresolvableCurrencyPairException extends \InvalidArgumentException 
             $counterCurrency->getCode()
         );
 
-        return new self($message);
+        return new self($message, $code, $previous);
     }
 }
