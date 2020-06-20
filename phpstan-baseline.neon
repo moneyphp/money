@@ -41,11 +41,6 @@ parameters:
 			path: src/Calculator/BcMathCalculator.php
 
 		-
-			message: "#^PHPDoc tag @param has invalid value \\(\\$number\\)\\: Unexpected token \"\\$number\", expected type at offset 18$#"
-			count: 1
-			path: src/Calculator/BcMathCalculator.php
-
-		-
 			message: "#^Parameter \\#2 \\$right_operand of function bcdiv expects string, float\\|int\\|string given\\.$#"
 			count: 1
 			path: src/Calculator/BcMathCalculator.php
