@@ -21,9 +21,6 @@ final class ReversedCurrenciesExchange implements Exchange
      */
     private $exchange;
 
-    /**
-     * @param Exchange $exchange
-     */
     public function __construct(Exchange $exchange)
     {
         $this->exchange = $exchange;

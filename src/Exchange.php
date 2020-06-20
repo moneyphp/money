@@ -14,9 +14,6 @@ interface Exchange
     /**
      * Returns a currency pair for the passed currencies with the rate coming from a third-party source.
      *
-     * @param Currency $baseCurrency
-     * @param Currency $counterCurrency
-     *
      * @return CurrencyPair
      *
      * @throws UnresolvableCurrencyPairException When there is no currency pair (rate) available for the given currencies
