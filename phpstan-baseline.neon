@@ -191,47 +191,12 @@ parameters:
 			path: src/Currencies/AggregateCurrencies.php
 
 		-
-			message: "#^Class Cache\\\\Taggable\\\\TaggableItemInterface not found\\.$#"
-			count: 3
-			path: src/Currencies/CachedCurrencies.php
-
-		-
-			message: "#^Call to method addTag\\(\\) on an unknown class Cache\\\\Taggable\\\\TaggableItemInterface\\.$#"
-			count: 3
-			path: src/Currencies/CachedCurrencies.php
-
-		-
 			message: "#^Parameter \\#1 \\$it of class CallbackFilterIterator constructor expects Iterator, Traversable\\<mixed, mixed\\> given\\.$#"
 			count: 1
 			path: src/Currencies/CachedCurrencies.php
 
 		-
-			message: "#^Property Money\\\\Exchange\\\\ExchangerExchange\\:\\:\\$exchanger has unknown class Exchanger\\\\Contract\\\\ExchangeRateProvider as its type\\.$#"
-			count: 1
-			path: src/Exchange/ExchangerExchange.php
-
-		-
-			message: "#^Parameter \\$exchanger of method Money\\\\Exchange\\\\ExchangerExchange\\:\\:__construct\\(\\) has invalid typehint type Exchanger\\\\Contract\\\\ExchangeRateProvider\\.$#"
-			count: 1
-			path: src/Exchange/ExchangerExchange.php
-
-		-
-			message: "#^Instantiated class Exchanger\\\\ExchangeRateQuery not found\\.$#"
-			count: 1
-			path: src/Exchange/ExchangerExchange.php
-
-		-
-			message: "#^Instantiated class Exchanger\\\\CurrencyPair not found\\.$#"
-			count: 1
-			path: src/Exchange/ExchangerExchange.php
-
-		-
-			message: "#^Call to method getExchangeRate\\(\\) on an unknown class Exchanger\\\\Contract\\\\ExchangeRateProvider\\.$#"
-			count: 1
-			path: src/Exchange/ExchangerExchange.php
-
-		-
-			message: "#^Caught class Exchanger\\\\Exception\\\\Exception not found\\.$#"
+			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
 			count: 1
 			path: src/Exchange/ExchangerExchange.php
 
@@ -246,22 +211,7 @@ parameters:
 			path: src/Exchange/IndirectExchange.php
 
 		-
-			message: "#^Property Money\\\\Exchange\\\\SwapExchange\\:\\:\\$swap has unknown class Swap\\\\Swap as its type\\.$#"
-			count: 1
-			path: src/Exchange/SwapExchange.php
-
-		-
-			message: "#^Parameter \\$swap of method Money\\\\Exchange\\\\SwapExchange\\:\\:__construct\\(\\) has invalid typehint type Swap\\\\Swap\\.$#"
-			count: 1
-			path: src/Exchange/SwapExchange.php
-
-		-
-			message: "#^Call to method latest\\(\\) on an unknown class Swap\\\\Swap\\.$#"
-			count: 1
-			path: src/Exchange/SwapExchange.php
-
-		-
-			message: "#^Caught class Exchanger\\\\Exception\\\\Exception not found\\.$#"
+			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
 			count: 1
 			path: src/Exchange/SwapExchange.php
 
