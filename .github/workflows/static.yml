@@ -18,7 +18,7 @@ jobs:
       - name: Install
         uses: docker://composer
         with:
-          args: install --ignore-platform-reqs
+          args: install --ignore-platform-reqs --no-ansi --no-suggest
 
       - name: PHPStan
         uses: OskarStark/phpstan-ga@0.12.28
@@ -50,7 +50,7 @@ jobs:
       - name: Install
         uses: docker://composer
         with:
-          args: install --ignore-platform-reqs
+          args: install --ignore-platform-reqs --no-ansi --no-suggest
 
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
