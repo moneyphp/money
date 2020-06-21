@@ -21,7 +21,7 @@ jobs:
           args: install --ignore-platform-reqs --no-ansi --no-suggest
 
       - name: PHPStan
-        uses: docker://oskarstark/phpstan-ga@0.12.28
+        uses: docker://oskarstark/phpstan-ga:0.12.28
         with:
           entrypoint: ./.github/workflows/phpstan.entrypoint
           args: analyze --no-progress
