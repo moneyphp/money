@@ -52,7 +52,14 @@ final class MoneyTest extends TestCase
         }
     }
 
-
+    /**
+     * @test
+     */
+    public function it_throws_an_exception_when_amount_contains_newline()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Money::EUR("5000\n");
+    }
 
     /**
      * @dataProvider roundExamples
