@@ -45,6 +45,10 @@ final class Number
      */
     public static function fromString($number)
     {
+        if (\strspn($number, '1234567890.-') !== \strlen($number)) {
+            throw new \InvalidArgumentException('Number must be an integer(ish) value.');
+        }
+
         $decimalSeparatorPosition = strpos($number, '.');
         if ($decimalSeparatorPosition === false) {
             return new self($number, '');
