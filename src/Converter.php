@@ -19,10 +19,6 @@ final class Converter
      */
     private $exchange;
 
-    /**
-     * @param Currencies $currencies
-     * @param Exchange   $exchange
-     */
     public function __construct(Currencies $currencies, Exchange $exchange)
     {
         $this->currencies = $currencies;
@@ -30,9 +26,7 @@ final class Converter
     }
 
     /**
-     * @param Money    $money
-     * @param Currency $counterCurrency
-     * @param int      $roundingMode
+     * @param int $roundingMode
      *
      * @return Money
      */

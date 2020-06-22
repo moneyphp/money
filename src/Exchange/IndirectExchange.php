@@ -43,10 +43,6 @@ final class IndirectExchange implements Exchange
      */
     private $exchange;
 
-    /**
-     * @param Exchange   $exchange
-     * @param Currencies $currencies
-     */
     public function __construct(Exchange $exchange, Currencies $currencies)
     {
         $this->exchange = $exchange;
@@ -82,9 +78,6 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @param Currency $baseCurrency
-     * @param Currency $counterCurrency
-     *
      * @return CurrencyPair[]
      *
      * @throws UnresolvableCurrencyPairException
@@ -139,8 +132,6 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @param Currency $currency
-     *
      * @return \stdClass
      */
     private function initializeNode(Currency $currency)
@@ -155,9 +146,6 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @param array     $currencies
-     * @param \stdClass $goalNode
-     *
      * @return CurrencyPair[]
      */
     private function reconstructConversionChain(array $currencies, \stdClass $goalNode)

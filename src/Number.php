@@ -257,15 +257,11 @@ final class Number
             $digit = $number[$position];
 
             if (!isset(static::$numbers[$digit]) && !(0 === $position && '-' === $digit)) {
-                throw new \InvalidArgumentException(
-                    sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit)
-                );
+                throw new \InvalidArgumentException(sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit));
             }
 
             if (false === $nonZero && '0' === $digit) {
-                throw new \InvalidArgumentException(
-                    'Leading zeros are not allowed'
-                );
+                throw new \InvalidArgumentException('Leading zeros are not allowed');
             }
 
             $nonZero = true;
@@ -288,9 +284,7 @@ final class Number
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit])) {
-                throw new \InvalidArgumentException(
-                    sprintf('Invalid fractional part %1$s. Invalid digit %2$s found', $number, $digit)
-                );
+                throw new \InvalidArgumentException(sprintf('Invalid fractional part %1$s. Invalid digit %2$s found', $number, $digit));
             }
         }
 

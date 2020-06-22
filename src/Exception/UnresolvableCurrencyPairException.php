@@ -15,9 +15,6 @@ final class UnresolvableCurrencyPairException extends \InvalidArgumentException 
     /**
      * Creates an exception from Currency objects.
      *
-     * @param Currency $baseCurrency
-     * @param Currency $counterCurrency
-     *
      * @return UnresolvableCurrencyPairException
      */
     public static function createFromCurrencies(Currency $baseCurrency, Currency $counterCurrency)
