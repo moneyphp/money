@@ -2,8 +2,8 @@
 
 namespace Tests\Money;
 
-use Money\PHPUnit\Comparator;
 use Money\Money;
+use Money\PHPUnit\Comparator;
 use PHPUnit\Framework\TestCase;
 
 final class ComparatorTest extends TestCase

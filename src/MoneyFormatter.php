@@ -12,8 +12,6 @@ interface MoneyFormatter
     /**
      * Formats a Money object as string.
      *
-     * @param Money $money
-     *
      * @return string
      *
      * Exception\FormatterException

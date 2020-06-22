@@ -49,8 +49,6 @@ final class Currency implements \JsonSerializable
     /**
      * Checks whether this currency is the same as an other.
      *
-     * @param Currency $other
-     *
      * @return bool
      */
     public function equals(Currency $other)
@@ -60,8 +58,6 @@ final class Currency implements \JsonSerializable
 
     /**
      * Checks whether this currency is available in the passed context.
-     *
-     * @param Currencies $currencies
      *
      * @return bool
      */

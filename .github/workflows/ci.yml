@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@1.6.2
+        uses: shivammathur/setup-php@1.7.0
         with:
           php-version: '5.6'
           extensions: bcmath, gmp, intl, dom, mbstring
@@ -58,7 +58,7 @@ jobs:
         run: ./hack/setup-locales.sh
 
       - name: Download dependencies
-        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest
+        run: composer update --no-ansi --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest
 
       - name: Run tests
         run: composer test

@@ -60,8 +60,7 @@ final class Money implements \JsonSerializable
     ];
 
     /**
-     * @param int|string $amount   Amount, expressed in the smallest units of $currency (eg cents)
-     * @param Currency   $currency
+     * @param int|string $amount Amount, expressed in the smallest units of $currency (eg cents)
      *
      * @throws \InvalidArgumentException If amount is not integer
      */
@@ -97,8 +96,6 @@ final class Money implements \JsonSerializable
     /**
      * Checks whether a Money has the same Currency as this.
      *
-     * @param Money $other
-     *
      * @return bool
      */
     public function isSameCurrency(Money $other)
@@ -108,8 +105,6 @@ final class Money implements \JsonSerializable
 
     /**
      * Asserts that a Money has the same currency as this.
-     *
-     * @param Money $other
      *
      * @throws \InvalidArgumentException If $other has a different currency
      */
@@ -123,8 +118,6 @@ final class Money implements \JsonSerializable
     /**
      * Checks whether the value represented by this object equals to the other.
      *
-     * @param Money $other
-     *
      * @return bool
      */
     public function equals(Money $other)
@@ -137,8 +130,6 @@ final class Money implements \JsonSerializable
      * if the value of this object is considered to be respectively
      * less than, equal to, or greater than the other.
      *
-     * @param Money $other
-     *
      * @return int
      */
     public function compare(Money $other)
@@ -150,8 +141,6 @@ final class Money implements \JsonSerializable
 
     /**
      * Checks whether the value represented by this object is greater than the other.
-     *
-     * @param Money $other
      *
      * @return bool
      */
@@ -172,8 +161,6 @@ final class Money implements \JsonSerializable
 
     /**
      * Checks whether the value represented by this object is less than the other.
-     *
-     * @param Money $other
      *
      * @return bool
      */
@@ -268,10 +255,7 @@ final class Money implements \JsonSerializable
     private function assertOperand($operand)
     {
         if (!is_numeric($operand)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Operand should be a numeric value, "%s" given.',
-                is_object($operand) ? get_class($operand) : gettype($operand)
-            ));
+            throw new \InvalidArgumentException(sprintf('Operand should be a numeric value, "%s" given.', is_object($operand) ? get_class($operand) : gettype($operand)));
         }
     }
 
@@ -291,12 +275,7 @@ final class Money implements \JsonSerializable
                 self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY,
             ], true
         )) {
-            throw new \InvalidArgumentException(
-                'Rounding mode should be Money::ROUND_HALF_DOWN | '.
-                'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.
-                'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.
-                'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY'
-            );
+            throw new \InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | '.'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY');
         }
     }
 
@@ -349,8 +328,6 @@ final class Money implements \JsonSerializable
      * the remainder after dividing the value by
      * the given factor.
      *
-     * @param Money $divisor
-     *
      * @return Money
      */
     public function mod(Money $divisor)
@@ -362,8 +339,6 @@ final class Money implements \JsonSerializable
 
     /**
      * Allocate the money according to a list of ratios.
-     *
-     * @param array $ratios
      *
      * @return Money[]
      */
@@ -433,8 +408,6 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * @param Money $money
-     *
      * @return string
      */
     public function ratioOf(Money $money)
