@@ -31,9 +31,7 @@ final class CurrencyPair implements \JsonSerializable
     private $conversionRatio;
 
     /**
-     * @param Currency $baseCurrency
-     * @param Currency $counterCurrency
-     * @param float    $conversionRatio
+     * @param float $conversionRatio
      *
      * @throws \InvalidArgumentException If conversion ratio is not numeric
      */
@@ -66,12 +64,7 @@ final class CurrencyPair implements \JsonSerializable
         $matches = [];
 
         if (!preg_match($pattern, $iso, $matches)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    'Cannot create currency pair from ISO string "%s", format of string is invalid',
-                    $iso
-                )
-            );
+            throw new \InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
         }
 
         return new self(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
@@ -109,8 +102,6 @@ final class CurrencyPair implements \JsonSerializable
 
     /**
      * Checks if an other CurrencyPair has the same parameters as this.
-     *
-     * @param CurrencyPair $other
      *
      * @return bool
      */

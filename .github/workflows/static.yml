@@ -18,10 +18,10 @@ jobs:
       - name: Install
         uses: docker://composer
         with:
-          args: install --ignore-platform-reqs
+          args: install --ignore-platform-reqs --no-ansi --no-suggest
 
       - name: PHPStan
-        uses: docker://oskarstark/phpstan-ga
+        uses: docker://oskarstark/phpstan-ga:0.12.28
         with:
           entrypoint: ./.github/workflows/phpstan.entrypoint
           args: analyze --no-progress
@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: PHP-CS-Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga:2.14.0
+        uses: docker://oskarstark/php-cs-fixer-ga:2.16.3.1
         with:
           args: --dry-run --diff-format udiff
 
@@ -50,10 +50,10 @@ jobs:
       - name: Install
         uses: docker://composer
         with:
-          args: install --ignore-platform-reqs
+          args: install --ignore-platform-reqs --no-ansi --no-suggest
 
       - name: Psalm
-        uses: docker://muglug/psalm-github-actions
+        uses: docker://vimeo/psalm-github-actions
         with:
           entrypoint: ./.github/workflows/psalm.entrypoint
           args: --threads=8 --diff --diff-methods

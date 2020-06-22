@@ -208,8 +208,6 @@ final class BcMathCalculator implements Calculator
     }
 
     /**
-     * @param $number
-     *
      * @return string
      */
     private function roundDigit(Number $number)
