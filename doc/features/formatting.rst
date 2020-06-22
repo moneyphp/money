@@ -36,11 +36,12 @@ correct subunit for the specific currency, you should also provide the specific 
     echo $moneyFormatter->format($money); // outputs $1.00
 
 
-Intl Decimal Formatter
-----------------------
+Intl Localized Decimal Formatter
+--------------------------------
 
 As its name says, this formatter requires the `intl` extension and uses ``NumberFormatter``. In order to provide the
-correct subunit for the specific currency, you should also provide the specific currency repository.
+correct subunit for the specific currency, you should also provide the specific currency repository. This formatter
+prints a localized decimal value and therefore does not include a currency sign.
 
 
 .. warning::
@@ -51,14 +52,14 @@ correct subunit for the specific currency, you should also provide the specific 
 
     use Money\Currencies\ISOCurrencies;
     use Money\Currency;
-    use Money\Formatter\IntlMoneyFormatter;
+    use Money\Formatter\IntlLocalizedDecimalFormatter;
     use Money\Money;
 
     $money = new Money(100000, new Currency('EUR'));
     $currencies = new ISOCurrencies();
 
     $numberFormatter = new \NumberFormatter('nl_NL', \NumberFormatter::DECIMAL);
-    $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
+    $moneyFormatter = new IntlLocalizedDecimalFormatter($numberFormatter, $currencies);
 
     echo $moneyFormatter->format($money); // outputs 1.000,00
 
