@@ -23,9 +23,6 @@ final class DecimalMoneyParser implements MoneyParser
      */
     private $currencies;
 
-    /**
-     * @param Currencies $currencies
-     */
     public function __construct(Currencies $currencies)
     {
         $this->currencies = $currencies;
@@ -41,9 +38,7 @@ final class DecimalMoneyParser implements MoneyParser
         }
 
         if (null === $forceCurrency) {
-            throw new ParserException(
-                'DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument'
-            );
+            throw new ParserException('DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument');
         }
 
         /*
@@ -65,10 +60,7 @@ final class DecimalMoneyParser implements MoneyParser
         $subunit = $this->currencies->subunitFor($currency);
 
         if (!preg_match(self::DECIMAL_PATTERN, $decimal, $matches) || !isset($matches['digits'])) {
-            throw new ParserException(sprintf(
-                'Cannot parse "%s" to Money.',
-                $decimal
-            ));
+            throw new ParserException(sprintf('Cannot parse "%s" to Money.', $decimal));
         }
 
         $negative = isset($matches['sign']) && $matches['sign'] === '-';
