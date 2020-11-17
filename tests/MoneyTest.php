@@ -307,7 +307,7 @@ final class MoneyTest extends TestCase
      */
     public function it_throws_when_instantiating_with_null()
     {
-        $this->expectException(\InvalidArgumentException);
+        $this->expectException(\InvalidArgumentException::class);
         new Money(null, new Currency('EUR'));
     }
 
