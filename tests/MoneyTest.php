@@ -305,6 +305,16 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
+    public function it_throws_when_instantiating_with_null()
+    {
+        $this->expectException(\InvalidArgumentException);
+        new Money(null, new Currency('EUR'));
+    }
+
+    /**
+     * @test
+     * @requires PHP 7.0
+     */
     public function it_throws_when_calculating_min_with_zero_arguments()
     {
         $this->expectException(\Throwable::class);
