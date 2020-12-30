@@ -16,12 +16,12 @@ class BcMathCalculatorTest extends CalculatorTestCase
         return new BcMathCalculator();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->defaultScale = ini_get('bcmath.scale');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         bcscale($this->defaultScale);
     }
@@ -62,7 +62,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
      */
     public function it_uses_scale_for_add()
     {
-        $this->assertEquals('0.00130154000000', $this->getCalculator()->add('0.00125148', '0.00005006'));
+        $this->assertEquals(0.00130154000000, $this->getCalculator()->add('0.00125148', '0.00005006'));
     }
 
     /**
@@ -70,6 +70,6 @@ class BcMathCalculatorTest extends CalculatorTestCase
      */
     public function it_uses_scale_for_subtract()
     {
-        $this->assertEquals('0.00120142', $this->getCalculator()->subtract('0.00125148', '0.00005006'));
+        $this->assertEquals(0.00120142, $this->getCalculator()->subtract('0.00125148', '0.00005006'));
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Money\Currencies;
 
-use Cache\Taggable\TaggableItemInterface;
+use Cache\TagInterop\TaggableCacheItemInterface;
 use Money\Currencies;
 use Money\Currency;
 use Psr\Cache\CacheItemPoolInterface;
@@ -40,8 +40,8 @@ final class CachedCurrencies implements Currencies
         if (false === $item->isHit()) {
             $item->set($this->currencies->contains($currency));
 
-            if ($item instanceof TaggableItemInterface) {
-                $item->addTag('currency.availability');
+            if ($item instanceof TaggableCacheItemInterface) {
+                $item->setTags(['currency.availability']);
             }
 
             $this->pool->save($item);
@@ -60,8 +60,8 @@ final class CachedCurrencies implements Currencies
         if (false === $item->isHit()) {
             $item->set($this->currencies->subunitFor($currency));
 
-            if ($item instanceof TaggableItemInterface) {
-                $item->addTag('currency.subunit');
+            if ($item instanceof TaggableCacheItemInterface) {
+                $item->setTags(['currency.subunit']);
             }
 
             $this->pool->save($item);
@@ -81,8 +81,8 @@ final class CachedCurrencies implements Currencies
                 $item = $this->pool->getItem('currency|availability|'.$currency->getCode());
                 $item->set(true);
 
-                if ($item instanceof TaggableItemInterface) {
-                    $item->addTag('currency.availability');
+                if ($item instanceof TaggableCacheItemInterface) {
+                    $item->setTags(['currency.availability']);
                 }
 
                 $this->pool->save($item);

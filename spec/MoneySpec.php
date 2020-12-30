@@ -392,7 +392,7 @@ final class MoneySpec extends ObjectBehavior
         $this->shouldThrow(\InvalidArgumentException::class)->duringMod(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'equalAllocation' => function ($subject, $value) {

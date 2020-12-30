@@ -47,13 +47,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
-      - name: Install
-        uses: docker://composer
-        with:
-          args: install --ignore-platform-reqs --no-ansi --no-suggest
-
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
-        with:
-          entrypoint: ./.github/workflows/psalm.entrypoint
-          args: --threads=8 --diff --diff-methods
+        env:
+          CHECK_PLATFORM_REQUIREMENTS: false

@@ -13,7 +13,7 @@ final class ComparatorTest extends TestCase
      */
     protected $comparator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->comparator = new Comparator();
     }
@@ -43,7 +43,7 @@ final class ComparatorTest extends TestCase
             $this->comparator->assertEquals($money_a, $money_b);
         } catch (\SebastianBergmann\Comparator\ComparisonFailure $e) {
             $this->assertEquals('Failed asserting that two Money objects are equal.', $e->getMessage());
-            $this->assertContains(
+            $this->assertStringContainsString(
                 '--- Expected
 +++ Actual
 @@ @@

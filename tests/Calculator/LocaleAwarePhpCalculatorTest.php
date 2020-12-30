@@ -4,7 +4,7 @@ namespace Tests\Money\Calculator;
 
 final class LocaleAwarePhpCalculatorTest extends PhpCalculatorTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

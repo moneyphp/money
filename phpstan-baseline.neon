@@ -196,11 +196,6 @@ parameters:
 			path: src/Currencies/CachedCurrencies.php
 
 		-
-			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
-			count: 1
-			path: src/Exchange/ExchangerExchange.php
-
-		-
 			message: "#^Method Money\\\\Exchange\\\\IndirectExchange\\:\\:registerCalculator\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: src/Exchange/IndirectExchange.php
@@ -209,11 +204,6 @@ parameters:
 			message: "#^Cannot instantiate interface Money\\\\Calculator\\.$#"
 			count: 1
 			path: src/Exchange/IndirectExchange.php
-
-		-
-			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
-			count: 1
-			path: src/Exchange/SwapExchange.php
 
 		-
 			message: "#^Strict comparison using \\=\\=\\= between false and true will always evaluate to false\\.$#"
