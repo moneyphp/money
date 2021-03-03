@@ -133,7 +133,7 @@ final class CurrencyPair implements \JsonSerializable
      *
      * @param array $state
      *
-     * @return Currency
+     * @return CurrencyPair
      */
     public static function __set_state($state)
     {
