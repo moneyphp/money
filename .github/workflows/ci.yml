@@ -1,0 +1,88 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build-lowest-version:
+    name: Build lowest version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@1.7.0
+        with:
+          php-version: '5.6'
+          extensions: bcmath, gmp, intl, dom, mbstring
+
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
+
+      - name: Download dependencies
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest
+
+      - name: Run tests
+        run: composer test
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      matrix:
+        php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@1.6.2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: bcmath, gmp, intl, dom, mbstring
+
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
+
+      - name: Download dependencies
+        run: composer update --no-ansi --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest
+
+      - name: Run tests
+        run: composer test
+
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.x'
+          architecture: 'x64'
+
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install enchant
+          pip install --user -r doc/requirements.txt
+
+      - name: Build docs
+        run: |
+          export PATH="/home/runner/.local/bin:$PATH"
+          make -C doc SPHINXOPTS='-nW' html
+          make -C doc spelling

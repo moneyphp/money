@@ -1,9 +1,13 @@
 {
     "name": "moneyphp/money",
     "description": "PHP implementation of Fowler's Money pattern",
-    "license": "MIT",
-    "keywords": ["money", "vo", "value object"],
+    "keywords": [
+        "money",
+        "vo",
+        "value object"
+    ],
     "homepage": "http://moneyphp.org",
+    "license": "MIT",
     "authors": [
         {
             "name": "Mathias Verraes",
@@ -24,29 +28,37 @@
         "ext-json": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7 || ^6.4 || ^7.0",
-        "symfony/phpunit-bridge": "^4",
         "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
+        "cache/taggable-cache": "^0.4.0",
+        "doctrine/instantiator": "^1.0.5",
         "florianv/exchanger": "^1.0",
         "florianv/swap": "^3.0",
-        "psr/cache": "^1.0",
-        "cache/taggable-cache": "^0.4.0",
-        "phpspec/phpspec": "^3.0",
-        "leanphp/phpspec-code-coverage": "^3.0 || ^4.0",
-        "doctrine/instantiator": "^1.0.5",
-        "moneyphp/iso-currencies": "^3.0",
+        "friends-of-phpspec/phpspec-code-coverage": "^3.1.1 || ^4.3",
+        "moneyphp/iso-currencies": "^3.2.1",
         "php-http/message": "^1.4",
-        "php-http/mock-client": "^1.0.0"
+        "php-http/mock-client": "^1.0.0",
+        "phpspec/phpspec": "^3.4.3",
+        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.18 || ^8.5",
+        "psr/cache": "^1.0",
+        "symfony/phpunit-bridge": "^4"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",
         "ext-gmp": "Calculate without integer limits",
         "ext-intl": "Format Money objects with intl",
-        "florianv/swap": "Exchange rates library for PHP",
         "florianv/exchanger": "Exchange rates library for PHP",
+        "florianv/swap": "Exchange rates library for PHP",
         "psr/cache-implementation": "Used for Currency caching"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        }
     },
     "autoload": {
         "psr-4": {
@@ -59,9 +71,8 @@
             "spec\\Money\\": "spec/"
         }
     },
-    "config": {
-        "sort-packages": true
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "clean": "rm -rf build/ vendor/",
         "test": [
@@ -76,12 +87,5 @@
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
             "php resources/generate-money-factory.php"
         ]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0-dev"
-        }
-    },
-    "prefer-stable": true,
-    "minimum-stability": "dev"
+    }
 }

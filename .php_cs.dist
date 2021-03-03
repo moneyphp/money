@@ -1,12 +1,5 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()
-    ->exclude('spec')
-    ->exclude('resources')
-    ->in(__DIR__)
-    ->notPath('src/MoneyFactory.php')
-;
-
 return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
@@ -14,5 +7,11 @@ return PhpCsFixer\Config::create()
         'yoda_style' => false,
         'self_accessor' => false,
     ])
-    ->setFinder($finder)
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->exclude('spec')
+            ->exclude('resources')
+            ->notPath('src/MoneyFactory.php')
+            ->in(__DIR__)
+    )
 ;

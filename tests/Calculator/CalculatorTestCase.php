@@ -49,7 +49,7 @@ abstract class CalculatorTestCase extends TestCase
     public function it_divides_a_value_by_another($value1, $value2, $expected)
     {
         $result = $this->getCalculator()->divide($value1, $value2);
-        $this->assertEquals(substr($expected, 0, strlen($result)), $result);
+        $this->assertEquals(substr($expected, 0, 12), substr($result, 0, 12));
     }
 
     /**
@@ -183,6 +183,7 @@ abstract class CalculatorTestCase extends TestCase
             [98, 25, '3.92'],
             [98, 24, '4.083333333333333'],
             [1, 5.1555, '0.19396760740956'],
+            ['-500', 110, '-4.54545454545455'],
         ];
     }
 

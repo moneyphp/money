@@ -1,9 +1,7 @@
 # Money
 
 [![Latest Version](https://img.shields.io/github/release/moneyphp/money.svg?style=flat-square)](https://github.com/moneyphp/money/releases)
-[![Build Status](https://img.shields.io/travis/moneyphp/money/master.svg?style=flat-square)](https://travis-ci.org/moneyphp/money)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/moneyphp/money.svg?style=flat-square)](https://scrutinizer-ci.com/g/moneyphp/money)
-[![Quality Score](https://img.shields.io/scrutinizer/g/moneyphp/money.svg?style=flat-square)](https://scrutinizer-ci.com/g/moneyphp/money)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/php-http/message/CI?style=flat-square)
 [![Total Downloads](https://img.shields.io/packagist/dt/moneyphp/money.svg?style=flat-square)](https://packagist.org/packages/moneyphp/money)
 
 [![Email](https://img.shields.io/badge/email-team@moneyphp.org-blue.svg?style=flat-square)](mailto:team@moneyphp.org)
@@ -27,7 +25,7 @@ use Money\Money;
 $fiveEur = Money::EUR(500);
 $tenEur = $fiveEur->add($fiveEur);
 
-list($part1, $part2, $part3) = $tenEur->allocate(array(1, 1, 1));
+list($part1, $part2, $part3) = $tenEur->allocate([1, 1, 1]);
 assert($part1->equals(Money::EUR(334)));
 assert($part2->equals(Money::EUR(333)));
 assert($part3->equals(Money::EUR(333)));

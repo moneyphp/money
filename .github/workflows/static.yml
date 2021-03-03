@@ -1,0 +1,59 @@
+name: Static analysis
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install
+        uses: docker://composer
+        with:
+          args: install --ignore-platform-reqs --no-ansi --no-suggest
+
+      - name: PHPStan
+        uses: docker://oskarstark/phpstan-ga:0.12.28
+        with:
+          entrypoint: ./.github/workflows/phpstan.entrypoint
+          args: analyze --no-progress
+
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga:2.16.3.1
+        with:
+          args: --dry-run --diff-format udiff
+
+  psalm:
+    name: Psalm
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install
+        uses: docker://composer
+        with:
+          args: install --ignore-platform-reqs --no-ansi --no-suggest
+
+      - name: Psalm
+        uses: docker://vimeo/psalm-github-actions
+        with:
+          entrypoint: ./.github/workflows/psalm.entrypoint
+          args: --threads=8 --diff --diff-methods

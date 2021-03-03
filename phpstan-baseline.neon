@@ -1,0 +1,332 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Property Money\\\\Calculator\\\\BcMathCalculator\\:\\:\\$scale \\(string\\) does not accept int\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bccomp expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcadd expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$amount\\)\\: Unexpected token \"\\$amount\", expected type at offset 46$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$subtrahend\\)\\: Unexpected token \"\\$subtrahend\", expected type at offset 68$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcsub expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcmul expects int, string given\\.$#"
+			count: 2
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Method Money\\\\Calculator\\\\BcMathCalculator\\:\\:divide\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#3 \\$scale of function bcdiv expects int, string given\\.$#"
+			count: 2
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of method Money\\\\Calculator\\\\BcMathCalculator\\:\\:floor\\(\\) expects string, string\\|null given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$right_operand of function bcdiv expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$right_operand of function bcmul expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Method Money\\\\Calculator\\\\BcMathCalculator\\:\\:mod\\(\\) should return string but returns string\\|null\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$right_operand of function bcmod expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/BcMathCalculator.php
+
+		-
+			message: "#^Property Money\\\\Calculator\\\\GmpCalculator\\:\\:\\$scale \\(string\\) does not accept int\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Parameter \\#2 \\$pad_length of function str_pad expects int, string given\\.$#"
+			count: 2
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$number\\)\\: Unexpected token \"\\$number\", expected type at offset 18$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of method Money\\\\Calculator\\\\GmpCalculator\\:\\:absolute\\(\\) expects string, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Method Money\\\\Calculator\\\\GmpCalculator\\:\\:it_divides_bug538\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Call to an undefined method Money\\\\Calculator\\\\GmpCalculator\\:\\:assertSame\\(\\)\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Call to an undefined method Money\\\\Calculator\\\\GmpCalculator\\:\\:getCalculator\\(\\)\\.$#"
+			count: 1
+			path: src/Calculator/GmpCalculator.php
+
+		-
+			message: "#^Binary operation \"\\+\" between string and string results in an error\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Binary operation \"\\-\" between string and string results in an error\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Binary operation \"\\*\" between string and float\\|int\\|string results in an error\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertIntegerBounds\\(\\) expects int, float\\|int given\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:castInteger\\(\\) expects int, float\\|int given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function ceil expects float, string given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:castInteger\\(\\) expects int, float given\\.$#"
+			count: 6
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function floor expects float, string given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$amount of method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertIntegerBounds\\(\\) expects int, string given\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function round expects float, string given\\.$#"
+			count: 2
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Parameter \\#1 \\$number of function round expects float, float\\|int\\|string given\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertIntegerBounds\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Method Money\\\\Calculator\\\\PhpCalculator\\:\\:assertInteger\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between int and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/Calculator/PhpCalculator.php
+
+		-
+			message: "#^Interface Money\\\\Currencies extends generic interface IteratorAggregate but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: src/Currencies.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and true will always evaluate to false\\.$#"
+			count: 1
+			path: src/Currencies/AggregateCurrencies.php
+
+		-
+			message: "#^Parameter \\#1 \\$it of method AppendIterator\\:\\:append\\(\\) expects Iterator, Traversable\\<mixed, mixed\\> given\\.$#"
+			count: 1
+			path: src/Currencies/AggregateCurrencies.php
+
+		-
+			message: "#^Parameter \\#1 \\$it of class CallbackFilterIterator constructor expects Iterator, Traversable\\<mixed, mixed\\> given\\.$#"
+			count: 1
+			path: src/Currencies/CachedCurrencies.php
+
+		-
+			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
+			count: 1
+			path: src/Exchange/ExchangerExchange.php
+
+		-
+			message: "#^Method Money\\\\Exchange\\\\IndirectExchange\\:\\:registerCalculator\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Cannot instantiate interface Money\\\\Calculator\\.$#"
+			count: 1
+			path: src/Exchange/IndirectExchange.php
+
+		-
+			message: "#^Parameter \\#3 \\$conversionRatio of class Money\\\\CurrencyPair constructor expects float, string given\\.$#"
+			count: 1
+			path: src/Exchange/SwapExchange.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and true will always evaluate to false\\.$#"
+			count: 1
+			path: src/Formatter/AggregateMoneyFormatter.php
+
+		-
+			message: "#^Parameter \\#3 \\$length of function substr expects int, int\\|false given\\.$#"
+			count: 1
+			path: src/Formatter/BitcoinMoneyFormatter.php
+
+		-
+			message: "#^Parameter \\#1 \\$num of method NumberFormatter\\:\\:formatCurrency\\(\\) expects float, string given\\.$#"
+			count: 1
+			path: src/Formatter/IntlMoneyFormatter.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:assertSameCurrency\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$addends with type array\\<Money\\\\Money\\> is incompatible with native type Money\\\\Money\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^PHPDoc tag @param for parameter \\$subtrahends with type array\\<Money\\\\Money\\> is incompatible with native type Money\\\\Money\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:assertOperand\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Call to function is_object\\(\\) with string will always evaluate to false\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:assertRoundingMode\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Binary operation \"\\*\" between \\(float\\|int\\) and string results in an error\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Parameter \\#2 \\$b of method Money\\\\Calculator\\:\\:compare\\(\\) expects string, int given\\.$#"
+			count: 3
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Money\\:\\:registerCalculator\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Cannot instantiate interface Money\\\\Calculator\\.$#"
+			count: 1
+			path: src/Money.php
+
+		-
+			message: "#^Method Money\\\\Number\\:\\:fromString\\(\\) has parameter \\$number with no typehint specified\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(\\$number\\)\\: Unexpected token \"\\$number\", expected type at offset 18$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Parameter \\#1 \\$integerPart of class Money\\\\Number constructor expects string, int given\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Binary operation \"\\+\" between int and 1\\|string results in an error\\.$#"
+			count: 1
+			path: src/Number.php
+
+		-
+			message: "#^Method Money\\\\PHPUnit\\\\Comparator\\:\\:assertEquals\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: src/PHPUnit/Comparator.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and true will always evaluate to false\\.$#"
+			count: 1
+			path: src/Parser/AggregateMoneyParser.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between true and false will always evaluate to false\\.$#"
+			count: 1
+			path: src/Parser/BitcoinMoneyParser.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between false and float will always evaluate to false\\.$#"
+			count: 1
+			path: src/Parser/IntlMoneyParser.php
+

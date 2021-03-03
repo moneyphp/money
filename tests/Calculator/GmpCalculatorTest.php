@@ -29,4 +29,12 @@ class GmpCalculatorTest extends CalculatorTestCase
     {
         $this->assertSame('0', $this->getCalculator()->floor('0'));
     }
+
+    /**
+     * @test
+     */
+    public function it_compares_zero_with_fraction()
+    {
+        $this->assertSame(1, $this->getCalculator()->compare('0.5', '0'));
+    }
 }

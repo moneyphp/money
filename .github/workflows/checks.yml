@@ -1,0 +1,42 @@
+name: Checks
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  composer-normalize:
+    name: Composer Normalize
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Install
+        uses: docker://composer
+        with:
+          args: install --ignore-platform-reqs
+
+      - name: Require normalize
+        uses: docker://composer
+        with:
+          args: require --dev --ignore-platform-reqs ergebnis/composer-normalize
+
+      - name: Normalize
+        uses: docker://composer
+        with:
+          args: composer normalize --dry-run
+
+  # roave-bc-check:
+  #   name: Roave BC Check
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v1
+
+  #     - name: Roave BC Check
+  #       uses: docker://nyholm/roave-bc-check-ga
