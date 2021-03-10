@@ -79,16 +79,9 @@ final class GmpCalculator implements Calculator
         $multiplier = Number::fromNumber($multiplier);
 
         if ($multiplier->isDecimal()) {
-            $decimalPlaces = strlen($multiplier->getFractionalPart());
-            $multiplierBase = $multiplier->getIntegerPart();
+            list($multiplier, $decimalPlaces) = $this->ensureIntegerNumber($multiplier);
 
-            if ($multiplierBase) {
-                $multiplierBase .= $multiplier->getFractionalPart();
-            } else {
-                $multiplierBase = ltrim($multiplier->getFractionalPart(), '0');
-            }
-
-            $resultBase = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplierBase)));
+            $resultBase = gmp_strval(gmp_mul(gmp_init($amount), gmp_init((string) $multiplier)));
 
             if ('0' === $resultBase) {
                 return '0';
@@ -114,13 +107,7 @@ final class GmpCalculator implements Calculator
         $divisor = Number::fromNumber($divisor);
 
         if ($divisor->isDecimal()) {
-            $decimalPlaces = strlen($divisor->getFractionalPart());
-
-            if ($divisor->getIntegerPart()) {
-                $divisor = new Number($divisor->getIntegerPart().$divisor->getFractionalPart());
-            } else {
-                $divisor = new Number(ltrim($divisor->getFractionalPart(), '0'));
-            }
+            list($divisor, $decimalPlaces) = $this->ensureIntegerNumber($divisor);
 
             $amount = gmp_strval(gmp_mul(gmp_init($amount), gmp_init('1'.str_pad('', $decimalPlaces, '0'))));
         }
@@ -144,6 +131,35 @@ final class GmpCalculator implements Calculator
         }
 
         return gmp_strval($integer).'.'.str_pad($divisionOfRemainder, $this->scale, '0', STR_PAD_LEFT);
+    }
+
+    /**
+     * @param Number $number
+     *
+     * @return array
+     */
+    private function ensureIntegerNumber(Number $number)
+    {
+        $decimalPlaces = 0;
+
+        if ($number->isDecimal()) {
+            $decimalPlaces = strlen($number->getFractionalPart());
+            $numberBase = $this->absolute($number->getIntegerPart());
+
+            if ($numberBase) {
+                $numberBase .= $number->getFractionalPart();
+            } else {
+                $numberBase = ltrim($number->getFractionalPart(), '0');
+            }
+
+            if ($number->isNegative()) {
+                $numberBase = '-' . $numberBase;
+            }
+
+            $number = new Number($numberBase);
+        }
+
+        return [$number, $decimalPlaces];
     }
 
     /**
