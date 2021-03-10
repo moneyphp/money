@@ -77,10 +77,12 @@ final class Currency implements \JsonSerializable
     /**
      * {@inheritdoc}
      *
-     * @return string
+     * @return array
      */
     public function jsonSerialize()
     {
-        return $this->code;
+        return [
+            "code" => $this->code,
+        ];
     }
 }
