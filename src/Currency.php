@@ -82,7 +82,7 @@ final class Currency implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            "code" => $this->code,
+            'code' => $this->code,
         ];
     }
 }
