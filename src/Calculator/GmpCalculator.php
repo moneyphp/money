@@ -134,8 +134,6 @@ final class GmpCalculator implements Calculator
     }
 
     /**
-     * @param Number $number
-     *
      * @return array
      */
     private function ensureIntegerNumber(Number $number)
@@ -153,7 +151,7 @@ final class GmpCalculator implements Calculator
             }
 
             if ($number->isNegative()) {
-                $numberBase = '-' . $numberBase;
+                $numberBase = '-'.$numberBase;
             }
 
             $number = new Number($numberBase);
