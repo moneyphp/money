@@ -275,7 +275,7 @@ final class Money implements \JsonSerializable
                 self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY,
             ], true
         )) {
-            throw new \InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | '.'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY');
+            throw new \InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | '.'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN | '.'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY');
         }
     }
 
