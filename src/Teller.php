@@ -21,11 +21,9 @@ class Teller
      * </code>
      *
      * @param string $method
-     *
      * @param array $arguments
      *
-     * @return Money
-     *
+     * @return Teller
      */
     public static function __callStatic($method, $arguments)
     {
