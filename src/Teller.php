@@ -57,9 +57,6 @@ class Teller
     /**
      * Constructor.
      *
-     * @param Currency       $currency
-     * @param MoneyParser    $parser
-     * @param MoneyFormatter $formatter
      * @param int            $roundingMode
      */
     public function __construct(
@@ -173,7 +170,7 @@ class Teller
      * @param mixed   $other  another monetary amount
      * @param mixed[] $others subsequent other monetary amounts
      *
-     * @return string The calculated monetary amount.
+     * @return string the calculated monetary amount
      */
     public function add($amount, $other, ...$others)
     {
@@ -192,7 +189,7 @@ class Teller
      * @param mixed   $other  another monetary amount
      * @param mixed[] $others subsequent monetary amounts
      *
-     * @return string The calculated monetary amount.
+     * @return string the calculated monetary amount
      */
     public function subtract($amount, $other, ...$others)
     {
@@ -210,7 +207,7 @@ class Teller
      * @param mixed            $amount     a monetary amount
      * @param int|float|string $multiplier the multiplier
      *
-     * @return string The calculated monetary amount.
+     * @return string the calculated monetary amount
      */
     public function multiply($amount, $multiplier)
     {
@@ -227,7 +224,7 @@ class Teller
      * @param mixed            $amount  a monetary amount
      * @param int|float|string $divisor the divisor
      *
-     * @return string The calculated monetary amount.
+     * @return string the calculated monetary amount
      */
     public function divide($amount, $divisor)
     {
@@ -244,7 +241,7 @@ class Teller
      * @param mixed            $amount  a monetary amount
      * @param int|float|string $divisor the divisor
      *
-     * @return string The calculated monetary amount.
+     * @return string the calculated monetary amount
      */
     public function mod($amount, $divisor)
     {
@@ -291,7 +288,7 @@ class Teller
      * @param mixed $amount a monetary amount
      * @param array $other  another monetary amount
      *
-     * @return string The calculated monetary amount.
+     * @return string the calculated monetary amount
      */
     public function ratioOf($amount, $other)
     {
