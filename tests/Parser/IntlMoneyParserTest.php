@@ -42,14 +42,14 @@ final class IntlMoneyParserTest extends TestCase
      */
     public function it_cannot_convert_string_to_units()
     {
-        $this->expectException(ParserException::class);
-
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $currencyCode = 'USD';
         $currency = new Currency($currencyCode);
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
+
+        $this->expectException(ParserException::class);
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', $currency);
     }
 
@@ -64,7 +64,7 @@ final class IntlMoneyParserTest extends TestCase
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
         $money = $parser->parse('$1000.00');
 
-        $this->assertEquals(Money::CAD(100000), $money);
+        $this->assertTrue(Money::CAD(100000)->equals($money));
     }
 
     /**

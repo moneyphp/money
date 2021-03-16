@@ -17,9 +17,9 @@ final class IntlLocalizedDecimalParserTest extends TestCase
      * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function it_parses_money($string, $units)
+    public function it_parses_money($string, $units, $locale)
     {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
+        $formatter = new \NumberFormatter($locale, \NumberFormatter::DECIMAL);
 
         $currencies = $this->prophesize(Currencies::class);
 
@@ -40,13 +40,12 @@ final class IntlLocalizedDecimalParserTest extends TestCase
      */
     public function it_cannot_convert_string_to_units()
     {
-        $this->expectException(ParserException::class);
-
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
 
-        $currencyCode = 'USD';
-        $currency = new Currency($currencyCode);
+        $currency = new Currency('USD');
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
+
+        $this->expectException(ParserException::class);
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', $currency);
     }
 
@@ -60,7 +59,7 @@ final class IntlLocalizedDecimalParserTest extends TestCase
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
         $money = $parser->parse('1000.00', new Currency('CAD'));
 
-        $this->assertEquals(Money::CAD(100000), $money);
+        $this->assertTrue(Money::CAD(100000)->equals($money));
     }
 
     /**
@@ -70,13 +69,12 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     {
         $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
 
-        $currencyCode = 'CAD';
-        $currency = new Currency($currencyCode);
+        $currency = new Currency('CAD');
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
         $money = $parser->parse('1000.00', $currency);
 
-        $this->assertEquals('100000', $money->getAmount());
-        $this->assertEquals('CAD', $money->getCurrency()->getCode());
+        $this->assertSame('100000', $money->getAmount());
+        $this->assertSame('CAD', $money->getCurrency()->getCode());
     }
 
     /**
@@ -90,7 +88,18 @@ final class IntlLocalizedDecimalParserTest extends TestCase
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
         $money = $parser->parse('1000.005', new Currency('USD'));
 
-        $this->assertEquals('100001', $money->getAmount());
+        $this->assertSame('100001', $money->getAmount());
+    }
+
+    public function it_does_not_support_invalid_decimal()
+    {
+        $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
+        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
+
+        $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
+        $money = $parser->parse('1000,005', new Currency('USD'));
+
+        $this->assertSame('100001', $money->getAmount());
     }
 
     /**
@@ -109,26 +118,49 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     public function formattedMoneyExamples()
     {
         return [
-            ['1000.50', 100050],
-            ['1000.00', 100000],
-            ['1000.0', 100000],
-            ['1000.00', 100000],
-            ['0.01', 1],
-            ['0.00', 0],
-            ['1', 100],
-            ['-1000', -100000],
-            ['-1000.0', -100000],
-            ['-1000.00', -100000],
-            ['-0.01', -1],
-            ['-1', -100],
-            ['1000', 100000],
-            ['1000.0', 100000],
-            ['1000.00', 100000],
-            ['0.01', 1],
-            ['1', 100],
-            ['.99', 99],
-            ['-.99', -99],
-            ['99.', 9900],
+            ['1000.50', 100050, 'en_US'],
+            ['1000.00', 100000, 'en_US'],
+            ['1000.0', 100000, 'en_US'],
+            ['1000.00', 100000, 'en_US'],
+            ['1,000.50', 100050, 'en_US'],
+            ['1,000.00', 100000, 'en_US'],
+            ['1,000.0', 100000, 'en_US'],
+            ['1,000.00', 100000, 'en_US'],
+            ['0.01', 1, 'en_US'],
+            ['0.00', 0, 'en_US'],
+            ['1', 100, 'en_US'],
+            ['-1000', -100000, 'en_US'],
+            ['-1000.0', -100000, 'en_US'],
+            ['-1000.00', -100000, 'en_US'],
+            ['-1,000', -100000, 'en_US'],
+            ['-1,000.0', -100000, 'en_US'],
+            ['-1,000.00', -100000, 'en_US'],
+            ['-0.01', -1, 'en_US'],
+            ['-1', -100, 'en_US'],
+            ['1000', 100000, 'en_US'],
+            ['1000.0', 100000, 'en_US'],
+            ['1000.00', 100000, 'en_US'],
+            ['0.01', 1, 'en_US'],
+            ['1', 100, 'en_US'],
+            ['.99', 99, 'en_US'],
+            ['-.99', -99, 'en_US'],
+            ['99.', 9900, 'en_US'],
+            ['1000,50', 100050, 'el_GR'],
+            ['1000,00', 100000, 'el_GR'],
+            ['1000,0', 100000, 'el_GR'],
+            ['1000,00', 100000, 'el_GR'],
+            ['1.000,50', 100050, 'el_GR'],
+            ['1.000,00', 100000, 'el_GR'],
+            ['1.000,0', 100000, 'el_GR'],
+            ['1.000,00', 100000, 'el_GR'],
+            ['-1000,50', -100050, 'el_GR'],
+            ['-1000,00', -100000, 'el_GR'],
+            ['-1000,0', -100000, 'el_GR'],
+            ['-1000,00', -100000, 'el_GR'],
+            ['-1.000,50', -100050, 'el_GR'],
+            ['-1.000,00', -100000, 'el_GR'],
+            ['-1.000,0', -100000, 'el_GR'],
+            ['-1.000,00', -100000, 'el_GR'],
         ];
     }
 }
