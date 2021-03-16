@@ -82,8 +82,8 @@ class Teller
     /**
      * Are two monetary amounts equal to each other?
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
      *
      * @return bool
      */
@@ -99,8 +99,8 @@ class Teller
      * monetary amount is respectively less than, equal to, or greater than
      * another.
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
      *
      * @return int
      */
@@ -114,8 +114,8 @@ class Teller
     /**
      * Is one monetary amount greater than another?
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
      *
      * @return bool
      */
@@ -129,8 +129,8 @@ class Teller
     /**
      * Is one monetary amount greater than or equal to another?
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
      *
      * @return bool
      */
@@ -144,8 +144,8 @@ class Teller
     /**
      * Is one monetary amount less than another?
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
      *
      * @return bool
      */
@@ -159,8 +159,8 @@ class Teller
     /**
      * Is one monetary amount less than or equal to another?
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
      *
      * @return bool
      */
@@ -174,9 +174,9 @@ class Teller
     /**
      * Adds a series of monetary amounts to each other in sequence.
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
-     * @param mixed[] $others Subsequent other monetary amounts.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
+     * @param mixed[] $others subsequent other monetary amounts
      *
      * @return string The calculated monetary amount.
      */
@@ -193,9 +193,9 @@ class Teller
     /**
      * Subtracts a series of monetary amounts from each other in sequence.
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed $other Another monetary amount.
-     * @param mixed[] $others Subsequent monetary amounts.
+     * @param mixed $amount a monetary amount
+     * @param mixed $other another monetary amount
+     * @param mixed[] $others subsequent monetary amounts
      *
      * @return string The calculated monetary amount.
      */
@@ -212,8 +212,8 @@ class Teller
     /**
      * Multiplies a monetary amount by a factor.
      *
-     * @param mixed $amount A monetary amount.
-     * @param int|float|string $multiplier The multiplier.
+     * @param mixed $amount a monetary amount
+     * @param int|float|string $multiplier the multiplier
      *
      * @return string The calculated monetary amount.
      */
@@ -229,8 +229,8 @@ class Teller
     /**
      * Divides a monetary amount by a divisor.
      *
-     * @param mixed $amount A monetary amount.
-     * @param int|float|string $divisor The divisor.
+     * @param mixed $amount a monetary amount
+     * @param int|float|string $divisor the divisor
      *
      * @return string The calculated monetary amount.
      */
@@ -246,8 +246,8 @@ class Teller
     /**
      * Mods a monetary amount by a divisor.
      *
-     * @param mixed $amount A monetary amount.
-     * @param int|float|string $divisor The divisor.
+     * @param mixed $amount a monetary amount
+     * @param int|float|string $divisor the divisor
      *
      * @return string The calculated monetary amount.
      */
@@ -263,8 +263,8 @@ class Teller
     /**
      * Allocates a monetary amount according to an array of ratios.
      *
-     * @param mixed $amount A monetary amount.
-     * @param array $ratios An array of ratios.
+     * @param mixed $amount a monetary amount
+     * @param array $ratios an array of ratios
      *
      * @return string[] The calculated monetary amounts.
      */
@@ -278,8 +278,8 @@ class Teller
     /**
      * Allocates a monetary amount among N targets.
      *
-     * @param mixed $amount A monetary amount.
-     * @param int $n The number of targets.
+     * @param mixed $amount a monetary amount
+     * @param int $n the number of targets
      *
      * @return string[] The calculated monetary amounts.
      */
@@ -293,8 +293,8 @@ class Teller
     /**
      * Determines the ratio of one monetary amount to another.
      *
-     * @param mixed $amount A monetary amount.
-     * @param array $other Another monetary amount.
+     * @param mixed $amount a monetary amount
+     * @param array $other another monetary amount
      *
      * @return string The calculated monetary amount.
      */
@@ -310,7 +310,7 @@ class Teller
     /**
      * Returns an absolute monetary amount.
      *
-     * @param mixed $amount A monetary amount.
+     * @param mixed $amount a monetary amount
      *
      * @return string The absolute monetary amount.
      */
@@ -325,7 +325,7 @@ class Teller
      * Returns the negative of an amount; note that this will convert negative
      * amounts to positive ones.
      *
-     * @param mixed $amount A monetary amount.
+     * @param mixed $amount a monetary amount
      *
      * @return string The negative monetary amount.
      */
@@ -337,9 +337,9 @@ class Teller
     }
 
     /**
-     * Is the monetary amount equal to zero?
+     * Is a monetary amount equal to zero?
      *
-     * @param mixed $amount The monetary amount.
+     * @param mixed $amount a monetary amount
      *
      * @return bool
      */
@@ -349,9 +349,9 @@ class Teller
     }
 
     /**
-     * Is the monetary amount greater than zero?
+     * Is a monetary amount greater than zero?
      *
-     * @param mixed $amount The monetary amount.
+     * @param mixed $amount a monetary amount
      *
      * @return bool
      */
@@ -361,9 +361,9 @@ class Teller
     }
 
     /**
-     * Is the monetary amount less than zero?
+     * Is a monetary amount less than zero?
      *
-     * @param mixed $amount The monetary amount.
+     * @param mixed $amount a monetary amount
      *
      * @return bool
      */
@@ -373,10 +373,10 @@ class Teller
     }
 
     /**
-     * Returns the lowest of a series of monetary values.
+     * Returns the lowest of a series of monetary amounts.
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed ...$amounts Additional monetary amounts.
+     * @param mixed $amount a monetary amount
+     * @param mixed ...$amounts additional monetary amounts
      *
      * @return string
      */
@@ -391,10 +391,10 @@ class Teller
     }
 
     /**
-     * Returns the highest of a series of monetary values.
+     * Returns the highest of a series of monetary amounts.
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed ...$amounts Additional monetary amounts.
+     * @param mixed $amount a monetary amount
+     * @param mixed ...$amounts additional monetary amounts
      *
      * @return string
      */
@@ -409,10 +409,10 @@ class Teller
     }
 
     /**
-     * Returns the sum of a series of monetary values.
+     * Returns the sum of a series of monetary amounts.
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed ...$amounts Additional monetary amounts.
+     * @param mixed $amount a monetary amount
+     * @param mixed ...$amounts additional monetary amounts
      *
      * @return string
      */
@@ -427,10 +427,10 @@ class Teller
     }
 
     /**
-     * Returns the average of a series of monetary values.
+     * Returns the average of a series of monetary amounts.
      *
-     * @param mixed $amount A monetary amount.
-     * @param mixed ...$amounts Additional monetary amounts.
+     * @param mixed $amount a monetary amount
+     * @param mixed ...$amounts additional monetary amounts
      *
      * @return string
      */
@@ -447,7 +447,7 @@ class Teller
     /**
      * Converts a monetary amount to a Money object.
      *
-     * @param mixed $amount A monetary amount.
+     * @param mixed $amount a monetary amount
      *
      * @return Money
      */
@@ -459,7 +459,7 @@ class Teller
     /**
      * Converts an array of monetary amounts to an array of Money objects.
      *
-     * @param array $amounts An array of monetary amounts.
+     * @param array $amounts an array of monetary amounts
      *
      * @return Money[]
      */
@@ -475,14 +475,14 @@ class Teller
     /**
      * Converts a monetary amount into a Money object, then into a string.
      *
-     * @param mixed $amount Typically a Money object, int, float, or string
-     * representing a monetary amount.
+     * @param mixed $amount typically a Money object, int, float, or string
+     *                      representing a monetary amount
      *
      * @return string
      */
     public function convertToString($amount)
     {
-        if (! $amount instanceof Money) {
+        if (!$amount instanceof Money) {
             $amount = $this->convertToMoney($amount);
         }
 
@@ -493,7 +493,7 @@ class Teller
      * Converts an array of monetary amounts into Money objects, then into
      * strings.
      *
-     * @param array $amounts An array of monetary amounts.
+     * @param array $amounts an array of monetary amounts
      *
      * @return array
      */

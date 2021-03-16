@@ -2,13 +2,13 @@
 
 namespace Tests\Money;
 
-use Money\Money;
 use Money\Calculator\PhpCalculator;
+use Money\Money;
 use Money\Teller;
 
 class TellerTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp() : void
+    protected function setUp()
     {
         // this overrides the GmpCalculator, which has multiply/divide problems
         // with negative values
@@ -240,7 +240,7 @@ class TellerTest extends \PHPUnit\Framework\TestCase
     public function it_allocates_amounts_across_ratios()
     {
         $amount = '100.00';
-        $ratios = [1/2, 1/3, 1/6];
+        $ratios = [1 / 2, 1 / 3, 1 / 6];
         $actual = $this->teller->allocate($amount, $ratios);
         $expect = [
             '50.00',
@@ -407,7 +407,7 @@ class TellerTest extends \PHPUnit\Framework\TestCase
     public function it_converts_monetary_amounts()
     {
         $money = $this->teller->convertToMoney('1.23');
-        $this->assertInstanceOf(Money::CLASS, $money);
+        $this->assertInstanceOf(Money::class, $money);
         $this->assertSame('123', $money->getAmount());
         $this->assertSame('USD', $money->getCurrency()->getCode());
 
