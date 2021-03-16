@@ -35,6 +35,29 @@ Equality
     $result = $value1->equals($value2);     // true
     $result = $value1->equals($value3);     // false
 
+.. _compare:
+
+Compare
+-------
+
+``compare()`` returns an integer indicating whether the first Money object is less than,
+equal to, or greater than the second. Both Money objects **must** have the same currency.
+
+.. code-block:: php
+
+    $value1 = Money::USD(200);                  // $2.00
+    $value2 = Money::USD(400);                  // $4.00
+    $value3 = Money::USD(400);                  // $4.00
+
+    $result = $value1->compare($value2);        // -1, less than
+    $result = $value2->compare($value3);        // 0, equals to
+    $result = $value2->compare($value1);        // 1, more than
+
+    // Both Money objects must have the same currency, otherwise
+    // an InvalidArgumentException will be thrown:
+    $value4 = Money::EUR(100);
+    $result = $value1->compare($value4);        // throws InvalidArgumentException
+
 .. _greater_than:
 
 Greater Than
