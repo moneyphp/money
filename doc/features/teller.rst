@@ -16,7 +16,7 @@ To help ease the transition from float math to Money objects, use a Teller insta
 
     // after
     $teller = \Money\Teller::USD();
-    $discountAmount = $teller->multiply($amount, $discount); // '11.73'
+    $discountAmount = $teller->multiply($price, $discount); // '11.73'
 
 The main drawback is that you cannot use two different currencies with the Teller; you can use only one.
 
