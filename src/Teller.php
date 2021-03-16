@@ -495,8 +495,7 @@ class Teller
      * Converts an array of monetary amounts into Money objects, then into
      * strings.
      *
-     * @param mixed $amount Typically a Money object, int, float, or string
-     * representing a monetary amount.
+     * @param array $amounts An array of monetary amounts.
      *
      * @return array
      */
