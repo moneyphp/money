@@ -57,7 +57,7 @@ class Teller
     /**
      * Constructor.
      *
-     * @param int            $roundingMode
+     * @param int $roundingMode
      */
     public function __construct(
         Currency $currency,
@@ -258,7 +258,7 @@ class Teller
      * @param mixed $amount a monetary amount
      * @param array $ratios an array of ratios
      *
-     * @return string[] The calculated monetary amounts.
+     * @return string[] the calculated monetary amounts
      */
     public function allocate($amount, array $ratios)
     {
@@ -273,7 +273,7 @@ class Teller
      * @param mixed $amount a monetary amount
      * @param int   $n      the number of targets
      *
-     * @return string[] The calculated monetary amounts.
+     * @return string[] the calculated monetary amounts
      */
     public function allocateTo($amount, $n)
     {
@@ -304,7 +304,7 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      *
-     * @return string The absolute monetary amount.
+     * @return string the absolute monetary amount
      */
     public function absolute($amount)
     {
@@ -319,7 +319,7 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      *
-     * @return string The negative monetary amount.
+     * @return string the negative monetary amount
      */
     public function negative($amount)
     {
