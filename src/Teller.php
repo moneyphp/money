@@ -36,7 +36,7 @@ class Teller
         $formatter = new DecimalMoneyFormatter($currencies);
         $roundingMode = empty($arguments)
             ? Money::ROUND_HALF_UP
-            : array_unshift($arguments);
+            : array_shift($arguments);
 
         return new $class(
             $currency,
