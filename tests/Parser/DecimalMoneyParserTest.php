@@ -35,8 +35,6 @@ final class DecimalMoneyParserTest extends TestCase
      */
     public function it_throws_an_exception_upon_invalid_inputs($input)
     {
-        $this->expectException(ParserException::class);
-
         $currencies = $this->prophesize(Currencies::class);
 
         $currencies->subunitFor(Argument::allOf(
@@ -46,6 +44,7 @@ final class DecimalMoneyParserTest extends TestCase
 
         $parser = new DecimalMoneyParser($currencies->reveal());
 
+        $this->expectException(ParserException::class);
         $parser->parse($input, new Currency('USD'))->getAmount();
     }
 
