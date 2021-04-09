@@ -94,13 +94,19 @@ final class Money implements \JsonSerializable
     }
 
     /**
-     * Checks whether a Money has the same Currency as this.
+     * Checks whether one or more Money instances have the same Currency as this.
      *
      * @return bool
      */
-    public function isSameCurrency(Money $other)
+    public function isSameCurrency(Money ...$other)
     {
-        return $this->currency->equals($other->currency);
+        foreach ($other as $money) {
+            if (! $this->currency->equals($money->currency)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
