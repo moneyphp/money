@@ -101,7 +101,7 @@ final class Money implements \JsonSerializable
     public function isSameCurrency(Money ...$other)
     {
         foreach ($other as $money) {
-            if (! $this->currency->equals($money->currency)) {
+            if (!$this->currency->equals($money->currency)) {
                 return false;
             }
         }
