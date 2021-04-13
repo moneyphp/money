@@ -18,14 +18,11 @@ use function substr;
 final class GmpCalculator implements Calculator
 {
     /**
-     * @var string
+     * @var int
      */
     private $scale;
 
-    /**
-     * @param int $scale
-     */
-    public function __construct($scale = 14)
+    public function __construct(int $scale = 14)
     {
         $this->scale = $scale;
     }

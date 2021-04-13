@@ -15,14 +15,11 @@ use Money\Number;
 final class BcMathCalculator implements Calculator
 {
     /**
-     * @var string
+     * @var int
      */
     private $scale;
 
-    /**
-     * @param int $scale
-     */
-    public function __construct($scale = 14)
+    public function __construct(int $scale = 14)
     {
         $this->scale = $scale;
     }
@@ -69,8 +66,6 @@ final class BcMathCalculator implements Calculator
      */
     public function multiply($amount, $multiplier)
     {
-        $multiplier = Number::fromNumber($multiplier);
-
         return bcmul($amount, (string) $multiplier, $this->scale);
     }
 
@@ -79,8 +74,6 @@ final class BcMathCalculator implements Calculator
      */
     public function divide($amount, $divisor)
     {
-        $divisor = Number::fromNumber($divisor);
-
         return bcdiv($amount, (string) $divisor, $this->scale);
     }
 
