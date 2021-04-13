@@ -116,7 +116,8 @@ final class Money implements JsonSerializable
      */
     public function isSameCurrency(Money $other)
     {
-        return $this->currency->equals($other->currency);
+        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+        return $this->currency == $other->currency;
     }
 
     /**
@@ -126,7 +127,8 @@ final class Money implements JsonSerializable
      */
     private function assertSameCurrency(Money $other)
     {
-        if (!$this->isSameCurrency($other)) {
+        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+        if ($this->currency != $other->currency) {
             throw new InvalidArgumentException('Currencies must be identical');
         }
     }
@@ -139,7 +141,8 @@ final class Money implements JsonSerializable
     public function equals(Money $other)
     {
         return $this->amount === $other->amount
-            && $this->currency->equals($other->currency);
+            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+            && $this->currency == $other->currency;
     }
 
     /**
