@@ -265,20 +265,6 @@ final class Money implements JsonSerializable
     }
 
     /**
-     * Asserts that the operand is integer or float.
-     *
-     * @param float|int|string $operand
-     *
-     * @throws InvalidArgumentException If $operand is neither integer nor float
-     */
-    private function assertOperand($operand)
-    {
-        if (!is_numeric($operand)) {
-            throw new InvalidArgumentException(sprintf('Operand should be a numeric value, "%s" given.', is_object($operand) ? get_class($operand) : gettype($operand)));
-        }
-    }
-
-    /**
      * Asserts that rounding mode is a valid integer value.
      *
      * @param int $roundingMode
@@ -306,10 +292,11 @@ final class Money implements JsonSerializable
      * @param int              $roundingMode
      *
      * @return Money
+     *
+     * @psalm-param float|int|numeric-string $multiplier
      */
     public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
     {
-        $this->assertOperand($multiplier);
         $this->assertRoundingMode($roundingMode);
 
         $product = $this->round((self::$calculator ?? self::initializeCalculator())->multiply($this->amount, $multiplier), $roundingMode);
@@ -325,10 +312,11 @@ final class Money implements JsonSerializable
      * @param int              $roundingMode
      *
      * @return Money
+     *
+     * @psalm-param float|int|numeric-string $divisor
      */
     public function divide($divisor, $roundingMode = self::ROUND_HALF_UP)
     {
-        $this->assertOperand($divisor);
         $this->assertRoundingMode($roundingMode);
 
         $divisor = (string) Number::fromNumber($divisor);
