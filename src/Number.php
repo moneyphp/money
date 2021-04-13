@@ -38,18 +38,14 @@ final class Number
      */
     private static $numbers = [0 => 1, 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1, 7 => 1, 8 => 1, 9 => 1];
 
-    /**
-     * @param string $integerPart
-     * @param string $fractionalPart
-     */
-    public function __construct($integerPart, $fractionalPart = '')
+    public function __construct(string $integerPart, string $fractionalPart = '')
     {
         if ('' === $integerPart && '' === $fractionalPart) {
             throw new InvalidArgumentException('Empty number is invalid');
         }
 
-        $this->integerPart = $this->parseIntegerPart((string) $integerPart);
-        $this->fractionalPart = $this->parseFractionalPart((string) $fractionalPart);
+        $this->integerPart = self::parseIntegerPart($integerPart);
+        $this->fractionalPart = self::parseFractionalPart($fractionalPart);
     }
 
     /**
