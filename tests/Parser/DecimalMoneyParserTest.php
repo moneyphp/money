@@ -8,9 +8,12 @@ use Money\Exception\ParserException;
 use Money\Parser\DecimalMoneyParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class DecimalMoneyParserTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider formattedMoneyExamples
      * @test

@@ -9,10 +9,13 @@ use Money\CurrencyPair;
 use Money\Exchange;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 final class ConverterTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider convertExamples
      * @test

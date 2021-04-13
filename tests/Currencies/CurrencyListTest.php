@@ -34,7 +34,7 @@ final class CurrencyListTest extends TestCase
     {
         $currencies = new CurrencyList(self::$correctCurrencies);
 
-        $this->assertInternalType('int', $currencies->subunitFor(new Currency($currency)));
+        $this->assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
     /**

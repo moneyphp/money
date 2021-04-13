@@ -16,12 +16,12 @@ class BcMathCalculatorTest extends CalculatorTestCase
         return new BcMathCalculator();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->defaultScale = ini_get('bcmath.scale');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         bcscale($this->defaultScale);
     }

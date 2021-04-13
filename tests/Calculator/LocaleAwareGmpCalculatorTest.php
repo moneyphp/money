@@ -4,7 +4,7 @@ namespace Tests\Money\Calculator;
 
 final class LocaleAwareGmpCalculatorTest extends GmpCalculatorTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

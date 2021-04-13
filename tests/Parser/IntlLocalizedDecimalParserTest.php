@@ -10,9 +10,12 @@ use Money\Money;
 use Money\Parser\IntlLocalizedDecimalParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class IntlLocalizedDecimalParserTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider formattedMoneyExamples
      * @test

@@ -28,7 +28,7 @@ final class ISOCurrenciesTest extends TestCase
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertInternalType('int', $currencies->subunitFor(new Currency($currency)));
+        $this->assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
     /**
@@ -51,7 +51,7 @@ final class ISOCurrenciesTest extends TestCase
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertInternalType('int', $currencies->numericCodeFor(new Currency($currency)));
+        $this->assertIsInt($currencies->numericCodeFor(new Currency($currency)));
     }
 
     /**

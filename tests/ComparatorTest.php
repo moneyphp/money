@@ -13,7 +13,7 @@ final class ComparatorTest extends TestCase
      */
     protected $comparator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->comparator = new Comparator();
     }

@@ -7,10 +7,13 @@ use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
 final class BitcoinMoneyFormatterTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider bitcoinExamples
      * @test

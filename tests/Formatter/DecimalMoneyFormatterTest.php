@@ -8,9 +8,12 @@ use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class DecimalMoneyFormatterTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider moneyExamples
      * @test

@@ -8,9 +8,12 @@ use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class IntlMoneyFormatterTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider moneyExamples
      * @test

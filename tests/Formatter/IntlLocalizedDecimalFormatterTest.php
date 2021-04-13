@@ -8,9 +8,12 @@ use Money\Formatter\IntlLocalizedDecimalFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class IntlLocalizedDecimalFormatterTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider moneyExamples
      * @test
