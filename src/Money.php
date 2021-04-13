@@ -265,26 +265,6 @@ final class Money implements JsonSerializable
     }
 
     /**
-     * Asserts that rounding mode is a valid integer value.
-     *
-     * @param int $roundingMode
-     *
-     * @throws InvalidArgumentException If $roundingMode is not valid
-     */
-    private function assertRoundingMode($roundingMode)
-    {
-        if (!in_array(
-            $roundingMode, [
-                self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD,
-                self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN,
-                self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY,
-            ], true
-        )) {
-            throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | '.'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY');
-        }
-    }
-
-    /**
      * Returns a new Money object that represents
      * the multiplied value by the given factor.
      *
@@ -294,11 +274,10 @@ final class Money implements JsonSerializable
      * @return Money
      *
      * @psalm-param float|int|numeric-string $multiplier
+     * @psalm-param self::ROUND_*            $roundingMode
      */
     public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
     {
-        $this->assertRoundingMode($roundingMode);
-
         $product = $this->round((self::$calculator ?? self::initializeCalculator())->multiply($this->amount, $multiplier), $roundingMode);
 
         return new self($product, $this->currency);
@@ -314,11 +293,10 @@ final class Money implements JsonSerializable
      * @return Money
      *
      * @psalm-param float|int|numeric-string $divisor
+     * @psalm-param self::ROUND_*            $roundingMode
      */
     public function divide($divisor, $roundingMode = self::ROUND_HALF_UP)
     {
-        $this->assertRoundingMode($roundingMode);
-
         $divisor = (string) Number::fromNumber($divisor);
         $calculator = self::$calculator ?? self::initializeCalculator();
 
@@ -434,11 +412,11 @@ final class Money implements JsonSerializable
      * @param int    $rounding_mode
      *
      * @return string
+     *
+     * @psalm-param self::ROUND_* $rounding_mode
      */
     private function round($amount, $rounding_mode)
     {
-        $this->assertRoundingMode($rounding_mode);
-
         $calculator = self::$calculator ?? self::initializeCalculator();
 
         if ($rounding_mode === self::ROUND_UP) {
