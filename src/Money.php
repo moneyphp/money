@@ -89,6 +89,14 @@ final class Money implements JsonSerializable
      */
     public function __construct($amount, Currency $currency)
     {
+        $this->currency = $currency;
+
+        if (is_int($amount)) {
+            $this->amount = (string) $amount;
+
+            return;
+        }
+
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
             $numberFromString = Number::fromString($amount);
             if (!$numberFromString->isInteger()) {
@@ -98,22 +106,7 @@ final class Money implements JsonSerializable
             $amount = $numberFromString->getIntegerPart();
         }
 
-        $this->amount = (string) $amount;
-        $this->currency = $currency;
-    }
-
-    /**
-     * Returns a new Money instance based on the current one using the Currency.
-     *
-     * @param int|string $amount
-     *
-     * @return Money
-     *
-     * @throws InvalidArgumentException If amount is not integer
-     */
-    private function newInstance($amount)
-    {
-        return new self($amount, $this->currency);
+        $this->amount = $amount;
     }
 
     /**
@@ -318,7 +311,7 @@ final class Money implements JsonSerializable
 
         $product = $this->round((self::$calculator ?? self::initializeCalculator())->multiply($this->amount, $multiplier), $roundingMode);
 
-        return $this->newInstance($product);
+        return new self($product, $this->currency);
     }
 
     /**
@@ -344,7 +337,7 @@ final class Money implements JsonSerializable
 
         $quotient = $this->round($calculator->divide($this->amount, $divisor), $roundingMode);
 
-        return $this->newInstance($quotient);
+        return new self($quotient, $this->currency);
     }
 
     /**
@@ -387,7 +380,7 @@ final class Money implements JsonSerializable
                 throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
             $share = $calculator->share($this->amount, $ratio, $total);
-            $results[$key] = $this->newInstance($share);
+            $results[$key] = new self($share, $this->currency);
             $remainder = $calculator->subtract($remainder, $share);
         }
 
@@ -473,7 +466,10 @@ final class Money implements JsonSerializable
      */
     public function absolute()
     {
-        return $this->newInstance((self::$calculator ?? self::initializeCalculator())->absolute($this->amount));
+        return new self(
+            (self::$calculator ?? self::initializeCalculator())->absolute($this->amount),
+            $this->currency
+        );
     }
 
     /**
@@ -481,7 +477,8 @@ final class Money implements JsonSerializable
      */
     public function negative()
     {
-        return $this->newInstance(0)->subtract($this);
+        return (new self(0, $this->currency))
+            ->subtract($this);
     }
 
     /**
