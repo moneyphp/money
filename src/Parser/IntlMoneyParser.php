@@ -59,7 +59,7 @@ final class IntlMoneyParser implements MoneyParser
          * Currency object.
          */
         if (!$currency instanceof Currency) {
-            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+            trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
             $currency = new Currency($currency);
         }
 

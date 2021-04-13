@@ -107,7 +107,6 @@ final class IntlLocalizedDecimalParserTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
      * @test
      */
     public function it_accepts_only_a_currency_object()
@@ -115,6 +114,9 @@ final class IntlLocalizedDecimalParserTest extends TestCase
         $formatter = new \NumberFormatter('en_CA', \NumberFormatter::DECIMAL);
 
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
+
+        $this->expectDeprecationMessage('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.');
+
         $parser->parse('1000.00', 'EUR');
     }
 

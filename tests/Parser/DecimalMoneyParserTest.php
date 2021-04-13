@@ -53,7 +53,6 @@ final class DecimalMoneyParserTest extends TestCase
 
     /**
      * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
      * @test
      */
     public function it_accepts_only_a_currency_object()
@@ -67,7 +66,9 @@ final class DecimalMoneyParserTest extends TestCase
 
         $parser = new DecimalMoneyParser($currencies->reveal());
 
-        $parser->parse('1.0', 'USD')->getAmount();
+        $this->expectDeprecationMessage('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.');
+
+        $parser->parse('1.0', 'USD');
     }
 
     public function formattedMoneyExamples()
