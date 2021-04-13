@@ -79,7 +79,8 @@
         "clean": "rm -rf build/ vendor/",
         "test": [
             "vendor/bin/phpspec run",
-            "vendor/bin/phpunit -v"
+            "vendor/bin/phpunit -v",
+            "vendor/bin/phpbench run"
         ],
         "test-coverage": [
             "vendor/bin/phpspec run -c phpspec.ci.yml",
