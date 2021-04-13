@@ -67,12 +67,14 @@ final class Money implements JsonSerializable
     private $currency;
 
     /**
-     * @var Calculator
+     * @var Calculator|null
      */
     private static $calculator;
 
     /**
      * @var array
+     *
+     * @psalm-var non-empty-list<Calculator>
      */
     private static $calculators = [
         BcMathCalculator::class,
@@ -157,7 +159,7 @@ final class Money implements JsonSerializable
     {
         $this->assertSameCurrency($other);
 
-        return $this->getCalculator()->compare($this->amount, $other->amount);
+        return (self::$calculator ?? self::initializeCalculator())->compare($this->amount, $other->amount);
     }
 
     /**
@@ -231,7 +233,7 @@ final class Money implements JsonSerializable
     public function add(Money ...$addends)
     {
         $amount = $this->amount;
-        $calculator = $this->getCalculator();
+        $calculator = (self::$calculator ?? self::initializeCalculator());
 
         foreach ($addends as $addend) {
             $this->assertSameCurrency($addend);
@@ -255,7 +257,7 @@ final class Money implements JsonSerializable
     public function subtract(Money ...$subtrahends)
     {
         $amount = $this->amount;
-        $calculator = $this->getCalculator();
+        $calculator = (self::$calculator ?? self::initializeCalculator());
 
         foreach ($subtrahends as $subtrahend) {
             $this->assertSameCurrency($subtrahend);
@@ -314,7 +316,7 @@ final class Money implements JsonSerializable
         $this->assertOperand($multiplier);
         $this->assertRoundingMode($roundingMode);
 
-        $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
+        $product = $this->round((self::$calculator ?? self::initializeCalculator())->multiply($this->amount, $multiplier), $roundingMode);
 
         return $this->newInstance($product);
     }
@@ -334,12 +336,13 @@ final class Money implements JsonSerializable
         $this->assertRoundingMode($roundingMode);
 
         $divisor = (string) Number::fromNumber($divisor);
+        $calculator = self::$calculator ?? self::initializeCalculator();
 
-        if ($this->getCalculator()->compare($divisor, '0') === 0) {
+        if ($calculator->compare($divisor, '0') === 0) {
             throw new InvalidArgumentException('Division by zero');
         }
 
-        $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
+        $quotient = $this->round($calculator->divide($this->amount, $divisor), $roundingMode);
 
         return $this->newInstance($quotient);
     }
@@ -355,7 +358,7 @@ final class Money implements JsonSerializable
     {
         $this->assertSameCurrency($divisor);
 
-        return new self($this->getCalculator()->mod($this->amount, $divisor->amount), $this->currency);
+        return new self((self::$calculator ?? self::initializeCalculator())->mod($this->amount, $divisor->amount), $this->currency);
     }
 
     /**
@@ -377,16 +380,18 @@ final class Money implements JsonSerializable
             throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
         }
 
+        $calculator = self::$calculator ?? self::initializeCalculator();
+
         foreach ($ratios as $key => $ratio) {
             if ($ratio < 0) {
                 throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
-            $share = $this->getCalculator()->share($this->amount, $ratio, $total);
+            $share = $calculator->share($this->amount, $ratio, $total);
             $results[$key] = $this->newInstance($share);
-            $remainder = $this->getCalculator()->subtract($remainder, $share);
+            $remainder = $calculator->subtract($remainder, $share);
         }
 
-        if ($this->getCalculator()->compare($remainder, '0') === 0) {
+        if ($calculator->compare($remainder, '0') === 0) {
             return $results;
         }
 
@@ -396,10 +401,10 @@ final class Money implements JsonSerializable
             return $share - floor($share);
         }, $ratios);
 
-        while ($this->getCalculator()->compare($remainder, '0') > 0) {
+        while ($calculator->compare($remainder, '0') > 0) {
             $index = !empty($fractions) ? array_keys($fractions, max($fractions))[0] : 0;
-            $results[$index]->amount = $this->getCalculator()->add($results[$index]->amount, '1');
-            $remainder = $this->getCalculator()->subtract($remainder, '1');
+            $results[$index]->amount = $calculator->add($results[$index]->amount, '1');
+            $remainder = $calculator->subtract($remainder, '1');
             unset($fractions[$index]);
         }
 
@@ -437,7 +442,7 @@ final class Money implements JsonSerializable
             throw new InvalidArgumentException('Cannot calculate a ratio of zero');
         }
 
-        return $this->getCalculator()->divide($this->amount, $money->amount);
+        return (self::$calculator ?? self::initializeCalculator())->divide($this->amount, $money->amount);
     }
 
     /**
@@ -450,15 +455,17 @@ final class Money implements JsonSerializable
     {
         $this->assertRoundingMode($rounding_mode);
 
+        $calculator = self::$calculator ?? self::initializeCalculator();
+
         if ($rounding_mode === self::ROUND_UP) {
-            return $this->getCalculator()->ceil($amount);
+            return $calculator->ceil($amount);
         }
 
         if ($rounding_mode === self::ROUND_DOWN) {
-            return $this->getCalculator()->floor($amount);
+            return $calculator->floor($amount);
         }
 
-        return $this->getCalculator()->round($amount, $rounding_mode);
+        return $calculator->round($amount, $rounding_mode);
     }
 
     /**
@@ -466,7 +473,7 @@ final class Money implements JsonSerializable
      */
     public function absolute()
     {
-        return $this->newInstance($this->getCalculator()->absolute($this->amount));
+        return $this->newInstance((self::$calculator ?? self::initializeCalculator())->absolute($this->amount));
     }
 
     /**
@@ -484,7 +491,7 @@ final class Money implements JsonSerializable
      */
     public function isZero()
     {
-        return $this->getCalculator()->compare($this->amount, 0) === 0;
+        return (self::$calculator ?? self::initializeCalculator())->compare($this->amount, 0) === 0;
     }
 
     /**
@@ -494,7 +501,7 @@ final class Money implements JsonSerializable
      */
     public function isPositive()
     {
-        return $this->getCalculator()->compare($this->amount, 0) > 0;
+        return (self::$calculator ?? self::initializeCalculator())->compare($this->amount, 0) > 0;
     }
 
     /**
@@ -504,7 +511,7 @@ final class Money implements JsonSerializable
      */
     public function isNegative()
     {
-        return $this->getCalculator()->compare($this->amount, 0) < 0;
+        return (self::$calculator ?? self::initializeCalculator())->compare($this->amount, 0) < 0;
     }
 
     /**
@@ -590,6 +597,8 @@ final class Money implements JsonSerializable
 
     /**
      * @param string $calculator
+     *
+     * @psalm-param class-string<Calculator> $calculator
      */
     public static function registerCalculator($calculator)
     {
@@ -607,27 +616,12 @@ final class Money implements JsonSerializable
      */
     private static function initializeCalculator()
     {
-        $calculators = self::$calculators;
-
-        foreach ($calculators as $calculator) {
-            /** @var Calculator $calculator */
+        foreach (self::$calculators as $calculator) {
             if ($calculator::supported()) {
-                return new $calculator();
+                return self::$calculator = new $calculator();
             }
         }
 
         throw new RuntimeException('Cannot find calculator for money calculations');
-    }
-
-    /**
-     * @return Calculator
-     */
-    private function getCalculator()
-    {
-        if (null === self::$calculator) {
-            self::$calculator = self::initializeCalculator();
-        }
-
-        return self::$calculator;
     }
 }
