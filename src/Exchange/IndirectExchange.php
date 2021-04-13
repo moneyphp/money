@@ -2,6 +2,11 @@
 
 namespace Money\Exchange;
 
+use function array_reduce;
+use function array_reverse;
+use function array_unshift;
+use InvalidArgumentException;
+use function is_a;
 use Money\Calculator;
 use Money\Calculator\BcMathCalculator;
 use Money\Calculator\GmpCalculator;
@@ -11,6 +16,9 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use RuntimeException;
+use SplQueue;
+use stdClass;
 
 /**
  * Provides a way to get an exchange rate through a minimal set of intermediate conversions.
@@ -55,7 +63,7 @@ final class IndirectExchange implements Exchange
     public static function registerCalculator($calculator)
     {
         if (is_a($calculator, Calculator::class, true) === false) {
-            throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
+            throw new InvalidArgumentException('Calculator must implement '.Calculator::class);
         }
 
         array_unshift(self::$calculators, $calculator);
@@ -89,11 +97,11 @@ final class IndirectExchange implements Exchange
 
         $nodes = [$baseCurrency->getCode() => $startNode];
 
-        $frontier = new \SplQueue();
+        $frontier = new SplQueue();
         $frontier->enqueue($startNode);
 
         while ($frontier->count()) {
-            /** @var \stdClass $currentNode */
+            /** @var stdClass $currentNode */
             $currentNode = $frontier->dequeue();
 
             /** @var Currency $currentCurrency */
@@ -109,7 +117,7 @@ final class IndirectExchange implements Exchange
                     $nodes[$candidateCurrency->getCode()] = $this->initializeNode($candidateCurrency);
                 }
 
-                /** @var \stdClass $node */
+                /** @var stdClass $node */
                 $node = $nodes[$candidateCurrency->getCode()];
 
                 if (!$node->discovered) {
@@ -132,11 +140,11 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @return \stdClass
+     * @return stdClass
      */
     private function initializeNode(Currency $currency)
     {
-        $node = new \stdClass();
+        $node = new stdClass();
 
         $node->currency = $currency;
         $node->discovered = false;
@@ -148,7 +156,7 @@ final class IndirectExchange implements Exchange
     /**
      * @return CurrencyPair[]
      */
-    private function reconstructConversionChain(array $currencies, \stdClass $goalNode)
+    private function reconstructConversionChain(array $currencies, stdClass $goalNode)
     {
         $current = $goalNode;
         $conversions = [];
@@ -177,7 +185,7 @@ final class IndirectExchange implements Exchange
     /**
      * @return Calculator
      *
-     * @throws \RuntimeException If cannot find calculator for money calculations
+     * @throws RuntimeException If cannot find calculator for money calculations
      */
     private static function initializeCalculator()
     {
@@ -190,6 +198,6 @@ final class IndirectExchange implements Exchange
             }
         }
 
-        throw new \RuntimeException('Cannot find calculator for money calculations');
+        throw new RuntimeException('Cannot find calculator for money calculations');
     }
 }

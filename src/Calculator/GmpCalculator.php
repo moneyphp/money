@@ -2,9 +2,15 @@
 
 namespace Money\Calculator;
 
+use function extension_loaded;
+use InvalidArgumentException;
+use function ltrim;
 use Money\Calculator;
 use Money\Money;
 use Money\Number;
+use function str_pad;
+use function strlen;
+use function substr;
 
 /**
  * @author Frederik Bosch <f.bosch@genkgo.nl>
@@ -266,7 +272,7 @@ final class GmpCalculator implements Calculator
             );
         }
 
-        throw new \InvalidArgumentException('Unknown rounding mode');
+        throw new InvalidArgumentException('Unknown rounding mode');
     }
 
     /**

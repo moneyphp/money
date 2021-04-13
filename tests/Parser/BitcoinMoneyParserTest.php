@@ -14,7 +14,7 @@ final class BitcoinMoneyParserTest extends TestCase
      * @dataProvider bitcoinExamples
      * @test
      */
-    public function it_parses_money($string, $units)
+    public function itParsesMoney($string, $units)
     {
         $moneyParser = new BitcoinMoneyParser(2);
 
@@ -28,7 +28,7 @@ final class BitcoinMoneyParserTest extends TestCase
     /**
      * @test
      */
-    public function force_currency_works()
+    public function forceCurrencyWorks()
     {
         $moneyParser = new BitcoinMoneyParser(2);
 

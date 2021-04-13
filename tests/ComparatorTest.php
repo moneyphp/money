@@ -21,7 +21,7 @@ final class ComparatorTest extends TestCase
     /**
      * @test
      */
-    public function it_accepts_only_money()
+    public function itAcceptsOnlyMoney()
     {
         $money_a = Money::EUR(1);
         $money_b = Money::EUR(2);
@@ -34,7 +34,7 @@ final class ComparatorTest extends TestCase
     /**
      * @test
      */
-    public function it_compares_unequal_values()
+    public function itComparesUnequalValues()
     {
         $money_a = Money::EUR(1);
         $money_b = Money::USD(1);
@@ -60,7 +60,7 @@ final class ComparatorTest extends TestCase
     /**
      * @test
      */
-    public function it_compares_equal_values()
+    public function itComparesEqualValues()
     {
         $money_a = Money::EUR(1);
         $money_b = Money::EUR(1);

@@ -4,6 +4,7 @@ namespace Tests\Money\Calculator;
 
 use Money\Calculator;
 use PHPUnit\Framework\TestCase;
+use function substr;
 use Tests\Money\RoundExamples;
 
 abstract class CalculatorTestCase extends TestCase
@@ -19,7 +20,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider additionExamples
      * @test
      */
-    public function it_adds_two_values($value1, $value2, $expected)
+    public function itAddsTwoValues($value1, $value2, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->add($value1, $value2));
     }
@@ -28,7 +29,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider subtractionExamples
      * @test
      */
-    public function it_subtracts_a_value_from_another($value1, $value2, $expected)
+    public function itSubtractsAValueFromAnother($value1, $value2, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->subtract($value1, $value2));
     }
@@ -37,7 +38,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider multiplicationExamples
      * @test
      */
-    public function it_multiplies_a_value_by_another($value1, $value2, $expected)
+    public function itMultipliesAValueByAnother($value1, $value2, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->multiply($value1, $value2));
     }
@@ -46,7 +47,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider divisionExamples
      * @test
      */
-    public function it_divides_a_value_by_another($value1, $value2, $expected)
+    public function itDividesAValueByAnother($value1, $value2, $expected)
     {
         $result = $this->getCalculator()->divide($value1, $value2);
         $this->assertEquals(substr($expected, 0, 12), substr($result, 0, 12));
@@ -56,7 +57,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider divisionExactExamples
      * @test
      */
-    public function it_divides_a_value_by_another_exact($value1, $value2, $expected)
+    public function itDividesAValueByAnotherExact($value1, $value2, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->divide($value1, $value2));
     }
@@ -65,7 +66,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider ceilExamples
      * @test
      */
-    public function it_ceils_a_value($value, $expected)
+    public function itCeilsAValue($value, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->ceil($value));
     }
@@ -74,7 +75,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider floorExamples
      * @test
      */
-    public function it_floors_a_value($value, $expected)
+    public function itFloorsAValue($value, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->floor($value));
     }
@@ -83,7 +84,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider absoluteExamples
      * @test
      */
-    public function it_calculates_the_absolute_value($value, $expected)
+    public function itCalculatesTheAbsoluteValue($value, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->absolute($value));
     }
@@ -92,7 +93,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider shareExamples
      * @test
      */
-    public function it_shares_a_value($value, $ratio, $total, $expected)
+    public function itSharesAValue($value, $ratio, $total, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->share($value, $ratio, $total));
     }
@@ -101,7 +102,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider roundExamples
      * @test
      */
-    public function it_rounds_a_value($value, $mode, $expected)
+    public function itRoundsAValue($value, $mode, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->round($value, $mode));
     }
@@ -110,7 +111,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider compareLessExamples
      * @test
      */
-    public function it_compares_values_less($left, $right)
+    public function itComparesValuesLess($left, $right)
     {
         // Compare with both orders. One must return a value less than zero,
         // the other must return a value greater than zero.
@@ -122,7 +123,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider compareEqualExamples
      * @test
      */
-    public function it_compares_values($left, $right)
+    public function itComparesValues($left, $right)
     {
         // Compare with both orders, both must return zero.
         $this->assertEquals(0, $this->getCalculator()->compare($left, $right));
@@ -133,7 +134,7 @@ abstract class CalculatorTestCase extends TestCase
      * @dataProvider modExamples
      * @test
      */
-    public function it_calculates_the_modulus_of_a_value($left, $right, $expected)
+    public function itCalculatesTheModulusOfAValue($left, $right, $expected)
     {
         $this->assertEquals($expected, $this->getCalculator()->mod($left, $right));
     }

@@ -20,7 +20,7 @@ final class ConverterTest extends TestCase
      * @dataProvider convertExamples
      * @test
      */
-    public function it_converts_to_a_different_currency(
+    public function itConvertsToADifferentCurrency(
         $baseCurrencyCode,
         $counterCurrencyCode,
         $subunitBase,
@@ -60,7 +60,7 @@ final class ConverterTest extends TestCase
      * @dataProvider convertExamples
      * @test
      */
-    public function it_converts_to_a_different_currency_when_decimal_separator_is_comma(
+    public function itConvertsToADifferentCurrencyWhenDecimalSeparatorIsComma(
         $baseCurrencyCode,
         $counterCurrencyCode,
         $subunitBase,

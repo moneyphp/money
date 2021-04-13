@@ -2,9 +2,18 @@
 
 namespace Money\Calculator;
 
+use function ceil;
+use function filter_var;
+use function floor;
+use function intval;
+use function ltrim;
 use Money\Calculator;
 use Money\Money;
 use Money\Number;
+use OverflowException;
+use function round;
+use UnderflowException;
+use UnexpectedValueException;
 
 /**
  * @author Frederik Bosch <f.bosch@genkgo.nl>
@@ -157,15 +166,15 @@ final class PhpCalculator implements Calculator
      *
      * @param int $amount
      *
-     * @throws \OverflowException  If integer overflow occured
-     * @throws \UnderflowException If integer underflow occured
+     * @throws OverflowException  If integer overflow occured
+     * @throws UnderflowException If integer underflow occured
      */
     private function assertIntegerBounds($amount)
     {
         if ($amount > PHP_INT_MAX) {
-            throw new \OverflowException('You overflowed the maximum allowed integer (PHP_INT_MAX)');
+            throw new OverflowException('You overflowed the maximum allowed integer (PHP_INT_MAX)');
         } elseif ($amount < ~PHP_INT_MAX) {
-            throw new \UnderflowException('You underflowed the minimum allowed integer (PHP_INT_MAX)');
+            throw new UnderflowException('You underflowed the minimum allowed integer (PHP_INT_MAX)');
         }
     }
 
@@ -191,7 +200,7 @@ final class PhpCalculator implements Calculator
     private function assertInteger($amount)
     {
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
-            throw new \UnexpectedValueException('The result of arithmetic operation is not an integer');
+            throw new UnexpectedValueException('The result of arithmetic operation is not an integer');
         }
     }
 }

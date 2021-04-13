@@ -2,6 +2,7 @@
 
 namespace Money\Currencies;
 
+use ArrayIterator;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
@@ -40,6 +41,6 @@ final class BitcoinCurrencies implements Currencies
      */
     public function getIterator()
     {
-        return new \ArrayIterator([new Currency(self::CODE)]);
+        return new ArrayIterator([new Currency(self::CODE)]);
     }
 }

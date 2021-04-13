@@ -2,9 +2,13 @@
 
 namespace Tests\Money;
 
+use InvalidArgumentException;
+use function json_encode;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use stdClass;
+use Throwable;
 
 final class MoneyTest extends TestCase
 {
@@ -23,7 +27,7 @@ final class MoneyTest extends TestCase
      * @dataProvider equalityExamples
      * @test
      */
-    public function it_equals_to_another_money($amount, $currency, $equality)
+    public function itEqualsToAnotherMoney($amount, $currency, $equality)
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
 
@@ -34,7 +38,7 @@ final class MoneyTest extends TestCase
      * @dataProvider comparisonExamples
      * @test
      */
-    public function it_compares_two_amounts($other, $result)
+    public function itComparesTwoAmounts($other, $result)
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
         $other = new Money($other, new Currency(self::CURRENCY));
@@ -56,7 +60,7 @@ final class MoneyTest extends TestCase
      * @dataProvider roundExamples
      * @test
      */
-    public function it_multiplies_the_amount($multiplier, $roundingMode, $result)
+    public function itMultipliesTheAmount($multiplier, $roundingMode, $result)
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -69,7 +73,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function it_multiplies_the_amount_with_locale_that_uses_comma_separator()
+    public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator()
     {
         $this->setLocale(LC_ALL, 'es_ES.utf8');
 
@@ -84,9 +88,9 @@ final class MoneyTest extends TestCase
      * @dataProvider invalidOperandExamples
      * @test
      */
-    public function it_throws_an_exception_when_operand_is_invalid_during_multiplication($operand)
+    public function itThrowsAnExceptionWhenOperandIsInvalidDuringMultiplication($operand)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -110,9 +114,9 @@ final class MoneyTest extends TestCase
      * @dataProvider invalidOperandExamples
      * @test
      */
-    public function it_throws_an_exception_when_operand_is_invalid_during_division($operand)
+    public function itThrowsAnExceptionWhenOperandIsInvalidDuringDivision($operand)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -123,7 +127,7 @@ final class MoneyTest extends TestCase
      * @dataProvider allocationExamples
      * @test
      */
-    public function it_allocates_amount($amount, $ratios, $results)
+    public function itAllocatesAmount($amount, $ratios, $results)
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -140,7 +144,7 @@ final class MoneyTest extends TestCase
      * @dataProvider allocationTargetExamples
      * @test
      */
-    public function it_allocates_amount_to_n_targets($amount, $target, $results)
+    public function itAllocatesAmountToNTargets($amount, $target, $results)
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -157,7 +161,7 @@ final class MoneyTest extends TestCase
      * @dataProvider comparatorExamples
      * @test
      */
-    public function it_has_comparators($amount, $isZero, $isPositive, $isNegative)
+    public function itHasComparators($amount, $isZero, $isPositive, $isNegative)
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -170,7 +174,7 @@ final class MoneyTest extends TestCase
      * @dataProvider absoluteExamples
      * @test
      */
-    public function it_calculates_the_absolute_amount($amount, $result)
+    public function itCalculatesTheAbsoluteAmount($amount, $result)
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -183,7 +187,7 @@ final class MoneyTest extends TestCase
      * @dataProvider negativeExamples
      * @test
      */
-    public function it_calculates_the_negative_amount($amount, $result)
+    public function itCalculatesTheNegativeAmount($amount, $result)
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -196,7 +200,7 @@ final class MoneyTest extends TestCase
      * @dataProvider modExamples
      * @test
      */
-    public function it_calculates_the_modulus_of_an_amount($left, $right, $expected)
+    public function itCalculatesTheModulusOfAnAmount($left, $right, $expected)
     {
         $money = new Money($left, new Currency(self::CURRENCY));
         $rightMoney = new Money($right, new Currency(self::CURRENCY));
@@ -210,7 +214,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function it_converts_to_json()
+    public function itConvertsToJson()
     {
         $this->assertEquals(
             '{"amount":"350","currency":"EUR"}',
@@ -226,7 +230,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_max_int()
+    public function itSupportsMaxInt()
     {
         $one = new Money(1, new Currency('EUR'));
 
@@ -238,7 +242,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function it_returns_ratio_of()
+    public function itReturnsRatioOf()
     {
         $currency = new Currency('EUR');
         $zero = new Money(0, $currency);
@@ -254,9 +258,9 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_when_calculating_ratio_of_zero()
+    public function itThrowsWhenCalculatingRatioOfZero()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         $currency = new Currency('EUR');
         $zero = new Money(0, $currency);
@@ -269,7 +273,7 @@ final class MoneyTest extends TestCase
      * @dataProvider sumExamples
      * @test
      */
-    public function it_calculates_sum($values, $sum)
+    public function itCalculatesSum($values, $sum)
     {
         $this->assertEquals($sum, Money::sum(...$values));
     }
@@ -278,7 +282,7 @@ final class MoneyTest extends TestCase
      * @dataProvider minExamples
      * @test
      */
-    public function it_calculates_min($values, $min)
+    public function itCalculatesMin($values, $min)
     {
         $this->assertEquals($min, Money::min(...$values));
     }
@@ -287,7 +291,7 @@ final class MoneyTest extends TestCase
      * @dataProvider maxExamples
      * @test
      */
-    public function it_calculates_max($values, $max)
+    public function itCalculatesMax($values, $max)
     {
         $this->assertEquals($max, Money::max(...$values));
     }
@@ -296,7 +300,7 @@ final class MoneyTest extends TestCase
      * @dataProvider avgExamples
      * @test
      */
-    public function it_calculates_avg($values, $avg)
+    public function itCalculatesAvg($values, $avg)
     {
         $this->assertEquals($avg, Money::avg(...$values));
     }
@@ -305,9 +309,9 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_min_with_zero_arguments()
+    public function itThrowsWhenCalculatingMinWithZeroArguments()
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::min(...[]);
     }
 
@@ -315,9 +319,9 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_max_with_zero_arguments()
+    public function itThrowsWhenCalculatingMaxWithZeroArguments()
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::max(...[]);
     }
 
@@ -325,9 +329,9 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_sum_with_zero_arguments()
+    public function itThrowsWhenCalculatingSumWithZeroArguments()
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::sum(...[]);
     }
 
@@ -335,9 +339,9 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_avg_with_zero_arguments()
+    public function itThrowsWhenCalculatingAvgWithZeroArguments()
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::avg(...[]);
     }
 
@@ -369,7 +373,7 @@ final class MoneyTest extends TestCase
             [false],
             ['operand'],
             [null],
-            [new \stdClass()],
+            [new stdClass()],
         ];
     }
 

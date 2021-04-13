@@ -17,7 +17,7 @@ class GmpCalculatorTest extends CalculatorTestCase
     /**
      * @test
      */
-    public function it_multiplies_zero()
+    public function itMultipliesZero()
     {
         $this->assertSame('0', $this->getCalculator()->multiply('0', '0.8'));
     }
@@ -25,7 +25,7 @@ class GmpCalculatorTest extends CalculatorTestCase
     /**
      * @test
      */
-    public function it_floors_zero()
+    public function itFloorsZero()
     {
         $this->assertSame('0', $this->getCalculator()->floor('0'));
     }
@@ -33,7 +33,7 @@ class GmpCalculatorTest extends CalculatorTestCase
     /**
      * @test
      */
-    public function it_compares_zero_with_fraction()
+    public function itComparesZeroWithFraction()
     {
         $this->assertSame(1, $this->getCalculator()->compare('0.5', '0'));
     }

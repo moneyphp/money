@@ -2,6 +2,8 @@
 
 namespace Tests\Money\Currencies;
 
+use function array_keys;
+use function array_map;
 use Money\Currencies\ISOCurrencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
@@ -13,7 +15,7 @@ final class ISOCurrenciesTest extends TestCase
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_has_iso_currencies($currency)
+    public function itHasIsoCurrencies($currency)
     {
         $currencies = new ISOCurrencies();
 
@@ -24,7 +26,7 @@ final class ISOCurrenciesTest extends TestCase
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_provides_subunit($currency)
+    public function itProvidesSubunit($currency)
     {
         $currencies = new ISOCurrencies();
 
@@ -34,7 +36,7 @@ final class ISOCurrenciesTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
+    public function itThrowsAnExceptionWhenProvidingSubunitAndCurrencyIsUnknown()
     {
         $this->expectException(UnknownCurrencyException::class);
 
@@ -47,7 +49,7 @@ final class ISOCurrenciesTest extends TestCase
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_provides_numeric_code($currency)
+    public function itProvidesNumericCode($currency)
     {
         $currencies = new ISOCurrencies();
 
@@ -57,7 +59,7 @@ final class ISOCurrenciesTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_exception_when_providing_numeric_code_and_currency_is_unknown()
+    public function itThrowsAnExceptionWhenProvidingNumericCodeAndCurrencyIsUnknown()
     {
         $this->expectException(UnknownCurrencyException::class);
 
@@ -69,7 +71,7 @@ final class ISOCurrenciesTest extends TestCase
     /**
      * @test
      */
-    public function it_is_iterable()
+    public function itIsIterable()
     {
         $currencies = new ISOCurrencies();
 

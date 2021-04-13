@@ -2,9 +2,12 @@
 
 namespace Money\Parser;
 
+use InvalidArgumentException;
 use Money\Currency;
 use Money\Exception;
 use Money\MoneyParser;
+use function sprintf;
+use function trigger_error;
 
 /**
  * Parses a string into a Money object using other parsers.
@@ -24,12 +27,12 @@ final class AggregateMoneyParser implements MoneyParser
     public function __construct(array $parsers)
     {
         if (empty($parsers)) {
-            throw new \InvalidArgumentException(sprintf('Initialize an empty %s is not possible', self::class));
+            throw new InvalidArgumentException(sprintf('Initialize an empty %s is not possible', self::class));
         }
 
         foreach ($parsers as $parser) {
             if (false === $parser instanceof MoneyParser) {
-                throw new \InvalidArgumentException('All parsers must implement '.MoneyParser::class);
+                throw new InvalidArgumentException('All parsers must implement '.MoneyParser::class);
             }
 
             $this->parsers[] = $parser;

@@ -2,6 +2,12 @@
 
 namespace Money;
 
+use InvalidArgumentException;
+use function is_numeric;
+use JsonSerializable;
+use function preg_match;
+use function sprintf;
+
 /**
  * Currency Pair holding a base, a counter currency and a conversion ratio.
  *
@@ -9,7 +15,7 @@ namespace Money;
  *
  * @see http://en.wikipedia.org/wiki/Currency_pair
  */
-final class CurrencyPair implements \JsonSerializable
+final class CurrencyPair implements JsonSerializable
 {
     /**
      * Currency to convert from.
@@ -33,12 +39,12 @@ final class CurrencyPair implements \JsonSerializable
     /**
      * @param float $conversionRatio
      *
-     * @throws \InvalidArgumentException If conversion ratio is not numeric
+     * @throws InvalidArgumentException If conversion ratio is not numeric
      */
     public function __construct(Currency $baseCurrency, Currency $counterCurrency, $conversionRatio)
     {
         if (!is_numeric($conversionRatio)) {
-            throw new \InvalidArgumentException('Conversion ratio must be numeric');
+            throw new InvalidArgumentException('Conversion ratio must be numeric');
         }
 
         $this->counterCurrency = $counterCurrency;
@@ -53,7 +59,7 @@ final class CurrencyPair implements \JsonSerializable
      *
      * @return CurrencyPair
      *
-     * @throws \InvalidArgumentException Format of $iso is invalid
+     * @throws InvalidArgumentException Format of $iso is invalid
      */
     public static function createFromIso($iso)
     {
@@ -64,7 +70,7 @@ final class CurrencyPair implements \JsonSerializable
         $matches = [];
 
         if (!preg_match($pattern, $iso, $matches)) {
-            throw new \InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
+            throw new InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
         }
 
         return new self(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);

@@ -14,7 +14,7 @@ final class IndirectExchangeTest extends TestCase
     /**
      * @test
      */
-    public function it_calculates_a_minimal_chain()
+    public function itCalculatesAMinimalChain()
     {
         $exchange = $this->createExchange();
 
@@ -55,7 +55,7 @@ final class IndirectExchangeTest extends TestCase
     /**
      * @test
      */
-    public function it_calculates_adjacent_nodes()
+    public function itCalculatesAdjacentNodes()
     {
         $exchange = $this->createExchange();
 
@@ -69,7 +69,7 @@ final class IndirectExchangeTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_when_no_chain_is_found()
+    public function itThrowsWhenNoChainIsFound()
     {
         $exchange = $this->createExchange();
 

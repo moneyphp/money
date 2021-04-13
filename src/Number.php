@@ -2,6 +2,20 @@
 
 namespace Money;
 
+use function abs;
+use InvalidArgumentException;
+use function is_float;
+use function is_int;
+use function is_string;
+use function ltrim;
+use function min;
+use function rtrim;
+use function sprintf;
+use function str_pad;
+use function strlen;
+use function strpos;
+use function substr;
+
 /**
  * Represents a numeric value.
  *
@@ -31,7 +45,7 @@ final class Number
     public function __construct($integerPart, $fractionalPart = '')
     {
         if ('' === $integerPart && '' === $fractionalPart) {
-            throw new \InvalidArgumentException('Empty number is invalid');
+            throw new InvalidArgumentException('Empty number is invalid');
         }
 
         $this->integerPart = $this->parseIntegerPart((string) $integerPart);
@@ -64,7 +78,7 @@ final class Number
     public static function fromFloat($number)
     {
         if (is_float($number) === false) {
-            throw new \InvalidArgumentException('Floating point value expected');
+            throw new InvalidArgumentException('Floating point value expected');
         }
 
         return self::fromString(sprintf('%.14F', $number));
@@ -89,7 +103,7 @@ final class Number
             return self::fromString($number);
         }
 
-        throw new \InvalidArgumentException('Valid numeric value expected');
+        throw new InvalidArgumentException('Valid numeric value expected');
     }
 
     /**
@@ -194,7 +208,7 @@ final class Number
     public function base10($number)
     {
         if (!is_int($number)) {
-            throw new \InvalidArgumentException('Expecting integer');
+            throw new InvalidArgumentException('Expecting integer');
         }
 
         if ($this->integerPart === '0' && !$this->fractionalPart) {
@@ -253,11 +267,11 @@ final class Number
             $digit = $number[$position];
 
             if (!isset(static::$numbers[$digit]) && !(0 === $position && '-' === $digit)) {
-                throw new \InvalidArgumentException(sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit));
+                throw new InvalidArgumentException(sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit));
             }
 
             if (false === $nonZero && '0' === $digit) {
-                throw new \InvalidArgumentException('Leading zeros are not allowed');
+                throw new InvalidArgumentException('Leading zeros are not allowed');
             }
 
             $nonZero = true;
@@ -280,7 +294,7 @@ final class Number
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
             if (!isset(static::$numbers[$digit])) {
-                throw new \InvalidArgumentException(sprintf('Invalid fractional part %1$s. Invalid digit %2$s found', $number, $digit));
+                throw new InvalidArgumentException(sprintf('Invalid fractional part %1$s. Invalid digit %2$s found', $number, $digit));
             }
         }
 

@@ -2,6 +2,9 @@
 
 namespace Money\Calculator;
 
+use function extension_loaded;
+use InvalidArgumentException;
+use function ltrim;
 use Money\Calculator;
 use Money\Money;
 use Money\Number;
@@ -204,7 +207,7 @@ final class BcMathCalculator implements Calculator
             );
         }
 
-        throw new \InvalidArgumentException('Unknown rounding mode');
+        throw new InvalidArgumentException('Unknown rounding mode');
     }
 
     /**

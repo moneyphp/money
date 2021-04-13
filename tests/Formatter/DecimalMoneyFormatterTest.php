@@ -18,7 +18,7 @@ final class DecimalMoneyFormatterTest extends TestCase
      * @dataProvider moneyExamples
      * @test
      */
-    public function it_formats_money($amount, $currency, $subunit, $result)
+    public function itFormatsMoney($amount, $currency, $subunit, $result)
     {
         $money = new Money($amount, new Currency($currency));
 

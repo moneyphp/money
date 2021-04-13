@@ -5,6 +5,10 @@ namespace Money\Formatter;
 use Money\Currencies;
 use Money\Money;
 use Money\MoneyFormatter;
+use NumberFormatter;
+use function str_pad;
+use function strlen;
+use function substr;
 
 /**
  * Formats a Money object using intl extension.
@@ -14,7 +18,7 @@ use Money\MoneyFormatter;
 final class IntlMoneyFormatter implements MoneyFormatter
 {
     /**
-     * @var \NumberFormatter
+     * @var NumberFormatter
      */
     private $formatter;
 
@@ -23,7 +27,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
      */
     private $currencies;
 
-    public function __construct(\NumberFormatter $formatter, Currencies $currencies)
+    public function __construct(NumberFormatter $formatter, Currencies $currencies)
     {
         $this->formatter = $formatter;
         $this->currencies = $currencies;

@@ -2,8 +2,12 @@
 
 namespace Tests\Money;
 
+use InvalidArgumentException;
 use Money\Number;
 use PHPUnit\Framework\TestCase;
+use function str_repeat;
+use function strlen;
+use function substr;
 
 final class NumberTest extends TestCase
 {
@@ -11,7 +15,7 @@ final class NumberTest extends TestCase
      * @dataProvider numberExamples
      * @test
      */
-    public function it_has_attributes($number, $decimal, $half, $currentEven, $negative, $integerPart, $fractionalPart)
+    public function itHasAttributes($number, $decimal, $half, $currentEven, $negative, $integerPart, $fractionalPart)
     {
         $number = Number::fromString($number);
 
@@ -28,9 +32,9 @@ final class NumberTest extends TestCase
      * @dataProvider invalidNumberExamples
      * @test
      */
-    public function it_fails_parsing_invalid_numbers($number)
+    public function itFailsParsingInvalidNumbers($number)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         Number::fromString($number);
     }
@@ -50,7 +54,7 @@ final class NumberTest extends TestCase
      * @dataProvider numericExamples
      * @test
      */
-    public function it_creates_a_number_from_a_numeric_value($number)
+    public function itCreatesANumberFromANumericValue($number)
     {
         $number = Number::fromNumber($number);
 

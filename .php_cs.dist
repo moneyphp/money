@@ -6,6 +6,12 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
         'yoda_style' => false,
         'self_accessor' => false,
+        'global_namespace_import' => [
+            'import_classes' => true,
+            'import_constants' => true,
+            'import_functions' => true,
+        ],
+        'native_function_invocation' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()

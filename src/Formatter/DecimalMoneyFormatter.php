@@ -5,6 +5,9 @@ namespace Money\Formatter;
 use Money\Currencies;
 use Money\Money;
 use Money\MoneyFormatter;
+use function str_pad;
+use function strlen;
+use function substr;
 
 /**
  * Formats a Money object as a decimal string.

@@ -2,12 +2,21 @@
 
 namespace Money\Parser;
 
+use function is_string;
+use function ltrim;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
+use NumberFormatter;
+use function str_pad;
+use function str_replace;
+use function strlen;
+use function strpos;
+use function substr;
+use function trigger_error;
 
 /**
  * Parses a string into a Money object using intl extension.
@@ -17,7 +26,7 @@ use Money\Number;
 final class IntlLocalizedDecimalParser implements MoneyParser
 {
     /**
-     * @var \NumberFormatter
+     * @var NumberFormatter
      */
     private $formatter;
 
@@ -26,7 +35,7 @@ final class IntlLocalizedDecimalParser implements MoneyParser
      */
     private $currencies;
 
-    public function __construct(\NumberFormatter $formatter, Currencies $currencies)
+    public function __construct(NumberFormatter $formatter, Currencies $currencies)
     {
         $this->formatter = $formatter;
         $this->currencies = $currencies;

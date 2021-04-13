@@ -2,15 +2,17 @@
 
 namespace Money\Exception;
 
+use InvalidArgumentException;
 use Money\Currency;
 use Money\Exception;
+use function sprintf;
 
 /**
  * Thrown when there is no currency pair (rate) available for the given currencies.
  *
  * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-final class UnresolvableCurrencyPairException extends \InvalidArgumentException implements Exception
+final class UnresolvableCurrencyPairException extends InvalidArgumentException implements Exception
 {
     /**
      * Creates an exception from Currency objects.

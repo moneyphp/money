@@ -2,9 +2,30 @@
 
 namespace Money;
 
+use function array_fill;
+use function array_keys;
+use function array_map;
+use function array_sum;
+use function array_unshift;
+use function count;
+use function filter_var;
+use function floor;
+use function func_num_args;
+use function get_class;
+use function gettype;
+use function in_array;
+use InvalidArgumentException;
+use function is_a;
+use function is_int;
+use function is_numeric;
+use function is_object;
+use JsonSerializable;
+use function max;
 use Money\Calculator\BcMathCalculator;
 use Money\Calculator\GmpCalculator;
 use Money\Calculator\PhpCalculator;
+use RuntimeException;
+use function sprintf;
 
 /**
  * Money Value Object.
@@ -13,7 +34,7 @@ use Money\Calculator\PhpCalculator;
  *
  * @psalm-immutable
  */
-final class Money implements \JsonSerializable
+final class Money implements JsonSerializable
 {
     use MoneyFactory;
 
@@ -62,14 +83,14 @@ final class Money implements \JsonSerializable
     /**
      * @param int|string $amount Amount, expressed in the smallest units of $currency (eg cents)
      *
-     * @throws \InvalidArgumentException If amount is not integer
+     * @throws InvalidArgumentException If amount is not integer
      */
     public function __construct($amount, Currency $currency)
     {
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
             $numberFromString = Number::fromString($amount);
             if (!$numberFromString->isInteger()) {
-                throw new \InvalidArgumentException('Amount must be an integer(ish) value');
+                throw new InvalidArgumentException('Amount must be an integer(ish) value');
             }
 
             $amount = $numberFromString->getIntegerPart();
@@ -86,7 +107,7 @@ final class Money implements \JsonSerializable
      *
      * @return Money
      *
-     * @throws \InvalidArgumentException If amount is not integer
+     * @throws InvalidArgumentException If amount is not integer
      */
     private function newInstance($amount)
     {
@@ -106,12 +127,12 @@ final class Money implements \JsonSerializable
     /**
      * Asserts that a Money has the same currency as this.
      *
-     * @throws \InvalidArgumentException If $other has a different currency
+     * @throws InvalidArgumentException If $other has a different currency
      */
     private function assertSameCurrency(Money $other)
     {
         if (!$this->isSameCurrency($other)) {
-            throw new \InvalidArgumentException('Currencies must be identical');
+            throw new InvalidArgumentException('Currencies must be identical');
         }
     }
 
@@ -250,12 +271,12 @@ final class Money implements \JsonSerializable
      *
      * @param float|int|string $operand
      *
-     * @throws \InvalidArgumentException If $operand is neither integer nor float
+     * @throws InvalidArgumentException If $operand is neither integer nor float
      */
     private function assertOperand($operand)
     {
         if (!is_numeric($operand)) {
-            throw new \InvalidArgumentException(sprintf('Operand should be a numeric value, "%s" given.', is_object($operand) ? get_class($operand) : gettype($operand)));
+            throw new InvalidArgumentException(sprintf('Operand should be a numeric value, "%s" given.', is_object($operand) ? get_class($operand) : gettype($operand)));
         }
     }
 
@@ -264,7 +285,7 @@ final class Money implements \JsonSerializable
      *
      * @param int $roundingMode
      *
-     * @throws \InvalidArgumentException If $roundingMode is not valid
+     * @throws InvalidArgumentException If $roundingMode is not valid
      */
     private function assertRoundingMode($roundingMode)
     {
@@ -275,7 +296,7 @@ final class Money implements \JsonSerializable
                 self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY,
             ], true
         )) {
-            throw new \InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | '.'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY');
+            throw new InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | '.'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY');
         }
     }
 
@@ -315,7 +336,7 @@ final class Money implements \JsonSerializable
         $divisor = (string) Number::fromNumber($divisor);
 
         if ($this->getCalculator()->compare($divisor, '0') === 0) {
-            throw new \InvalidArgumentException('Division by zero');
+            throw new InvalidArgumentException('Division by zero');
         }
 
         $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
@@ -345,7 +366,7 @@ final class Money implements \JsonSerializable
     public function allocate(array $ratios)
     {
         if (count($ratios) === 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none, ratios cannot be an empty array');
+            throw new InvalidArgumentException('Cannot allocate to none, ratios cannot be an empty array');
         }
 
         $remainder = $this->amount;
@@ -353,12 +374,12 @@ final class Money implements \JsonSerializable
         $total = array_sum($ratios);
 
         if ($total <= 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
+            throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
         }
 
         foreach ($ratios as $key => $ratio) {
             if ($ratio < 0) {
-                throw new \InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
+                throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
             $share = $this->getCalculator()->share($this->amount, $ratio, $total);
             $results[$key] = $this->newInstance($share);
@@ -392,16 +413,16 @@ final class Money implements \JsonSerializable
      *
      * @return Money[]
      *
-     * @throws \InvalidArgumentException If number of targets is not an integer
+     * @throws InvalidArgumentException If number of targets is not an integer
      */
     public function allocateTo($n)
     {
         if (!is_int($n)) {
-            throw new \InvalidArgumentException('Number of targets must be an integer');
+            throw new InvalidArgumentException('Number of targets must be an integer');
         }
 
         if ($n <= 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none, target must be greater than zero');
+            throw new InvalidArgumentException('Cannot allocate to none, target must be greater than zero');
         }
 
         return $this->allocate(array_fill(0, $n, 1));
@@ -413,7 +434,7 @@ final class Money implements \JsonSerializable
     public function ratioOf(Money $money)
     {
         if ($money->isZero()) {
-            throw new \InvalidArgumentException('Cannot calculate a ratio of zero');
+            throw new InvalidArgumentException('Cannot calculate a ratio of zero');
         }
 
         return $this->getCalculator()->divide($this->amount, $money->amount);
@@ -573,7 +594,7 @@ final class Money implements \JsonSerializable
     public static function registerCalculator($calculator)
     {
         if (is_a($calculator, Calculator::class, true) === false) {
-            throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
+            throw new InvalidArgumentException('Calculator must implement '.Calculator::class);
         }
 
         array_unshift(self::$calculators, $calculator);
@@ -582,7 +603,7 @@ final class Money implements \JsonSerializable
     /**
      * @return Calculator
      *
-     * @throws \RuntimeException If cannot find calculator for money calculations
+     * @throws RuntimeException If cannot find calculator for money calculations
      */
     private static function initializeCalculator()
     {
@@ -595,7 +616,7 @@ final class Money implements \JsonSerializable
             }
         }
 
-        throw new \RuntimeException('Cannot find calculator for money calculations');
+        throw new RuntimeException('Cannot find calculator for money calculations');
     }
 
     /**

@@ -8,6 +8,10 @@ use Money\Exception\FormatterException;
 use Money\Money;
 use Money\MoneyFormatter;
 use Money\Number;
+use function str_pad;
+use function strlen;
+use function strpos;
+use function substr;
 
 /**
  * Formats Money to Bitcoin currency.

@@ -2,6 +2,10 @@
 
 namespace Money;
 
+use InvalidArgumentException;
+use function is_string;
+use JsonSerializable;
+
 /**
  * Currency Value Object.
  *
@@ -11,7 +15,7 @@ namespace Money;
  *
  * @psalm-immutable
  */
-final class Currency implements \JsonSerializable
+final class Currency implements JsonSerializable
 {
     /**
      * Currency code.
@@ -26,11 +30,11 @@ final class Currency implements \JsonSerializable
     public function __construct($code)
     {
         if (!is_string($code)) {
-            throw new \InvalidArgumentException('Currency code should be string');
+            throw new InvalidArgumentException('Currency code should be string');
         }
 
         if ($code === '') {
-            throw new \InvalidArgumentException('Currency code should not be empty string');
+            throw new InvalidArgumentException('Currency code should not be empty string');
         }
 
         $this->code = $code;

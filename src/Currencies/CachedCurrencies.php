@@ -3,6 +3,7 @@
 namespace Money\Currencies;
 
 use Cache\Taggable\TaggableItemInterface;
+use CallbackFilterIterator;
 use Money\Currencies;
 use Money\Currency;
 use Psr\Cache\CacheItemPoolInterface;
@@ -75,7 +76,7 @@ final class CachedCurrencies implements Currencies
      */
     public function getIterator()
     {
-        return new \CallbackFilterIterator(
+        return new CallbackFilterIterator(
             $this->currencies->getIterator(),
             function (Currency $currency) {
                 $item = $this->pool->getItem('currency|availability|'.$currency->getCode());

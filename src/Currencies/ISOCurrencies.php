@@ -2,9 +2,15 @@
 
 namespace Money\Currencies;
 
+use function array_keys;
+use function array_map;
+use ArrayIterator;
+use function file_exists;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
+use RuntimeException;
+use Traversable;
 
 /**
  * List of supported ISO 4217 currency codes and names.
@@ -57,11 +63,11 @@ final class ISOCurrencies implements Currencies
     }
 
     /**
-     * @return \Traversable
+     * @return Traversable
      */
     public function getIterator()
     {
-        return new \ArrayIterator(
+        return new ArrayIterator(
             array_map(
                 function ($code) {
                     return new Currency($code);
@@ -96,6 +102,6 @@ final class ISOCurrencies implements Currencies
             return require $file;
         }
 
-        throw new \RuntimeException('Failed to load currency ISO codes.');
+        throw new RuntimeException('Failed to load currency ISO codes.');
     }
 }

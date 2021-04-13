@@ -2,6 +2,7 @@
 
 namespace Money;
 
+use IteratorAggregate;
 use Money\Exception\UnknownCurrencyException;
 
 /**
@@ -9,7 +10,7 @@ use Money\Exception\UnknownCurrencyException;
  *
  * @author Mathias Verraes
  */
-interface Currencies extends \IteratorAggregate
+interface Currencies extends IteratorAggregate
 {
     /**
      * Checks whether a currency is available in the current context.

@@ -18,7 +18,7 @@ final class DecimalMoneyParserTest extends TestCase
      * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function it_parses_money($decimal, $currency, $subunit, $result)
+    public function itParsesMoney($decimal, $currency, $subunit, $result)
     {
         $currencies = $this->prophesize(Currencies::class);
 
@@ -36,7 +36,7 @@ final class DecimalMoneyParserTest extends TestCase
      * @dataProvider invalidMoneyExamples
      * @test
      */
-    public function it_throws_an_exception_upon_invalid_inputs($input)
+    public function itThrowsAnExceptionUponInvalidInputs($input)
     {
         $currencies = $this->prophesize(Currencies::class);
 
@@ -55,7 +55,7 @@ final class DecimalMoneyParserTest extends TestCase
      * @group legacy
      * @test
      */
-    public function it_accepts_only_a_currency_object()
+    public function itAcceptsOnlyACurrencyObject()
     {
         $currencies = $this->prophesize(Currencies::class);
 

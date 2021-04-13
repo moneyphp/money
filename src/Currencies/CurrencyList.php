@@ -2,9 +2,16 @@
 
 namespace Money\Currencies;
 
+use function array_keys;
+use function array_map;
+use ArrayIterator;
+use InvalidArgumentException;
+use function is_int;
+use function is_string;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
+use function sprintf;
 
 /**
  * A list of custom currencies.
@@ -24,11 +31,11 @@ final class CurrencyList implements Currencies
     {
         foreach ($currencies as $currencyCode => $subunit) {
             if (empty($currencyCode) || !is_string($currencyCode)) {
-                throw new \InvalidArgumentException(sprintf('Currency code must be a string and not empty. "%s" given', $currencyCode));
+                throw new InvalidArgumentException(sprintf('Currency code must be a string and not empty. "%s" given', $currencyCode));
             }
 
             if (!is_int($subunit) || $subunit < 0) {
-                throw new \InvalidArgumentException(sprintf('Currency %s does not have a valid minor unit. Must be a positive integer.', $currencyCode));
+                throw new InvalidArgumentException(sprintf('Currency %s does not have a valid minor unit. Must be a positive integer.', $currencyCode));
             }
         }
 
@@ -60,7 +67,7 @@ final class CurrencyList implements Currencies
      */
     public function getIterator()
     {
-        return new \ArrayIterator(
+        return new ArrayIterator(
             array_map(
                 function ($code) {
                     return new Currency($code);

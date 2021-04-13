@@ -2,6 +2,9 @@
 
 namespace Tests\Money\Currencies;
 
+use function array_keys;
+use function array_map;
+use InvalidArgumentException;
 use Money\Currencies\CurrencyList;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
@@ -19,7 +22,7 @@ final class CurrencyListTest extends TestCase
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_has_currencies($currency)
+    public function itHasCurrencies($currency)
     {
         $currencies = new CurrencyList(self::$correctCurrencies);
 
@@ -30,7 +33,7 @@ final class CurrencyListTest extends TestCase
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_provides_subunit($currency)
+    public function itProvidesSubunit($currency)
     {
         $currencies = new CurrencyList(self::$correctCurrencies);
 
@@ -40,7 +43,7 @@ final class CurrencyListTest extends TestCase
     /**
      * @test
      */
-    public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
+    public function itThrowsAnExceptionWhenProvidingSubunitAndCurrencyIsUnknown()
     {
         $currencies = new CurrencyList(self::$correctCurrencies);
 
@@ -52,7 +55,7 @@ final class CurrencyListTest extends TestCase
     /**
      * @test
      */
-    public function it_is_iterable()
+    public function itIsIterable()
     {
         $currencies = new CurrencyList(self::$correctCurrencies);
 
@@ -65,9 +68,9 @@ final class CurrencyListTest extends TestCase
      * @dataProvider invalidInstantiation
      * @test
      */
-    public function it_does_not_initialize_if_array_is_invalid(array $currencies)
+    public function itDoesNotInitializeIfArrayIsInvalid(array $currencies)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
 
         new CurrencyList($currencies);
     }

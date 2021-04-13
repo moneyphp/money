@@ -2,12 +2,21 @@
 
 namespace Money\Parser;
 
+use function is_string;
+use function ltrim;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
+use function preg_match;
+use function sprintf;
+use function str_pad;
+use function strlen;
+use function substr;
+use function trigger_error;
+use function trim;
 
 /**
  * Parses a decimal string into a Money object.

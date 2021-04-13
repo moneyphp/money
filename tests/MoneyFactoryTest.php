@@ -15,7 +15,7 @@ final class MoneyFactoryTest extends TestCase
      * @dataProvider currencyExamples
      * @test
      */
-    public function it_creates_money_using_factories(Currency $currency)
+    public function itCreatesMoneyUsingFactories(Currency $currency)
     {
         $code = $currency->getCode();
         $money = Money::{$code}(20);

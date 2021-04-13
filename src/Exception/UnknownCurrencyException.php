@@ -2,6 +2,7 @@
 
 namespace Money\Exception;
 
+use DomainException;
 use Money\Exception;
 
 /**
@@ -9,6 +10,6 @@ use Money\Exception;
  *
  * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
-final class UnknownCurrencyException extends \DomainException implements Exception
+final class UnknownCurrencyException extends DomainException implements Exception
 {
 }

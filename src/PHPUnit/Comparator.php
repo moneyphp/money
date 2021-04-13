@@ -7,6 +7,7 @@ use Money\Currencies\BitcoinCurrencies;
 use Money\Currencies\ISOCurrencies;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
+use NumberFormatter;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
@@ -32,7 +33,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
             new BitcoinCurrencies(),
         ]);
 
-        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $numberFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
         $this->formatter = new IntlMoneyFormatter($numberFormatter, $currencies);
     }
 

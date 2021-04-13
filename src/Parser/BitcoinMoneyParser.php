@@ -2,11 +2,20 @@
 
 namespace Money\Parser;
 
+use function is_string;
+use function ltrim;
 use Money\Currencies\BitcoinCurrencies;
 use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
+use function rtrim;
+use function str_pad;
+use function str_replace;
+use function strlen;
+use function strpos;
+use function substr;
+use function trigger_error;
 
 /**
  * Parses Bitcoin currency to Money.

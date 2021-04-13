@@ -2,6 +2,8 @@
 
 namespace Money\Currencies;
 
+use AppendIterator;
+use InvalidArgumentException;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
@@ -25,7 +27,7 @@ final class AggregateCurrencies implements Currencies
     {
         foreach ($currencies as $c) {
             if (false === $c instanceof Currencies) {
-                throw new \InvalidArgumentException('All currency repositories must implement '.Currencies::class);
+                throw new InvalidArgumentException('All currency repositories must implement '.Currencies::class);
             }
         }
 
@@ -65,7 +67,7 @@ final class AggregateCurrencies implements Currencies
      */
     public function getIterator()
     {
-        $iterator = new \AppendIterator();
+        $iterator = new AppendIterator();
 
         foreach ($this->currencies as $currencies) {
             $iterator->append($currencies->getIterator());
