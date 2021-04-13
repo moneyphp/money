@@ -76,7 +76,7 @@ trait CalculatorBehavior
         $this->mod(11, 5)->shouldBeString();
     }
 
-    public function getMatchers()
+    public function getMatchers(): array
     {
         return [
             'beGreaterThanZero' => function ($subject) {

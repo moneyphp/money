@@ -13,9 +13,9 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@1.7.0
+        uses: shivammathur/setup-php@v2
         with:
-          php-version: '5.6'
+          php-version: '7.3'
           extensions: bcmath, gmp, intl, dom, mbstring
 
       - name: Setup Problem Matchers for PHPUnit
@@ -39,11 +39,11 @@ jobs:
     strategy:
       max-parallel: 10
       matrix:
-        php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
+        php: ['7.3', '7.4', '8.0']
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@1.6.2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: bcmath, gmp, intl, dom, mbstring
