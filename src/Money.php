@@ -10,7 +10,6 @@ use function array_unshift;
 use function count;
 use function filter_var;
 use function floor;
-use function func_num_args;
 use function get_class;
 use function gettype;
 use function in_array;
@@ -593,7 +592,7 @@ final class Money implements JsonSerializable
      */
     public static function avg(self $first, self ...$collection)
     {
-        return $first->add(...$collection)->divide(func_num_args());
+        return $first->add(...$collection)->divide(count($collection) + 1);
     }
 
     /**
