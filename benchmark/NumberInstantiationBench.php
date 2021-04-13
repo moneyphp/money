@@ -50,4 +50,34 @@ final class NumberInstantiationBench
     {
         new Number('-1234567890', '1234567890');
     }
+
+    public function benchFromStringWithZeroIntegerAmount(): void
+    {
+        Number::fromString('0');
+    }
+
+    public function benchFromStringWithPositiveIntegerAmount(): void
+    {
+        Number::fromString('1234567890');
+    }
+
+    public function benchFromStringWithNegativeIntegerAmount(): void
+    {
+        Number::fromString('-1234567890');
+    }
+
+    public function benchFromStringWithZeroAndFractionalAmount(): void
+    {
+        Number::fromString('0.1234567890');
+    }
+
+    public function benchFromStringWithFractionalAmount(): void
+    {
+        Number::fromString('1234567890.1234567890');
+    }
+
+    public function benchFromStringWithNegativeFractionalAmount(): void
+    {
+        Number::fromString('-1234567890.1234567890');
+    }
 }
