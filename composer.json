@@ -43,8 +43,7 @@
         "phpspec/phpspec": "^7.0.1",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5.4",
-        "psr/cache": "^1.0.1",
-        "symfony/phpunit-bridge": "^5.2.6"
+        "psr/cache": "^1.0.1"
     },
     "suggest": {
         "ext-bcmath": "Calculate without integer limits",

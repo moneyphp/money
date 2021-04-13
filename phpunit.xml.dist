@@ -12,10 +12,6 @@
         </whitelist>
     </filter>
 
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
-
     <php>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled=1"/>
     </php>
