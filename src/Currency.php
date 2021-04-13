@@ -24,15 +24,8 @@ final class Currency implements JsonSerializable
      */
     private $code;
 
-    /**
-     * @param string $code
-     */
-    public function __construct($code)
+    public function __construct(string $code)
     {
-        if (!is_string($code)) {
-            throw new InvalidArgumentException('Currency code should be string');
-        }
-
         if ($code === '') {
             throw new InvalidArgumentException('Currency code should not be empty string');
         }

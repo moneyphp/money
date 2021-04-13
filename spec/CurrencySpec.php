@@ -22,13 +22,6 @@ final class CurrencySpec extends ObjectBehavior
         $this->shouldImplement(\JsonSerializable::class);
     }
 
-    function it_throws_an_exception_when_code_is_not_string()
-    {
-        $this->beConstructedWith(123);
-
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
-    }
-
     function it_has_a_code()
     {
         $this->getCode()->shouldReturn('EUR');
