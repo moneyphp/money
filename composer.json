@@ -68,6 +68,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Benchmark\\Money\\": "benchmark/",
             "Tests\\Money\\": "tests/",
             "spec\\Money\\": "spec/"
         }
