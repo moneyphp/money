@@ -45,6 +45,26 @@ final class MoneyOperationBench
         $this->a->divide('5');
     }
 
+    public function benchSum(): void
+    {
+        Money::sum($this->a, $this->b, $this->a, $this->b);
+    }
+
+    public function benchMin(): void
+    {
+        Money::min($this->a, $this->b, $this->a, $this->b);
+    }
+
+    public function benchMax(): void
+    {
+        Money::min($this->a, $this->b, $this->a, $this->b);
+    }
+
+    public function benchAvg(): void
+    {
+        Money::min($this->a, $this->b, $this->a, $this->b);
+    }
+
     public function benchRatioOf(): void
     {
         $this->a->ratioOf($this->b);
