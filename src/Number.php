@@ -4,6 +4,7 @@ namespace Money;
 
 use function abs;
 use InvalidArgumentException;
+use function explode;
 use function is_float;
 use function is_int;
 use function is_string;
@@ -55,14 +56,11 @@ final class Number
      */
     public static function fromString($number)
     {
-        $decimalSeparatorPosition = strpos($number, '.');
-        if ($decimalSeparatorPosition === false) {
-            return new self($number, '');
-        }
+        $portions = explode('.', $number, 2);
 
         return new self(
-            substr($number, 0, $decimalSeparatorPosition),
-            rtrim(substr($number, $decimalSeparatorPosition + 1), '0')
+            $portions[0],
+            rtrim($portions[1] ?? '', '0')
         );
     }
 
