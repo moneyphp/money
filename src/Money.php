@@ -138,7 +138,8 @@ final class Money implements JsonSerializable
      */
     public function equals(Money $other)
     {
-        return $this->isSameCurrency($other) && $this->amount === $other->amount;
+        return $this->amount === $other->amount
+            && $this->currency->equals($other->currency);
     }
 
     /**
