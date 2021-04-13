@@ -257,6 +257,12 @@ final class Number
             return '-0';
         }
 
+        // Happy path performance optimization: number can be used as-is if it is within
+        // the platform's integer capabilities.
+        if ($number === (string) (int) $number) {
+            return $number;
+        }
+
         $nonZero = false;
 
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
@@ -284,6 +290,12 @@ final class Number
     private static function parseFractionalPart($number)
     {
         if ('' === $number) {
+            return $number;
+        }
+
+        // Happy path performance optimization: number can be used as-is if it is within
+        // the platform's integer capabilities, and it starts with zeroes only.
+        if (ltrim($number, '0') === (string) (int) $number) {
             return $number;
         }
 
