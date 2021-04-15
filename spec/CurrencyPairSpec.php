@@ -36,13 +36,6 @@ final class CurrencyPairSpec extends ObjectBehavior
         $this->getConversionRatio()->shouldReturn($ratio);
     }
 
-    public function it_throws_an_exception_when_ratio_is_not_numeric(): void
-    {
-        $this->beConstructedWith(new Currency('EUR'), new Currency('USD'), 'NON_NUMERIC');
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
-    }
-
     public function it_equals_to_another_currency_pair(): void
     {
         $this->equals(new CurrencyPair(new Currency('GBP'), new Currency('USD'), '1.250000'))->shouldReturn(false);

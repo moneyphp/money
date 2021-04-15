@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Money;
 
-use InvalidArgumentException;
 use JsonSerializable;
 
 /**
@@ -18,20 +17,21 @@ final class Currency implements JsonSerializable
 {
     /**
      * Currency code.
+     *
+     * @psalm-var non-empty-string
      */
     private string $code;
 
+    /** @psalm-param non-empty-string $code */
     public function __construct(string $code)
     {
-        if ($code === '') {
-            throw new InvalidArgumentException('Currency code should not be empty string');
-        }
-
         $this->code = $code;
     }
 
     /**
      * Returns the currency code.
+     *
+     * @psalm-return non-empty-string
      */
     public function getCode(): string
     {
@@ -48,6 +48,11 @@ final class Currency implements JsonSerializable
 
     /**
      * Checks whether this currency is available in the passed context.
+     *
+     * @deprecated please use {@see Currencies::contains()} instead
+     *
+     * @psalm-suppress ImpureMethodCall this method uses an external potentially side-effect-inducing API
+     * @TODO should we just drop this?
      */
     public function isAvailableWithin(Currencies $currencies): bool
     {

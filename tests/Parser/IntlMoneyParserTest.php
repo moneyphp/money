@@ -125,24 +125,6 @@ final class IntlMoneyParserTest extends TestCase
     }
 
     /**
-     * @group legacy
-     * @test
-     */
-    public function itAcceptsOnlyACurrencyObject(): void
-    {
-        self::markTestIncomplete('Deprecation to be removed before merging this patch');
-
-        $formatter = new NumberFormatter('en_CA', NumberFormatter::CURRENCY);
-        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
-
-        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-
-        $this->expectDeprecationMessage('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.');
-
-        $parser->parse('$1000.00', 'EUR');
-    }
-
-    /**
      * @psalm-return non-empty-list<array{
      *     non-empty-string,
      *     int

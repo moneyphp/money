@@ -9,6 +9,8 @@ use Money\Money;
 use Money\MoneyFormatter;
 use NumberFormatter;
 
+use function assert;
+use function is_string;
 use function str_pad;
 use function strlen;
 use function substr;
@@ -31,10 +33,9 @@ final class IntlLocalizedDecimalFormatter implements MoneyFormatter
     public function format(Money $money): string
     {
         $valueBase = $money->getAmount();
-        $negative  = false;
+        $negative  = $valueBase[0] === '-';
 
-        if ($valueBase[0] === '-') {
-            $negative  = true;
+        if ($negative) {
             $valueBase = substr($valueBase, 1);
         }
 
@@ -52,10 +53,14 @@ final class IntlLocalizedDecimalFormatter implements MoneyFormatter
             $formatted = '0.' . str_pad('', $subunit - $valueLength, '0') . $valueBase;
         }
 
-        if ($negative === true) {
+        if ($negative) {
             $formatted = '-' . $formatted;
         }
 
-        return $this->formatter->format((float) $formatted);
+        $formatted = $this->formatter->format((float) $formatted);
+
+        assert(is_string($formatted) && ! empty($formatted));
+
+        return $formatted;
     }
 }

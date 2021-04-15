@@ -61,11 +61,11 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
         }
 
         if ($this->fractionDigits === 0) {
-            $formatted = substr($formatted, 0, strpos($formatted, '.'));
+            $formatted = substr($formatted, 0, (int) strpos($formatted, '.'));
         } elseif ($this->fractionDigits > $subunit) {
             $formatted .= str_pad('', $this->fractionDigits - $subunit, '0');
         } elseif ($this->fractionDigits < $subunit) {
-            $lastDigit = strpos($formatted, '.') + $this->fractionDigits + 1;
+            $lastDigit = (int) strpos($formatted, '.') + $this->fractionDigits + 1;
             $formatted = substr($formatted, 0, $lastDigit);
         }
 

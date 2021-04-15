@@ -19,6 +19,8 @@ use InvalidArgumentException;
  * This is a generated file. Do not edit it manually!
  *
 PHPDOC
+ *
+ * @psalm-immutable
  */
 trait MoneyFactory
 {

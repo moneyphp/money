@@ -10,7 +10,6 @@ use function abs;
 use function explode;
 use function is_float;
 use function is_int;
-use function is_string;
 use function ltrim;
 use function min;
 use function rtrim;
@@ -21,11 +20,19 @@ use function substr;
 
 /**
  * Represents a numeric value.
+ *
+ * @internal this is an internal utility of the library, and may vary at any time. It is mostly used to internally validate
+ *           that a number is represented at digits, but by improving type system integration, we may be able to completely
+ *           get rid of it.
+ *
+ * @psalm-immutable
  */
 final class Number
 {
+    /** @psalm-var numeric-string */
     private string $integerPart;
 
+    /** @psalm-var numeric-string|'' */
     private string $fractionalPart;
     private const NUMBERS = [0 => 1, 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1, 7 => 1, 8 => 1, 9 => 1];
 
@@ -39,6 +46,7 @@ final class Number
         $this->fractionalPart = self::parseFractionalPart($fractionalPart);
     }
 
+    /** @psalm-pure */
     public static function fromString(string $number): self
     {
         $portions = explode('.', $number, 2);
@@ -49,15 +57,13 @@ final class Number
         );
     }
 
+    /** @psalm-pure */
     public static function fromFloat(float $number): self
     {
-        if (is_float($number) === false) {
-            throw new InvalidArgumentException('Floating point value expected');
-        }
-
         return self::fromString(sprintf('%.14F', $number));
     }
 
+    /** @psalm-pure */
     public static function fromNumber(float|int|string $number): self
     {
         if (is_float($number)) {
@@ -68,11 +74,7 @@ final class Number
             return new self((string) $number);
         }
 
-        if (is_string($number)) {
-            return self::fromString($number);
-        }
-
-        throw new InvalidArgumentException('Valid numeric value expected');
+        return self::fromString($number);
     }
 
     public function isDecimal(): bool
@@ -92,6 +94,7 @@ final class Number
 
     public function isCurrentEven(): bool
     {
+        /** @psalm-var numeric-string $lastIntegerPartNumber */
         $lastIntegerPartNumber = $this->integerPart[strlen($this->integerPart) - 1];
 
         return $lastIntegerPartNumber % 2 === 0;
@@ -106,12 +109,14 @@ final class Number
         return $this->fractionalPart[0] >= 5;
     }
 
+    /** @psalm-return numeric-string */
     public function __toString(): string
     {
         if ($this->fractionalPart === '') {
             return $this->integerPart;
         }
 
+        /** @psalm-suppress LessSpecificReturnStatement this operation is guaranteed to pruduce a numeric-string, but inference can't understand it */
         return $this->integerPart . '.' . $this->fractionalPart;
     }
 
@@ -120,16 +125,19 @@ final class Number
         return $this->integerPart[0] === '-';
     }
 
+    /** @psalm-return numeric-string */
     public function getIntegerPart(): string
     {
         return $this->integerPart;
     }
 
+    /** @psalm-return numeric-string|'' */
     public function getFractionalPart(): string
     {
         return $this->fractionalPart;
     }
 
+    /** @psalm-return numeric-string */
     public function getIntegerRoundingMultiplier(): string
     {
         if ($this->integerPart[0] === '-') {
@@ -141,10 +149,6 @@ final class Number
 
     public function base10(int $number): self
     {
-        if (! is_int($number)) {
-            throw new InvalidArgumentException('Expecting integer');
-        }
-
         if ($this->integerPart === '0' && ! $this->fractionalPart) {
             return $this;
         }
@@ -180,6 +184,14 @@ final class Number
         );
     }
 
+    /**
+     * @psalm-return numeric-string
+     *
+     * @psalm-pure
+     *
+     * @psalm-suppress MoreSpecificReturnType      this operation is guaranteed to pruduce a numeric-string, but inference can't understand it
+     * @psalm-suppress LessSpecificReturnStatement this operation is guaranteed to pruduce a numeric-string, but inference can't understand it
+     */
     private static function parseIntegerPart(string $number): string
     {
         if ($number === '' || $number === '0') {
@@ -201,6 +213,7 @@ final class Number
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
 
+            /** @psalm-suppress InvalidArrayOffset we are, on purpose, checking if the digit is valid against a fixed structure */
             if (! isset(self::NUMBERS[$digit]) && ! ($position === 0 && $digit === '-')) {
                 throw new InvalidArgumentException(sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit));
             }
@@ -215,6 +228,11 @@ final class Number
         return $number;
     }
 
+    /**
+     * @psalm-return numeric-string|''
+     *
+     * @psalm-pure
+     */
     private static function parseFractionalPart(string $number): string
     {
         if ($number === '') {
@@ -231,6 +249,8 @@ final class Number
 
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
+
+            /** @psalm-suppress InvalidArrayOffset we are, on purpose, checking if the digit is valid against a fixed structure */
             if (! isset(self::NUMBERS[$digit])) {
                 throw new InvalidArgumentException(sprintf('Invalid fractional part %1$s. Invalid digit %2$s found', $number, $digit));
             }
@@ -239,6 +259,7 @@ final class Number
         return $number;
     }
 
+    /** @psalm-pure */
     public static function roundMoneyValue(string $moneyValue, int $targetDigits, int $havingDigits): string
     {
         $valueLength = strlen($moneyValue);
@@ -246,14 +267,16 @@ final class Number
 
         if ($shouldRound && $moneyValue[$valueLength - $havingDigits + $targetDigits] >= 5) {
             $position = $valueLength - $havingDigits + $targetDigits;
-            $addend   = 1;
+            /** @psalm-var positive-int|0 $addend */
+            $addend = 1;
 
             while ($position > 0) {
                 $newValue = (string) ((int) $moneyValue[$position - 1] + $addend);
 
                 if ($newValue >= 10) {
                     $moneyValue[$position - 1] = $newValue[1];
-                    $addend                    = $newValue[0];
+                    /** @psalm-var numeric-string $addend */
+                    $addend = $newValue[0];
                     --$position;
                     if ($position === 0) {
                         $moneyValue = $addend . $moneyValue;

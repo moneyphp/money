@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Money\Currencies;
 
-use InvalidArgumentException;
 use Money\Currencies\CurrencyList;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
@@ -71,19 +70,6 @@ final class CurrencyListTest extends TestCase
         $this->assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
-    /**
-     * @psalm-param array<(positive-int|string), (int|array|float|null)> $currencies
-     *
-     * @dataProvider invalidInstantiation
-     * @test
-     */
-    public function itDoesNotInitializeIfArrayIsInvalid(array $currencies): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        new CurrencyList($currencies);
-    }
-
     /** @psalm-return non-empty-list<array{non-empty-string}> */
     public function currencyCodeExamples(): array
     {
@@ -92,19 +78,5 @@ final class CurrencyListTest extends TestCase
         return array_map(static function ($currency) {
             return [$currency];
         }, $currencies);
-    }
-
-    /** @psalm-return non-empty-list<array{array<(positive-int|string), (int|array|float|null)>}> */
-    public function invalidInstantiation(): array
-    {
-        return [
-            [[1 => 2]],
-            [['' => 2]],
-            [['OWO' => []]],
-            [['OWO' => null]],
-            [['OWO' => '']],
-            [['OWO' => -2]],
-            [['OWO' => 2.1]],
-        ];
     }
 }

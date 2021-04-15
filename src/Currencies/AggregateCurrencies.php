@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Money\Currencies;
 
 use AppendIterator;
-use InvalidArgumentException;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
@@ -24,12 +23,6 @@ final class AggregateCurrencies implements Currencies
      */
     public function __construct(array $currencies)
     {
-        foreach ($currencies as $c) {
-            if ($c instanceof Currencies === false) {
-                throw new InvalidArgumentException('All currency repositories must implement ' . Currencies::class);
-            }
-        }
-
         $this->currencies = $currencies;
     }
 
@@ -58,6 +51,7 @@ final class AggregateCurrencies implements Currencies
     /** {@inheritDoc} */
     public function getIterator(): Traversable
     {
+        /** @psalm-var AppendIterator<int|string, Currency, Traversable> $iterator */
         $iterator = new AppendIterator();
 
         foreach ($this->currencies as $currencies) {

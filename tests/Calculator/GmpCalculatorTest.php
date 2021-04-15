@@ -45,6 +45,6 @@ class GmpCalculatorTest extends CalculatorTestCase
      */
     public function it_divides_bug538(): void
     {
-        $this->assertSame('-4.54545454545455', $this->getCalculator()->divide('-500', 110));
+        $this->assertSame('-4.54545454545455', $this->getCalculator()->divide('-500', '110'));
     }
 }

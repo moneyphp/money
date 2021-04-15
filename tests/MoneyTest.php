@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 use Throwable;
 
 use function json_encode;
@@ -63,14 +62,14 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param float|int|numeric-string $multiplier
+     * @psalm-param numeric-string $multiplier
      * @psalm-param Money::ROUND_* $roundingMode
      * @psalm-param numeric-string $result
      *
      * @dataProvider roundingExamples
      * @test
      */
-    public function itMultipliesTheAmount(float|int|string $multiplier, int $roundingMode, string $result): void
+    public function itMultipliesTheAmount(string $multiplier, int $roundingMode, string $result): void
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -88,24 +87,10 @@ final class MoneyTest extends TestCase
         $this->setLocale(LC_ALL, 'es_ES.utf8');
 
         $money = new Money(100, new Currency(self::CURRENCY));
-        $money = $money->multiply(10 / 100);
+        $money = $money->multiply('0.1');
 
         $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals(10, $money->getAmount());
-    }
-
-    /**
-     * @dataProvider invalidOperandExamples
-     * @test
-     */
-    public function itThrowsAnExceptionWhenOperandIsInvalidDuringMultiplication(mixed $operand): void
-    {
-        self::markTestIncomplete('No longer valid');
-        $this->expectException(InvalidArgumentException::class);
-
-        $money = new Money(1, new Currency(self::CURRENCY));
-
-        $money->multiply($operand);
+        $this->assertEquals('10', $money->getAmount());
     }
 
     /**
@@ -123,20 +108,6 @@ final class MoneyTest extends TestCase
 
         $this->assertInstanceOf(Money::class, $money);
         $this->assertEquals((string) $result, $money->getAmount());
-    }
-
-    /**
-     * @dataProvider invalidOperandExamples
-     * @test
-     */
-    public function itThrowsAnExceptionWhenOperandIsInvalidDuringDivision(mixed $operand): void
-    {
-        self::markTestIncomplete('No longer valid');
-        $this->expectException(InvalidArgumentException::class);
-
-        $money = new Money(1, new Currency(self::CURRENCY));
-
-        $money->divide($operand);
     }
 
     /**
@@ -420,20 +391,6 @@ final class MoneyTest extends TestCase
             [self::AMOUNT, 0],
             [self::AMOUNT - 1, 1],
             [self::AMOUNT + 1, -1],
-        ];
-    }
-
-    /**
-     * @psalm-return non-empty-list<array{mixed}>
-     */
-    public function invalidOperandExamples(): array
-    {
-        return [
-            [[]],
-            [false],
-            ['operand'],
-            [null],
-            [new stdClass()],
         ];
     }
 

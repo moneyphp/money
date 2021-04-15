@@ -16,7 +16,7 @@ final class FixedExchangeSpec extends ObjectBehavior
     public function let(): void
     {
         $this->beConstructedWith([
-            'EUR' => ['USD' => 1.25],
+            'EUR' => ['USD' => '1.25'],
         ]);
     }
 

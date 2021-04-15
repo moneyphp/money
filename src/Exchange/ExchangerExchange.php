@@ -36,6 +36,6 @@ final class ExchangerExchange implements Exchange
             throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
         }
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, $rate->getValue());
+        return new CurrencyPair($baseCurrency, $counterCurrency, (string) $rate->getValue());
     }
 }

@@ -54,7 +54,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itMultipliesAValueByAnother(int|string $value1, float $value2, string $expected): void
     {
-        self::assertEqualNumber($expected, $this->getCalculator()->multiply((string) $value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()->multiply((string) $value1, (string) $value2));
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itDividesAValueByAnother(int|string $value1, int|float $value2, string $expected): void
     {
-        $result = $this->getCalculator()->divide((string) $value1, $value2);
+        $result = $this->getCalculator()->divide((string) $value1, (string) $value2);
         self::assertEqualNumber(substr($expected, 0, 12), substr($result, 0, 12));
     }
 
@@ -81,7 +81,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itDividesAValueByAnotherExact(int $value1, int|float $value2, string $expected): void
     {
-        self::assertEqualNumber($expected, $this->getCalculator()->divide((string) $value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()->divide((string) $value1, (string) $value2));
     }
 
     /**
@@ -131,7 +131,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itSharesAValue(int $value, int $ratio, int $total, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->share((string) $value, $ratio, $total));
+        $this->assertEquals($expected, $this->getCalculator()->share((string) $value, (string) $ratio, (string) $total));
     }
 
     /**

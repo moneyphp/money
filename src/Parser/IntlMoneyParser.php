@@ -12,16 +12,13 @@ use Money\MoneyParser;
 use Money\Number;
 use NumberFormatter;
 
-use function is_string;
+use function assert;
 use function ltrim;
 use function str_pad;
 use function str_replace;
 use function strlen;
 use function strpos;
 use function substr;
-use function trigger_error;
-
-use const E_USER_DEPRECATED;
 
 /**
  * Parses a string into a Money object using intl extension.
@@ -40,10 +37,6 @@ final class IntlMoneyParser implements MoneyParser
 
     public function parse(string $money, Currency|null $forceCurrency = null): Money
     {
-        if (! is_string($money)) {
-            throw new ParserException('Formatted raw money should be string, e.g. $1.00');
-        }
-
         $currency = null;
         $decimal  = $this->formatter->parseCurrency($money, $currency);
 
@@ -51,23 +44,14 @@ final class IntlMoneyParser implements MoneyParser
             throw new ParserException('Cannot parse ' . $money . ' to Money. ' . $this->formatter->getErrorMessage());
         }
 
-        if ($forceCurrency !== null) {
-            $currency = $forceCurrency;
-        } else {
-            $currency = new Currency($currency);
-        }
+        if ($forceCurrency === null) {
+            assert(! empty($currency));
 
-        /*
-         * This conversion is only required whilst currency can be either a string or a
-         * Currency object.
-         */
-        if (! $currency instanceof Currency) {
-            trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a ' . Currency::class . ' instance instead.', E_USER_DEPRECATED);
-            $currency = new Currency($currency);
+            $forceCurrency = new Currency($currency);
         }
 
         $decimal         = (string) $decimal;
-        $subunit         = $this->currencies->subunitFor($currency);
+        $subunit         = $this->currencies->subunitFor($forceCurrency);
         $decimalPosition = strpos($decimal, '.');
 
         if ($decimalPosition !== false) {
@@ -95,6 +79,7 @@ final class IntlMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, $currency);
+        /** @psalm-var numeric-string $decimal */
+        return new Money($decimal, $forceCurrency);
     }
 }

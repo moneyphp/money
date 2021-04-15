@@ -16,12 +16,10 @@ use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 use RuntimeException;
 use SplQueue;
-use stdClass;
 
 use function array_reduce;
 use function array_reverse;
 use function array_unshift;
-use function assert;
 use function is_a;
 
 /**
@@ -63,9 +61,18 @@ final class IndirectExchange implements Exchange
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);
         } catch (UnresolvableCurrencyPairException) {
-            $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), function ($carry, CurrencyPair $pair) {
-                return $this->getCalculator()->multiply($carry, $pair->getConversionRatio());
-            }, '1.0');
+            $rate = array_reduce(
+                $this->getConversions($baseCurrency, $counterCurrency),
+                /**
+                 * @psalm-param numeric-string $carry
+                 *
+                 * @psalm-return numeric-string
+                 */
+                function (string $carry, CurrencyPair $pair) {
+                    return $this->getCalculator()->multiply($carry, $pair->getConversionRatio());
+                },
+                '1.0'
+            );
 
             return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
         }
@@ -78,33 +85,31 @@ final class IndirectExchange implements Exchange
      */
     private function getConversions(Currency $baseCurrency, Currency $counterCurrency): array
     {
-        $startNode             = $this->initializeNode($baseCurrency);
+        $startNode             = new IndirectExchangeQueuedItem($baseCurrency);
         $startNode->discovered = true;
 
+        /** @psalm-var array<non-empty-string, IndirectExchangeQueuedItem> $nodes */
         $nodes = [$baseCurrency->getCode() => $startNode];
 
+        /** @psam-var SplQueue<IndirectExchangeQueuedItem> $frontier */
         $frontier = new SplQueue();
         $frontier->enqueue($startNode);
 
         while ($frontier->count()) {
-            $currentNode = $frontier->dequeue();
-            assert($currentNode instanceof stdClass);
-
+            /** @psalm-var IndirectExchangeQueuedItem $currentNode */
+            $currentNode     = $frontier->dequeue();
             $currentCurrency = $currentNode->currency;
-            assert($currentCurrency instanceof Currency);
 
             if ($currentCurrency->equals($counterCurrency)) {
                 return $this->reconstructConversionChain($nodes, $currentNode);
             }
 
             foreach ($this->currencies as $candidateCurrency) {
-                assert($candidateCurrency instanceof Currency);
                 if (! isset($nodes[$candidateCurrency->getCode()])) {
-                    $nodes[$candidateCurrency->getCode()] = $this->initializeNode($candidateCurrency);
+                    $nodes[$candidateCurrency->getCode()] = new IndirectExchangeQueuedItem($candidateCurrency);
                 }
 
                 $node = $nodes[$candidateCurrency->getCode()];
-                assert($node instanceof stdClass);
 
                 if ($node->discovered) {
                     continue;
@@ -128,40 +133,12 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @psalm-return object{
-     *     currency: Currency,
-     *     discovered: false,
-     *     parent: null
-     * }
-     */
-    private function initializeNode(Currency $currency): stdClass
-    {
-        $node = new stdClass();
-
-        $node->currency   = $currency;
-        $node->discovered = false;
-        $node->parent     = null;
-
-        return $node;
-    }
-
-    /**
-     * @param stdClass[] $currencies
-     * @psalm-param array<non-empty-string, object{
-     *     currency: Currency,
-     *     discovered: bool,
-     *     parent: object|null
-     * }> $currencies
-     * @psalm-param object{
-     *     currency: Currency,
-     *     discovered: bool,
-     *     parent: object|null
-     * } $goalNode
+     * @psalm-param array<non-empty-string, IndirectExchangeQueuedItem> $currencies
      *
      * @return CurrencyPair[]
      * @psalm-return list<CurrencyPair>
      */
-    private function reconstructConversionChain(array $currencies, stdClass $goalNode): array
+    private function reconstructConversionChain(array $currencies, IndirectExchangeQueuedItem $goalNode): array
     {
         $current     = $goalNode;
         $conversions = [];

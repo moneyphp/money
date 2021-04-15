@@ -35,13 +35,6 @@ final class AggregateCurrenciesSpec extends ObjectBehavior
         $this->shouldImplement(Currencies::class);
     }
 
-    public function it_throws_an_exception_when_invalid_currency_repository_is_passed(): void
-    {
-        $this->beConstructedWith(['currencies']);
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
-    }
-
     public function it_contains_currencies(Currencies $currencies, Currencies $otherCurrencies): void
     {
         $currency = new Currency('EUR');

@@ -7,6 +7,7 @@ namespace Money;
 use InvalidArgumentException;
 use JsonSerializable;
 
+use function assert;
 use function is_numeric;
 use function preg_match;
 use function sprintf;
@@ -33,15 +34,9 @@ final class CurrencyPair implements JsonSerializable
 
     /**
      * @psalm-param numeric-string $conversionRatio
-     *
-     * @throws InvalidArgumentException If conversion ratio is not numeric.
      */
     public function __construct(Currency $baseCurrency, Currency $counterCurrency, string $conversionRatio)
     {
-        if (! is_numeric($conversionRatio)) {
-            throw new InvalidArgumentException('Conversion ratio must be numeric');
-        }
-
         $this->counterCurrency = $counterCurrency;
         $this->baseCurrency    = $baseCurrency;
         $this->conversionRatio = $conversionRatio;
@@ -65,6 +60,10 @@ final class CurrencyPair implements JsonSerializable
         if (! preg_match($pattern, $iso, $matches)) {
             throw new InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
         }
+
+        assert(! empty($matches[1]));
+        assert(is_numeric($matches[2]));
+        assert(is_numeric($matches[3]));
 
         return new self(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
     }

@@ -101,6 +101,9 @@ final class ISOCurrencies implements Currencies
      *     minorUnit: positive-int|0,
      *     numericCode: positive-int
      * }>
+     *
+     * @psalm-suppress MixedInferredReturnType `include` cannot be inferred here
+     * @psalm-suppress MixedReturnStatement `include` cannot be inferred here
      */
     private function loadCurrencies(): array
     {

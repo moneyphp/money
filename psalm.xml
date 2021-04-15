@@ -1,51 +1,43 @@
 <?xml version="1.0"?>
 <psalm
     totallyTyped="true"
-    resolveFromConfigFile="true"
+    findUnusedPsalmSuppress="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
         <directory name="static-analysis" />
+        <directory name="src" />
+<!--        <directory name="tests" />-->
     </projectFiles>
 
-    <!--
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="error" />
-        <DeprecatedMethod errorLevel="error" />
-        <DeprecatedProperty errorLevel="error" />
-        <DeprecatedClass errorLevel="error" />
-        <DeprecatedConstant errorLevel="error" />
-        <DeprecatedFunction errorLevel="error" />
-        <DeprecatedInterface errorLevel="error" />
-        <DeprecatedTrait errorLevel="error" />
-
-        <InternalMethod errorLevel="error" />
-        <InternalProperty errorLevel="error" />
-        <InternalClass errorLevel="error" />
-
-        <MissingClosureReturnType errorLevel="error" />
-        <MissingReturnType errorLevel="error" />
-        <MissingPropertyType errorLevel="error" />
-        <InvalidDocblock errorLevel="error" />
-        <MisplacedRequiredParam errorLevel="error" />
-
-        <PropertyNotSetInConstructor errorLevel="error" />
-        <MissingConstructor errorLevel="error" />
-        <MissingClosureParamType errorLevel="error" />
-        <MissingParamType errorLevel="error" />
-
-        <RedundantCondition errorLevel="error" />
-
-        <DocblockTypeContradiction errorLevel="error" />
-        <RedundantConditionGivenDocblockType errorLevel="error" />
-
-        <UnresolvableInclude errorLevel="error" />
-
-        <RawObjectIteration errorLevel="error" />
-
-        <InvalidStringClass errorLevel="error" />
+        <ImpureStaticProperty>
+            <errorLevel type="suppress">
+                <!-- the Money object uses internal static properties to cache the calculator
+                     that is in use, as well as the calculators that are available. This is
+                     not supposed to change at runtime, and therefore the VO can still be
+                     considered immutable -->
+                <file name="src/Money.php"/>
+            </errorLevel>
+        </ImpureStaticProperty>
+        <ImpureVariable>
+            <errorLevel type="suppress">
+                <!-- @TODO is this even needed? -->
+                <!-- we can safely access $this->amount within Money -->
+                <file name="src/Money.php"/>
+            </errorLevel>
+        </ImpureVariable>
+        <UnusedMethodCall>
+            <errorLevel type="suppress">
+                <!-- the PHP calculator contains runtime assertions, since we're operating under limited
+                     system resources (32bit or 64bit integers) rather than with full fixed point arithmetic -->
+                <file name="src/Calculator/PhpCalculator.php"/>
+            </errorLevel>
+        </UnusedMethodCall>
     </issueHandlers>
-    -->
 </psalm>

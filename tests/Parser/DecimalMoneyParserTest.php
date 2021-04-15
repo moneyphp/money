@@ -61,28 +61,6 @@ final class DecimalMoneyParserTest extends TestCase
     }
 
     /**
-     * @group legacy
-     * @test
-     */
-    public function itAcceptsOnlyACurrencyObject(): void
-    {
-        self::markTestIncomplete('Deprecation to be removed before merging this patch');
-
-        $currencies = $this->prophesize(Currencies::class);
-
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
-
-        $parser = new DecimalMoneyParser($currencies->reveal());
-
-        $this->expectDeprecationMessage('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.');
-
-        $parser->parse('1.0', 'USD');
-    }
-
-    /**
      * @psalm-return non-empty-list<array{
      *     numeric-string,
      *     non-empty-string,

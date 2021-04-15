@@ -219,26 +219,6 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe('5');
     }
 
-    public function it_throws_an_exception_when_operand_is_invalid_during_multiplication(Calculator $calculator): void
-    {
-        throw new PendingException('Test not valid according to type definition - can be scrapped');
-
-        $calculator->multiply(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
-        $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringMultiply('INVALID_OPERAND');
-    }
-
-    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_multiplication(Calculator $calculator): void
-    {
-        throw new PendingException('Test not valid according to type definition - can be scrapped');
-
-        $calculator->multiply(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
-        $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringMultiply(1.0, 'INVALID_ROUNDING_MODE');
-    }
-
     public function it_divides_the_amount(Calculator $calculator): void
     {
         $this->beConstructedWith(4, new Currency(self::CURRENCY));
@@ -251,28 +231,6 @@ final class MoneySpec extends ObjectBehavior
 
         $money->shouldHaveType(Money::class);
         $money->getAmount()->shouldBeLike(2);
-    }
-
-    public function it_throws_an_exception_when_operand_is_invalid_during_division(Calculator $calculator): void
-    {
-        throw new PendingException('Test not valid according to type definition - can be scrapped');
-
-        $calculator->compare(Argument::type('string'), Argument::type('string'))->shouldNotBeCalled();
-        $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
-        $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringDivide('INVALID_OPERAND');
-    }
-
-    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_division(Calculator $calculator): void
-    {
-        throw new PendingException('Test not valid according to type definition - can be scrapped');
-
-        $calculator->compare('1.0', '0')->shouldNotBeCalled();
-        $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
-        $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringDivide(1.0, 'INVALID_ROUNDING_MODE');
     }
 
     public function it_throws_an_exception_when_divisor_is_zero(Calculator $calculator): void
@@ -288,8 +246,8 @@ final class MoneySpec extends ObjectBehavior
     {
         $this->beConstructedWith(100, new Currency(self::CURRENCY));
 
-        $calculator->share(Argument::type('numeric'), Argument::type('int'), Argument::type('int'))->will(function ($args) {
-            return (int) floor($args[0] * $args[1] / $args[2]);
+        $calculator->share(Argument::type('numeric'), Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
+            return (string) floor($args[0] * $args[1] / $args[2]);
         });
 
         $calculator->subtract(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
@@ -321,7 +279,7 @@ final class MoneySpec extends ObjectBehavior
     {
         $this->beConstructedWith(15, new Currency(self::CURRENCY));
 
-        $calculator->share(Argument::type('numeric'), Argument::type('int'), Argument::type('int'))->will(function ($args) {
+        $calculator->share(Argument::type('numeric'), Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
             return (string) floor($args[0] * $args[1] / $args[2]);
         });
 
@@ -343,13 +301,6 @@ final class MoneySpec extends ObjectBehavior
         $allocated->shouldEqualAllocation([8, 7]);
     }
 
-    public function it_throws_an_exception_when_allocation_target_is_not_integer(): void
-    {
-        throw new PendingException('Test not valid according to type definition - can be scrapped');
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringAllocateTo('two');
-    }
-
     public function it_throws_an_exception_when_allocation_target_is_empty(): void
     {
         $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([]);
@@ -363,11 +314,6 @@ final class MoneySpec extends ObjectBehavior
     public function it_throws_an_exception_when_allocation_total_is_zero(): void
     {
         $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([0, 0]);
-    }
-
-    public function it_throws_an_exception_when_allocate_to_target_is_less_than_or_equals_zero(): void
-    {
-        $this->shouldThrow(InvalidArgumentException::class)->duringAllocateTo(-1);
     }
 
     public function it_has_comparators(Calculator $calculator): void

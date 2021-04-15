@@ -29,7 +29,7 @@ final class FixedExchange implements Exchange
             return new CurrencyPair(
                 $baseCurrency,
                 $counterCurrency,
-                (string) $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()]
+                $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()]
             );
         }
 

@@ -20,6 +20,8 @@ use function assert;
  * Add this to your bootstrap file:
  *
  * \SebastianBergmann\Comparator\Factory::getInstance()->register(new \Money\PHPUnit\Comparator());
+ *
+ * @psalm-suppress PropertyNotSetInConstructor the parent implementation includes factories that cannot be initialized here
  */
 final class Comparator extends \SebastianBergmann\Comparator\Comparator
 {
@@ -53,6 +55,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
         $ignoreCase = false
     ): void {
         assert($expected instanceof Money);
+        assert($actual instanceof Money);
 
         if (! $expected->equals($actual)) {
             throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), false, 'Failed asserting that two Money objects are equal.');

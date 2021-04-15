@@ -4,37 +4,28 @@ declare(strict_types=1);
 
 namespace Money\Formatter;
 
-use InvalidArgumentException;
 use Money\Exception\FormatterException;
 use Money\Money;
 use Money\MoneyFormatter;
-
-use function sprintf;
 
 /**
  * Formats a Money object using other Money formatters.
  */
 final class AggregateMoneyFormatter implements MoneyFormatter
 {
-    /** @var MoneyFormatter[] */
-    private array $formatters = [];
+    /**
+     * @var MoneyFormatter[] indexed by currency code
+     * @psalm-var non-empty-array<non-empty-string, MoneyFormatter> indexed by currency code
+     */
+    private array $formatters;
 
     /**
-     * @param MoneyFormatter[] $formatters
+     * @param MoneyFormatter[] $formatters indexed by currency code
+     * @psalm-param non-empty-array<non-empty-string, MoneyFormatter> $formatters indexed by currency code
      */
     public function __construct(array $formatters)
     {
-        if (empty($formatters)) {
-            throw new InvalidArgumentException(sprintf('Initialize an empty %s is not possible', self::class));
-        }
-
-        foreach ($formatters as $currencyCode => $formatter) {
-            if ($formatter instanceof MoneyFormatter === false) {
-                throw new InvalidArgumentException('All formatters must implement ' . MoneyFormatter::class);
-            }
-
-            $this->formatters[$currencyCode] = $formatter;
-        }
+        $this->formatters = $formatters;
     }
 
     public function format(Money $money): string

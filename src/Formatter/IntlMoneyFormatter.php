@@ -9,6 +9,7 @@ use Money\Money;
 use Money\MoneyFormatter;
 use NumberFormatter;
 
+use function assert;
 use function str_pad;
 use function strlen;
 use function substr;
@@ -31,10 +32,9 @@ final class IntlMoneyFormatter implements MoneyFormatter
     public function format(Money $money): string
     {
         $valueBase = $money->getAmount();
-        $negative  = false;
+        $negative  = $valueBase[0] === '-';
 
-        if ($valueBase[0] === '-') {
-            $negative  = true;
+        if ($negative) {
             $valueBase = substr($valueBase, 1);
         }
 
@@ -52,10 +52,14 @@ final class IntlMoneyFormatter implements MoneyFormatter
             $formatted = '0.' . str_pad('', $subunit - $valueLength, '0') . $valueBase;
         }
 
-        if ($negative === true) {
+        if ($negative) {
             $formatted = '-' . $formatted;
         }
 
-        return $this->formatter->formatCurrency((float) $formatted, $money->getCurrency()->getCode());
+        $formatted = $this->formatter->formatCurrency((float) $formatted, $money->getCurrency()->getCode());
+
+        assert(! empty($formatted));
+
+        return $formatted;
     }
 }

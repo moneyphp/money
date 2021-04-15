@@ -11,7 +11,6 @@ use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
 
-use function is_string;
 use function ltrim;
 use function preg_match;
 use function sprintf;
@@ -36,23 +35,14 @@ final class DecimalMoneyParser implements MoneyParser
 
     public function parse(string $money, Currency|null $forceCurrency = null): Money
     {
-        if (! is_string($money)) {
-            throw new ParserException('Formatted raw money should be string, e.g. 1.00');
-        }
-
         if ($forceCurrency === null) {
             throw new ParserException('DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument');
         }
 
-        /*
-         * This conversion is only required whilst currency can be either a string or a
-         * Currency object.
-         */
-        $currency = $forceCurrency;
-        $decimal  = trim($money);
+        $decimal = trim($money);
 
         if ($decimal === '') {
-            return new Money(0, $currency);
+            return new Money(0, $forceCurrency);
         }
 
         if (! preg_match(self::DECIMAL_PATTERN, $decimal, $matches) || ! isset($matches['digits'])) {
@@ -67,7 +57,7 @@ final class DecimalMoneyParser implements MoneyParser
             $decimal = '-' . $decimal;
         }
 
-        $subunit = $this->currencies->subunitFor($currency);
+        $subunit = $this->currencies->subunitFor($forceCurrency);
 
         if (isset($matches['fraction'])) {
             $fractionDigits = strlen($matches['fraction']);
@@ -93,6 +83,7 @@ final class DecimalMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        return new Money($decimal, $currency);
+        /** @psalm-var numeric-string $decimal */
+        return new Money($decimal, $forceCurrency);
     }
 }

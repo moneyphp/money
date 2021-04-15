@@ -35,18 +35,4 @@ final class NumberSpec extends ObjectBehavior
         $number->shouldHaveType(Number::class);
         $number->__toString()->shouldReturn('1.1');
     }
-
-    public function it_throws_an_exception_when_number_is_not_float_during_creation_from_float(): void
-    {
-        throw new PendingException('Test not valid according to type definition - can be scrapped');
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringFromFloat(1);
-    }
-
-    public function it_throws_an_exception_when_number_is_not_numeric_during_creation_from_number(): void
-    {
-        throw new PendingException('Test not valid according to type definition - can be scrapped');
-
-        $this->shouldThrow(InvalidArgumentException::class)->duringFromNumber(false);
-    }
 }

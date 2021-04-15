@@ -188,6 +188,7 @@ use InvalidArgumentException;
  * @method static Money ZAR(string|int $amount)
  * @method static Money ZMW(string|int $amount)
  * @method static Money ZWL(string|int $amount)
+ * @psalm-immutable
  */
 trait MoneyFactory
 {
@@ -199,7 +200,8 @@ trait MoneyFactory
      * </code>
      *
      * @param array $arguments
-     * @psalm-param empty $arguments
+     * @psalm-param non-empty-string          $method
+     * @psalm-param array{numeric-string|int} $arguments
      *
      * @throws InvalidArgumentException If amount is not integer(ish).
      *
