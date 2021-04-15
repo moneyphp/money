@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Money;
 use Money\PHPUnit\Comparator;
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\Comparator\ComparisonFailure;
 
 final class ComparatorTest extends TestCase
 {
-    /**
-     * @var Comparator
-     */
-    protected $comparator;
+    protected Comparator $comparator;
 
     protected function setUp(): void
     {
@@ -21,7 +21,7 @@ final class ComparatorTest extends TestCase
     /**
      * @test
      */
-    public function itAcceptsOnlyMoney()
+    public function itAcceptsOnlyMoney(): void
     {
         $money_a = Money::EUR(1);
         $money_b = Money::EUR(2);
@@ -34,21 +34,22 @@ final class ComparatorTest extends TestCase
     /**
      * @test
      */
-    public function itComparesUnequalValues()
+    public function itComparesUnequalValues(): void
     {
         $money_a = Money::EUR(1);
         $money_b = Money::USD(1);
 
         try {
             $this->comparator->assertEquals($money_a, $money_b);
-        } catch (\SebastianBergmann\Comparator\ComparisonFailure $e) {
-            $this->assertEquals('Failed asserting that two Money objects are equal.', $e->getMessage());
-            $this->assertContains(
+        } catch (ComparisonFailure $e) {
+            $this->assertSame('Failed asserting that two Money objects are equal.', $e->getMessage());
+            $this->assertStringContainsString(
                 '--- Expected
 +++ Actual
 @@ @@
 -€0.01
-+$0.01', $e->getDiff()
++$0.01',
+                $e->getDiff()
             );
 
             return;
@@ -60,11 +61,17 @@ final class ComparatorTest extends TestCase
     /**
      * @test
      */
-    public function itComparesEqualValues()
+    public function itComparesEqualValues(): void
     {
         $money_a = Money::EUR(1);
         $money_b = Money::EUR(1);
 
-        $this->assertNull($this->comparator->assertEquals($money_a, $money_b));
+        $this->comparator->assertEquals($money_a, $money_b);
+
+        $this->assertEquals(
+            $money_a,
+            $money_b,
+            'This is only here to increment the assertion counter, since we are testing an assertion'
+        );
     }
 }

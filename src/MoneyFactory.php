@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
+
+use InvalidArgumentException;
 
 /**
  * This is a generated file. Do not edit it manually!
@@ -194,14 +198,14 @@ trait MoneyFactory
      * $fiveDollar = Money::USD(500);
      * </code>
      *
-     * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
+     * @psalm-param empty $arguments
      *
-     * @return Money
+     * @throws InvalidArgumentException If amount is not integer(ish).
      *
-     * @throws \InvalidArgumentException If amount is not integer(ish)
+     * @psalm-pure
      */
-    public static function __callStatic($method, $arguments)
+    public static function __callStatic(string $method, array $arguments): Money
     {
         return new Money($arguments[0], new Currency($method));
     }

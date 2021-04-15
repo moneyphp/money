@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Formatter;
 
 use Money\Currencies;
@@ -11,22 +13,22 @@ use PhpSpec\ObjectBehavior;
 
 final class DecimalMoneyFormatterSpec extends ObjectBehavior
 {
-    function let(Currencies $currencies)
+    public function let(Currencies $currencies): void
     {
         $this->beConstructedWith($currencies);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(DecimalMoneyFormatter::class);
     }
 
-    function it_is_a_money_formatter()
+    public function it_is_a_money_formatter(): void
     {
         $this->shouldImplement(MoneyFormatter::class);
     }
 
-    function it_formats_money(Currencies $currencies)
+    public function it_formats_money(Currencies $currencies): void
     {
         $money = new Money(100, new Currency('EUR'));
 

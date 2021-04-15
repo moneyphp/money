@@ -1,20 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
 
 /**
  * Formats Money objects.
- *
- * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 interface MoneyFormatter
 {
     /**
      * Formats a Money object as string.
      *
-     * @return string
+     * @psalm-return non-empty-string
      *
      * Exception\FormatterException
      */
-    public function format(Money $money);
+    public function format(Money $money): string;
 }

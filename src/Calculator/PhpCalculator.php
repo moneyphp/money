@@ -1,45 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Calculator;
+
+use Money\Calculator;
+use Money\Money;
+use Money\Number;
+use OverflowException;
+use UnderflowException;
+use UnexpectedValueException;
 
 use function ceil;
 use function filter_var;
 use function floor;
 use function intval;
 use function ltrim;
-use Money\Calculator;
-use Money\Money;
-use Money\Number;
-use OverflowException;
 use function round;
-use UnderflowException;
-use UnexpectedValueException;
 
-/**
- * @author Frederik Bosch <f.bosch@genkgo.nl>
- */
+use const FILTER_VALIDATE_INT;
+use const PHP_INT_MAX;
+
 final class PhpCalculator implements Calculator
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function supported()
+    public static function supported(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function compare($a, $b)
+    public function compare(string $a, string $b): int
     {
-        return ($a < $b) ? -1 : (($a > $b) ? 1 : 0);
+        return $a < $b ? -1 : ($a > $b ? 1 : 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function add($amount, $addend)
+    public function add(string $amount, string $addend): string
     {
         $result = $amount + $addend;
 
@@ -48,10 +42,7 @@ final class PhpCalculator implements Calculator
         return (string) $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function subtract($amount, $subtrahend)
+    public function subtract(string $amount, string $subtrahend): string
     {
         $result = $amount - $subtrahend;
 
@@ -60,10 +51,7 @@ final class PhpCalculator implements Calculator
         return (string) $result;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function multiply($amount, $multiplier)
+    public function multiply(string $amount, int|float|string $multiplier): string
     {
         $result = $amount * $multiplier;
 
@@ -72,10 +60,7 @@ final class PhpCalculator implements Calculator
         return (string) Number::fromNumber($result);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function divide($amount, $divisor)
+    public function divide(string $amount, int|float|string $divisor): string
     {
         $result = $amount / $divisor;
 
@@ -84,74 +69,52 @@ final class PhpCalculator implements Calculator
         return (string) Number::fromNumber($result);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function ceil($number)
+    public function ceil(string $number): string
     {
-        return $this->castInteger(ceil($number));
+        return $this->castInteger(ceil((float) $number));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function floor($number)
+    public function floor(string $number): string
     {
-        return $this->castInteger(floor($number));
+        return $this->castInteger(floor((float) $number));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function absolute($number)
+    public function absolute(string $number): string
     {
-        $result = ltrim($number, '-');
-
-        $this->assertIntegerBounds($result);
-
-        return (string) $result;
+        return ltrim($number, '-');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function round($number, $roundingMode)
+    public function round(int|float|string $number, int $roundingMode): string
     {
-        if (Money::ROUND_HALF_POSITIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {
             $number = Number::fromNumber($number);
 
             if ($number->isHalf()) {
-                return $this->castInteger(ceil((string) $number));
+                return $this->castInteger(ceil((float) $number->__toString()));
             }
 
-            return $this->castInteger(round((string) $number, 0, Money::ROUND_HALF_UP));
+            return $this->castInteger(round((float) $number->__toString(), 0, Money::ROUND_HALF_UP));
         }
 
-        if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_NEGATIVE_INFINITY) {
             $number = Number::fromNumber($number);
 
             if ($number->isHalf()) {
-                return $this->castInteger(floor((string) $number));
+                return $this->castInteger(floor((float) $number->__toString()));
             }
 
-            return $this->castInteger(round((string) $number, 0, Money::ROUND_HALF_DOWN));
+            return $this->castInteger(round((float) $number->__toString(), 0, Money::ROUND_HALF_DOWN));
         }
 
-        return $this->castInteger(round($number, 0, $roundingMode));
+        return $this->castInteger(round((float) $number, 0, $roundingMode));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function share($amount, $ratio, $total)
+    public function share(string $amount, int|float|string $ratio, int|float|string $total): string
     {
         return $this->castInteger(floor($amount * $ratio / $total));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function mod($amount, $divisor)
+    public function mod(string $amount, int|float|string $divisor): string
     {
         $result = $amount % $divisor;
 
@@ -164,28 +127,24 @@ final class PhpCalculator implements Calculator
      * Asserts that an integer value didn't become something else
      * (after some arithmetic operation).
      *
-     * @param int $amount
-     *
-     * @throws OverflowException  If integer overflow occured
-     * @throws UnderflowException If integer underflow occured
+     * @throws OverflowException  If integer overflow occured.
+     * @throws UnderflowException If integer underflow occured.
      */
-    private function assertIntegerBounds($amount)
+    private function assertIntegerBounds(int|float $amount): void
     {
         if ($amount > PHP_INT_MAX) {
             throw new OverflowException('You overflowed the maximum allowed integer (PHP_INT_MAX)');
-        } elseif ($amount < ~PHP_INT_MAX) {
+        }
+
+        if ($amount < ~PHP_INT_MAX) {
             throw new UnderflowException('You underflowed the minimum allowed integer (PHP_INT_MAX)');
         }
     }
 
     /**
      * Casts an amount to integer ensuring that an overflow/underflow did not occur.
-     *
-     * @param int $amount
-     *
-     * @return string
      */
-    private function castInteger($amount)
+    private function castInteger(int|float $amount): string
     {
         $this->assertIntegerBounds($amount);
 
@@ -194,10 +153,8 @@ final class PhpCalculator implements Calculator
 
     /**
      * Asserts that integer remains integer after arithmetic operations.
-     *
-     * @param int $amount
      */
-    private function assertInteger($amount)
+    private function assertInteger(int $amount): void
     {
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
             throw new UnexpectedValueException('The result of arithmetic operation is not an integer');

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Converter;
@@ -12,32 +14,44 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
+use function assert;
+
+use const LC_ALL;
+
 final class ConverterTest extends TestCase
 {
     use ProphecyTrait;
 
     /**
+     * @psalm-param non-empty-string $baseCurrencyCode
+     * @psalm-param non-empty-string $counterCurrencyCode
+     * @psalm-param positive-int|0 $subunitBase
+     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param int|float $ratio
+     * @psalm-param positive-int|numeric-string $amount
+     * @psalm-param positive-int $expectedAmount
+     *
      * @dataProvider convertExamples
      * @test
      */
     public function itConvertsToADifferentCurrency(
-        $baseCurrencyCode,
-        $counterCurrencyCode,
-        $subunitBase,
-        $subunitCounter,
-        $ratio,
-        $amount,
-        $expectedAmount
-    ) {
-        $baseCurrency = new Currency($baseCurrencyCode);
+        string $baseCurrencyCode,
+        string $counterCurrencyCode,
+        int $subunitBase,
+        int $subunitCounter,
+        int|float $ratio,
+        int|string $amount,
+        int $expectedAmount
+    ): void {
+        $baseCurrency    = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, $ratio);
+        $pair            = new CurrencyPair($baseCurrency, $counterCurrency, (string) $ratio);
 
-        /** @var Currencies|ObjectProphecy $currencies */
         $currencies = $this->prophesize(Currencies::class);
+        assert($currencies instanceof Currencies || $currencies instanceof ObjectProphecy);
 
-        /** @var Exchange|ObjectProphecy $exchange */
         $exchange = $this->prophesize(Exchange::class);
+        assert($exchange instanceof Exchange || $exchange instanceof ObjectProphecy);
 
         $converter = new Converter($currencies->reveal(), $exchange->reveal());
 
@@ -57,6 +71,14 @@ final class ConverterTest extends TestCase
     }
 
     /**
+     * @psalm-param non-empty-string $baseCurrencyCode
+     * @psalm-param non-empty-string $counterCurrencyCode
+     * @psalm-param positive-int|0 $subunitBase
+     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param int|float $ratio
+     * @psalm-param positive-int|numeric-string $amount
+     * @psalm-param positive-int $expectedAmount
+     *
      * @dataProvider convertExamples
      * @test
      */
@@ -68,10 +90,10 @@ final class ConverterTest extends TestCase
         $ratio,
         $amount,
         $expectedAmount
-    ) {
+    ): void {
         $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
 
-        $this->it_converts_to_a_different_currency(
+        $this->itConvertsToADifferentCurrency(
             $baseCurrencyCode,
             $counterCurrencyCode,
             $subunitBase,
@@ -82,7 +104,18 @@ final class ConverterTest extends TestCase
         );
     }
 
-    public function convertExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     non-empty-string,
+     *     non-empty-string,
+     *     positive-int|0,
+     *     positive-int|0,
+     *     int|float,
+     *     positive-int|numeric-string,
+     *     positive-int
+     * }>
+     */
+    public function convertExamples(): array
     {
         return [
             ['USD', 'JPY', 2, 0, 101, 100, 101],

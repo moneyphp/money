@@ -1,18 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Currencies;
 
+use ArrayIterator;
+use InvalidArgumentException;
 use Money\Currencies;
 use Money\Currencies\AggregateCurrencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
+use Traversable;
 
 final class AggregateCurrenciesSpec extends ObjectBehavior
 {
     use Matchers;
 
-    function let(Currencies $currencies, Currencies $otherCurrencies)
+    public function let(Currencies $currencies, Currencies $otherCurrencies): void
     {
         $this->beConstructedWith([
             $currencies,
@@ -20,24 +25,24 @@ final class AggregateCurrenciesSpec extends ObjectBehavior
         ]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(AggregateCurrencies::class);
     }
 
-    function it_is_a_currency_repository()
+    public function it_is_a_currency_repository(): void
     {
         $this->shouldImplement(Currencies::class);
     }
 
-    function it_throws_an_exception_when_invalid_currency_repository_is_passed()
+    public function it_throws_an_exception_when_invalid_currency_repository_is_passed(): void
     {
         $this->beConstructedWith(['currencies']);
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_contains_currencies(Currencies $currencies, Currencies $otherCurrencies)
+    public function it_contains_currencies(Currencies $currencies, Currencies $otherCurrencies): void
     {
         $currency = new Currency('EUR');
 
@@ -47,7 +52,7 @@ final class AggregateCurrenciesSpec extends ObjectBehavior
         $this->contains($currency)->shouldReturn(true);
     }
 
-    function it_might_not_contain_currencies(Currencies $currencies, Currencies $otherCurrencies)
+    public function it_might_not_contain_currencies(Currencies $currencies, Currencies $otherCurrencies): void
     {
         $currency = new Currency('EUR');
 
@@ -57,7 +62,7 @@ final class AggregateCurrenciesSpec extends ObjectBehavior
         $this->contains($currency)->shouldReturn(false);
     }
 
-    function it_provides_subunit(Currencies $currencies, Currencies $otherCurrencies)
+    public function it_provides_subunit(Currencies $currencies, Currencies $otherCurrencies): void
     {
         $currency = new Currency('EUR');
 
@@ -68,7 +73,7 @@ final class AggregateCurrenciesSpec extends ObjectBehavior
         $this->subunitFor($currency)->shouldReturn(2);
     }
 
-    function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown(Currencies $currencies, Currencies $otherCurrencies)
+    public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown(Currencies $currencies, Currencies $otherCurrencies): void
     {
         $currency = new Currency('XXXX');
 
@@ -78,12 +83,12 @@ final class AggregateCurrenciesSpec extends ObjectBehavior
         $this->shouldThrow(UnknownCurrencyException::class)->duringSubunitFor($currency);
     }
 
-    function it_is_iterable(Currencies $currencies, Currencies $otherCurrencies)
+    public function it_is_iterable(Currencies $currencies, Currencies $otherCurrencies): void
     {
-        $currencies->getIterator()->willReturn(new \ArrayIterator([new Currency('EUR')]));
-        $otherCurrencies->getIterator()->willReturn(new \ArrayIterator([new Currency('USD')]));
+        $currencies->getIterator()->willReturn(new ArrayIterator([new Currency('EUR')]));
+        $otherCurrencies->getIterator()->willReturn(new ArrayIterator([new Currency('USD')]));
 
-        $this->getIterator()->shouldReturnAnInstanceOf(\Traversable::class);
+        $this->getIterator()->shouldReturnAnInstanceOf(Traversable::class);
         $this->getIterator()->shouldHaveCurrency('EUR');
         $this->getIterator()->shouldHaveCurrency('USD');
     }

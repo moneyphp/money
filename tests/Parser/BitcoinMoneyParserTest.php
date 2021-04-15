@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use Money\Currencies\BitcoinCurrencies;
@@ -11,10 +13,13 @@ use PHPUnit\Framework\TestCase;
 final class BitcoinMoneyParserTest extends TestCase
 {
     /**
+     * @psalm-param non-empty-string $string
+     * @psalm-param int|numeric-string $units
+     *
      * @dataProvider bitcoinExamples
      * @test
      */
-    public function itParsesMoney($string, $units)
+    public function itParsesMoney(string $string, int|string $units): void
     {
         $moneyParser = new BitcoinMoneyParser(2);
 
@@ -28,7 +33,7 @@ final class BitcoinMoneyParserTest extends TestCase
     /**
      * @test
      */
-    public function forceCurrencyWorks()
+    public function forceCurrencyWorks(): void
     {
         $moneyParser = new BitcoinMoneyParser(2);
 
@@ -39,7 +44,13 @@ final class BitcoinMoneyParserTest extends TestCase
         $this->assertEquals('ETH', $money->getCurrency()->getCode());
     }
 
-    public function bitcoinExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     non-empty-string,
+     *     int|numeric-string
+     * }>
+     */
+    public function bitcoinExamples(): array
     {
         return [
             ["\xC9\x831000.00", 100000],

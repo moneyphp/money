@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Formatter;
 
 use Money\Currencies;
@@ -12,27 +14,27 @@ use PhpSpec\ObjectBehavior;
 
 final class BitcoinMoneyFormatterSpec extends ObjectBehavior
 {
-    function let(Currencies $bitcoinCurrencies)
+    public function let(Currencies $bitcoinCurrencies): void
     {
         $this->beConstructedWith(2, $bitcoinCurrencies);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(BitcoinMoneyFormatter::class);
     }
 
-    function it_is_a_money_formatter()
+    public function it_is_a_money_formatter(): void
     {
         $this->shouldImplement(MoneyFormatter::class);
     }
 
-    function it_formats_money(Currencies $bitcoinCurrencies)
+    public function it_formats_money(Currencies $bitcoinCurrencies): void
     {
         $this->beConstructedWith(1, $bitcoinCurrencies);
 
         $currency = new Currency('XBT');
-        $money = new Money(1000000, $currency);
+        $money    = new Money(1000000, $currency);
 
         $bitcoinCurrencies->subunitFor($currency)->willReturn(8);
 
@@ -42,7 +44,7 @@ final class BitcoinMoneyFormatterSpec extends ObjectBehavior
         $formatted->shouldContain(Currencies\BitcoinCurrencies::SYMBOL);
     }
 
-    function it_throws_an_exception_when_currency_is_not_bitcoin()
+    public function it_throws_an_exception_when_currency_is_not_bitcoin(): void
     {
         $money = new Money(5, new Currency('USD'));
 

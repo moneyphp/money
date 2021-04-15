@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Parser;
 
 use Money\Currency;
@@ -11,22 +13,22 @@ use PhpSpec\ObjectBehavior;
 
 final class AggregateMoneyParserSpec extends ObjectBehavior
 {
-    function let(MoneyParser $moneyParser)
+    public function let(MoneyParser $moneyParser): void
     {
         $this->beConstructedWith([$moneyParser]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(AggregateMoneyParser::class);
     }
 
-    function it_is_a_money_parser()
+    public function it_is_a_money_parser(): void
     {
         $this->shouldImplement(MoneyParser::class);
     }
 
-    function it_parses_money(MoneyParser $moneyParser)
+    public function it_parses_money(MoneyParser $moneyParser): void
     {
         $money = new Money(10000, new Currency('EUR'));
 
@@ -35,7 +37,7 @@ final class AggregateMoneyParserSpec extends ObjectBehavior
         $this->parse('€ 100', null)->shouldReturn($money);
     }
 
-    function it_throws_an_exception_when_money_cannot_be_parsed(MoneyParser $moneyParser)
+    public function it_throws_an_exception_when_money_cannot_be_parsed(MoneyParser $moneyParser): void
     {
         $moneyParser->parse('INVALID', null)->willThrow(ParserException::class);
 

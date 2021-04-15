@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use Money\Currencies;
@@ -18,10 +20,13 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     use ProphecyTrait;
 
     /**
+     * @psalm-param non-empty-string $string
+     * @psalm-param non-empty-string $locale
+     *
      * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function itParsesMoney($string, $units, $locale)
+    public function itParsesMoney(string $string, int $units, string $locale): void
     {
         $formatter = new NumberFormatter($locale, NumberFormatter::DECIMAL);
 
@@ -33,7 +38,7 @@ final class IntlLocalizedDecimalParserTest extends TestCase
         ))->willReturn(2);
 
         $currencyCode = 'USD';
-        $currency = new Currency($currencyCode);
+        $currency     = new Currency($currencyCode);
 
         $parser = new IntlLocalizedDecimalParser($formatter, $currencies->reveal());
         $this->assertEquals($units, $parser->parse($string, $currency)->getAmount());
@@ -42,12 +47,12 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     /**
      * @test
      */
-    public function itCannotConvertStringToUnits()
+    public function itCannotConvertStringToUnits(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::DECIMAL);
 
         $currency = new Currency('USD');
-        $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
+        $parser   = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
 
         $this->expectException(ParserException::class);
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', $currency);
@@ -56,12 +61,12 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     /**
      * @test
      */
-    public function itWorksWithAllKindsOfLocales()
+    public function itWorksWithAllKindsOfLocales(): void
     {
         $formatter = new NumberFormatter('en_CA', NumberFormatter::DECIMAL);
 
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('1000.00', new Currency('CAD'));
+        $money  = $parser->parse('1000.00', new Currency('CAD'));
 
         $this->assertTrue(Money::CAD(100000)->equals($money));
     }
@@ -69,13 +74,13 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     /**
      * @test
      */
-    public function itAcceptsAForcedCurrency()
+    public function itAcceptsAForcedCurrency(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::DECIMAL);
 
         $currency = new Currency('CAD');
-        $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('1000.00', $currency);
+        $parser   = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
+        $money    = $parser->parse('1000.00', $currency);
 
         $this->assertSame('100000', $money->getAmount());
         $this->assertSame('CAD', $money->getCurrency()->getCode());
@@ -84,24 +89,24 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     /**
      * @test
      */
-    public function itSupportsFractionDigits()
+    public function itSupportsFractionDigits(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::DECIMAL);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 3);
 
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('1000.005', new Currency('USD'));
+        $money  = $parser->parse('1000.005', new Currency('USD'));
 
         $this->assertSame('100001', $money->getAmount());
     }
 
-    public function it_does_not_support_invalid_decimal()
+    public function it_does_not_support_invalid_decimal(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::DECIMAL);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 3);
 
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('1000,005', new Currency('USD'));
+        $money  = $parser->parse('1000,005', new Currency('USD'));
 
         $this->assertSame('100001', $money->getAmount());
     }
@@ -110,8 +115,10 @@ final class IntlLocalizedDecimalParserTest extends TestCase
      * @group legacy
      * @test
      */
-    public function itAcceptsOnlyACurrencyObject()
+    public function itAcceptsOnlyACurrencyObject(): void
     {
+        self::markTestIncomplete('Deprecation to be removed before merging this patch');
+
         $formatter = new NumberFormatter('en_CA', NumberFormatter::DECIMAL);
 
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
@@ -121,6 +128,13 @@ final class IntlLocalizedDecimalParserTest extends TestCase
         $parser->parse('1000.00', 'EUR');
     }
 
+    /**
+     * @psalm-return non-empty-list<array{
+     *     non-empty-string,
+     *     int,
+     *     non-empty-string
+     * }>
+     */
     public function formattedMoneyExamples()
     {
         return [

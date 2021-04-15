@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Exchange;
 
 use Money\Currencies\ISOCurrencies;
@@ -14,7 +16,7 @@ final class IndirectExchangeTest extends TestCase
     /**
      * @test
      */
-    public function itCalculatesAMinimalChain()
+    public function itCalculatesAMinimalChain(): void
     {
         $exchange = $this->createExchange();
 
@@ -26,27 +28,23 @@ final class IndirectExchangeTest extends TestCase
         $this->assertEquals(12, $pair->getConversionRatio());
     }
 
-    private function createExchange()
+    private function createExchange(): IndirectExchange
     {
         $baseExchange = new FixedExchange([
             'USD' => [
-                'AFN' => 2,
-                'EUR' => 4,
+                'AFN' => '2',
+                'EUR' => '4',
             ],
             'AFN' => [
-                'DZD' => 12,
-                'EUR' => 8,
+                'DZD' => '12',
+                'EUR' => '8',
             ],
-            'EUR' => [
-                'AOA' => 3,
-            ],
+            'EUR' => ['AOA' => '3'],
             'DZD' => [
-                'AOA' => 5,
-                'USD' => 2,
+                'AOA' => '5',
+                'USD' => '2',
             ],
-            'ARS' => [
-                'AOA' => 2,
-            ],
+            'ARS' => ['AOA' => '2'],
         ]);
 
         return new IndirectExchange($baseExchange, new ISOCurrencies());
@@ -55,7 +53,7 @@ final class IndirectExchangeTest extends TestCase
     /**
      * @test
      */
-    public function itCalculatesAdjacentNodes()
+    public function itCalculatesAdjacentNodes(): void
     {
         $exchange = $this->createExchange();
 
@@ -69,7 +67,7 @@ final class IndirectExchangeTest extends TestCase
     /**
      * @test
      */
-    public function itThrowsWhenNoChainIsFound()
+    public function itThrowsWhenNoChainIsFound(): void
     {
         $exchange = $this->createExchange();
 

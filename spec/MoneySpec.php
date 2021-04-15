@@ -1,46 +1,56 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money;
 
+use InvalidArgumentException;
+use JsonSerializable;
 use Money\Calculator;
 use Money\Currency;
 use Money\Money;
+use PhpSpec\Exception\Example\PendingException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use ReflectionProperty;
+
+use function assert;
+use function floor;
+use function ltrim;
 
 final class MoneySpec extends ObjectBehavior
 {
-    const AMOUNT = 10;
-    const OTHER_AMOUNT = 5;
-    const CURRENCY = 'EUR';
-    const OTHER_CURRENCY = 'USD';
+    public const AMOUNT         = 10;
+    public const OTHER_AMOUNT   = 5;
+    public const CURRENCY       = 'EUR';
+    public const OTHER_CURRENCY = 'USD';
 
-    function let(Calculator $calculator)
+    public function let(Calculator $calculator): void
     {
         // Override the calculator for testing
-        $reflection = new \ReflectionProperty(Money::class, 'calculator');
+        $reflection = new ReflectionProperty(Money::class, 'calculator');
         $reflection->setAccessible(true);
         $reflection->setValue(null, $calculator->getWrappedObject());
 
         $this->beConstructedWith(self::AMOUNT, new Currency(self::CURRENCY));
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(Money::class);
     }
 
-    function it_is_json_serializable()
+    public function it_is_json_serializable(): void
     {
-        $this->shouldImplement(\JsonSerializable::class);
+        $this->shouldImplement(JsonSerializable::class);
     }
 
-    function it_has_an_amount()
+    public function it_has_an_amount(): void
     {
         $this->getAmount()->shouldBeLike(self::AMOUNT);
     }
 
-    function it_has_a_currency()
+    public function it_has_a_currency(): void
     {
         $currency = $this->getCurrency();
 
@@ -48,47 +58,47 @@ final class MoneySpec extends ObjectBehavior
         $currency->equals(new Currency(self::CURRENCY))->shouldReturn(true);
     }
 
-    function it_throws_an_exception_when_amount_is_not_numeric()
+    public function it_throws_an_exception_when_amount_is_not_numeric(): void
     {
         $this->beConstructedWith('ONE', new Currency(self::CURRENCY));
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_constructs_integer()
+    public function it_constructs_integer(): void
     {
         $this->beConstructedWith(5, new Currency(self::CURRENCY));
     }
 
-    function it_constructs_string()
+    public function it_constructs_string(): void
     {
         $this->beConstructedWith('5', new Currency(self::CURRENCY));
     }
 
-    function it_constructs_integer_with_decimals_of_zero()
+    public function it_constructs_integer_with_decimals_of_zero(): void
     {
         $this->beConstructedWith('5.00', new Currency(self::CURRENCY));
     }
 
-    function it_constructs_integer_with_plus()
+    public function it_constructs_integer_with_plus(): void
     {
         $this->beConstructedWith('+500', new Currency(self::CURRENCY));
 
-        $this->shouldNotThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldNotThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_tests_currency_equality()
+    public function it_tests_currency_equality(): void
     {
         $this->isSameCurrency(new Money(self::AMOUNT, new Currency(self::CURRENCY)))->shouldReturn(true);
         $this->isSameCurrency(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)))->shouldReturn(false);
     }
 
-    function it_equals_to_another_money()
+    public function it_equals_to_another_money(): void
     {
         $this->equals(new Money(self::AMOUNT, new Currency(self::CURRENCY)))->shouldReturn(true);
     }
 
-    function it_compares_two_amounts(Calculator $calculator)
+    public function it_compares_two_amounts(Calculator $calculator): void
     {
         $calculator->compare((string) self::AMOUNT, (string) self::AMOUNT)->willReturn(0);
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
@@ -100,20 +110,20 @@ final class MoneySpec extends ObjectBehavior
         $this->lessThanOrEqual($money)->shouldReturn(true);
     }
 
-    function it_throws_an_exception_when_currency_is_different_during_comparison(Calculator $calculator)
+    public function it_throws_an_exception_when_currency_is_different_during_comparison(Calculator $calculator): void
     {
         $calculator->compare(Argument::type('string'), Argument::type('string'))->shouldNotBeCalled();
 
         $money = new Money(self::AMOUNT + 1, new Currency(self::OTHER_CURRENCY));
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringCompare($money);
-        $this->shouldThrow(\InvalidArgumentException::class)->duringGreaterThan($money);
-        $this->shouldThrow(\InvalidArgumentException::class)->duringGreaterThanOrEqual($money);
-        $this->shouldThrow(\InvalidArgumentException::class)->duringLessThan($money);
-        $this->shouldThrow(\InvalidArgumentException::class)->duringLessThanOrEqual($money);
+        $this->shouldThrow(InvalidArgumentException::class)->duringCompare($money);
+        $this->shouldThrow(InvalidArgumentException::class)->duringGreaterThan($money);
+        $this->shouldThrow(InvalidArgumentException::class)->duringGreaterThanOrEqual($money);
+        $this->shouldThrow(InvalidArgumentException::class)->duringLessThan($money);
+        $this->shouldThrow(InvalidArgumentException::class)->duringLessThanOrEqual($money);
     }
 
-    function it_adds_an_other_money(Calculator $calculator)
+    public function it_adds_an_other_money(Calculator $calculator): void
     {
         $result = self::AMOUNT + self::OTHER_AMOUNT;
         $calculator->add((string) self::AMOUNT, (string) self::OTHER_AMOUNT)->willReturn((string) $result);
@@ -123,7 +133,7 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe((string) $result);
     }
 
-    function it_adds_other_money_values(Calculator $calculator)
+    public function it_adds_other_money_values(Calculator $calculator): void
     {
         $result = self::AMOUNT + self::OTHER_AMOUNT + self::AMOUNT + self::OTHER_AMOUNT;
 
@@ -140,21 +150,21 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe((string) $result);
     }
 
-    function it_returns_the_same_money_when_no_addends_are_provided()
+    public function it_returns_the_same_money_when_no_addends_are_provided(): void
     {
         $money = $this->add();
 
         $money->getAmount()->shouldBe($this->getAmount());
     }
 
-    function it_throws_an_exception_when_currency_is_different_during_addition(Calculator $calculator)
+    public function it_throws_an_exception_when_currency_is_different_during_addition(Calculator $calculator): void
     {
         $calculator->add((string) self::AMOUNT, (string) self::AMOUNT)->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringAdd(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
+        $this->shouldThrow(InvalidArgumentException::class)->duringAdd(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
     }
 
-    function it_subtracts_an_other_money(Calculator $calculator)
+    public function it_subtracts_an_other_money(Calculator $calculator): void
     {
         $result = self::AMOUNT - self::OTHER_AMOUNT;
 
@@ -165,7 +175,7 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe((string) $result);
     }
 
-    function it_subtracts_other_money_values(Calculator $calculator)
+    public function it_subtracts_other_money_values(Calculator $calculator): void
     {
         $this->beConstructedWith(self::AMOUNT + self::OTHER_AMOUNT + self::AMOUNT + self::OTHER_AMOUNT, new Currency(self::CURRENCY));
 
@@ -182,21 +192,21 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe((string) self::AMOUNT);
     }
 
-    function it_returns_the_same_money_when_no_subtrahends_are_provided()
+    public function it_returns_the_same_money_when_no_subtrahends_are_provided(): void
     {
         $money = $this->subtract();
 
         $money->getAmount()->shouldBe($this->getAmount());
     }
 
-    function it_throws_an_exception_if_currency_is_different_during_subtractition(Calculator $calculator)
+    public function it_throws_an_exception_if_currency_is_different_during_subtractition(Calculator $calculator): void
     {
         $calculator->subtract((string) self::AMOUNT, (string) self::AMOUNT)->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringSubtract(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
+        $this->shouldThrow(InvalidArgumentException::class)->duringSubtract(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
     }
 
-    function it_multiplies_the_amount(Calculator $calculator)
+    public function it_multiplies_the_amount(Calculator $calculator): void
     {
         $this->beConstructedWith(1, new Currency(self::CURRENCY));
 
@@ -209,64 +219,72 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe('5');
     }
 
-    public function it_throws_an_exception_when_operand_is_invalid_during_multiplication(Calculator $calculator)
+    public function it_throws_an_exception_when_operand_is_invalid_during_multiplication(Calculator $calculator): void
     {
+        throw new PendingException('Test not valid according to type definition - can be scrapped');
+
         $calculator->multiply(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringMultiply('INVALID_OPERAND');
+        $this->shouldThrow(InvalidArgumentException::class)->duringMultiply('INVALID_OPERAND');
     }
 
-    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_multiplication(Calculator $calculator)
+    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_multiplication(Calculator $calculator): void
     {
+        throw new PendingException('Test not valid according to type definition - can be scrapped');
+
         $calculator->multiply(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringMultiply(1.0, 'INVALID_ROUNDING_MODE');
+        $this->shouldThrow(InvalidArgumentException::class)->duringMultiply(1.0, 'INVALID_ROUNDING_MODE');
     }
 
-    function it_divides_the_amount(Calculator $calculator)
+    public function it_divides_the_amount(Calculator $calculator): void
     {
         $this->beConstructedWith(4, new Currency(self::CURRENCY));
 
-        $calculator->compare((string) (1 / 2), '0')->willReturn(1 / 2 > 1);
-        $calculator->divide('4', 1 / 2)->willReturn(2);
-        $calculator->round(2, Money::ROUND_HALF_UP)->willReturn(2);
+        $calculator->compare('0.5', '0')->willReturn(1);
+        $calculator->divide('4', '0.5')->willReturn('2');
+        $calculator->round('2', Money::ROUND_HALF_UP)->willReturn('2');
 
-        $money = $this->divide(1 / 2, Money::ROUND_HALF_UP);
+        $money = $this->divide('0.5', Money::ROUND_HALF_UP);
 
         $money->shouldHaveType(Money::class);
         $money->getAmount()->shouldBeLike(2);
     }
 
-    public function it_throws_an_exception_when_operand_is_invalid_during_division(Calculator $calculator)
+    public function it_throws_an_exception_when_operand_is_invalid_during_division(Calculator $calculator): void
     {
+        throw new PendingException('Test not valid according to type definition - can be scrapped');
+
         $calculator->compare(Argument::type('string'), Argument::type('string'))->shouldNotBeCalled();
         $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringDivide('INVALID_OPERAND');
+        $this->shouldThrow(InvalidArgumentException::class)->duringDivide('INVALID_OPERAND');
     }
 
-    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_division(Calculator $calculator)
+    public function it_throws_an_exception_when_rounding_mode_is_invalid_during_division(Calculator $calculator): void
     {
+        throw new PendingException('Test not valid according to type definition - can be scrapped');
+
         $calculator->compare('1.0', '0')->shouldNotBeCalled();
         $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringDivide(1.0, 'INVALID_ROUNDING_MODE');
+        $this->shouldThrow(InvalidArgumentException::class)->duringDivide(1.0, 'INVALID_ROUNDING_MODE');
     }
 
-    function it_throws_an_exception_when_divisor_is_zero(Calculator $calculator)
+    public function it_throws_an_exception_when_divisor_is_zero(Calculator $calculator): void
     {
-        $calculator->compare(0, '0')->willThrow(\InvalidArgumentException::class);
+        $calculator->compare('0', '0')->willThrow(InvalidArgumentException::class);
         $calculator->divide(Argument::type('string'), Argument::type('numeric'))->shouldNotBeCalled();
         $calculator->round(Argument::type('string'), Argument::type('integer'))->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringDivide(0);
+        $this->shouldThrow(InvalidArgumentException::class)->duringDivide(0);
     }
 
-    function it_allocates_amount(Calculator $calculator)
+    public function it_allocates_amount(Calculator $calculator): void
     {
         $this->beConstructedWith(100, new Currency(self::CURRENCY));
 
@@ -283,7 +301,7 @@ final class MoneySpec extends ObjectBehavior
         });
 
         $calculator->compare(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
-            return ($args[0] < $args[1]) ? -1 : (($args[0] > $args[1]) ? 1 : 0);
+            return $args[0] < $args[1] ? -1 : ($args[0] > $args[1] ? 1 : 0);
         });
 
         $calculator->absolute(Argument::type('numeric'))->will(function ($args) {
@@ -299,24 +317,24 @@ final class MoneySpec extends ObjectBehavior
         $allocated->shouldEqualAllocation([34, 33, 33]);
     }
 
-    function it_allocates_amount_to_n_targets(Calculator $calculator)
+    public function it_allocates_amount_to_n_targets(Calculator $calculator): void
     {
         $this->beConstructedWith(15, new Currency(self::CURRENCY));
 
         $calculator->share(Argument::type('numeric'), Argument::type('int'), Argument::type('int'))->will(function ($args) {
-            return (int) floor($args[0] * $args[1] / $args[2]);
+            return (string) floor($args[0] * $args[1] / $args[2]);
         });
 
         $calculator->subtract(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
-            return (string)($args[0] - $args[1]);
+            return (string) ($args[0] - $args[1]);
         });
 
         $calculator->add(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
-            return (string)($args[0] + $args[1]);
+            return (string) ($args[0] + $args[1]);
         });
 
         $calculator->compare(Argument::type('numeric'), Argument::type('numeric'))->will(function ($args) {
-            return ($args[0] < $args[1]) ? -1 : (($args[0] > $args[1]) ? 1 : 0);
+            return $args[0] < $args[1] ? -1 : ($args[0] > $args[1] ? 1 : 0);
         });
 
         $allocated = $this->allocateTo(2);
@@ -325,37 +343,39 @@ final class MoneySpec extends ObjectBehavior
         $allocated->shouldEqualAllocation([8, 7]);
     }
 
-    function it_throws_an_exception_when_allocation_target_is_not_integer()
+    public function it_throws_an_exception_when_allocation_target_is_not_integer(): void
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocateTo('two');
+        throw new PendingException('Test not valid according to type definition - can be scrapped');
+
+        $this->shouldThrow(InvalidArgumentException::class)->duringAllocateTo('two');
     }
 
-    function it_throws_an_exception_when_allocation_target_is_empty()
+    public function it_throws_an_exception_when_allocation_target_is_empty(): void
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([]);
+        $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([]);
     }
 
-    function it_throws_an_exception_when_allocation_ratio_is_negative()
+    public function it_throws_an_exception_when_allocation_ratio_is_negative(): void
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([-1]);
+        $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([-1]);
     }
 
-    function it_throws_an_exception_when_allocation_total_is_zero()
+    public function it_throws_an_exception_when_allocation_total_is_zero(): void
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocate([0, 0]);
+        $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([0, 0]);
     }
 
-    function it_throws_an_exception_when_allocate_to_target_is_less_than_or_equals_zero()
+    public function it_throws_an_exception_when_allocate_to_target_is_less_than_or_equals_zero(): void
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringAllocateTo(-1);
+        $this->shouldThrow(InvalidArgumentException::class)->duringAllocateTo(-1);
     }
 
-    function it_has_comparators(Calculator $calculator)
+    public function it_has_comparators(Calculator $calculator): void
     {
         $this->beConstructedWith(1, new Currency(self::CURRENCY));
 
-        $calculator->compare(Argument::type('numeric'), Argument::type('int'))->will(function ($args) {
-            return ($args[0] < $args[1]) ? -1 : (($args[0] > $args[1]) ? 1 : 0);
+        $calculator->compare(Argument::type('numeric'), Argument::type('numeric'))->will(function (array $args) {
+            return $args[0] <=> $args[1];
         });
 
         $this->isZero()->shouldReturn(false);
@@ -363,7 +383,7 @@ final class MoneySpec extends ObjectBehavior
         $this->isNegative()->shouldReturn(false);
     }
 
-    function it_calculates_the_absolute_amount(Calculator $calculator)
+    public function it_calculates_the_absolute_amount(Calculator $calculator): void
     {
         $this->beConstructedWith(-1, new Currency(self::CURRENCY));
 
@@ -375,7 +395,7 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBeLike(1);
     }
 
-    function it_calculates_a_modulus_with_an_other_money(Calculator $calculator)
+    public function it_calculates_a_modulus_with_an_other_money(Calculator $calculator): void
     {
         $result = self::AMOUNT % self::OTHER_AMOUNT;
         $calculator->mod((string) self::AMOUNT, (string) self::OTHER_AMOUNT)->willReturn((string) $result);
@@ -385,19 +405,20 @@ final class MoneySpec extends ObjectBehavior
         $money->getAmount()->shouldBe((string) $result);
     }
 
-    function it_throws_an_exception_when_currency_is_different_during_modulus(Calculator $calculator)
+    public function it_throws_an_exception_when_currency_is_different_during_modulus(Calculator $calculator): void
     {
         $calculator->mod((string) self::AMOUNT, (string) self::AMOUNT)->shouldNotBeCalled();
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringMod(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
+        $this->shouldThrow(InvalidArgumentException::class)->duringMod(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)));
     }
 
+    /** {@inheritDoc} */
     public function getMatchers(): array
     {
         return [
             'equalAllocation' => function ($subject, $value) {
-                /** @var Money $money */
                 foreach ($subject as $key => $money) {
+                    assert($money instanceof Money);
                     $compareTo = new Money($value[$key], $money->getCurrency());
                     if ($money->equals($compareTo) === false) {
                         return false;

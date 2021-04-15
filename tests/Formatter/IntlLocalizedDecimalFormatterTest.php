@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
@@ -16,10 +18,15 @@ final class IntlLocalizedDecimalFormatterTest extends TestCase
     use ProphecyTrait;
 
     /**
+     * @psalm-param non-empty-string $currency
+     * @psalm-param positive-int $subunit
+     * @psalm-param non-empty-string $result
+     * @psalm-param positive-int|0 $fractionDigits
+     *
      * @dataProvider moneyExamples
      * @test
      */
-    public function itFormatsMoney($amount, $currency, $subunit, $result, $mode, $fractionDigits)
+    public function itFormatsMoney(int $amount, string $currency, int $subunit, string $result, int $mode, $fractionDigits): void
     {
         $money = new Money($amount, new Currency($currency));
 
@@ -38,7 +45,17 @@ final class IntlLocalizedDecimalFormatterTest extends TestCase
         $this->assertSame($result, $moneyFormatter->format($money));
     }
 
-    public static function moneyExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     non-empty-string,
+     *     positive-int,
+     *     non-empty-string,
+     *     int,
+     *     positive-int|0
+     * }>
+     */
+    public static function moneyExamples(): array
     {
         return [
             [5005, 'USD', 2, '50', NumberFormatter::DECIMAL, 0],

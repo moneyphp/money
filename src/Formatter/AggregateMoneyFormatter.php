@@ -1,24 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Formatter;
 
 use InvalidArgumentException;
 use Money\Exception\FormatterException;
 use Money\Money;
 use Money\MoneyFormatter;
+
 use function sprintf;
 
 /**
  * Formats a Money object using other Money formatters.
- *
- * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class AggregateMoneyFormatter implements MoneyFormatter
 {
-    /**
-     * @var MoneyFormatter[]
-     */
-    private $formatters = [];
+    /** @var MoneyFormatter[] */
+    private array $formatters = [];
 
     /**
      * @param MoneyFormatter[] $formatters
@@ -30,18 +29,15 @@ final class AggregateMoneyFormatter implements MoneyFormatter
         }
 
         foreach ($formatters as $currencyCode => $formatter) {
-            if (false === $formatter instanceof MoneyFormatter) {
-                throw new InvalidArgumentException('All formatters must implement '.MoneyFormatter::class);
+            if ($formatter instanceof MoneyFormatter === false) {
+                throw new InvalidArgumentException('All formatters must implement ' . MoneyFormatter::class);
             }
 
             $this->formatters[$currencyCode] = $formatter;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function format(Money $money)
+    public function format(Money $money): string
     {
         $currencyCode = $money->getCurrency()->getCode();
 
@@ -53,6 +49,6 @@ final class AggregateMoneyFormatter implements MoneyFormatter
             return $this->formatters['*']->format($money);
         }
 
-        throw new FormatterException('No formatter found for currency '.$currencyCode);
+        throw new FormatterException('No formatter found for currency ' . $currencyCode);
     }
 }

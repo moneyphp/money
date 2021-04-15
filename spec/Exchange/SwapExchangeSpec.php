@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Exchange;
 
 use Exchanger\Contract\ExchangeRate;
@@ -9,29 +11,29 @@ use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 use Money\Exchange\SwapExchange;
-use Swap\Swap;
 use PhpSpec\ObjectBehavior;
+use Swap\Swap;
 
 final class SwapExchangeSpec extends ObjectBehavior
 {
-    function let(Swap $swap)
+    public function let(Swap $swap): void
     {
         $this->beConstructedWith($swap);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(SwapExchange::class);
     }
 
-    function it_is_an_exchange()
+    public function it_is_an_exchange(): void
     {
         $this->shouldImplement(Exchange::class);
     }
 
-    function it_exchanges_currencies(Swap $swap, ExchangeRate $exchangeRate)
+    public function it_exchanges_currencies(Swap $swap, ExchangeRate $exchangeRate): void
     {
-        $exchangeRate->getValue()->willReturn(1.0);
+        $exchangeRate->getValue()->willReturn('1.0');
 
         $swap->latest('EUR/USD')->willReturn($exchangeRate);
 
@@ -40,10 +42,10 @@ final class SwapExchangeSpec extends ObjectBehavior
         $currencyPair->shouldHaveType(CurrencyPair::class);
         $currencyPair->getBaseCurrency()->shouldReturn($base);
         $currencyPair->getCounterCurrency()->shouldReturn($counter);
-        $currencyPair->getConversionRatio()->shouldReturn(1.0);
+        $currencyPair->getConversionRatio()->shouldReturn('1');
     }
 
-    function it_throws_an_exception_when_cannot_exchange_currencies(Swap $swap)
+    public function it_throws_an_exception_when_cannot_exchange_currencies(Swap $swap): void
     {
         $swap->latest('EUR/XYZ')->willThrow(Exception::class);
 

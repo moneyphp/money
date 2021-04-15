@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Money;
@@ -11,7 +13,14 @@ use Money\Money;
  */
 trait RoundExamples
 {
-    public function roundExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     float|int|numeric-string,
+     *     Money::ROUND_*,
+     *     numeric-string
+     * }>
+     */
+    public function roundingExamples(): array
     {
         return [
             [2.6, Money::ROUND_HALF_EVEN, '3'],

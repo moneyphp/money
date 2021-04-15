@@ -1,86 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Calculator;
 
-use function extension_loaded;
 use InvalidArgumentException;
-use function ltrim;
 use Money\Calculator;
 use Money\Money;
 use Money\Number;
 
-/**
- * @author Frederik Bosch <f.bosch@genkgo.nl>
- */
+use function bcadd;
+use function bccomp;
+use function bcdiv;
+use function bcmod;
+use function bcmul;
+use function bcsub;
+use function extension_loaded;
+use function ltrim;
+
 final class BcMathCalculator implements Calculator
 {
-    /**
-     * @var int
-     */
-    private $scale;
+    private int $scale;
 
     public function __construct(int $scale = 14)
     {
         $this->scale = $scale;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function supported()
+    public static function supported(): bool
     {
         return extension_loaded('bcmath');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function compare($a, $b)
+    public function compare(string $a, string $b): int
     {
         return bccomp($a, $b, $this->scale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function add($amount, $addend)
+    public function add(string $amount, string $addend): string
     {
         return bcadd($amount, $addend, $this->scale);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $subtrahend
-     *
-     * @return string
-     */
-    public function subtract($amount, $subtrahend)
+    public function subtract(string $amount, string $subtrahend): string
     {
         return bcsub($amount, $subtrahend, $this->scale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function multiply($amount, $multiplier)
+    public function multiply(string $amount, int|float|string $multiplier): string
     {
         return bcmul($amount, (string) $multiplier, $this->scale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function divide($amount, $divisor)
+    public function divide(string $amount, int|float|string $divisor): string
     {
         return bcdiv($amount, (string) $divisor, $this->scale);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function ceil($number)
+    public function ceil(string $number): string
     {
         $number = Number::fromNumber($number);
 
@@ -95,10 +72,7 @@ final class BcMathCalculator implements Calculator
         return bcadd((string) $number, '1', 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function floor($number)
+    public function floor(string $number): string
     {
         $number = Number::fromNumber($number);
 
@@ -110,21 +84,15 @@ final class BcMathCalculator implements Calculator
             return bcadd((string) $number, '-1', 0);
         }
 
-        return bcadd($number, '0', 0);
+        return bcadd($number->__toString(), '0', 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function absolute($number)
+    public function absolute(string $number): string
     {
         return ltrim($number, '-');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function round($number, $roundingMode)
+    public function round(int|float|string $number, int $roundingMode): string
     {
         $number = Number::fromNumber($number);
 
@@ -136,7 +104,7 @@ final class BcMathCalculator implements Calculator
             return $this->roundDigit($number);
         }
 
-        if (Money::ROUND_HALF_UP === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_UP) {
             return bcadd(
                 (string) $number,
                 $number->getIntegerRoundingMultiplier(),
@@ -144,11 +112,11 @@ final class BcMathCalculator implements Calculator
             );
         }
 
-        if (Money::ROUND_HALF_DOWN === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_DOWN) {
             return bcadd((string) $number, '0', 0);
         }
 
-        if (Money::ROUND_HALF_EVEN === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_EVEN) {
             if ($number->isCurrentEven()) {
                 return bcadd((string) $number, '0', 0);
             }
@@ -160,7 +128,7 @@ final class BcMathCalculator implements Calculator
             );
         }
 
-        if (Money::ROUND_HALF_ODD === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_ODD) {
             if ($number->isCurrentEven()) {
                 return bcadd(
                     (string) $number,
@@ -172,7 +140,7 @@ final class BcMathCalculator implements Calculator
             return bcadd((string) $number, '0', 0);
         }
 
-        if (Money::ROUND_HALF_POSITIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {
             if ($number->isNegative()) {
                 return bcadd((string) $number, '0', 0);
             }
@@ -184,7 +152,7 @@ final class BcMathCalculator implements Calculator
             );
         }
 
-        if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_NEGATIVE_INFINITY) {
             if ($number->isNegative()) {
                 return bcadd(
                     (string) $number,
@@ -203,10 +171,7 @@ final class BcMathCalculator implements Calculator
         throw new InvalidArgumentException('Unknown rounding mode');
     }
 
-    /**
-     * @return string
-     */
-    private function roundDigit(Number $number)
+    private function roundDigit(Number $number): string
     {
         if ($number->isCloserToNext()) {
             return bcadd(
@@ -219,18 +184,12 @@ final class BcMathCalculator implements Calculator
         return bcadd((string) $number, '0', 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function share($amount, $ratio, $total)
+    public function share(string $amount, int|float|string $ratio, int|float|string $total): string
     {
-        return $this->floor(bcdiv(bcmul($amount, $ratio, $this->scale), $total, $this->scale));
+        return $this->floor(bcdiv(bcmul($amount, (string) $ratio, $this->scale), (string) $total, $this->scale));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function mod($amount, $divisor)
+    public function mod(string $amount, int|float|string $divisor): string
     {
         return bcmod($amount, $divisor);
     }

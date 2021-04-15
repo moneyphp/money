@@ -1,21 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use InvalidArgumentException;
 use Money\Number;
 use PHPUnit\Framework\TestCase;
+
 use function str_repeat;
 use function strlen;
 use function substr;
 
+use const PHP_INT_MAX;
+
 final class NumberTest extends TestCase
 {
     /**
+     * @psalm-param numeric-string $number
+     * @psalm-param numeric-string $integerPart
+     * @psalm-param string $fractionalPart
+     *
      * @dataProvider numberExamples
      * @test
      */
-    public function itHasAttributes($number, $decimal, $half, $currentEven, $negative, $integerPart, $fractionalPart)
+    public function itHasAttributes(string $number, bool $decimal, bool $half, bool $currentEven, bool $negative, string $integerPart, string $fractionalPart): void
     {
         $number = Number::fromString($number);
 
@@ -32,7 +41,7 @@ final class NumberTest extends TestCase
      * @dataProvider invalidNumberExamples
      * @test
      */
-    public function itFailsParsingInvalidNumbers($number)
+    public function itFailsParsingInvalidNumbers(string $number): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -40,10 +49,13 @@ final class NumberTest extends TestCase
     }
 
     /**
+     * @psalm-param numeric-string $numberString
+     * @psalm-param numeric-string $expectedResult
+     *
      * @dataProvider base10Examples
      * @test
      */
-    public function base10($numberString, $baseNumber, $expectedResult)
+    public function base10(string $numberString, int $baseNumber, string $expectedResult): void
     {
         $number = Number::fromString($numberString);
 
@@ -51,17 +63,30 @@ final class NumberTest extends TestCase
     }
 
     /**
+     * @psalm-param int|float|numeric-string $number
+     *
      * @dataProvider numericExamples
      * @test
      */
-    public function itCreatesANumberFromANumericValue($number)
+    public function itCreatesANumberFromANumericValue(int|float|string $number): void
     {
         $number = Number::fromNumber($number);
 
         $this->assertInstanceOf(Number::class, $number);
     }
 
-    public function numberExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     numeric-string,
+     *     bool,
+     *     bool,
+     *     bool,
+     *     bool,
+     *     numeric-string,
+     *     string
+     * }>
+     */
+    public function numberExamples(): array
     {
         return [
             ['0', false, false, true, false, '0', ''],
@@ -89,35 +114,36 @@ final class NumberTest extends TestCase
             [(string) PHP_INT_MAX, false, false, false, false, (string) PHP_INT_MAX, ''],
             [(string) -PHP_INT_MAX, false, false, false, true, (string) -PHP_INT_MAX, ''],
             [
-                PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                PHP_INT_MAX . PHP_INT_MAX . PHP_INT_MAX,
                 false,
                 false,
                 false,
                 false,
-                PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                PHP_INT_MAX . PHP_INT_MAX . PHP_INT_MAX,
                 '',
             ],
             [
-                -PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                -PHP_INT_MAX . PHP_INT_MAX . PHP_INT_MAX,
                 false,
                 false,
                 false,
                 true,
-                -PHP_INT_MAX.PHP_INT_MAX.PHP_INT_MAX,
+                -PHP_INT_MAX . PHP_INT_MAX . PHP_INT_MAX,
                 '',
             ],
             [
-                substr(PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1).str_repeat('0', strlen((string) PHP_INT_MAX) - 1).PHP_INT_MAX,
+                substr((string) PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1) . str_repeat('0', strlen((string) PHP_INT_MAX) - 1) . PHP_INT_MAX,
                 false,
                 false,
                 false,
                 false,
-                substr(PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1).str_repeat('0', strlen((string) PHP_INT_MAX) - 1).PHP_INT_MAX,
+                substr((string) PHP_INT_MAX, 0, strlen((string) PHP_INT_MAX) - 1) . str_repeat('0', strlen((string) PHP_INT_MAX) - 1) . PHP_INT_MAX,
                 '',
             ],
         ];
     }
 
+    /** @psalm-return non-empty-list<array{string}> */
     public function invalidNumberExamples()
     {
         return [
@@ -133,6 +159,13 @@ final class NumberTest extends TestCase
         ];
     }
 
+    /**
+     * @psalm-return non-empty-list<array{
+     *     numeric-string,
+     *     int,
+     *     numeric-string
+     * }>
+     */
     public function base10Examples()
     {
         return [
@@ -153,7 +186,8 @@ final class NumberTest extends TestCase
         ];
     }
 
-    public function numericExamples()
+    /** @psalm-return non-empty-list<array{int|float|numeric-string}> */
+    public function numericExamples(): array
     {
         return [
             [1],

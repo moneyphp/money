@@ -1,145 +1,202 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Calculator;
 
 use Money\Calculator;
 use PHPUnit\Framework\TestCase;
-use function substr;
 use Tests\Money\RoundExamples;
+
+use function preg_replace;
+use function rtrim;
+use function substr;
 
 abstract class CalculatorTestCase extends TestCase
 {
     use RoundExamples;
 
-    /**
-     * @return Calculator
-     */
-    abstract protected function getCalculator();
+    abstract protected function getCalculator(): Calculator;
 
     /**
+     * @psalm-param positive-int $value1
+     * @psalm-param positive-int $value2
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider additionExamples
      * @test
      */
-    public function itAddsTwoValues($value1, $value2, $expected)
+    public function itAddsTwoValues(int $value1, int $value2, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->add($value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()->add((string) $value1, (string) $value2));
     }
 
     /**
+     * @psalm-param positive-int $value1
+     * @psalm-param positive-int $value2
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider subtractionExamples
      * @test
      */
-    public function itSubtractsAValueFromAnother($value1, $value2, $expected)
+    public function itSubtractsAValueFromAnother(int $value1, int $value2, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->subtract($value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()->subtract((string) $value1, (string) $value2));
     }
 
     /**
+     * @psalm-param positive-int|string $value1
+     * @psalm-param float $value2
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider multiplicationExamples
      * @test
      */
-    public function itMultipliesAValueByAnother($value1, $value2, $expected)
+    public function itMultipliesAValueByAnother(int|string $value1, float $value2, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->multiply($value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()->multiply((string) $value1, $value2));
     }
 
     /**
+     * @psalm-param positive-int|string $value1
+     * @psalm-param positive-int|float $value2
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider divisionExamples
      * @test
      */
-    public function itDividesAValueByAnother($value1, $value2, $expected)
+    public function itDividesAValueByAnother(int|string $value1, int|float $value2, string $expected): void
     {
-        $result = $this->getCalculator()->divide($value1, $value2);
-        $this->assertEquals(substr($expected, 0, 12), substr($result, 0, 12));
+        $result = $this->getCalculator()->divide((string) $value1, $value2);
+        self::assertEqualNumber(substr($expected, 0, 12), substr($result, 0, 12));
     }
 
     /**
+     * @psalm-param positive-int $value1
+     * @psalm-param positive-int|float $value2
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider divisionExactExamples
      * @test
      */
-    public function itDividesAValueByAnotherExact($value1, $value2, $expected)
+    public function itDividesAValueByAnotherExact(int $value1, int|float $value2, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->divide($value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()->divide((string) $value1, $value2));
     }
 
     /**
+     * @psalm-param float $value
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider ceilExamples
      * @test
      */
-    public function itCeilsAValue($value, $expected)
+    public function itCeilsAValue(float $value, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->ceil($value));
+        $this->assertEquals($expected, $this->getCalculator()->ceil((string) $value));
     }
 
     /**
+     * @psalm-param float $value
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider floorExamples
      * @test
      */
-    public function itFloorsAValue($value, $expected)
+    public function itFloorsAValue(float $value, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->floor($value));
+        $this->assertEquals($expected, $this->getCalculator()->floor((string) $value));
     }
 
     /**
+     * @psalm-param int $value
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider absoluteExamples
      * @test
      */
-    public function itCalculatesTheAbsoluteValue($value, $expected)
+    public function itCalculatesTheAbsoluteValue(int $value, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->absolute($value));
+        $this->assertEquals($expected, $this->getCalculator()->absolute((string) $value));
     }
 
     /**
+     * @psalm-param int $value
+     * @psalm-param int $ratio
+     * @psalm-param int $total
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider shareExamples
      * @test
      */
-    public function itSharesAValue($value, $ratio, $total, $expected)
+    public function itSharesAValue(int $value, int $ratio, int $total, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->share($value, $ratio, $total));
+        $this->assertEquals($expected, $this->getCalculator()->share((string) $value, $ratio, $total));
     }
 
     /**
-     * @dataProvider roundExamples
+     * @psalm-param float|int|numeric-string $value1
+     * @psalm-param Money::ROUND_* $value2
+     * @psalm-param numeric-string $expected
+     *
+     * @dataProvider roundingExamples
      * @test
      */
-    public function itRoundsAValue($value, $mode, $expected)
+    public function itRoundsAValue(float|int|string $value, int $mode, string $expected): void
     {
         $this->assertEquals($expected, $this->getCalculator()->round($value, $mode));
     }
 
     /**
+     * @psalm-param int|numeric-string $left
+     * @psalm-param int|numeric-string $right
+     *
      * @dataProvider compareLessExamples
      * @test
      */
-    public function itComparesValuesLess($left, $right)
+    public function itComparesValuesLess(int|string $left, int|string $right): void
     {
         // Compare with both orders. One must return a value less than zero,
         // the other must return a value greater than zero.
-        $this->assertLessThan(0, $this->getCalculator()->compare($left, $right));
-        $this->assertGreaterThan(0, $this->getCalculator()->compare($right, $left));
+        $this->assertLessThan(0, $this->getCalculator()->compare((string) $left, (string) $right));
+        $this->assertGreaterThan(0, $this->getCalculator()->compare((string) $right, (string) $left));
     }
 
     /**
+     * @psalm-param int|numeric-string $left
+     * @psalm-param int|numeric-string $right
+     *
      * @dataProvider compareEqualExamples
      * @test
      */
-    public function itComparesValues($left, $right)
+    public function itComparesValues(int|string $left, int|string $right): void
     {
         // Compare with both orders, both must return zero.
-        $this->assertEquals(0, $this->getCalculator()->compare($left, $right));
-        $this->assertEquals(0, $this->getCalculator()->compare($right, $left));
+        $this->assertEquals(0, $this->getCalculator()->compare((string) $left, (string) $right));
+        $this->assertEquals(0, $this->getCalculator()->compare((string) $left, (string) $right));
     }
 
     /**
+     * @psalm-param int $left
+     * @psalm-param int $right
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider modExamples
      * @test
      */
-    public function itCalculatesTheModulusOfAValue($left, $right, $expected)
+    public function itCalculatesTheModulusOfAValue(int $left, int $right, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->mod($left, $right));
+        $this->assertEquals($expected, $this->getCalculator()->mod((string) $left, (string) $right));
     }
 
-    public function additionExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     positive-int,
+     *     numeric-string
+     * }>
+     */
+    public function additionExamples(): array
     {
         return [
             [1, 1, '2'],
@@ -147,7 +204,14 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function subtractionExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     positive-int,
+     *     numeric-string
+     * }>
+     */
+    public function subtractionExamples(): array
     {
         return [
             [1, 1, '0'],
@@ -155,7 +219,14 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function multiplicationExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int|numeric-string,
+     *     float,
+     *     numeric-string
+     * }>
+     */
+    public function multiplicationExamples(): array
     {
         return [
             [1, 1.5, '1.5'],
@@ -171,7 +242,14 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function divisionExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int|numeric-string,
+     *     positive-int|float,
+     *     numeric-string
+     * }>
+     */
+    public function divisionExamples(): array
     {
         return [
             [6, 3, '2'],
@@ -188,7 +266,14 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function divisionExactExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     positive-int|float,
+     *     numeric-string
+     * }>
+     */
+    public function divisionExactExamples(): array
     {
         return [
             [6, 3, '2'],
@@ -201,7 +286,13 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function ceilExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     float,
+     *     numeric-string
+     * }>
+     */
+    public function ceilExamples(): array
     {
         return [
             [1.2, '2'],
@@ -210,7 +301,13 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function floorExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     float,
+     *     numeric-string
+     * }>
+     */
+    public function floorExamples(): array
     {
         return [
             [2.7, '2'],
@@ -219,7 +316,13 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function absoluteExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     numeric-string
+     * }>
+     */
+    public function absoluteExamples(): array
     {
         return [
             [2, '2'],
@@ -227,14 +330,28 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function shareExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     int,
+     *     int,
+     *     numeric-string
+     * }>
+     */
+    public function shareExamples(): array
     {
         return [
             [10, 2, 4, '5'],
         ];
     }
 
-    public function compareLessExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     int|numeric-string
+     * }>
+     */
+    public function compareLessExamples(): array
     {
         return [
             [0, 1],
@@ -245,7 +362,13 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function compareEqualExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|string,
+     *     int|string
+     * }>
+     */
+    public function compareEqualExamples(): array
     {
         return [
             [1, 1],
@@ -254,7 +377,14 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    public function modExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     int,
+     *     numeric-string
+     * }>
+     */
+    public function modExamples(): array
     {
         return [
             [11, 5, '1'],
@@ -265,5 +395,32 @@ abstract class CalculatorTestCase extends TestCase
             [-13, 5, '-3'],
             [13, -5, '3'],
         ];
+    }
+
+    /**
+     * Fixed point precision operations sometimes retrieve trailing zeroes due to higher precision than requested:
+     * this is acceptable for us, and we are OK with ignoring trailing zero fractional digits during test comparisons.
+     *
+     * @psalm-param numeric-string $expected
+     * @psalm-param numeric-string $result
+     */
+    final protected static function assertEqualNumber(string $expected, string $result): void
+    {
+        $normalizedExpected = $expected;
+        $normalizedResult   = $result;
+
+        // Thank you, Murica -.-
+        if ($normalizedExpected[0] === '.') {
+            $normalizedExpected = '0' . $normalizedExpected;
+        }
+
+        if ($normalizedResult[0] === '.') {
+            $normalizedResult = '0' . $normalizedResult;
+        }
+
+        $normalizedExpected = rtrim(preg_replace('/^(\d+\.\d*?[1-9]*)0+$/', '$1', $normalizedExpected), '.');
+        $normalizedResult   = rtrim(preg_replace('/^(\d+\.\d*?[1-9]*)0+$/', '$1', $normalizedResult), '.');
+
+        self::assertEquals($normalizedExpected, $normalizedResult);
     }
 }

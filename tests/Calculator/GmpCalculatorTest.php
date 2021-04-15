@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Calculator;
 
 use Money\Calculator\GmpCalculator;
@@ -9,7 +11,7 @@ use Money\Calculator\GmpCalculator;
  */
 class GmpCalculatorTest extends CalculatorTestCase
 {
-    protected function getCalculator()
+    protected function getCalculator(): GmpCalculator
     {
         return new GmpCalculator();
     }
@@ -17,7 +19,7 @@ class GmpCalculatorTest extends CalculatorTestCase
     /**
      * @test
      */
-    public function itMultipliesZero()
+    public function itMultipliesZero(): void
     {
         $this->assertSame('0', $this->getCalculator()->multiply('0', '0.8'));
     }
@@ -25,7 +27,7 @@ class GmpCalculatorTest extends CalculatorTestCase
     /**
      * @test
      */
-    public function itFloorsZero()
+    public function itFloorsZero(): void
     {
         $this->assertSame('0', $this->getCalculator()->floor('0'));
     }
@@ -33,8 +35,16 @@ class GmpCalculatorTest extends CalculatorTestCase
     /**
      * @test
      */
-    public function itComparesZeroWithFraction()
+    public function itComparesZeroWithFraction(): void
     {
         $this->assertSame(1, $this->getCalculator()->compare('0.5', '0'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_divides_bug538(): void
+    {
+        $this->assertSame('-4.54545454545455', $this->getCalculator()->divide('-500', 110));
     }
 }

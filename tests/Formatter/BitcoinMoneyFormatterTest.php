@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
@@ -10,30 +12,43 @@ use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
+use function assert;
+
 final class BitcoinMoneyFormatterTest extends TestCase
 {
     use ProphecyTrait;
 
     /**
+     * @psalm-param positive-int $value
+     * @psalm-param non-empty-string $formatted
+     * @psalm-param positive-int|0 $fractionDigits
+     *
      * @dataProvider bitcoinExamples
      * @test
      */
-    public function itFormatsMoney($value, $formatted, $fractionDigits)
+    public function itFormatsMoney(int $value, string $formatted, int $fractionDigits): void
     {
-        /** @var Currencies|ObjectProphecy $currencies */
         $currencies = $this->prophesize(Currencies::class);
+        assert($currencies instanceof Currencies || $currencies instanceof ObjectProphecy);
 
         $formatter = new BitcoinMoneyFormatter($fractionDigits, $currencies->reveal());
 
         $currency = new Currency('XBT');
-        $money = new Money($value, $currency);
+        $money    = new Money($value, $currency);
 
         $currencies->subunitFor($currency)->willReturn(8);
 
         $this->assertSame($formatted, $formatter->format($money));
     }
 
-    public function bitcoinExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     non-empty-string,
+     *     positive-int|0
+     * }>
+     */
+    public function bitcoinExamples(): array
     {
         return [
             [100000000000, "\xC9\x831000.00", 2],

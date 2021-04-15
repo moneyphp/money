@@ -1,33 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money;
 
+use JsonSerializable;
 use Money\Currency;
 use PhpSpec\ObjectBehavior;
 
 final class CurrencySpec extends ObjectBehavior
 {
-    function let()
+    public function let(): void
     {
         $this->beConstructedWith('EUR');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(Currency::class);
     }
 
-    function it_is_json_serializable()
+    public function it_is_json_serializable(): void
     {
-        $this->shouldImplement(\JsonSerializable::class);
+        $this->shouldImplement(JsonSerializable::class);
     }
 
-    function it_has_a_code()
+    public function it_has_a_code(): void
     {
         $this->getCode()->shouldReturn('EUR');
     }
 
-    function it_equals_to_a_currency_with_the_same_code()
+    public function it_equals_to_a_currency_with_the_same_code(): void
     {
         $this->equals(new Currency('EUR'))->shouldReturn(true);
         $this->equals(new Currency('USD'))->shouldReturn(false);

@@ -1,28 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Parser;
 
 use InvalidArgumentException;
 use Money\Currency;
 use Money\Exception;
+use Money\Money;
 use Money\MoneyParser;
+
 use function sprintf;
 use function trigger_error;
 
+use const E_USER_DEPRECATED;
+
 /**
  * Parses a string into a Money object using other parsers.
- *
- * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class AggregateMoneyParser implements MoneyParser
 {
     /**
      * @var MoneyParser[]
+     * @psalm-var non-empty-array<MoneyParser>
      */
-    private $parsers = [];
+    private array $parsers = [];
 
     /**
      * @param MoneyParser[] $parsers
+     * @psalm-param non-empty-array<MoneyParser> $parsers
      */
     public function __construct(array $parsers)
     {
@@ -31,21 +37,18 @@ final class AggregateMoneyParser implements MoneyParser
         }
 
         foreach ($parsers as $parser) {
-            if (false === $parser instanceof MoneyParser) {
-                throw new InvalidArgumentException('All parsers must implement '.MoneyParser::class);
+            if ($parser instanceof MoneyParser === false) {
+                throw new InvalidArgumentException('All parsers must implement ' . MoneyParser::class);
             }
 
             $this->parsers[] = $parser;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function parse($money, $forceCurrency = null)
+    public function parse(string $money, Currency|null $forceCurrency = null): Money
     {
-        if ($forceCurrency !== null && !$forceCurrency instanceof Currency) {
-            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
+        if ($forceCurrency !== null && ! $forceCurrency instanceof Currency) {
+            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a ' . Currency::class . ' instance instead.', E_USER_DEPRECATED);
             $forceCurrency = new Currency($forceCurrency);
         }
 

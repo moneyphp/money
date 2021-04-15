@@ -1,33 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use InvalidArgumentException;
-use function json_encode;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Throwable;
 
+use function json_encode;
+
+use const LC_ALL;
+use const PHP_INT_MAX;
+
 final class MoneyTest extends TestCase
 {
     use AggregateExamples;
     use RoundExamples;
 
-    const AMOUNT = 10;
+    public const AMOUNT = 10;
 
-    const OTHER_AMOUNT = 5;
+    public const OTHER_AMOUNT = 5;
 
-    const CURRENCY = 'EUR';
+    public const CURRENCY = 'EUR';
 
-    const OTHER_CURRENCY = 'USD';
+    public const OTHER_CURRENCY = 'USD';
 
     /**
      * @dataProvider equalityExamples
      * @test
      */
-    public function itEqualsToAnotherMoney($amount, $currency, $equality)
+    public function itEqualsToAnotherMoney(int|string $amount, Currency $currency, bool $equality): void
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
 
@@ -38,15 +44,15 @@ final class MoneyTest extends TestCase
      * @dataProvider comparisonExamples
      * @test
      */
-    public function itComparesTwoAmounts($other, $result)
+    public function itComparesTwoAmounts(int $other, int $result): void
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
         $other = new Money($other, new Currency(self::CURRENCY));
 
         $this->assertEquals($result, $money->compare($other));
-        $this->assertEquals(1 === $result, $money->greaterThan($other));
+        $this->assertEquals($result === 1, $money->greaterThan($other));
         $this->assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
-        $this->assertEquals(-1 === $result, $money->lessThan($other));
+        $this->assertEquals($result === -1, $money->lessThan($other));
         $this->assertEquals(0 >= $result, $money->lessThanOrEqual($other));
 
         if ($result === 0) {
@@ -57,10 +63,14 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @dataProvider roundExamples
+     * @psalm-param float|int|numeric-string $multiplier
+     * @psalm-param Money::ROUND_* $roundingMode
+     * @psalm-param numeric-string $result
+     *
+     * @dataProvider roundingExamples
      * @test
      */
-    public function itMultipliesTheAmount($multiplier, $roundingMode, $result)
+    public function itMultipliesTheAmount(float|int|string $multiplier, int $roundingMode, string $result): void
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -73,7 +83,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator()
+    public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator(): void
     {
         $this->setLocale(LC_ALL, 'es_ES.utf8');
 
@@ -88,8 +98,9 @@ final class MoneyTest extends TestCase
      * @dataProvider invalidOperandExamples
      * @test
      */
-    public function itThrowsAnExceptionWhenOperandIsInvalidDuringMultiplication($operand)
+    public function itThrowsAnExceptionWhenOperandIsInvalidDuringMultiplication(mixed $operand): void
     {
+        self::markTestIncomplete('No longer valid');
         $this->expectException(InvalidArgumentException::class);
 
         $money = new Money(1, new Currency(self::CURRENCY));
@@ -98,9 +109,13 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @dataProvider roundExamples
+     * @psalm-param float|int|numeric-string $divisor
+     * @psalm-param Money::ROUND_* $roundingMode
+     * @psalm-param numeric-string $result
+     *
+     * @dataProvider roundingExamples
      */
-    public function it_divides_the_amount($divisor, $roundingMode, $result)
+    public function it_divides_the_amount($divisor, $roundingMode, $result): void
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -114,8 +129,9 @@ final class MoneyTest extends TestCase
      * @dataProvider invalidOperandExamples
      * @test
      */
-    public function itThrowsAnExceptionWhenOperandIsInvalidDuringDivision($operand)
+    public function itThrowsAnExceptionWhenOperandIsInvalidDuringDivision(mixed $operand): void
     {
+        self::markTestIncomplete('No longer valid');
         $this->expectException(InvalidArgumentException::class);
 
         $money = new Money(1, new Currency(self::CURRENCY));
@@ -124,10 +140,14 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param positive-int $amount
+     * @psalm-param non-empty-array<positive-int|float> $ratios
+     * @psalm-param non-empty-array<positive-int> $results
+     *
      * @dataProvider allocationExamples
      * @test
      */
-    public function itAllocatesAmount($amount, $ratios, $results)
+    public function itAllocatesAmount(int $amount, array $ratios, array $results): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -136,15 +156,19 @@ final class MoneyTest extends TestCase
         foreach ($allocated as $key => $money) {
             $compareTo = new Money($results[$key], $money->getCurrency());
 
-            $this->assertEquals($money, $compareTo);
+            $this->assertTrue($money->equals($compareTo));
         }
     }
 
     /**
+     * @psalm-param positive-int $amount
+     * @psalm-param positive-int $target
+     * @psalm-param non-empty-list<positive-int> $results
+     *
      * @dataProvider allocationTargetExamples
      * @test
      */
-    public function itAllocatesAmountToNTargets($amount, $target, $results)
+    public function itAllocatesAmountToNTargets(int $amount, int $target, array $results): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -153,15 +177,17 @@ final class MoneyTest extends TestCase
         foreach ($allocated as $key => $money) {
             $compareTo = new Money($results[$key], $money->getCurrency());
 
-            $this->assertEquals($money, $compareTo);
+            $this->assertTrue($money->equals($compareTo));
         }
     }
 
     /**
+     * @psalm-param int|numeric-string $amount
+     *
      * @dataProvider comparatorExamples
      * @test
      */
-    public function itHasComparators($amount, $isZero, $isPositive, $isNegative)
+    public function itHasComparators(int|string $amount, bool $isZero, bool $isPositive, bool $isNegative): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -171,10 +197,13 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param int|numeric-string $amount
+     * @psalm-param positive-int|0 $result
+     *
      * @dataProvider absoluteExamples
      * @test
      */
-    public function itCalculatesTheAbsoluteAmount($amount, $result)
+    public function itCalculatesTheAbsoluteAmount($amount, $result): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -184,10 +213,13 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param int|numeric-string $amount
+     * @psalm-param int $result
+     *
      * @dataProvider negativeExamples
      * @test
      */
-    public function itCalculatesTheNegativeAmount($amount, $result)
+    public function itCalculatesTheNegativeAmount($amount, $result): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -197,12 +229,16 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param positive-int $left
+     * @psalm-param positive-int $right
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider modExamples
      * @test
      */
-    public function itCalculatesTheModulusOfAnAmount($left, $right, $expected)
+    public function itCalculatesTheModulusOfAnAmount($left, $right, $expected): void
     {
-        $money = new Money($left, new Currency(self::CURRENCY));
+        $money      = new Money($left, new Currency(self::CURRENCY));
         $rightMoney = new Money($right, new Currency(self::CURRENCY));
 
         $money = $money->mod($rightMoney);
@@ -214,7 +250,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function itConvertsToJson()
+    public function itConvertsToJson(): void
     {
         $this->assertEquals(
             '{"amount":"350","currency":"EUR"}',
@@ -230,7 +266,7 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function itSupportsMaxInt()
+    public function itSupportsMaxInt(): void
     {
         $one = new Money(1, new Currency('EUR'));
 
@@ -242,12 +278,12 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function itReturnsRatioOf()
+    public function itReturnsRatioOf(): void
     {
         $currency = new Currency('EUR');
-        $zero = new Money(0, $currency);
-        $three = new Money(3, $currency);
-        $six = new Money(6, $currency);
+        $zero     = new Money(0, $currency);
+        $three    = new Money(3, $currency);
+        $six      = new Money(6, $currency);
 
         $this->assertEquals(0, $zero->ratioOf($six));
         $this->assertEquals(0.5, $three->ratioOf($six));
@@ -258,49 +294,57 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function itThrowsWhenCalculatingRatioOfZero()
+    public function itThrowsWhenCalculatingRatioOfZero(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
         $currency = new Currency('EUR');
-        $zero = new Money(0, $currency);
-        $six = new Money(6, $currency);
+        $zero     = new Money(0, $currency);
+        $six      = new Money(6, $currency);
 
         $six->ratioOf($zero);
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider sumExamples
      * @test
      */
-    public function itCalculatesSum($values, $sum)
+    public function itCalculatesSum(array $values, Money $sum): void
     {
         $this->assertEquals($sum, Money::sum(...$values));
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider minExamples
      * @test
      */
-    public function itCalculatesMin($values, $min)
+    public function itCalculatesMin(array $values, Money $min): void
     {
         $this->assertEquals($min, Money::min(...$values));
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider maxExamples
      * @test
      */
-    public function itCalculatesMax($values, $max)
+    public function itCalculatesMax(array $values, Money $max): void
     {
         $this->assertEquals($max, Money::max(...$values));
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider avgExamples
      * @test
      */
-    public function itCalculatesAvg($values, $avg)
+    public function itCalculatesAvg(array $values, Money $avg): void
     {
         $this->assertEquals($avg, Money::avg(...$values));
     }
@@ -309,7 +353,7 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function itThrowsWhenCalculatingMinWithZeroArguments()
+    public function itThrowsWhenCalculatingMinWithZeroArguments(): void
     {
         $this->expectException(Throwable::class);
         Money::min(...[]);
@@ -319,7 +363,7 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function itThrowsWhenCalculatingMaxWithZeroArguments()
+    public function itThrowsWhenCalculatingMaxWithZeroArguments(): void
     {
         $this->expectException(Throwable::class);
         Money::max(...[]);
@@ -329,7 +373,7 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function itThrowsWhenCalculatingSumWithZeroArguments()
+    public function itThrowsWhenCalculatingSumWithZeroArguments(): void
     {
         $this->expectException(Throwable::class);
         Money::sum(...[]);
@@ -339,13 +383,20 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function itThrowsWhenCalculatingAvgWithZeroArguments()
+    public function itThrowsWhenCalculatingAvgWithZeroArguments(): void
     {
         $this->expectException(Throwable::class);
         Money::avg(...[]);
     }
 
-    public function equalityExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|string,
+     *     Currency,
+     *     bool
+     * }>
+     */
+    public function equalityExamples(): array
     {
         return [
             [self::AMOUNT, new Currency(self::CURRENCY), true],
@@ -353,11 +404,17 @@ final class MoneyTest extends TestCase
             [self::AMOUNT, new Currency(self::OTHER_CURRENCY), false],
             [self::AMOUNT + 1, new Currency(self::OTHER_CURRENCY), false],
             [(string) self::AMOUNT, new Currency(self::CURRENCY), true],
-            [((string) self::AMOUNT).'.000', new Currency(self::CURRENCY), true],
+            [((string) self::AMOUNT) . '.000', new Currency(self::CURRENCY), true],
         ];
     }
 
-    public function comparisonExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     int
+     * }>
+     */
+    public function comparisonExamples(): array
     {
         return [
             [self::AMOUNT, 0],
@@ -366,7 +423,10 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function invalidOperandExamples()
+    /**
+     * @psalm-return non-empty-list<array{mixed}>
+     */
+    public function invalidOperandExamples(): array
     {
         return [
             [[]],
@@ -377,7 +437,14 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function allocationExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     non-empty-array<positive-int|float>,
+     *     non-empty-array<positive-int>
+     * }>
+     */
+    public function allocationExamples(): array
     {
         return [
             [100, [1, 1, 1], [34, 33, 33]],
@@ -400,7 +467,14 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function allocationTargetExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     positive-int,
+     *     non-empty-list<positive-int>
+     * }>
+     */
+    public function allocationTargetExamples(): array
     {
         return [
             [15, 2, [8, 7]],
@@ -410,7 +484,15 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function comparatorExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     bool,
+     *     bool,
+     *     bool
+     * }>
+     */
+    public function comparatorExamples(): array
     {
         return [
             [1, false, true, false],
@@ -422,7 +504,13 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function absoluteExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     positive-int|0
+     * }>
+     */
+    public function absoluteExamples(): array
     {
         return [
             [1, 1],
@@ -434,7 +522,13 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function negativeExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     int
+     * }>
+     */
+    public function negativeExamples(): array
     {
         return [
             [1, -1],
@@ -446,7 +540,14 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function modExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     positive-int,
+     *     numeric-string
+     * }>
+     */
+    public function modExamples(): array
     {
         return [
             [11, 5, '1'],

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
 
 use InvalidArgumentException;
-use function is_string;
 use JsonSerializable;
 
 /**
@@ -11,18 +12,14 @@ use JsonSerializable;
  *
  * Holds Currency specific data.
  *
- * @author Mathias Verraes
- *
  * @psalm-immutable
  */
 final class Currency implements JsonSerializable
 {
     /**
      * Currency code.
-     *
-     * @var string
      */
-    private $code;
+    private string $code;
 
     public function __construct(string $code)
     {
@@ -35,38 +32,29 @@ final class Currency implements JsonSerializable
 
     /**
      * Returns the currency code.
-     *
-     * @return string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
     /**
      * Checks whether this currency is the same as an other.
-     *
-     * @return bool
      */
-    public function equals(Currency $other)
+    public function equals(Currency $other): bool
     {
         return $this->code === $other->code;
     }
 
     /**
      * Checks whether this currency is available in the passed context.
-     *
-     * @return bool
      */
-    public function isAvailableWithin(Currencies $currencies)
+    public function isAvailableWithin(Currencies $currencies): bool
     {
         return $currencies->contains($this);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->code;
     }

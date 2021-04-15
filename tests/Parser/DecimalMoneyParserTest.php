@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use Money\Currencies;
@@ -15,10 +17,15 @@ final class DecimalMoneyParserTest extends TestCase
     use ProphecyTrait;
 
     /**
+     * @psalm-param numeric-string $decimal
+     * @psalm-param non-empty-string $currency
+     * @psalm-param positive-int $subunit
+     * @psalm-param int $result
+     *
      * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function itParsesMoney($decimal, $currency, $subunit, $result)
+    public function itParsesMoney(string $decimal, string $currency, int $subunit, int $result): void
     {
         $currencies = $this->prophesize(Currencies::class);
 
@@ -33,10 +40,12 @@ final class DecimalMoneyParserTest extends TestCase
     }
 
     /**
+     * @psalm-param non-empty-string $input
+     *
      * @dataProvider invalidMoneyExamples
      * @test
      */
-    public function itThrowsAnExceptionUponInvalidInputs($input)
+    public function itThrowsAnExceptionUponInvalidInputs($input): void
     {
         $currencies = $this->prophesize(Currencies::class);
 
@@ -55,8 +64,10 @@ final class DecimalMoneyParserTest extends TestCase
      * @group legacy
      * @test
      */
-    public function itAcceptsOnlyACurrencyObject()
+    public function itAcceptsOnlyACurrencyObject(): void
     {
+        self::markTestIncomplete('Deprecation to be removed before merging this patch');
+
         $currencies = $this->prophesize(Currencies::class);
 
         $currencies->subunitFor(Argument::allOf(
@@ -71,7 +82,15 @@ final class DecimalMoneyParserTest extends TestCase
         $parser->parse('1.0', 'USD');
     }
 
-    public function formattedMoneyExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     numeric-string,
+     *     non-empty-string,
+     *     positive-int,
+     *     int
+     * }>
+     */
+    public function formattedMoneyExamples(): array
     {
         return [
             ['1000.50', 'USD', 2, 100050],
@@ -127,6 +146,7 @@ final class DecimalMoneyParserTest extends TestCase
         ];
     }
 
+    /** @psalm-return non-empty-list<array{non-empty-string}> */
     public static function invalidMoneyExamples()
     {
         return [

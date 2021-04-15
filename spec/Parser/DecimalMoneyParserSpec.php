@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Parser;
 
 use Money\Currencies;
@@ -13,44 +15,44 @@ use Prophecy\Argument;
 
 final class DecimalMoneyParserSpec extends ObjectBehavior
 {
-    function let(Currencies $currencies)
+    public function let(Currencies $currencies): void
     {
         $this->beConstructedWith($currencies);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(DecimalMoneyParser::class);
     }
 
-    function it_is_a_money_parser()
+    public function it_is_a_money_parser(): void
     {
         $this->shouldImplement(MoneyParser::class);
     }
 
-    public function it_parses_money(Currencies $currencies)
+    public function it_parses_money(Currencies $currencies): void
     {
         $currencies->subunitFor(Argument::type(Currency::class))->willReturn(2);
 
-        $money = $this->parse('1.00', 'EUR');
+        $money = $this->parse('1.00', new Currency('EUR'));
 
         $money->shouldHaveType(Money::class);
         $money->getAmount()->shouldReturn('100');
         $money->getCurrency()->getCode()->shouldReturn('EUR');
     }
 
-    function it_throws_an_exception_when_there_is_no_currency()
+    public function it_throws_an_exception_when_there_is_no_currency(): void
     {
         $this->shouldThrow(ParserException::class)->duringParse('100');
     }
 
-    function it_throws_an_exception_when_money_includes_currency_symbol()
+    public function it_throws_an_exception_when_money_includes_currency_symbol(): void
     {
-        $this->shouldThrow(ParserException::class)->duringParse('€ 100', 'EUR');
+        $this->shouldThrow(ParserException::class)->duringParse('€ 100', new Currency('EUR'));
     }
 
-    function it_throws_an_exception_when_money_is_not_a_valid_decimal()
+    public function it_throws_an_exception_when_money_is_not_a_valid_decimal(): void
     {
-        $this->shouldThrow(ParserException::class)->duringParse('INVALID', 'EUR');
+        $this->shouldThrow(ParserException::class)->duringParse('INVALID', new Currency('EUR'));
     }
 }

@@ -1,61 +1,65 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money;
 
+use InvalidArgumentException;
+use JsonSerializable;
 use Money\Currency;
 use Money\CurrencyPair;
 use PhpSpec\ObjectBehavior;
 
 final class CurrencyPairSpec extends ObjectBehavior
 {
-    function let()
+    public function let(): void
     {
-        $this->beConstructedWith(new Currency('EUR'), new Currency('USD'), 1.250000);
+        $this->beConstructedWith(new Currency('EUR'), new Currency('USD'), '1.250000');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(CurrencyPair::class);
     }
 
-    function it_is_json_serializable()
+    public function it_is_json_serializable(): void
     {
-        $this->shouldImplement(\JsonSerializable::class);
+        $this->shouldImplement(JsonSerializable::class);
     }
 
-    function it_has_currencies_and_ratio()
+    public function it_has_currencies_and_ratio(): void
     {
-        $this->beConstructedWith($base = new Currency('EUR'), $counter = new Currency('USD'), $ratio = 1.0);
+        $this->beConstructedWith($base = new Currency('EUR'), $counter = new Currency('USD'), $ratio = '1.0');
 
         $this->getBaseCurrency()->shouldReturn($base);
         $this->getCounterCurrency()->shouldReturn($counter);
         $this->getConversionRatio()->shouldReturn($ratio);
     }
 
-    function it_throws_an_exception_when_ratio_is_not_numeric()
+    public function it_throws_an_exception_when_ratio_is_not_numeric(): void
     {
         $this->beConstructedWith(new Currency('EUR'), new Currency('USD'), 'NON_NUMERIC');
 
-        $this->shouldThrow(\InvalidArgumentException::class)->duringInstantiation();
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
-    function it_equals_to_another_currency_pair()
+    public function it_equals_to_another_currency_pair(): void
     {
-        $this->equals(new CurrencyPair(new Currency('GBP'), new Currency('USD'), 1.250000))->shouldReturn(false);
-        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('GBP'), 1.250000))->shouldReturn(false);
-        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.5000))->shouldReturn(false);
-        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.250000))->shouldReturn(true);
+        $this->equals(new CurrencyPair(new Currency('GBP'), new Currency('USD'), '1.250000'))->shouldReturn(false);
+        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('GBP'), '1.250000'))->shouldReturn(false);
+        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.5000'))->shouldReturn(false);
+        $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.250000'))->shouldReturn(true);
     }
 
-    function it_parses_an_iso_string()
+    public function it_parses_an_iso_string(): void
     {
         $pair = $this->createFromIso('EUR/USD 1.250000');
 
         $this->equals($pair)->shouldReturn(true);
     }
 
-    function it_throws_an_exception_when_iso_string_cannot_be_parsed()
+    public function it_throws_an_exception_when_iso_string_cannot_be_parsed(): void
     {
-        $this->shouldThrow(\InvalidArgumentException::class)->duringCreateFromIso('1.250000');
+        $this->shouldThrow(InvalidArgumentException::class)->duringCreateFromIso('1.250000');
     }
 }

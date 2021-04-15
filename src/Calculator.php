@@ -1,127 +1,75 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
 
 /**
  * Money calculations abstracted away from the Money value object.
  *
- * @author Frederik Bosch <f.bosch@genkgo.nl>
+ * @internal the calculator component is an internal detail of this library: it is only supposed to be replaced if
+ *           your system requires a custom architecture for operating on large numbers.
  */
 interface Calculator
 {
     /**
      * Returns whether the calculator is supported in
      * the current server environment.
-     *
-     * @return bool
      */
-    public static function supported();
+    public static function supported(): bool;
 
     /**
      * Compare a to b.
-     *
-     * @param string $a
-     * @param string $b
-     *
-     * @return int
      */
-    public function compare($a, $b);
+    public function compare(string $a, string $b): int;
 
     /**
      * Add added to amount.
-     *
-     * @param string $amount
-     * @param string $addend
-     *
-     * @return string
      */
-    public function add($amount, $addend);
+    public function add(string $amount, string $addend): string;
 
     /**
      * Subtract subtrahend from amount.
-     *
-     * @param string $amount
-     * @param string $subtrahend
-     *
-     * @return string
      */
-    public function subtract($amount, $subtrahend);
+    public function subtract(string $amount, string $subtrahend): string;
 
     /**
      * Multiply amount with multiplier.
-     *
-     * @param string           $amount
-     * @param int|float|string $multiplier
-     *
-     * @return string
      */
-    public function multiply($amount, $multiplier);
+    public function multiply(string $amount, int|float|string $multiplier): string;
 
     /**
      * Divide amount with divisor.
-     *
-     * @param string           $amount
-     * @param int|float|string $divisor
-     *
-     * @return string
      */
-    public function divide($amount, $divisor);
+    public function divide(string $amount, int|float|string $divisor): string;
 
     /**
      * Round number to following integer.
-     *
-     * @param string $number
-     *
-     * @return string
      */
-    public function ceil($number);
+    public function ceil(string $number): string;
 
     /**
      * Round number to preceding integer.
-     *
-     * @param string $number
-     *
-     * @return string
      */
-    public function floor($number);
+    public function floor(string $number): string;
 
     /**
      * Returns the absolute value of the number.
-     *
-     * @param string $number
-     *
-     * @return string
      */
-    public function absolute($number);
+    public function absolute(string $number): string;
 
     /**
      * Round number, use rounding mode for tie-breaker.
-     *
-     * @param int|float|string $number
-     * @param int              $roundingMode
-     *
-     * @return string
      */
-    public function round($number, $roundingMode);
+    public function round(int|float|string $number, int $roundingMode): string;
 
     /**
      * Share amount among ratio / total portions.
-     *
-     * @param string           $amount
-     * @param int|float|string $ratio
-     * @param int|float|string $total
-     *
-     * @return string
      */
-    public function share($amount, $ratio, $total);
+    public function share(string $amount, int|float|string $ratio, int|float|string $total): string;
 
     /**
      * Get the modulus of an amount.
-     *
-     * @param string           $amount
-     * @param int|float|string $divisor
-     *
-     * @return string
      */
-    public function mod($amount, $divisor);
+    public function mod(string $amount, int|float|string $divisor): string;
 }

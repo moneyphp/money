@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Money;
 
 trait AggregateExamples
 {
-    public function sumExamples()
+    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public function sumExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(30)],
@@ -15,7 +18,8 @@ trait AggregateExamples
         ];
     }
 
-    public function minExamples()
+    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public function minExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(5)],
@@ -24,7 +28,8 @@ trait AggregateExamples
         ];
     }
 
-    public function maxExamples()
+    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public function maxExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(15)],
@@ -33,7 +38,8 @@ trait AggregateExamples
         ];
     }
 
-    public function avgExamples()
+    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public function avgExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(10)],

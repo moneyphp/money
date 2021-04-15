@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
@@ -15,10 +17,14 @@ final class DecimalMoneyFormatterTest extends TestCase
     use ProphecyTrait;
 
     /**
+     * @psalm-param non-empty-string $currency
+     * @psalm-param positive-int|0 $subunit
+     * @psalm-param numeric-string $result
+     *
      * @dataProvider moneyExamples
      * @test
      */
-    public function itFormatsMoney($amount, $currency, $subunit, $result)
+    public function itFormatsMoney(int $amount, string $currency, int $subunit, string $result): void
     {
         $money = new Money($amount, new Currency($currency));
 
@@ -33,6 +39,14 @@ final class DecimalMoneyFormatterTest extends TestCase
         $this->assertSame($result, $moneyFormatter->format($money));
     }
 
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     non-empty-string,
+     *     positive-int|0,
+     *     numeric-string
+     * }>
+     */
     public static function moneyExamples()
     {
         return [

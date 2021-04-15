@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Currencies;
 
 use AppendIterator;
@@ -7,18 +9,15 @@ use InvalidArgumentException;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
+use Traversable;
 
 /**
  * Aggregates several currency repositories.
- *
- * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
 final class AggregateCurrencies implements Currencies
 {
-    /**
-     * @var Currencies[]
-     */
-    private $currencies;
+    /** @var Currencies[] */
+    private array $currencies;
 
     /**
      * @param Currencies[] $currencies
@@ -26,18 +25,15 @@ final class AggregateCurrencies implements Currencies
     public function __construct(array $currencies)
     {
         foreach ($currencies as $c) {
-            if (false === $c instanceof Currencies) {
-                throw new InvalidArgumentException('All currency repositories must implement '.Currencies::class);
+            if ($c instanceof Currencies === false) {
+                throw new InvalidArgumentException('All currency repositories must implement ' . Currencies::class);
             }
         }
 
         $this->currencies = $currencies;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function contains(Currency $currency)
+    public function contains(Currency $currency): bool
     {
         foreach ($this->currencies as $currencies) {
             if ($currencies->contains($currency)) {
@@ -48,10 +44,7 @@ final class AggregateCurrencies implements Currencies
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function subunitFor(Currency $currency)
+    public function subunitFor(Currency $currency): int
     {
         foreach ($this->currencies as $currencies) {
             if ($currencies->contains($currency)) {
@@ -59,13 +52,11 @@ final class AggregateCurrencies implements Currencies
             }
         }
 
-        throw new UnknownCurrencyException('Cannot find currency '.$currency->getCode());
+        throw new UnknownCurrencyException('Cannot find currency ' . $currency->getCode());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
+    /** {@inheritDoc} */
+    public function getIterator(): Traversable
     {
         $iterator = new AppendIterator();
 

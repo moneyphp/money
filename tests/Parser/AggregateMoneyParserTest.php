@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use InvalidArgumentException;
@@ -11,7 +13,7 @@ final class AggregateMoneyParserTest extends TestCase
     /**
      * @test
      */
-    public function itCanBeInitializedWithEmptyArray()
+    public function itCanBeInitializedWithEmptyArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Initialize an empty Money\\Parser\\AggregateMoneyParser is not possible');
