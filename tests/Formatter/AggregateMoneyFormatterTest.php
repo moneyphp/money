@@ -4,25 +4,19 @@ declare(strict_types=1);
 
 namespace Tests\Money\Formatter;
 
-use Money\Currencies;
 use Money\Currency;
 use Money\Exception\FormatterException;
 use Money\Formatter\AggregateMoneyFormatter;
-use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
-
-use function assert;
 
 final class AggregateMoneyFormatterTest extends TestCase
 {
     /** @test */
     public function it_formats_money(): void
     {
-        $money = new Money(1, new Currency('EUR'));
+        $money        = new Money(1, new Currency('EUR'));
         $eurFormatter = $this->createMock(MoneyFormatter::class);
 
         $eurFormatter->method('format')
@@ -53,11 +47,11 @@ final class AggregateMoneyFormatterTest extends TestCase
     /** @test */
     public function it_uses_default_formatter_when_no_specific_one_is_found(): void
     {
-        $eur = new Money(1, new Currency('EUR'));
-        $usd = new Money(1, new Currency('USD'));
-        $other = new Money(1, new Currency('CZK'));
-        $eurFormatter = $this->createMock(MoneyFormatter::class);
-        $usdFormatter = $this->createMock(MoneyFormatter::class);
+        $eur              = new Money(1, new Currency('EUR'));
+        $usd              = new Money(1, new Currency('USD'));
+        $other            = new Money(1, new Currency('CZK'));
+        $eurFormatter     = $this->createMock(MoneyFormatter::class);
+        $usdFormatter     = $this->createMock(MoneyFormatter::class);
         $defaultFormatter = $this->createMock(MoneyFormatter::class);
 
         $eurFormatter->method('format')

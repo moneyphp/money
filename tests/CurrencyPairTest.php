@@ -7,6 +7,7 @@ namespace Tests\Money;
 use Money\Currency;
 use Money\CurrencyPair;
 use PHPUnit\Framework\TestCase;
+
 use function json_encode;
 
 final class CurrencyPairTest extends TestCase

@@ -16,12 +16,12 @@ use Swap\Swap;
 final class SwapExchangeTest extends TestCase
 {
     /** @test */
-    function it_exchanges_currencies(): void
+    public function it_exchanges_currencies(): void
     {
-        $base            = new Currency('EUR');
-        $counter         = new Currency('USD');
-        $swapExchange    = $this->createMock(Swap::class);
-        $exchangeRate    = $this->createMock(ExchangeRate::class);
+        $base         = new Currency('EUR');
+        $counter      = new Currency('USD');
+        $swapExchange = $this->createMock(Swap::class);
+        $exchangeRate = $this->createMock(ExchangeRate::class);
 
         $exchangeRate->method('getValue')
             ->willReturn(1.25);
@@ -39,12 +39,12 @@ final class SwapExchangeTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_when_cannot_exchange_currencies(): void
+    public function it_throws_an_exception_when_cannot_exchange_currencies(): void
     {
-        $base            = new Currency('EUR');
-        $counter         = new Currency('USD');
-        $swapExchange    = $this->createMock(Swap::class);
-        $exchangeRate    = $this->createMock(ExchangeRate::class);
+        $base         = new Currency('EUR');
+        $counter      = new Currency('USD');
+        $swapExchange = $this->createMock(Swap::class);
+        $exchangeRate = $this->createMock(ExchangeRate::class);
 
         $exchangeRate->method('getValue')
             ->willReturn(1.25);

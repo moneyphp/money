@@ -260,7 +260,6 @@ final class Number
 
     /**
      * @psalm-pure
-     *
      * @psalm-suppress InvalidOperand string and integers get concatenated here - that is by design, as we're computing remainders
      */
     public static function roundMoneyValue(string $moneyValue, int $targetDigits, int $havingDigits): string

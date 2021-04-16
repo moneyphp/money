@@ -12,9 +12,6 @@ use Money\Exchange;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
-
-use function assert;
 
 use const LC_ALL;
 
@@ -48,8 +45,8 @@ final class ConverterTest extends TestCase
         $pair            = new CurrencyPair($baseCurrency, $counterCurrency, (string) $ratio);
 
         $currencies = $this->createMock(Currencies::class);
-        $exchange = $this->createMock(Exchange::class);
-        $converter = new Converter($currencies, $exchange);
+        $exchange   = $this->createMock(Exchange::class);
+        $converter  = new Converter($currencies, $exchange);
 
         $currencies->method('subunitFor')
             ->with(self::logicalOr(self::equalTo($baseCurrency), self::equalTo($counterCurrency)))

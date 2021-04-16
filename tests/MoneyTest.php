@@ -29,10 +29,10 @@ final class MoneyTest extends TestCase
     public const OTHER_CURRENCY = 'USD';
 
     /**
+     * @psalm-param int|numeric-string $amount
+     *
      * @dataProvider equalityExamples
      * @test
-     *
-     * @psalm-param int|numeric-string $amount
      */
     public function itEqualsToAnotherMoney(int|string $amount, Currency $currency, bool $equality): void
     {

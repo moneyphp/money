@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Money\Parser;
 
-use Money\Currencies\BitcoinCurrencies;
 use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 use Money\Parser\AggregateMoneyParser;
-use Money\Parser\BitcoinMoneyParser;
 use PHPUnit\Framework\TestCase;
 
 final class AggregateMoneyParserTest extends TestCase
@@ -57,7 +55,7 @@ final class AggregateMoneyParserTest extends TestCase
     /** @test */
     public function it_will_retrieve_parser_result_from_first_successful_parser(): void
     {
-        $money         = new Money(10000, new Currency('EUR'));
+        $money          = new Money(10000, new Currency('EUR'));
         $wrappedParser1 = $this->createMock(MoneyParser::class);
         $wrappedParser2 = $this->createMock(MoneyParser::class);
         $wrappedParser3 = $this->createMock(MoneyParser::class);

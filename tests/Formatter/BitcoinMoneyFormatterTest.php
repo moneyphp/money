@@ -10,9 +10,6 @@ use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
-
-use function assert;
 
 final class BitcoinMoneyFormatterTest extends TestCase
 {

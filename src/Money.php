@@ -292,16 +292,16 @@ final class Money implements JsonSerializable
     /**
      * Allocate the money according to a list of ratios.
      *
-     * @return Money[]
-     *
-     * @template TRatios as non-empty-array<float|int>
      * @psalm-param TRatios $ratios
      *
+     * @return Money[]
      * @psalm-return (
      *     TRatios is list
      *         ? non-empty-list<Money>
      *         : non-empty-array<Money>
      * )
+     *
+     * @template TRatios as non-empty-array<float|int>
      */
     public function allocate(array $ratios): array
     {
@@ -352,7 +352,6 @@ final class Money implements JsonSerializable
      * @psalm-param positive-int $n
      *
      * @return Money[]
-     *
      * @psalm-return non-empty-list<Money>
      *
      * @throws InvalidArgumentException If number of targets is not an integer.
@@ -363,7 +362,7 @@ final class Money implements JsonSerializable
     }
 
     /**
-     * @throws InvalidArgumentException if the given $money is zero
+     * @throws InvalidArgumentException if the given $money is zero.
      */
     public function ratioOf(Money $money): string
     {

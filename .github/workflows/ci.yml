@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
   pull_request:
 
 jobs:
@@ -15,20 +13,20 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.3'
+          php-version: '8.0'
           extensions: bcmath, gmp, intl, dom, mbstring
 
       - name: Setup Problem Matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Set up locales
         run: ./hack/setup-locales.sh
 
       - name: Download dependencies
-        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest
+        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest --classmap-authoritative
 
       - name: Run tests
         run: composer test
@@ -37,9 +35,8 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 10
       matrix:
-        php: ['7.3', '7.4', '8.0']
+        php: ['8.0']
 
     steps:
       - name: Set up PHP
@@ -52,13 +49,13 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Set up locales
         run: ./hack/setup-locales.sh
 
       - name: Download dependencies
-        run: composer update --no-ansi --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest
+        run: composer install --classmap-authoritative
 
       - name: Run tests
         run: composer test
@@ -74,7 +71,7 @@ jobs:
           architecture: 'x64'
 
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Install dependencies
         run: |

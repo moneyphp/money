@@ -2,42 +2,28 @@ name: Static analysis
 
 on:
   push:
-    branches:
-      - master
   pull_request:
 
 jobs:
-  phpstan:
-    name: PHPStan
+  phpcs:
+    name: PHP-CodeSniffer
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: Install
-        uses: docker://composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
         with:
-          args: install --ignore-platform-reqs --no-ansi --no-suggest
+          php-version: '8.0'
+          extensions: bcmath, gmp, intl, dom, mbstring
 
-      - name: PHPStan
-        uses: docker://oskarstark/phpstan-ga:0.12.28
-        with:
-          entrypoint: ./.github/workflows/phpstan.entrypoint
-          args: analyze --no-progress
+      - name: Download dependencies
+        run: composer install --classmap-authoritative
 
-  php-cs-fixer:
-    name: PHP-CS-Fixer
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: PHP-CS-Fixer
-        uses: docker://oskarstark/php-cs-fixer-ga:2.16.3.1
-        with:
-          args: --dry-run --diff-format udiff
+      - name: Psalm
+        run: vendor/bin/phpcs
 
   psalm:
     name: Psalm
@@ -45,15 +31,16 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: Install
-        uses: docker://composer
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
         with:
-          args: install --ignore-platform-reqs --no-ansi --no-suggest
+          php-version: '8.0'
+          extensions: bcmath, gmp, intl, dom, mbstring
+
+      - name: Download dependencies
+        run: composer install --classmap-authoritative
 
       - name: Psalm
-        uses: docker://vimeo/psalm-github-actions
-        with:
-          entrypoint: ./.github/workflows/psalm.entrypoint
-          args: --threads=8 --diff --diff-methods
+        run: vendor/bin/psalm

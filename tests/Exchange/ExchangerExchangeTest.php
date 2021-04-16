@@ -8,10 +8,8 @@ use Exchanger\Contract\ExchangeRate;
 use Exchanger\Contract\ExchangeRateProvider;
 use Exchanger\CurrencyPair as ExchangerCurrencyPair;
 use Exchanger\Exception\Exception;
-use Exchanger\Exchanger;
 use Exchanger\ExchangeRateQuery;
 use Money\Currency;
-use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange\ExchangerExchange;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 final class ExchangerExchangeTest extends TestCase
 {
     /** @test */
-    function it_exchanges_currencies(): void
+    public function it_exchanges_currencies(): void
     {
         $exchangeRate  = $this->createMock(ExchangeRate::class);
         $exchangeRates = $this->createMock(ExchangeRateProvider::class);
@@ -41,7 +39,7 @@ final class ExchangerExchangeTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_when_cannot_exchange_currencies(): void
+    public function it_throws_an_exception_when_cannot_exchange_currencies(): void
     {
         $exchangeRates = $this->createMock(ExchangeRateProvider::class);
 

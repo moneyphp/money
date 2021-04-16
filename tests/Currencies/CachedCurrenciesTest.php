@@ -7,15 +7,11 @@ namespace Tests\Money\Currencies;
 use ArrayIterator;
 use Money\Currencies;
 use Money\Currencies\CachedCurrencies;
-use Money\Currencies\CurrencyList;
 use Money\Currency;
-use Money\Exception\UnknownCurrencyException;
 use PHPUnit\Framework\TestCase;
-
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use function array_keys;
-use function array_map;
+
 use function iterator_to_array;
 
 /** @covers \Money\Currencies\CachedCurrencies */
@@ -26,8 +22,8 @@ final class CachedCurrenciesTest extends TestCase
     {
         $currency = new Currency('EUR');
 
-        $miss = $this->createMock(CacheItemInterface::class);
-        $cache = $this->createMock(CacheItemPoolInterface::class);
+        $miss              = $this->createMock(CacheItemInterface::class);
+        $cache             = $this->createMock(CacheItemPoolInterface::class);
         $wrappedCurrencies = $this->createMock(Currencies::class);
 
         $miss->method('isHit')
@@ -60,8 +56,8 @@ final class CachedCurrenciesTest extends TestCase
     {
         $currency = new Currency('EUR');
 
-        $hit = $this->createMock(CacheItemInterface::class);
-        $cache = $this->createMock(CacheItemPoolInterface::class);
+        $hit               = $this->createMock(CacheItemInterface::class);
+        $cache             = $this->createMock(CacheItemPoolInterface::class);
         $wrappedCurrencies = $this->createMock(Currencies::class);
 
         $hit->method('isHit')
@@ -89,9 +85,9 @@ final class CachedCurrenciesTest extends TestCase
     /** @test */
     public function it_is_iterable(): void
     {
-        $refreshed1 = $this->createMock(CacheItemInterface::class);
-        $refreshed2 = $this->createMock(CacheItemInterface::class);
-        $cache = $this->createMock(CacheItemPoolInterface::class);
+        $refreshed1        = $this->createMock(CacheItemInterface::class);
+        $refreshed2        = $this->createMock(CacheItemInterface::class);
+        $cache             = $this->createMock(CacheItemPoolInterface::class);
         $wrappedCurrencies = $this->createMock(Currencies::class);
 
         $refreshed1->expects(self::once())

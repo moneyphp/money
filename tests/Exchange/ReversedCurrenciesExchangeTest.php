@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 final class ReversedCurrenciesExchangeTest extends TestCase
 {
     /** @test */
-    function it_exchanges_currencies(): void
+    public function it_exchanges_currencies(): void
     {
         $base            = new Currency('EUR');
         $counter         = new Currency('USD');
@@ -32,7 +32,7 @@ final class ReversedCurrenciesExchangeTest extends TestCase
     }
 
     /** @test */
-    function it_exchanges_reversed_currencies_when_the_original_pair_is_not_found(): void
+    public function it_exchanges_reversed_currencies_when_the_original_pair_is_not_found(): void
     {
         $base            = new Currency('EUR');
         $counter         = new Currency('USD');
@@ -56,7 +56,7 @@ final class ReversedCurrenciesExchangeTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_when_neither_the_original_nor_the_reversed_currency_pair_can_be_resolved(): void
+    public function it_throws_an_exception_when_neither_the_original_nor_the_reversed_currency_pair_can_be_resolved(): void
     {
         $exception1      = new UnresolvableCurrencyPairException('first thrown');
         $exception2      = new UnresolvableCurrencyPairException('second thrown');

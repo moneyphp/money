@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Money\Calculator;
 
 use Money\Calculator;
+use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Tests\Money\RoundExamples;
 
@@ -144,7 +145,7 @@ abstract class CalculatorTestCase extends TestCase
 
     /**
      * @psalm-param float|int|numeric-string $value
-     * @psalm-param \Money\Money::ROUND_* $mode
+     * @psalm-param Money::ROUND_* $mode
      * @psalm-param numeric-string $expected
      *
      * @dataProvider roundingExamples
