@@ -17,9 +17,8 @@ final class DecimalMoneyParserTest extends TestCase
     use ProphecyTrait;
 
     /**
-     * @psalm-param numeric-string $decimal
      * @psalm-param non-empty-string $currency
-     * @psalm-param positive-int $subunit
+     * @psalm-param positive-int|0 $subunit
      * @psalm-param int $result
      *
      * @dataProvider formattedMoneyExamples
@@ -57,14 +56,14 @@ final class DecimalMoneyParserTest extends TestCase
         $parser = new DecimalMoneyParser($currencies->reveal());
 
         $this->expectException(ParserException::class);
-        $parser->parse($input, new Currency('USD'))->getAmount();
+        $parser->parse($input, new Currency('USD'));
     }
 
     /**
      * @psalm-return non-empty-list<array{
-     *     numeric-string,
+     *     string,
      *     non-empty-string,
-     *     positive-int,
+     *     positive-int|0,
      *     int
      * }>
      */

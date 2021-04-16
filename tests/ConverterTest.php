@@ -29,7 +29,7 @@ final class ConverterTest extends TestCase
      * @psalm-param positive-int|0 $subunitCounter
      * @psalm-param int|float $ratio
      * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param positive-int $expectedAmount
+     * @psalm-param positive-int|0 $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -47,25 +47,25 @@ final class ConverterTest extends TestCase
         $counterCurrency = new Currency($counterCurrencyCode);
         $pair            = new CurrencyPair($baseCurrency, $counterCurrency, (string) $ratio);
 
-        $currencies = $this->prophesize(Currencies::class);
-        assert($currencies instanceof Currencies || $currencies instanceof ObjectProphecy);
+        $currencies = $this->createMock(Currencies::class);
+        $exchange = $this->createMock(Exchange::class);
+        $converter = new Converter($currencies, $exchange);
 
-        $exchange = $this->prophesize(Exchange::class);
-        assert($exchange instanceof Exchange || $exchange instanceof ObjectProphecy);
+        $currencies->method('subunitFor')
+            ->with(self::logicalOr(self::equalTo($baseCurrency), self::equalTo($counterCurrency)))
+            ->willReturnCallback(
+                static fn (Currency $currency): int => $currency->equals($baseCurrency) ? $subunitBase : $subunitCounter
+            );
 
-        $converter = new Converter($currencies->reveal(), $exchange->reveal());
-
-        $currencies->subunitFor($baseCurrency)->willReturn($subunitBase);
-        $currencies->subunitFor($counterCurrency)->willReturn($subunitCounter);
-
-        $exchange->quote($baseCurrency, $counterCurrency)->willReturn($pair);
+        $exchange->method('quote')
+            ->with(self::equalTo($baseCurrency), self::equalTo($counterCurrency))
+            ->willReturn($pair);
 
         $money = $converter->convert(
             new Money($amount, new Currency($baseCurrencyCode)),
             $counterCurrency
         );
 
-        $this->assertInstanceOf(Money::class, $money);
         $this->assertEquals($expectedAmount, $money->getAmount());
         $this->assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
     }
@@ -77,7 +77,7 @@ final class ConverterTest extends TestCase
      * @psalm-param positive-int|0 $subunitCounter
      * @psalm-param int|float $ratio
      * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param positive-int $expectedAmount
+     * @psalm-param positive-int|0 $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -112,7 +112,7 @@ final class ConverterTest extends TestCase
      *     positive-int|0,
      *     int|float,
      *     positive-int|numeric-string,
-     *     positive-int
+     *     positive-int|0
      * }>
      */
     public function convertExamples(): array

@@ -45,7 +45,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param positive-int|string $value1
+     * @psalm-param positive-int|numeric-string $value1
      * @psalm-param float $value2
      * @psalm-param numeric-string $expected
      *
@@ -58,7 +58,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param positive-int|string $value1
+     * @psalm-param positive-int|numeric-string $value1
      * @psalm-param positive-int|float $value2
      * @psalm-param numeric-string $expected
      *
@@ -67,8 +67,16 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itDividesAValueByAnother(int|string $value1, int|float $value2, string $expected): void
     {
-        $result = $this->getCalculator()->divide((string) $value1, (string) $value2);
-        self::assertEqualNumber(substr($expected, 0, 12), substr($result, 0, 12));
+        $expectedNumericString = substr($expected, 0, 12);
+        $resultNumericString   = substr(
+            $this->getCalculator()->divide((string) $value1, (string) $value2),
+            0,
+            12
+        );
+
+        self::assertIsNumeric($expectedNumericString);
+        self::assertIsNumeric($resultNumericString);
+        self::assertEqualNumber($expectedNumericString, $resultNumericString);
     }
 
     /**
@@ -135,8 +143,8 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param float|int|numeric-string $value1
-     * @psalm-param Money::ROUND_* $value2
+     * @psalm-param float|int|numeric-string $value
+     * @psalm-param \Money\Money::ROUND_* $mode
      * @psalm-param numeric-string $expected
      *
      * @dataProvider roundingExamples
@@ -144,7 +152,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itRoundsAValue(float|int|string $value, int $mode, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->round($value, $mode));
+        $this->assertEquals($expected, $this->getCalculator()->round((string) $value, $mode));
     }
 
     /**
@@ -364,8 +372,8 @@ abstract class CalculatorTestCase extends TestCase
 
     /**
      * @psalm-return non-empty-list<array{
-     *     int|string,
-     *     int|string
+     *     int|numeric-string,
+     *     int|numeric-string
      * }>
      */
     public function compareEqualExamples(): array

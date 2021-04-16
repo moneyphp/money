@@ -15,9 +15,9 @@ trait RoundExamples
 {
     /**
      * @psalm-return non-empty-list<array{
-     *     numeric-string,
-     *     Money::ROUND_*,
-     *     numeric-string
+     *     0: numeric-string,
+     *     1: Money::ROUND_*,
+     *     2: numeric-string
      * }>
      */
     public function roundingExamples(): array

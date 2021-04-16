@@ -31,6 +31,8 @@ final class MoneyTest extends TestCase
     /**
      * @dataProvider equalityExamples
      * @test
+     *
+     * @psalm-param int|numeric-string $amount
      */
     public function itEqualsToAnotherMoney(int|string $amount, Currency $currency, bool $equality): void
     {
@@ -76,7 +78,7 @@ final class MoneyTest extends TestCase
         $money = $money->multiply($multiplier, $roundingMode);
 
         $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals((string) $result, $money->getAmount());
+        $this->assertEquals($result, $money->getAmount());
     }
 
     /**
@@ -100,20 +102,20 @@ final class MoneyTest extends TestCase
      *
      * @dataProvider roundingExamples
      */
-    public function it_divides_the_amount($divisor, $roundingMode, $result): void
+    public function it_divides_the_amount(float|int|string $divisor, int $roundingMode, string $result): void
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
-        $money = $money->divide(1 / $divisor, $roundingMode);
+        $money = $money->divide((string) (1 / $divisor), $roundingMode);
 
         $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals((string) $result, $money->getAmount());
+        $this->assertEquals($result, $money->getAmount());
     }
 
     /**
-     * @psalm-param positive-int $amount
-     * @psalm-param non-empty-array<positive-int|float> $ratios
-     * @psalm-param non-empty-array<positive-int> $results
+     * @psalm-param int $amount
+     * @psalm-param non-empty-array<positive-int|0|float> $ratios
+     * @psalm-param non-empty-array<int> $results
      *
      * @dataProvider allocationExamples
      * @test
@@ -267,12 +269,13 @@ final class MoneyTest extends TestCase
      */
     public function itThrowsWhenCalculatingRatioOfZero(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-
         $currency = new Currency('EUR');
         $zero     = new Money(0, $currency);
         $six      = new Money(6, $currency);
 
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
         $six->ratioOf($zero);
     }
 
@@ -362,7 +365,7 @@ final class MoneyTest extends TestCase
 
     /**
      * @psalm-return non-empty-list<array{
-     *     int|string,
+     *     int|numeric-string,
      *     Currency,
      *     bool
      * }>
@@ -370,12 +373,11 @@ final class MoneyTest extends TestCase
     public function equalityExamples(): array
     {
         return [
-            [self::AMOUNT, new Currency(self::CURRENCY), true],
-            [self::AMOUNT + 1, new Currency(self::CURRENCY), false],
-            [self::AMOUNT, new Currency(self::OTHER_CURRENCY), false],
-            [self::AMOUNT + 1, new Currency(self::OTHER_CURRENCY), false],
-            [(string) self::AMOUNT, new Currency(self::CURRENCY), true],
-            [((string) self::AMOUNT) . '.000', new Currency(self::CURRENCY), true],
+            [10, new Currency(self::CURRENCY), true],
+            [10, new Currency(self::OTHER_CURRENCY), false],
+            [11, new Currency(self::OTHER_CURRENCY), false],
+            ['10', new Currency(self::CURRENCY), true],
+            ['10.000', new Currency(self::CURRENCY), true],
         ];
     }
 
@@ -396,10 +398,13 @@ final class MoneyTest extends TestCase
 
     /**
      * @psalm-return non-empty-list<array{
-     *     positive-int,
-     *     non-empty-array<positive-int|float>,
-     *     non-empty-array<positive-int>
+     *     int,
+     *     non-empty-array<int|string, positive-int|0|float>,
+     *     non-empty-array<int|string, int>
      * }>
+     *
+     * @psalm-suppress LessSpecificReturnStatement type inference for `array<string, T>` fails to find non-empty-array for the last item
+     * @psalm-suppress MoreSpecificReturnType type inference for `array<string, T>` fails to find non-empty-array for the last item
      */
     public function allocationExamples(): array
     {

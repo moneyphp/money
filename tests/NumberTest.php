@@ -85,6 +85,9 @@ final class NumberTest extends TestCase
      *     numeric-string,
      *     string
      * }>
+     *
+     * @psalm-suppress LessSpecificReturnStatement the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
+     * @psalm-suppress MoreSpecificReturnType the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
      */
     public function numberExamples(): array
     {

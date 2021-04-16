@@ -28,17 +28,18 @@ final class BitcoinMoneyFormatterTest extends TestCase
      */
     public function itFormatsMoney(int $value, string $formatted, int $fractionDigits): void
     {
-        $currencies = $this->prophesize(Currencies::class);
-        assert($currencies instanceof Currencies || $currencies instanceof ObjectProphecy);
+        $currencies = $this->createMock(Currencies::class);
+        $currency   = new Currency('XBT');
 
-        $formatter = new BitcoinMoneyFormatter($fractionDigits, $currencies->reveal());
+        $currencies->method('subunitFor')
+            ->with(self::equalTo($currency))
+            ->willReturn(8);
 
-        $currency = new Currency('XBT');
-        $money    = new Money($value, $currency);
-
-        $currencies->subunitFor($currency)->willReturn(8);
-
-        $this->assertSame($formatted, $formatter->format($money));
+        $this->assertSame(
+            $formatted,
+            (new BitcoinMoneyFormatter($fractionDigits, $currencies))
+                ->format(new Money($value, $currency))
+        );
     }
 
     /**

@@ -10,9 +10,9 @@
         <ignoreFiles>
             <directory name="vendor"/>
         </ignoreFiles>
-        <directory name="static-analysis" />
-        <directory name="src" />
-<!--        <directory name="tests" />-->
+        <directory name="static-analysis"/>
+        <directory name="src"/>
+        <directory name="tests"/>
     </projectFiles>
 
     <issueHandlers>

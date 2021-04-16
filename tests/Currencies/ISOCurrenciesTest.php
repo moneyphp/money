@@ -94,10 +94,11 @@ final class ISOCurrenciesTest extends TestCase
      */
     public function currencyCodeExamples(): array
     {
-        $currencies = array_keys(require __DIR__ . '/../../resources/currency.php');
+        /** @psalm-var non-empty-array<non-empty-string, array> $currencies */
+        $currencies = require __DIR__ . '/../../resources/currency.php';
 
-        return array_map(static function ($currency) {
+        return array_map(static function (string $currency) {
             return [$currency];
-        }, $currencies);
+        }, array_keys($currencies));
     }
 }

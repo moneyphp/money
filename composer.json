@@ -44,6 +44,7 @@
         "phpspec/phpspec": "^7.0.1",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5.4",
+        "psalm/plugin-phpunit": "^0.15.1",
         "psr/cache": "^1.0.1",
         "vimeo/psalm": "^4.7"
     },
