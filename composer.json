@@ -78,14 +78,14 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "benchmark": [
+            "vendor/bin/phpbench run --retry-threshold=3 --iterations=15 --revs=1000  --warmup=2"
+        ],
         "clean": "rm -rf build/ vendor/",
         "test": [
             "vendor/bin/phpspec run",
             "vendor/bin/phpunit -v",
             "vendor/bin/phpbench run"
-        ],
-        "benchmark": [
-            "vendor/bin/phpbench run --ref=ref_original_4 --retry-threshold=3 --iterations=15 --revs=1000  --warmup=2"
         ],
         "test-coverage": [
             "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
