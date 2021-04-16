@@ -33,7 +33,7 @@ final class IntlMoneyFormatterTest extends TestCase
 
         $numberFormatter = new NumberFormatter('en_US', $mode);
 
-        if ($hasPattern === true) {
+        if ($hasPattern) {
             $numberFormatter->setPattern('¤#,##0.00;-¤#,##0.00');
         }
 

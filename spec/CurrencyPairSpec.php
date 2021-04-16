@@ -44,13 +44,6 @@ final class CurrencyPairSpec extends ObjectBehavior
         $this->equals(new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.250000'))->shouldReturn(true);
     }
 
-    public function it_parses_an_iso_string(): void
-    {
-        $pair = $this->createFromIso('EUR/USD 1.250000');
-
-        $this->equals($pair)->shouldReturn(true);
-    }
-
     public function it_throws_an_exception_when_iso_string_cannot_be_parsed(): void
     {
         $this->shouldThrow(InvalidArgumentException::class)->duringCreateFromIso('1.250000');

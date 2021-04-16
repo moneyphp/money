@@ -94,8 +94,7 @@ final class Number
 
     public function isCurrentEven(): bool
     {
-        /** @psalm-var numeric-string $lastIntegerPartNumber */
-        $lastIntegerPartNumber = $this->integerPart[strlen($this->integerPart) - 1];
+        $lastIntegerPartNumber = (int) $this->integerPart[strlen($this->integerPart) - 1];
 
         return $lastIntegerPartNumber % 2 === 0;
     }
@@ -259,7 +258,11 @@ final class Number
         return $number;
     }
 
-    /** @psalm-pure */
+    /**
+     * @psalm-pure
+     *
+     * @psalm-suppress InvalidOperand string and integers get concatenated here - that is by design, as we're computing remainders
+     */
     public static function roundMoneyValue(string $moneyValue, int $targetDigits, int $havingDigits): string
     {
         $valueLength = strlen($moneyValue);

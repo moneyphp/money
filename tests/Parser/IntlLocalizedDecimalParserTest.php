@@ -100,15 +100,19 @@ final class IntlLocalizedDecimalParserTest extends TestCase
         $this->assertSame('100001', $money->getAmount());
     }
 
+    /**
+     * @test
+     */
     public function it_does_not_support_invalid_decimal(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::DECIMAL);
         $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 3);
 
         $parser = new IntlLocalizedDecimalParser($formatter, new ISOCurrencies());
-        $money  = $parser->parse('1000,005', new Currency('USD'));
 
-        $this->assertSame('100001', $money->getAmount());
+        $this->expectException(ParserException::class);
+
+        $parser->parse('1000,005', new Currency('USD'));
     }
 
     /**

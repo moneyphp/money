@@ -41,6 +41,19 @@ final class MoneyTest extends TestCase
         $this->assertEquals($equality, $money->equals(new Money($amount, $currency)));
     }
 
+    /** @test */
+    public function it_can_compare_currency(): void
+    {
+        $money1 = new Money(self::AMOUNT, new Currency('USD'));
+        $money2 = new Money(self::AMOUNT, new Currency('USD'));
+        $money3 = new Money(self::AMOUNT, new Currency('EUR'));
+
+        self::assertTrue($money1->isSameCurrency($money2));
+        self::assertTrue($money2->isSameCurrency($money1));
+        self::assertFalse($money1->isSameCurrency($money3));
+        self::assertFalse($money3->isSameCurrency($money1));
+    }
+
     /**
      * @dataProvider comparisonExamples
      * @test
@@ -96,20 +109,24 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param float|int|numeric-string $divisor
+     * @psalm-param numeric-string $divisor
      * @psalm-param Money::ROUND_* $roundingMode
      * @psalm-param numeric-string $result
      *
      * @dataProvider roundingExamples
+     * @test
      */
-    public function it_divides_the_amount(float|int|string $divisor, int $roundingMode, string $result): void
+    public function it_divides_the_amount(string $divisor, int $roundingMode, string $result): void
     {
-        $money = new Money(1, new Currency(self::CURRENCY));
-
-        $money = $money->divide((string) (1 / $divisor), $roundingMode);
-
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals($result, $money->getAmount());
+        $this->assertEquals(
+            $result,
+            (new Money(1, new Currency(self::CURRENCY)))
+                ->multiply($divisor, $roundingMode)
+                ->multiply($divisor, $roundingMode)
+                ->divide($divisor, $roundingMode)
+                ->getAmount(),
+            'Our dataset does not contain a lot of data around divisions: we abuse multiplication to verify inverse function properties'
+        );
     }
 
     /**

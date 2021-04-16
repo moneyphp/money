@@ -71,7 +71,7 @@ final class BitcoinMoneyFormatter implements MoneyFormatter
 
         $formatted = BitcoinCurrencies::SYMBOL . $formatted;
 
-        if ($negative === true) {
+        if ($negative) {
             $formatted = '-' . $formatted;
         }
 

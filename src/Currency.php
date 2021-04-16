@@ -46,19 +46,6 @@ final class Currency implements JsonSerializable
         return $this->code === $other->code;
     }
 
-    /**
-     * Checks whether this currency is available in the passed context.
-     *
-     * @deprecated please use {@see Currencies::contains()} instead
-     *
-     * @psalm-suppress ImpureMethodCall this method uses an external potentially side-effect-inducing API
-     * @TODO should we just drop this?
-     */
-    public function isAvailableWithin(Currencies $currencies): bool
-    {
-        return $currencies->contains($this);
-    }
-
     public function __toString(): string
     {
         return $this->code;

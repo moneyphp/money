@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
 <psalm
-    totallyTyped="true"
     findUnusedPsalmSuppress="true"
+    findUnusedCode="true"
+    findUnusedVariablesAndParams="true"
+    strictBinaryOperands="true"
+    totallyTyped="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
@@ -25,6 +28,7 @@
                 <file name="src/Money.php"/>
             </errorLevel>
         </ImpureStaticProperty>
+
         <ImpureVariable>
             <errorLevel type="suppress">
                 <!-- @TODO is this even needed? -->
@@ -32,6 +36,37 @@
                 <file name="src/Money.php"/>
             </errorLevel>
         </ImpureVariable>
+
+        <InternalClass>
+            <errorLevel type="suppress">
+                <!-- Internal symbols of the library can be used from within the test suite -->
+                <directory name="tests"/>
+            </errorLevel>
+        </InternalClass>
+
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <!-- Internal symbols of the library can be used from within the test suite -->
+                <directory name="tests"/>
+            </errorLevel>
+        </InternalMethod>
+
+        <InvalidOperand>
+            <errorLevel type="suppress">
+                <!-- The PhpCalculator is designed to operate with risky/internal math operations -->
+                <file name="src/Calculator/PhpCalculator.php"/>
+            </errorLevel>
+        </InvalidOperand>
+
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <!-- calculators are not swapped at runtime in our test suite - they are a dead/deprecated concept
+                     that will likely be removed, but we generally do not register calculators manually -->
+                <referencedMethod name="Money\Exchange\IndirectExchange::registerCalculator"/>
+                <referencedMethod name="Money\Money::registerCalculator"/>
+            </errorLevel>
+        </PossiblyUnusedMethod>
+
         <UnusedMethodCall>
             <errorLevel type="suppress">
                 <!-- the PHP calculator contains runtime assertions, since we're operating under limited
@@ -40,4 +75,8 @@
             </errorLevel>
         </UnusedMethodCall>
     </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
 </psalm>

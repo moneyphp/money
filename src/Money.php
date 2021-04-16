@@ -307,7 +307,7 @@ final class Money implements JsonSerializable
     {
         $remainder = $this->amount;
         $results   = [];
-        $total     = (string) array_sum($ratios);
+        $total     = array_sum($ratios);
 
         if ($total <= 0) {
             throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
@@ -320,7 +320,7 @@ final class Money implements JsonSerializable
                 throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
 
-            $share         = $calculator->share($this->amount, (string) $ratio, $total);
+            $share         = $calculator->share($this->amount, (string) $ratio, (string) $total);
             $results[$key] = new self($share, $this->currency);
             $remainder     = $calculator->subtract($remainder, $share);
         }
@@ -330,8 +330,8 @@ final class Money implements JsonSerializable
         }
 
         $amount    = $this->amount;
-        $fractions = array_map(static function ($ratio) use ($total, $amount) {
-            $share = $ratio / $total * $amount;
+        $fractions = array_map(static function (float|int $ratio) use ($total, $amount) {
+            $share = (float) $ratio / $total * (float) $amount;
 
             return $share - floor($share);
         }, $ratios);

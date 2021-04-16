@@ -88,6 +88,7 @@ final class NumberTest extends TestCase
      *
      * @psalm-suppress LessSpecificReturnStatement the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
      * @psalm-suppress MoreSpecificReturnType the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
+     * @psalm-suppress InvalidOperand concatenation of {@see PHP_INT_MAX} is disallowed by type checker, but valid in this scenario
      */
     public function numberExamples(): array
     {
