@@ -58,7 +58,7 @@ PHP;
 
     /** @var Currency[] $currencies */
     foreach ($currencies as $currency) {
-        $methodBuffer .= sprintf(" * @method static Money %s(string|int \$amount)\n", $currency->getCode());
+        $methodBuffer .= sprintf(" * @method static Money %s(numeric-string|int \$amount)\n", $currency->getCode());
     }
 
     $buffer = str_replace('PHPDOC', rtrim($methodBuffer), $buffer);
