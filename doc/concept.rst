@@ -5,6 +5,33 @@ This section introduces the concept and basic features of the library
 
 .. _immutability:
 
+Type Safety
+-----------
+
+This library abstracts concepts around `Money`, although with minimal runtime validation.
+We attempt to leverage PHP 8's type system as much as possible, but sometimes you will
+encounter `string` parameters that are documented as being `numeric-string`: should you
+encounter these, it means that the contained value **must** be a `string` that passes
+an `assert(is_numeric(<your-string>))` check.
+
+Specifically, be aware that `numeric-string` is used in order to guarantee that large numeric
+values (larger than `PHP_INT_MAX` or smaller than `PHP_INT_MIN`), as well as precise fractional
+values are not approximated unless requested to do so: cast a `numeric-string` to an `int` or `float`
+at your own risk.
+
+It is **strongly advised** that you use a type-checker when interacting with this library.
+
+Compatible type-checkers are:
+
+- https://github.com/vimeo/psalm
+- https://github.com/phpstan/phpstan
+
+.. warning::
+    If you fail to guarantee type-safety when interacting with this library, especially around
+    `numeric-string` passed as parameter to methods of its API, then these values will likely
+    be accepted, producing late production crashes. Make sure you run a type-checker!
+
+
 Immutability
 ------------
 
@@ -41,37 +68,6 @@ The correct way of doing operations is:
    $jimPrice = $jimPrice->subtract($coupon);
    $jimPrice->lessThan($hannahPrice); // true
    $jimPrice->equals(Money::EUR(2000)); // true
-
-
-Integer Limit
--------------
-
-Although in real life it is highly unprobable, you might have to deal with money values greater than
-the integer limit of your system (``PHP_INT_MAX`` constant represents the maximum integer value).
-
-In order to bypass this limit, we introduced `Calculators`. Based on your environment, Money automatically
-picks the best internally and globally. The following implementations are available:
-
-- BC Math (requires `bcmath` extension)
-- GMP (requires `gmp` extension)
-- Plain integer
-
-Calculators are checked for availability in the order above. If no suitable Calculator is found
-Money silently falls back to the integer implementation.
-
-Because of PHP's integer limit, money values are stored as string internally and
-``Money::getAmount`` also returns string.
-
-.. code-block:: php
-
-    use Money\Currency;
-    use Money\Money;
-
-    $hugeAmount = new Money('12345678901234567890', new Currency('USD'));
-
-
-.. note::
-    Remember, because of the integer limit in PHP, you should inject a string that represents your huge amount.
 
 
 JSON
