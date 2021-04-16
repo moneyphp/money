@@ -486,31 +486,19 @@ final class Money implements JsonSerializable
         return $max;
     }
 
-    /**
-     * @param Money $first
-     * @param Money ...$collection
-     *
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function sum(self $first, self ...$collection): Money
     {
         return $first->add(...$collection);
     }
 
-    /**
-     * @param Money $first
-     * @param Money ...$collection
-     *
-     * @psalm-pure
-     */
+    /** @psalm-pure */
     public static function avg(self $first, self ...$collection): Money
     {
         return $first->add(...$collection)->divide((string) (count($collection) + 1));
     }
 
-    /**
-     * @psalm-param class-string<Calculator> $calculator
-     */
+    /** @psalm-param class-string<Calculator> $calculator */
     public static function registerCalculator(string $calculator): void
     {
         array_unshift(self::$calculators, $calculator);

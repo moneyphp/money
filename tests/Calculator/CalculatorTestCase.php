@@ -368,6 +368,8 @@ abstract class CalculatorTestCase extends TestCase
             ['0.0005', '1'],
             ['0.000000000000000000000000005', '1'],
             ['-1000', '1000', -1],
+            // Slightly above PHP_INT_MAX on 64 bit systems
+            ['9223372036854775808', '9223372036854775809', -1],
         ];
     }
 

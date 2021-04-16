@@ -11,6 +11,6 @@
         },
         "github": true
     },
-    "minMsi": 85,
+    "minMsi": 87,
     "minCoveredMsi": 94
 }

@@ -150,6 +150,26 @@ final class MoneyTest extends TestCase
         }
     }
 
+    /** @test */
+    public function it_throws_an_exception_when_allocation_ratio_is_negative(): void
+    {
+        $money = new Money(100, new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
+        $money->allocate([-1]);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_allocation_total_is_zero(): void
+    {
+        $money = new Money(100, new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
+        $money->allocate([0, 0]);
+    }
+
     /**
      * @psalm-param positive-int $amount
      * @psalm-param positive-int $target

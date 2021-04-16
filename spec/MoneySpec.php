@@ -306,16 +306,6 @@ final class MoneySpec extends ObjectBehavior
         $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([]);
     }
 
-    public function it_throws_an_exception_when_allocation_ratio_is_negative(): void
-    {
-        $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([-1]);
-    }
-
-    public function it_throws_an_exception_when_allocation_total_is_zero(): void
-    {
-        $this->shouldThrow(InvalidArgumentException::class)->duringAllocate([0, 0]);
-    }
-
     public function it_has_comparators(Calculator $calculator): void
     {
         $this->beConstructedWith(1, new Currency(self::CURRENCY));

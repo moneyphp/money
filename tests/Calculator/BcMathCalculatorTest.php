@@ -6,6 +6,7 @@ namespace Tests\Money\Calculator;
 
 use Money\Calculator\BcMathCalculator;
 
+use function array_merge;
 use function bcscale;
 use function ini_get;
 
@@ -32,8 +33,8 @@ class BcMathCalculatorTest extends CalculatorTestCase
     }
 
     /**
-     * @psalm-param positive-int $value1
-     * @psalm-param positive-int $value2
+     * @psalm-param positive-int   $value1
+     * @psalm-param positive-int   $value2
      * @psalm-param numeric-string $expected
      *
      * @dataProvider additionExamples
@@ -47,8 +48,8 @@ class BcMathCalculatorTest extends CalculatorTestCase
     }
 
     /**
-     * @psalm-param positive-int $value1
-     * @psalm-param positive-int $value2
+     * @psalm-param positive-int   $value1
+     * @psalm-param positive-int   $value2
      * @psalm-param numeric-string $expected
      *
      * @dataProvider subtractionExamples
@@ -84,5 +85,22 @@ class BcMathCalculatorTest extends CalculatorTestCase
     public function itUsesScaleForSubtract(): void
     {
         self::assertEqualNumber('0.00120142', $this->getCalculator()->subtract('0.00125148', '0.00005006'));
+    }
+
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     int|numeric-string
+     * }>
+     */
+    public function compareLessExamples(): array
+    {
+        return array_merge(
+            parent::compareLessExamples(),
+            [
+                // Slightly below PHP_INT_MIN on 64 bit systems (does not work with the PhpCalculator)
+                ['-9223372036854775810', '-9223372036854775809', -1],
+            ]
+        );
     }
 }
