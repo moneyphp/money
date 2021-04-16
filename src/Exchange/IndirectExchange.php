@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Money\Exchange;
 
-use InvalidArgumentException;
 use Money\Calculator;
 use Money\Calculator\BcMathCalculator;
 use Money\Calculator\GmpCalculator;
@@ -20,7 +19,6 @@ use SplQueue;
 use function array_reduce;
 use function array_reverse;
 use function array_unshift;
-use function is_a;
 
 /**
  * Provides a way to get an exchange rate through a minimal set of intermediate conversions.
@@ -49,10 +47,6 @@ final class IndirectExchange implements Exchange
     /** @psalm-param class-string<Calculator> $calculator */
     public static function registerCalculator(string $calculator): void
     {
-        if (is_a($calculator, Calculator::class, true) === false) {
-            throw new InvalidArgumentException('Calculator must implement ' . Calculator::class);
-        }
-
         array_unshift(self::$calculators, $calculator);
     }
 

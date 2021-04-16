@@ -45,6 +45,7 @@
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.15.1",
         "psr/cache": "^1.0.1",
+        "roave/infection-static-analysis-plugin": "^1.7",
         "vimeo/psalm": "^4.7"
     },
     "suggest": {

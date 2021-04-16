@@ -19,7 +19,6 @@ use function array_unshift;
 use function count;
 use function filter_var;
 use function floor;
-use function is_a;
 use function is_int;
 use function max;
 
@@ -514,10 +513,6 @@ final class Money implements JsonSerializable
      */
     public static function registerCalculator(string $calculator): void
     {
-        if (is_a($calculator, Calculator::class, true) === false) {
-            throw new InvalidArgumentException('Calculator must implement ' . Calculator::class);
-        }
-
         array_unshift(self::$calculators, $calculator);
     }
 
