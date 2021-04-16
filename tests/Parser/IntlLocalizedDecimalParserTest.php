@@ -12,13 +12,9 @@ use Money\Money;
 use Money\Parser\IntlLocalizedDecimalParser;
 use NumberFormatter;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class IntlLocalizedDecimalParserTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @psalm-param non-empty-string $string
      * @psalm-param non-empty-string $locale
@@ -30,17 +26,16 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     {
         $formatter = new NumberFormatter($locale, NumberFormatter::DECIMAL);
 
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => 'USD' === $givenCurrency->getCode()))
+            ->willReturn(2);
 
         $currencyCode = 'USD';
         $currency     = new Currency($currencyCode);
 
-        $parser = new IntlLocalizedDecimalParser($formatter, $currencies->reveal());
+        $parser = new IntlLocalizedDecimalParser($formatter, $currencies);
         $this->assertEquals($units, $parser->parse($string, $currency)->getAmount());
     }
 

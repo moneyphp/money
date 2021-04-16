@@ -9,13 +9,9 @@ use Money\Currency;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class DecimalMoneyFormatterTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @psalm-param non-empty-string $currency
      * @psalm-param positive-int|0 $subunit
@@ -28,14 +24,13 @@ final class DecimalMoneyFormatterTest extends TestCase
     {
         $money = new Money($amount, new Currency($currency));
 
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn($subunit);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => $currency === $givenCurrency->getCode()))
+            ->willReturn($subunit);
 
-        $moneyFormatter = new DecimalMoneyFormatter($currencies->reveal());
+        $moneyFormatter = new DecimalMoneyFormatter($currencies);
         $this->assertSame($result, $moneyFormatter->format($money));
     }
 

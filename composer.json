@@ -41,7 +41,6 @@
         "php-http/mock-client": "^1.4.1",
         "phpbench/phpbench": "1.0.0-beta1@BETA",
         "phpspec/phpspec": "^7.0.1",
-        "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.15.1",
         "psr/cache": "^1.0.1",

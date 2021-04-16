@@ -9,13 +9,9 @@ use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Parser\DecimalMoneyParser;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class DecimalMoneyParserTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @psalm-param non-empty-string $currency
      * @psalm-param positive-int|0 $subunit
@@ -26,14 +22,13 @@ final class DecimalMoneyParserTest extends TestCase
      */
     public function itParsesMoney(string $decimal, string $currency, int $subunit, int $result): void
     {
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn($subunit);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => $currency === $givenCurrency->getCode()))
+            ->willReturn($subunit);
 
-        $parser = new DecimalMoneyParser($currencies->reveal());
+        $parser = new DecimalMoneyParser($currencies);
 
         $this->assertEquals($result, $parser->parse($decimal, new Currency($currency))->getAmount());
     }
@@ -46,14 +41,13 @@ final class DecimalMoneyParserTest extends TestCase
      */
     public function itThrowsAnExceptionUponInvalidInputs($input): void
     {
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => 'USD' === $givenCurrency->getCode()))
+            ->willReturn(2);
 
-        $parser = new DecimalMoneyParser($currencies->reveal());
+        $parser = new DecimalMoneyParser($currencies);
 
         $this->expectException(ParserException::class);
         $parser->parse($input, new Currency('USD'));

@@ -11,14 +11,11 @@ use Money\CurrencyPair;
 use Money\Exchange;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 use const LC_ALL;
 
 final class ConverterTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @psalm-param non-empty-string $baseCurrencyCode
      * @psalm-param non-empty-string $counterCurrencyCode

@@ -10,13 +10,9 @@ use Money\Formatter\IntlLocalizedDecimalFormatter;
 use Money\Money;
 use NumberFormatter;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class IntlLocalizedDecimalFormatterTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @psalm-param non-empty-string $currency
      * @psalm-param positive-int $subunit
@@ -34,14 +30,13 @@ final class IntlLocalizedDecimalFormatterTest extends TestCase
 
         $numberFormatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $fractionDigits);
 
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn($subunit);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => $currency === $givenCurrency->getCode()))
+            ->willReturn($subunit);
 
-        $moneyFormatter = new IntlLocalizedDecimalFormatter($numberFormatter, $currencies->reveal());
+        $moneyFormatter = new IntlLocalizedDecimalFormatter($numberFormatter, $currencies);
         $this->assertSame($result, $moneyFormatter->format($money));
     }
 

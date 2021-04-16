@@ -9,12 +9,9 @@ use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class BitcoinMoneyFormatterTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @psalm-param positive-int $value
      * @psalm-param non-empty-string $formatted

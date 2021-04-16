@@ -12,13 +12,9 @@ use Money\Money;
 use Money\Parser\IntlMoneyParser;
 use NumberFormatter;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 final class IntlMoneyParserTest extends TestCase
 {
-    use ProphecyTrait;
-
     /**
      * @psalm-param non-empty-string $string
      *
@@ -30,17 +26,16 @@ final class IntlMoneyParserTest extends TestCase
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => 'USD' === $givenCurrency->getCode()))
+            ->willReturn(2);
 
         $currencyCode = 'USD';
         $currency     = new Currency($currencyCode);
 
-        $parser = new IntlMoneyParser($formatter, $currencies->reveal());
+        $parser = new IntlMoneyParser($formatter, $currencies);
         $this->assertEquals($units, $parser->parse($string, $currency)->getAmount());
     }
 
