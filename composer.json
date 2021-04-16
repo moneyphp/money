@@ -36,7 +36,6 @@
         "doctrine/instantiator": "^1.4.0",
         "florianv/exchanger": "^2.6.3",
         "florianv/swap": "^4.3.0",
-        "friends-of-phpspec/phpspec-code-coverage": "^6.1.0",
         "moneyphp/iso-currencies": "^3.2.1",
         "php-http/message": "^1.11.0",
         "php-http/mock-client": "^1.4.1",
@@ -85,8 +84,10 @@
             "vendor/bin/phpunit -v",
             "vendor/bin/phpbench run"
         ],
+        "benchmark": [
+            "vendor/bin/phpbench run --ref=ref_original_4 --retry-threshold=3 --iterations=15 --revs=1000  --warmup=2"
+        ],
         "test-coverage": [
-            "vendor/bin/phpspec run -c phpspec.ci.yml",
             "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": [

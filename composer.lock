@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ce3fb02390727a98624602b5f6c9885",
+    "content-hash": "817cbaaa99afd40c655f5d114f882497",
     "packages": [],
     "packages-dev": [
         {
@@ -1264,96 +1264,6 @@
                 "source": "https://github.com/florianv/swap/tree/4.3.0"
             },
             "time": "2020-12-28T10:14:12+00:00"
-        },
-        {
-            "name": "friends-of-phpspec/phpspec-code-coverage",
-            "version": "v6.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/friends-of-phpspec/phpspec-code-coverage.git",
-                "reference": "cb6177eb8ce45cdde990ff3e6db3b44fbbb17364"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/friends-of-phpspec/phpspec-code-coverage/zipball/cb6177eb8ce45cdde990ff3e6db3b44fbbb17364",
-                "reference": "cb6177eb8ce45cdde990ff3e6db3b44fbbb17364",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 7.3",
-                "phpspec/phpspec": "^6.0 || ^7.0",
-                "phpunit/php-code-coverage": "^9.0"
-            },
-            "conflict": {
-                "sebastian/comparator": "< 2.0"
-            },
-            "require-dev": {
-                "drupol/php-conventions": "^3.0",
-                "vimeo/psalm": "^4.7"
-            },
-            "suggest": {
-                "ext-pcov": "Install PCov extension to generate code coverage.",
-                "ext-xdebug": "Install Xdebug to generate phpspec code coverage."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "6.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FriendsOfPhpSpec\\PhpSpec\\CodeCoverage\\": "src/"
-                },
-                "files": [
-                    "src/bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ek9",
-                    "email": "dev@ek9.co",
-                    "homepage": "https://ek9.co"
-                },
-                {
-                    "name": "Henrik Bjornskov"
-                },
-                {
-                    "name": "Stéphane Hulard",
-                    "email": "s.hulard@chstudio.fr",
-                    "homepage": "https://chstudio.fr"
-                },
-                {
-                    "name": "Pol Dellaiera",
-                    "email": "pol.dellaiera@protonmail.com",
-                    "homepage": "https://not-a-number.io/"
-                },
-                {
-                    "name": "Jay Linski",
-                    "homepage": "https://github.com/jaylinski"
-                }
-            ],
-            "description": "Generate Code Coverage reports for PhpSpec tests",
-            "homepage": "https://github.com/friends-of-phpspec/phpspec-code-coverage",
-            "keywords": [
-                "code-coverage",
-                "coverage",
-                "phpspec",
-                "report",
-                "spec",
-                "test",
-                "tests"
-            ],
-            "support": {
-                "docs": "https://github.com/friends-of-phpspec/phpspec-code-coverage#phpspec-code-coverage",
-                "issues": "https://github.com/friends-of-phpspec/phpspec-code-coverage/issues",
-                "source": "https://github.com/friends-of-phpspec/phpspec-code-coverage"
-            },
-            "time": "2021-03-30T20:51:42+00:00"
         },
         {
             "name": "moneyphp/iso-currencies",
@@ -4745,16 +4655,16 @@
         },
         {
             "name": "slevomat/coding-standard",
-            "version": "7.0.2",
+            "version": "7.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slevomat/coding-standard.git",
-                "reference": "7815b1397bd9ff3e09bac9446ecb680f3fc69844"
+                "reference": "ce75dc28e6c4c9850844bdfd3b5641973ad6e721"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/7815b1397bd9ff3e09bac9446ecb680f3fc69844",
-                "reference": "7815b1397bd9ff3e09bac9446ecb680f3fc69844",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/ce75dc28e6c4c9850844bdfd3b5641973ad6e721",
+                "reference": "ce75dc28e6c4c9850844bdfd3b5641973ad6e721",
                 "shasum": ""
             },
             "require": {
@@ -4790,7 +4700,7 @@
             "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
             "support": {
                 "issues": "https://github.com/slevomat/coding-standard/issues",
-                "source": "https://github.com/slevomat/coding-standard/tree/7.0.2"
+                "source": "https://github.com/slevomat/coding-standard/tree/7.0.3"
             },
             "funding": [
                 {
@@ -4802,7 +4712,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-04-14T18:15:42+00:00"
+            "time": "2021-04-16T12:07:02+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",

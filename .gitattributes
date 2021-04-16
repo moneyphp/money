@@ -8,7 +8,6 @@ Dockerfile             export-ignore
 /benchmark/            export-ignore
 /hack/                 export-ignore
 /phpbench.json         export-ignore
-/phpspec.ci.yml        export-ignore
 /phpspec.yml.dist      export-ignore
 /phpstan-baseline.neon export-ignore
 /phpstan.neon.dist     export-ignore
