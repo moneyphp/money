@@ -15,6 +15,7 @@ use function json_encode;
 use const LC_ALL;
 use const PHP_INT_MAX;
 
+/** @covers \Money\Money */
 final class MoneyTest extends TestCase
 {
     use AggregateExamples;

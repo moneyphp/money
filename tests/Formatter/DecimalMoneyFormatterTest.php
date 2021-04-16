@@ -10,6 +10,7 @@ use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Formatter\DecimalMoneyFormatter */
 final class DecimalMoneyFormatterTest extends TestCase
 {
     /**

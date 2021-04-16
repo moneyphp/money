@@ -10,6 +10,7 @@ use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Formatter\BitcoinMoneyFormatter */
 final class BitcoinMoneyFormatterTest extends TestCase
 {
     /**

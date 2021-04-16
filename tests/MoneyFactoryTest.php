@@ -11,6 +11,7 @@ use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\MoneyFactory */
 final class MoneyFactoryTest extends TestCase
 {
     /**

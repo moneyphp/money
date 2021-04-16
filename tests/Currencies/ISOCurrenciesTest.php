@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use function array_keys;
 use function array_map;
 
+/** @covers \Money\Currencies\ISOCurrencies */
 final class ISOCurrenciesTest extends TestCase
 {
     /**

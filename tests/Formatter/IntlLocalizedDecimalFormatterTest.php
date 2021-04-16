@@ -11,6 +11,7 @@ use Money\Money;
 use NumberFormatter;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Formatter\IntlLocalizedDecimalFormatter */
 final class IntlLocalizedDecimalFormatterTest extends TestCase
 {
     /**

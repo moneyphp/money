@@ -14,6 +14,7 @@ use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange\ExchangerExchange;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Exchange\ExchangerExchange */
 final class ExchangerExchangeTest extends TestCase
 {
     /** @test */

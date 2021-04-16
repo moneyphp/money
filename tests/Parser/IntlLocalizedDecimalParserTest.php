@@ -13,6 +13,7 @@ use Money\Parser\IntlLocalizedDecimalParser;
 use NumberFormatter;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Parser\IntlLocalizedDecimalParser */
 final class IntlLocalizedDecimalParserTest extends TestCase
 {
     /**

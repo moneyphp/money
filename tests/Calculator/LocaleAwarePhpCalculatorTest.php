@@ -6,6 +6,7 @@ namespace Tests\Money\Calculator;
 
 use const LC_ALL;
 
+/** @covers \Money\Calculator\PhpCalculator */
 final class LocaleAwarePhpCalculatorTest extends PhpCalculatorTest
 {
     public function setUp(): void

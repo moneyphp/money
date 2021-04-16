@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 use function json_encode;
 
+/** @covers \Money\Currency */
 final class CurrencyTest extends TestCase
 {
     /**

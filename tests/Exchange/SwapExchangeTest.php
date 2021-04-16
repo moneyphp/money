@@ -13,6 +13,7 @@ use Money\Exchange\SwapExchange;
 use PHPUnit\Framework\TestCase;
 use Swap\Swap;
 
+/** @covers \Money\Exchange\SwapExchange */
 final class SwapExchangeTest extends TestCase
 {
     /** @test */

@@ -11,6 +11,7 @@ use Money\MoneyParser;
 use Money\Parser\AggregateMoneyParser;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Parser\AggregateMoneyParser */
 final class AggregateMoneyParserTest extends TestCase
 {
     /** @test */

@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 use const LC_ALL;
 
+/** @covers \Money\Converter */
 final class ConverterTest extends TestCase
 {
     /**

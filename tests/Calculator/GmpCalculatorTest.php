@@ -10,6 +10,7 @@ use function array_merge;
 
 /**
  * @requires extension gmp
+ * @covers \Money\Calculator\GmpCalculator
  */
 class GmpCalculatorTest extends CalculatorTestCase
 {

@@ -10,6 +10,7 @@ use Money\Exception\ParserException;
 use Money\Parser\DecimalMoneyParser;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Parser\DecimalMoneyParser */
 final class DecimalMoneyParserTest extends TestCase
 {
     /**

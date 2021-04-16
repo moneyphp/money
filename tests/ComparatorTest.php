@@ -9,6 +9,7 @@ use Money\PHPUnit\Comparator;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
+/** @covers \Money\PHPUnit\Comparator */
 final class ComparatorTest extends TestCase
 {
     protected Comparator $comparator;

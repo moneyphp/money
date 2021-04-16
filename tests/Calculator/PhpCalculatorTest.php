@@ -6,6 +6,7 @@ namespace Tests\Money\Calculator;
 
 use Money\Calculator\PhpCalculator;
 
+/** @covers \Money\Calculator\PhpCalculator */
 class PhpCalculatorTest extends CalculatorTestCase
 {
     /**

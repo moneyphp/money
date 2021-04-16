@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 use function json_encode;
 
+/** @covers \Money\CurrencyPair */
 final class CurrencyPairTest extends TestCase
 {
     /**

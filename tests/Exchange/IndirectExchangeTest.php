@@ -11,6 +11,7 @@ use Money\Exchange\FixedExchange;
 use Money\Exchange\IndirectExchange;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Exchange\IndirectExchange */
 final class IndirectExchangeTest extends TestCase
 {
     /**

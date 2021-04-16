@@ -10,6 +10,7 @@ use Money\Money;
 use Money\Parser\BitcoinMoneyParser;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Parser\BitcoinMoneyParser */
 final class BitcoinMoneyParserTest extends TestCase
 {
     /**

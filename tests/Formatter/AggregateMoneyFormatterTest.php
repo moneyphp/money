@@ -11,6 +11,7 @@ use Money\Money;
 use Money\MoneyFormatter;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Formatter\AggregateMoneyFormatter */
 final class AggregateMoneyFormatterTest extends TestCase
 {
     /** @test */

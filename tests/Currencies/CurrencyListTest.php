@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use function array_keys;
 use function array_map;
 
+/** @covers \Money\Currencies\CurrencyList */
 final class CurrencyListTest extends TestCase
 {
     private const CORRECT_CURRENCIES = [

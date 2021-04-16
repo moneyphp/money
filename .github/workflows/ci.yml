@@ -81,7 +81,7 @@ jobs:
         run: vendor/bin/psalm
 
   mutation-tests:
-    name: Psalm
+    name: Infection
     runs-on: ubuntu-latest
     needs:
       - tests
@@ -97,6 +97,9 @@ jobs:
           php-version: '8.0'
           extensions: bcmath, gmp, intl, dom, mbstring
           coverage: pcov
+
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
 
       - name: Download dependencies
         run: composer install --classmap-authoritative

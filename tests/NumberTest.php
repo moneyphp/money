@@ -14,6 +14,7 @@ use function substr;
 
 use const PHP_INT_MAX;
 
+/** @covers \Money\Number */
 final class NumberTest extends TestCase
 {
     /**

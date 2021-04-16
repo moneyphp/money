@@ -11,6 +11,7 @@ use Money\Exchange;
 use Money\Exchange\ReversedCurrenciesExchange;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Exchange\ReversedCurrenciesExchange */
 final class ReversedCurrenciesExchangeTest extends TestCase
 {
     /** @test */

@@ -12,6 +12,7 @@ use function ini_get;
 
 /**
  * @requires extension bcmath
+ * @covers \Money\Calculator\BcMathCalculator
  */
 class BcMathCalculatorTest extends CalculatorTestCase
 {
