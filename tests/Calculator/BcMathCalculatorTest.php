@@ -17,9 +17,13 @@ class BcMathCalculatorTest extends CalculatorTestCase
 {
     private int $defaultScale;
 
-    protected function getCalculator(): BcMathCalculator
+    /**
+     * @return BcMathCalculator
+     * @psalm-return class-string<BcMathCalculator>
+     */
+    protected function getCalculator(): string
     {
-        return new BcMathCalculator();
+        return BcMathCalculator::class;
     }
 
     public function setUp(): void
@@ -44,7 +48,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
     {
         bcscale(1);
 
-        self::assertEqualNumber($expected, $this->getCalculator()->add((string) $value1, (string) $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::add((string) $value1, (string) $value2));
     }
 
     /**
@@ -59,7 +63,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
     {
         bcscale(1);
 
-        self::assertEqualNumber($expected, $this->getCalculator()->subtract((string) $value1, (string) $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
     }
 
     /**
@@ -67,8 +71,8 @@ class BcMathCalculatorTest extends CalculatorTestCase
      */
     public function itComparesNumbersCloseToZero(): void
     {
-        $this->assertEquals(1, $this->getCalculator()->compare('1', '0.0005'));
-        $this->assertEquals(1, $this->getCalculator()->compare('1', '0.000000000000000000000000005'));
+        $this->assertEquals(1, $this->getCalculator()::compare('1', '0.0005'));
+        $this->assertEquals(1, $this->getCalculator()::compare('1', '0.000000000000000000000000005'));
     }
 
     /**
@@ -76,7 +80,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
      */
     public function itUsesScaleForAdd(): void
     {
-        $this->assertEquals('0.00130154000000', $this->getCalculator()->add('0.00125148', '0.00005006'));
+        $this->assertEquals('0.00130154000000', $this->getCalculator()::add('0.00125148', '0.00005006'));
     }
 
     /**
@@ -84,7 +88,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
      */
     public function itUsesScaleForSubtract(): void
     {
-        self::assertEqualNumber('0.00120142', $this->getCalculator()->subtract('0.00125148', '0.00005006'));
+        self::assertEqualNumber('0.00120142', $this->getCalculator()::subtract('0.00125148', '0.00005006'));
     }
 
     /**

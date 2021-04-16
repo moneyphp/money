@@ -15,51 +15,44 @@ use function bcdiv;
 use function bcmod;
 use function bcmul;
 use function bcsub;
-use function extension_loaded;
 use function ltrim;
 
-/** @psalm-immutable */
 final class BcMathCalculator implements Calculator
 {
-    private int $scale;
+    private const SCALE = 14;
 
-    public function __construct(int $scale = 14)
+    /** @psalm-pure */
+    public static function compare(string $a, string $b): int
     {
-        $this->scale = $scale;
+        return bccomp($a, $b, self::SCALE);
     }
 
     /** @psalm-pure */
-    public static function supported(): bool
+    public static function add(string $amount, string $addend): string
     {
-        return extension_loaded('bcmath');
+        return bcadd($amount, $addend, self::SCALE);
     }
 
-    public function compare(string $a, string $b): int
+    /** @psalm-pure */
+    public static function subtract(string $amount, string $subtrahend): string
     {
-        return bccomp($a, $b, $this->scale);
+        return bcsub($amount, $subtrahend, self::SCALE);
     }
 
-    public function add(string $amount, string $addend): string
+    /** @psalm-pure */
+    public static function multiply(string $amount, string $multiplier): string
     {
-        return bcadd($amount, $addend, $this->scale);
+        return bcmul($amount, $multiplier, self::SCALE);
     }
 
-    public function subtract(string $amount, string $subtrahend): string
+    /** @psalm-pure */
+    public static function divide(string $amount, string $divisor): string
     {
-        return bcsub($amount, $subtrahend, $this->scale);
+        return bcdiv($amount, $divisor, self::SCALE);
     }
 
-    public function multiply(string $amount, string $multiplier): string
-    {
-        return bcmul($amount, $multiplier, $this->scale);
-    }
-
-    public function divide(string $amount, string $divisor): string
-    {
-        return bcdiv($amount, $divisor, $this->scale);
-    }
-
-    public function ceil(string $number): string
+    /** @psalm-pure */
+    public static function ceil(string $number): string
     {
         $number = Number::fromString($number);
 
@@ -74,7 +67,8 @@ final class BcMathCalculator implements Calculator
         return bcadd($number->__toString(), '1', 0);
     }
 
-    public function floor(string $number): string
+    /** @psalm-pure */
+    public static function floor(string $number): string
     {
         $number = Number::fromString($number);
 
@@ -92,8 +86,9 @@ final class BcMathCalculator implements Calculator
     /**
      * @psalm-suppress MoreSpecificReturnType we know that trimming `-` produces a positive numeric-string here
      * @psalm-suppress LessSpecificReturnStatement we know that trimming `-` produces a positive numeric-string here
+     * @psalm-pure
      */
-    public function absolute(string $number): string
+    public static function absolute(string $number): string
     {
         return ltrim($number, '-');
     }
@@ -102,8 +97,10 @@ final class BcMathCalculator implements Calculator
      * @psalm-param Money::ROUND_* $roundingMode
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function round(string $number, int $roundingMode): string
+    public static function round(string $number, int $roundingMode): string
     {
         $number = Number::fromString($number);
 
@@ -112,7 +109,7 @@ final class BcMathCalculator implements Calculator
         }
 
         if ($number->isHalf() === false) {
-            return $this->roundDigit($number);
+            return self::roundDigit($number);
         }
 
         if ($roundingMode === Money::ROUND_HALF_UP) {
@@ -182,8 +179,12 @@ final class BcMathCalculator implements Calculator
         throw new InvalidArgumentException('Unknown rounding mode');
     }
 
-    /** @psalm-return numeric-string */
-    private function roundDigit(Number $number): string
+    /**
+     * @psalm-return numeric-string
+     *
+     * @psalm-pure
+     */
+    private static function roundDigit(Number $number): string
     {
         if ($number->isCloserToNext()) {
             return bcadd(
@@ -196,12 +197,14 @@ final class BcMathCalculator implements Calculator
         return bcadd($number->__toString(), '0', 0);
     }
 
-    public function share(string $amount, string $ratio, string $total): string
+    /** @psalm-pure */
+    public static function share(string $amount, string $ratio, string $total): string
     {
-        return $this->floor(bcdiv(bcmul($amount, $ratio, $this->scale), $total, $this->scale));
+        return self::floor(bcdiv(bcmul($amount, $ratio, self::SCALE), $total, self::SCALE));
     }
 
-    public function mod(string $amount, string $divisor): string
+    /** @psalm-pure */
+    public static function mod(string $amount, string $divisor): string
     {
         // @TODO: null check needed because `bcmod(_, 0)` fails - should the check be kept in here?
         return bcmod($amount, $divisor) ?? '0';

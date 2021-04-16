@@ -9,19 +9,9 @@ namespace Money;
  *
  * @internal the calculator component is an internal detail of this library: it is only supposed to be replaced if
  *           your system requires a custom architecture for operating on large numbers.
- *
- * @psalm-immutable
  */
 interface Calculator
 {
-    /**
-     * Returns whether the calculator is supported in
-     * the current server environment.
-     *
-     * @psalm-pure
-     */
-    public static function supported(): bool;
-
     /**
      * Compare a to b.
      *
@@ -31,8 +21,10 @@ interface Calculator
      *
      * @psalm-param numeric-string $a
      * @psalm-param numeric-string $b
+     *
+     * @psalm-pure
      */
-    public function compare(string $a, string $b): int;
+    public static function compare(string $a, string $b): int;
 
     /**
      * Add added to amount.
@@ -41,8 +33,10 @@ interface Calculator
      * @psalm-param numeric-string $addend
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function add(string $amount, string $addend): string;
+    public static function add(string $amount, string $addend): string;
 
     /**
      * Subtract subtrahend from amount.
@@ -51,8 +45,10 @@ interface Calculator
      * @psalm-param numeric-string $subtrahend
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function subtract(string $amount, string $subtrahend): string;
+    public static function subtract(string $amount, string $subtrahend): string;
 
     /**
      * Multiply amount with multiplier.
@@ -61,8 +57,10 @@ interface Calculator
      * @psalm-param numeric-string $multiplier
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function multiply(string $amount, string $multiplier): string;
+    public static function multiply(string $amount, string $multiplier): string;
 
     /**
      * Divide amount with divisor.
@@ -71,8 +69,10 @@ interface Calculator
      * @psalm-param numeric-string $divisor
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function divide(string $amount, string $divisor): string;
+    public static function divide(string $amount, string $divisor): string;
 
     /**
      * Round number to following integer.
@@ -80,8 +80,10 @@ interface Calculator
      * @psalm-param numeric-string $number
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function ceil(string $number): string;
+    public static function ceil(string $number): string;
 
     /**
      * Round number to preceding integer.
@@ -89,8 +91,10 @@ interface Calculator
      * @psalm-param numeric-string $number
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function floor(string $number): string;
+    public static function floor(string $number): string;
 
     /**
      * Returns the absolute value of the number.
@@ -98,8 +102,10 @@ interface Calculator
      * @psalm-param numeric-string $number
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function absolute(string $number): string;
+    public static function absolute(string $number): string;
 
     /**
      * Round number, use rounding mode for tie-breaker.
@@ -108,8 +114,10 @@ interface Calculator
      * @psalm-param Money::ROUND_* $roundingMode
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function round(string $number, int $roundingMode): string;
+    public static function round(string $number, int $roundingMode): string;
 
     /**
      * Share amount among ratio / total portions.
@@ -119,8 +127,10 @@ interface Calculator
      * @psalm-param numeric-string $total
      *
      * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function share(string $amount, string $ratio, string $total): string;
+    public static function share(string $amount, string $ratio, string $total): string;
 
     /**
      * Get the modulus of an amount.
@@ -130,7 +140,9 @@ interface Calculator
      *
      * @psalm-return numeric-string
      *
+     * @psalm-pure
+     *
      * @TODO what to do with $divisor == '0'?
      */
-    public function mod(string $amount, string $divisor): string;
+    public static function mod(string $amount, string $divisor): string;
 }

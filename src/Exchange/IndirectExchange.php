@@ -6,33 +6,26 @@ namespace Money\Exchange;
 
 use Money\Calculator;
 use Money\Calculator\BcMathCalculator;
-use Money\Calculator\GmpCalculator;
-use Money\Calculator\PhpCalculator;
 use Money\Currencies;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
-use RuntimeException;
 use SplQueue;
 
 use function array_reduce;
 use function array_reverse;
-use function array_unshift;
 
 /**
  * Provides a way to get an exchange rate through a minimal set of intermediate conversions.
  */
 final class IndirectExchange implements Exchange
 {
-    private static ?Calculator $calculator = null;
-
-    /** @psalm-var non-empty-list<class-string<Calculator>> */
-    private static array $calculators = [
-        BcMathCalculator::class,
-        GmpCalculator::class,
-        PhpCalculator::class,
-    ];
+    /**
+     * @var Calculator
+     * @psalm-var class-string<Calculator>
+     */
+    private static string $calculator = BcMathCalculator::class;
 
     private Currencies $currencies;
 
@@ -47,7 +40,7 @@ final class IndirectExchange implements Exchange
     /** @psalm-param class-string<Calculator> $calculator */
     public static function registerCalculator(string $calculator): void
     {
-        array_unshift(self::$calculators, $calculator);
+        self::$calculator = $calculator;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
@@ -62,8 +55,8 @@ final class IndirectExchange implements Exchange
                  *
                  * @psalm-return numeric-string
                  */
-                function (string $carry, CurrencyPair $pair) {
-                    return $this->getCalculator()->multiply($carry, $pair->getConversionRatio());
+                static function (string $carry, CurrencyPair $pair) {
+                    return self::$calculator::multiply($carry, $pair->getConversionRatio());
                 },
                 '1.0'
             );
@@ -144,28 +137,5 @@ final class IndirectExchange implements Exchange
         }
 
         return array_reverse($conversions);
-    }
-
-    private function getCalculator(): Calculator
-    {
-        if (self::$calculator === null) {
-            self::$calculator = self::initializeCalculator();
-        }
-
-        return self::$calculator;
-    }
-
-    /**
-     * @throws RuntimeException If cannot find calculator for money calculations.
-     */
-    private static function initializeCalculator(): Calculator
-    {
-        foreach (self::$calculators as $calculator) {
-            if ($calculator::supported()) {
-                return new $calculator();
-            }
-        }
-
-        throw new RuntimeException('Cannot find calculator for money calculations');
     }
 }

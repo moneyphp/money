@@ -13,9 +13,13 @@ use function array_merge;
  */
 class GmpCalculatorTest extends CalculatorTestCase
 {
-    protected function getCalculator(): GmpCalculator
+    /**
+     * @return GmpCalculator
+     * @psalm-return class-string<GmpCalculator>
+     */
+    protected function getCalculator(): string
     {
-        return new GmpCalculator();
+        return GmpCalculator::class;
     }
 
     /**
@@ -23,7 +27,7 @@ class GmpCalculatorTest extends CalculatorTestCase
      */
     public function itMultipliesZero(): void
     {
-        $this->assertSame('0', $this->getCalculator()->multiply('0', '0.8'));
+        $this->assertSame('0', $this->getCalculator()::multiply('0', '0.8'));
     }
 
     /**
@@ -31,7 +35,7 @@ class GmpCalculatorTest extends CalculatorTestCase
      */
     public function itFloorsZero(): void
     {
-        $this->assertSame('0', $this->getCalculator()->floor('0'));
+        $this->assertSame('0', $this->getCalculator()::floor('0'));
     }
 
     /**
@@ -39,7 +43,7 @@ class GmpCalculatorTest extends CalculatorTestCase
      */
     public function itComparesZeroWithFraction(): void
     {
-        $this->assertSame(1, $this->getCalculator()->compare('0.5', '0'));
+        $this->assertSame(1, $this->getCalculator()::compare('0.5', '0'));
     }
 
     /**
@@ -47,7 +51,7 @@ class GmpCalculatorTest extends CalculatorTestCase
      */
     public function it_divides_bug538(): void
     {
-        $this->assertSame('-4.54545454545455', $this->getCalculator()->divide('-500', '110'));
+        $this->assertSame('-4.54545454545455', $this->getCalculator()::divide('-500', '110'));
     }
 
     /**

@@ -8,8 +8,12 @@ use Money\Calculator\PhpCalculator;
 
 class PhpCalculatorTest extends CalculatorTestCase
 {
-    protected function getCalculator(): PhpCalculator
+    /**
+     * @return PhpCalculator
+     * @psalm-return class-string<PhpCalculator>
+     */
+    protected function getCalculator(): string
     {
-        return new PhpCalculator();
+        return PhpCalculator::class;
     }
 }

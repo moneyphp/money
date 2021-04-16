@@ -17,7 +17,11 @@ abstract class CalculatorTestCase extends TestCase
 {
     use RoundExamples;
 
-    abstract protected function getCalculator(): Calculator;
+    /**
+     * @return Calculator
+     * @psalm-return class-string<Calculator>
+     */
+    abstract protected function getCalculator(): string;
 
     /**
      * @psalm-param positive-int $value1
@@ -29,7 +33,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itAddsTwoValues(int $value1, int $value2, string $expected): void
     {
-        self::assertEqualNumber($expected, $this->getCalculator()->add((string) $value1, (string) $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::add((string) $value1, (string) $value2));
     }
 
     /**
@@ -42,7 +46,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itSubtractsAValueFromAnother(int $value1, int $value2, string $expected): void
     {
-        self::assertEqualNumber($expected, $this->getCalculator()->subtract((string) $value1, (string) $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
     }
 
     /**
@@ -55,7 +59,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itMultipliesAValueByAnother(int|string $value1, float $value2, string $expected): void
     {
-        self::assertEqualNumber($expected, $this->getCalculator()->multiply((string) $value1, (string) $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::multiply((string) $value1, (string) $value2));
     }
 
     /**
@@ -70,7 +74,7 @@ abstract class CalculatorTestCase extends TestCase
     {
         $expectedNumericString = substr($expected, 0, 12);
         $resultNumericString   = substr(
-            $this->getCalculator()->divide((string) $value1, (string) $value2),
+            $this->getCalculator()::divide((string) $value1, (string) $value2),
             0,
             12
         );
@@ -90,7 +94,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itDividesAValueByAnotherExact(int $value1, int|float $value2, string $expected): void
     {
-        self::assertEqualNumber($expected, $this->getCalculator()->divide((string) $value1, (string) $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::divide((string) $value1, (string) $value2));
     }
 
     /**
@@ -102,7 +106,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itCeilsAValue(float $value, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->ceil((string) $value));
+        $this->assertEquals($expected, $this->getCalculator()::ceil((string) $value));
     }
 
     /**
@@ -114,7 +118,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itFloorsAValue(float $value, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->floor((string) $value));
+        $this->assertEquals($expected, $this->getCalculator()::floor((string) $value));
     }
 
     /**
@@ -126,7 +130,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itCalculatesTheAbsoluteValue(int $value, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->absolute((string) $value));
+        $this->assertEquals($expected, $this->getCalculator()::absolute((string) $value));
     }
 
     /**
@@ -140,7 +144,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itSharesAValue(int $value, int $ratio, int $total, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->share((string) $value, (string) $ratio, (string) $total));
+        $this->assertEquals($expected, $this->getCalculator()::share((string) $value, (string) $ratio, (string) $total));
     }
 
     /**
@@ -153,7 +157,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itRoundsAValue(float|int|string $value, int $mode, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->round((string) $value, $mode));
+        $this->assertEquals($expected, $this->getCalculator()::round((string) $value, $mode));
     }
 
     /**
@@ -167,8 +171,8 @@ abstract class CalculatorTestCase extends TestCase
     {
         // Compare with both orders. One must return a value less than zero,
         // the other must return a value greater than zero.
-        $this->assertLessThan(0, $this->getCalculator()->compare((string) $left, (string) $right));
-        $this->assertGreaterThan(0, $this->getCalculator()->compare((string) $right, (string) $left));
+        $this->assertLessThan(0, $this->getCalculator()::compare((string) $left, (string) $right));
+        $this->assertGreaterThan(0, $this->getCalculator()::compare((string) $right, (string) $left));
     }
 
     /**
@@ -181,8 +185,8 @@ abstract class CalculatorTestCase extends TestCase
     public function itComparesValues(int|string $left, int|string $right): void
     {
         // Compare with both orders, both must return zero.
-        $this->assertEquals(0, $this->getCalculator()->compare((string) $left, (string) $right));
-        $this->assertEquals(0, $this->getCalculator()->compare((string) $left, (string) $right));
+        $this->assertEquals(0, $this->getCalculator()::compare((string) $left, (string) $right));
+        $this->assertEquals(0, $this->getCalculator()::compare((string) $left, (string) $right));
     }
 
     /**
@@ -195,7 +199,7 @@ abstract class CalculatorTestCase extends TestCase
      */
     public function itCalculatesTheModulusOfAValue(int $left, int $right, string $expected): void
     {
-        $this->assertEquals($expected, $this->getCalculator()->mod((string) $left, (string) $right));
+        $this->assertEquals($expected, $this->getCalculator()::mod((string) $left, (string) $right));
     }
 
     /**

@@ -25,10 +25,10 @@
     ],
     "require": {
         "php": "^8.0",
+        "ext-bcmath": "*",
         "ext-json": "*"
     },
     "require-dev": {
-        "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
         "cache/taggable-cache": "^1.1.0",
@@ -49,7 +49,6 @@
         "vimeo/psalm": "^4.7"
     },
     "suggest": {
-        "ext-bcmath": "Calculate without integer limits",
         "ext-gmp": "Calculate without integer limits",
         "ext-intl": "Format Money objects with intl",
         "florianv/exchanger": "Exchange rates library for PHP",
