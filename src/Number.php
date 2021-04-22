@@ -8,7 +8,6 @@ use InvalidArgumentException;
 
 use function abs;
 use function explode;
-use function is_float;
 use function is_int;
 use function ltrim;
 use function min;
@@ -58,18 +57,8 @@ final class Number
     }
 
     /** @psalm-pure */
-    public static function fromFloat(float $number): self
+    public static function fromNumber(int|string $number): self
     {
-        return self::fromString(sprintf('%.14F', $number));
-    }
-
-    /** @psalm-pure */
-    public static function fromNumber(float|int|string $number): self
-    {
-        if (is_float($number)) {
-            return self::fromString(sprintf('%.14F', $number));
-        }
-
         if (is_int($number)) {
             return new self((string) $number);
         }

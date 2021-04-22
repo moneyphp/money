@@ -12,6 +12,8 @@ use Money\Exchange;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
+use function sprintf;
+
 use const LC_ALL;
 
 /** @covers \Money\Converter */
@@ -40,8 +42,11 @@ final class ConverterTest extends TestCase
     ): void {
         $baseCurrency    = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
-        $pair            = new CurrencyPair($baseCurrency, $counterCurrency, (string) $ratio);
+        $numericRatio    =  sprintf('%.14F', $ratio);
 
+        self::assertIsNumeric($numericRatio);
+
+        $pair       = new CurrencyPair($baseCurrency, $counterCurrency, $numericRatio);
         $currencies = $this->createMock(Currencies::class);
         $exchange   = $this->createMock(Exchange::class);
         $converter  = new Converter($currencies, $exchange);

@@ -28,7 +28,9 @@ final class Converter
         $counterCurrencySubunit = $this->currencies->subunitFor($counterCurrency);
         $subunitDifference      = $baseCurrencySubunit - $counterCurrencySubunit;
 
-        $ratio = (string) Number::fromFloat((float) $ratio)->base10($subunitDifference);
+        $ratio = Number::fromString($ratio)
+            ->base10($subunitDifference)
+            ->__toString();
 
         $counterValue = $money->multiply($ratio, $roundingMode);
 

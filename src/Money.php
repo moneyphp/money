@@ -74,7 +74,7 @@ final class Money implements JsonSerializable
         $this->currency = $currency;
 
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
-            $numberFromString = Number::fromString($amount);
+            $numberFromString = Number::fromString((string) $amount);
             if (! $numberFromString->isInteger()) {
                 throw new InvalidArgumentException('Amount must be an integer(ish) value');
             }

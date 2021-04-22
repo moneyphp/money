@@ -64,12 +64,12 @@ final class NumberTest extends TestCase
     }
 
     /**
-     * @psalm-param int|float|numeric-string $number
+     * @psalm-param int|numeric-string $number
      *
      * @dataProvider numericExamples
      * @test
      */
-    public function itCreatesANumberFromANumericValue(int|float|string $number): void
+    public function itCreatesANumberFromANumericValue(int|string $number): void
     {
         $number = Number::fromNumber($number);
 
@@ -194,14 +194,12 @@ final class NumberTest extends TestCase
         ];
     }
 
-    /** @psalm-return non-empty-list<array{int|float|numeric-string}> */
+    /** @psalm-return non-empty-list<array{int|numeric-string}> */
     public function numericExamples(): array
     {
         return [
             [1],
             [-1],
-            [1.0],
-            [-1.0],
             ['1'],
             ['-1'],
             ['1.0'],
