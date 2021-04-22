@@ -36,7 +36,7 @@ final class ExchangerExchangeTest extends TestCase
 
         self::assertEquals($base, $currencyPair->getBaseCurrency());
         self::assertEquals($counter, $currencyPair->getCounterCurrency());
-        self::assertEquals('1.12', $currencyPair->getConversionRatio());
+        self::assertEquals('1.12000000000000', $currencyPair->getConversionRatio());
     }
 
     /** @test */
