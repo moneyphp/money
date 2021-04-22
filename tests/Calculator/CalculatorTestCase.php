@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Money\Calculator;
 
 use Money\Calculator;
+use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 use Tests\Money\RoundExamples;
@@ -200,6 +201,46 @@ abstract class CalculatorTestCase extends TestCase
     public function itCalculatesTheModulusOfAValue(int $left, int $right, string $expected): void
     {
         $this->assertEquals($expected, $this->getCalculator()::mod((string) $left, (string) $right));
+    }
+
+    /** @test */
+    public function itRefusesToDivideByZero(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::divide('1', '0');
+    }
+
+    /** @test */
+    public function itRefusesToDivideByNegativeZero(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::divide('1', '-0');
+    }
+
+    /** @test */
+    public function itRefusesToModuloByZero(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::mod('1', '0');
+    }
+
+    /** @test */
+    public function itRefusesToModuloByNegativeZero(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::mod('1', '-0');
     }
 
     /**

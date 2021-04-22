@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Money;
 
+use Money\Exception\InvalidArgumentException;
+
 /**
  * Money calculations abstracted away from the Money value object.
  *
@@ -69,6 +71,8 @@ interface Calculator
      * @psalm-param numeric-string $divisor
      *
      * @psalm-return numeric-string
+     *
+     * @throws InvalidArgumentException when $divisor is zero.
      *
      * @psalm-pure
      */
@@ -140,9 +144,9 @@ interface Calculator
      *
      * @psalm-return numeric-string
      *
-     * @psalm-pure
+     * @throws InvalidArgumentException when $divisor is zero.
      *
-     * @TODO what to do with $divisor == '0'?
+     * @psalm-pure
      */
     public static function mod(string $amount, string $divisor): string;
 }

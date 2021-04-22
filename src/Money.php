@@ -249,12 +249,6 @@ final class Money implements JsonSerializable
      */
     public function divide(string $divisor, int $roundingMode = self::ROUND_HALF_UP): Money
     {
-        $divisor = (string) Number::fromString($divisor);
-
-        if (self::$calculator::compare($divisor, '0') === 0) {
-            throw new InvalidArgumentException('Division by zero');
-        }
-
         $quotient = $this->round(self::$calculator::divide($this->amount, $divisor), $roundingMode);
 
         return new self($quotient, $this->currency);

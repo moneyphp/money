@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Money\Calculator;
 
 use Money\Calculator;
+use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use Money\Number;
 use OverflowException;
@@ -70,6 +71,10 @@ final class PhpCalculator implements Calculator
     /** @psalm-pure */
     public static function divide(string $amount, string $divisor): string
     {
+        if (self::compare($divisor, '0') === 0) {
+            throw InvalidArgumentException::divisionByZero();
+        }
+
         $result = $amount / $divisor;
 
         self::assertIntegerBounds($result);
@@ -141,6 +146,10 @@ final class PhpCalculator implements Calculator
     /** @psalm-pure */
     public static function mod(string $amount, string $divisor): string
     {
+        if (self::compare($divisor, '0') === 0) {
+            throw InvalidArgumentException::moduloByZero();
+        }
+
         $result = $amount % $divisor;
 
         self::assertIntegerBounds($result);

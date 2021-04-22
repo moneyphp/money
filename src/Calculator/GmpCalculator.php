@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Money\Calculator;
 
-use InvalidArgumentException;
+use InvalidArgumentException as CoreInvalidArgumentException;
 use Money\Calculator;
+use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use Money\Number;
 
@@ -27,7 +28,13 @@ use function substr;
 use const GMP_ROUND_MINUSINF;
 use const STR_PAD_LEFT;
 
-/** @psalm-immutable */
+/**
+ * @psalm-immutable
+ *
+ * Important: the {@see GmpCalculator} is not optimized for decimal operations, as GMP
+ *            is designed to operate on large integers. Consider using this only if your
+ *            system does not have `ext-bcmath` installed.
+ */
 final class GmpCalculator implements Calculator
 {
     private const SCALE = 14;
@@ -107,6 +114,10 @@ final class GmpCalculator implements Calculator
     /** @psalm-pure */
     public static function divide(string $amount, string $divisor): string
     {
+        if (self::compare($divisor, '0') === 0) {
+            throw InvalidArgumentException::moduloByZero();
+        }
+
         $divisor = Number::fromString($divisor);
 
         if ($divisor->isDecimal()) {
@@ -267,7 +278,7 @@ final class GmpCalculator implements Calculator
             );
         }
 
-        throw new InvalidArgumentException('Unknown rounding mode');
+        throw new CoreInvalidArgumentException('Unknown rounding mode');
     }
 
     /**
@@ -296,6 +307,10 @@ final class GmpCalculator implements Calculator
     /** @psalm-pure */
     public static function mod(string $amount, string $divisor): string
     {
+        if (self::compare($divisor, '0') === 0) {
+            throw InvalidArgumentException::moduloByZero();
+        }
+
         // gmp_mod() only calculates non-negative integers, so we use absolutes
         $remainder = gmp_mod(self::absolute($amount), self::absolute($divisor));
 

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Money\Calculator;
 
-use InvalidArgumentException;
+use InvalidArgumentException as CoreInvalidArgumentException;
 use Money\Calculator;
+use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use Money\Number;
 
@@ -48,6 +49,10 @@ final class BcMathCalculator implements Calculator
     /** @psalm-pure */
     public static function divide(string $amount, string $divisor): string
     {
+        if (bccomp($divisor, '0', self::SCALE) === 0) {
+            throw InvalidArgumentException::divisionByZero();
+        }
+
         return bcdiv($amount, $divisor, self::SCALE);
     }
 
@@ -176,7 +181,7 @@ final class BcMathCalculator implements Calculator
             );
         }
 
-        throw new InvalidArgumentException('Unknown rounding mode');
+        throw new CoreInvalidArgumentException('Unknown rounding mode');
     }
 
     /**
@@ -206,7 +211,10 @@ final class BcMathCalculator implements Calculator
     /** @psalm-pure */
     public static function mod(string $amount, string $divisor): string
     {
-        // @TODO: null check needed because `bcmod(_, 0)` fails - should the check be kept in here?
+        if (bccomp($divisor, '0') === 0) {
+            throw InvalidArgumentException::moduloByZero();
+        }
+
         return bcmod($amount, $divisor) ?? '0';
     }
 }

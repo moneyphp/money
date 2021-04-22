@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Money\Calculator;
 
 use Money\Calculator\BcMathCalculator;
+use Money\Exception\InvalidArgumentException;
 
 use function array_merge;
 use function bcscale;
@@ -90,6 +91,26 @@ class BcMathCalculatorTest extends CalculatorTestCase
     public function itUsesScaleForSubtract(): void
     {
         self::assertEqualNumber('0.00120142', $this->getCalculator()::subtract('0.00125148', '0.00005006'));
+    }
+
+    /** @test */
+    public function itRefusesToDivideByZeroWhenDivisorIsTooSmallToCompare(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::divide('1', '0.0000000000000000000000000000000000000000001');
+    }
+
+    /** @test */
+    public function itRefusesToModuloByZeroWhenDivisorIsTooSmallToCompare(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::mod('1', '0.0000000000000000000000000000000000000000001');
     }
 
     /**
