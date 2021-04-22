@@ -15,7 +15,6 @@ use function array_sum;
 use function count;
 use function filter_var;
 use function floor;
-use function is_int;
 use function max;
 
 use const FILTER_VALIDATE_INT;
@@ -74,22 +73,18 @@ final class Money implements JsonSerializable
     {
         $this->currency = $currency;
 
-        if (is_int($amount)) {
-            $this->amount = (string) $amount;
-
-            return;
-        }
-
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
             $numberFromString = Number::fromString($amount);
             if (! $numberFromString->isInteger()) {
                 throw new InvalidArgumentException('Amount must be an integer(ish) value');
             }
 
-            $amount = $numberFromString->getIntegerPart();
+            $this->amount = $numberFromString->getIntegerPart();
+
+            return;
         }
 
-        $this->amount = $amount;
+        $this->amount = (string) $amount;
     }
 
     /**
