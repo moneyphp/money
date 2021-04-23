@@ -27,4 +27,12 @@ final class NumberSpec extends ObjectBehavior
 
         $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
+
+    public function it_creates_a_number_from_float(): void
+    {
+        $number = $this->fromFloat(1.1);
+
+        $number->shouldHaveType(Number::class);
+        $number->__toString()->shouldReturn('1.1');
+    }
 }

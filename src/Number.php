@@ -57,6 +57,12 @@ final class Number
     }
 
     /** @psalm-pure */
+    public static function fromFloat(float $number): self
+    {
+        return self::fromString(sprintf('%.14F', $number));
+    }
+
+    /** @psalm-pure */
     public static function fromNumber(int|string $number): self
     {
         if (is_int($number)) {

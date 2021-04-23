@@ -76,6 +76,15 @@ final class NumberTest extends TestCase
         $this->assertInstanceOf(Number::class, $number);
     }
 
+    /** @test */
+    public function itCreatesANumberFromAFloatingPointValue(): void
+    {
+        self::assertEquals(
+            Number::fromString('123.456789'),
+            Number::fromFloat(123.456789)
+        );
+    }
+
     /**
      * @psalm-return non-empty-list<array{
      *     numeric-string,
