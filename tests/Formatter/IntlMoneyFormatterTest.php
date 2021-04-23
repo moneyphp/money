@@ -43,7 +43,7 @@ final class IntlMoneyFormatterTest extends TestCase
             ->willReturn($subunit);
 
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
-        $this->assertSame($result, $moneyFormatter->format($money));
+        self::assertSame($result, $moneyFormatter->format($money));
     }
 
     /**

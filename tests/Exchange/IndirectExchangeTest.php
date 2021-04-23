@@ -24,9 +24,9 @@ final class IndirectExchangeTest extends TestCase
         $pair = $exchange->quote(new Currency('USD'), new Currency('AOA'));
 
         // USD => EUR => AOA
-        $this->assertEquals('USD', $pair->getBaseCurrency()->getCode());
-        $this->assertEquals('AOA', $pair->getCounterCurrency()->getCode());
-        $this->assertEquals(12, $pair->getConversionRatio());
+        self::assertEquals('USD', $pair->getBaseCurrency()->getCode());
+        self::assertEquals('AOA', $pair->getCounterCurrency()->getCode());
+        self::assertEquals(12, $pair->getConversionRatio());
     }
 
     private function createExchange(): IndirectExchange
@@ -60,9 +60,9 @@ final class IndirectExchangeTest extends TestCase
 
         $pair = $exchange->quote(new Currency('USD'), new Currency('EUR'));
 
-        $this->assertEquals('USD', $pair->getBaseCurrency()->getCode());
-        $this->assertEquals('EUR', $pair->getCounterCurrency()->getCode());
-        $this->assertEquals(4, $pair->getConversionRatio());
+        self::assertEquals('USD', $pair->getBaseCurrency()->getCode());
+        self::assertEquals('EUR', $pair->getCounterCurrency()->getCode());
+        self::assertEquals(4, $pair->getConversionRatio());
     }
 
     /**

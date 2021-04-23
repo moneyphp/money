@@ -30,7 +30,7 @@ final class BitcoinMoneyFormatterTest extends TestCase
             ->with(self::equalTo($currency))
             ->willReturn(8);
 
-        $this->assertSame(
+        self::assertSame(
             $formatted,
             (new BitcoinMoneyFormatter($fractionDigits, $currencies))
                 ->format(new Money($value, $currency))

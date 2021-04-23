@@ -23,8 +23,8 @@ final class MoneyFactoryTest extends TestCase
         $code  = $currency->getCode();
         $money = Money::{$code}(20);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals(new Money(20, $currency), $money);
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals(new Money(20, $currency), $money);
     }
 
     /** @psalm-return list<array{Currency}> */

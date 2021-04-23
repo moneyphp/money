@@ -38,7 +38,7 @@ final class IntlLocalizedDecimalFormatterTest extends TestCase
             ->willReturn($subunit);
 
         $moneyFormatter = new IntlLocalizedDecimalFormatter($numberFormatter, $currencies);
-        $this->assertSame($result, $moneyFormatter->format($money));
+        self::assertSame($result, $moneyFormatter->format($money));
     }
 
     /**

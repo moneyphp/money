@@ -31,7 +31,7 @@ final class CurrencyListTest extends TestCase
     {
         $currencies = new CurrencyList(self::CORRECT_CURRENCIES);
 
-        $this->assertTrue($currencies->contains(new Currency($currency)));
+        self::assertTrue($currencies->contains(new Currency($currency)));
     }
 
     /**
@@ -44,7 +44,7 @@ final class CurrencyListTest extends TestCase
     {
         $currencies = new CurrencyList(self::CORRECT_CURRENCIES);
 
-        $this->assertIsInt($currencies->subunitFor(new Currency($currency)));
+        self::assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
     /**
@@ -68,7 +68,7 @@ final class CurrencyListTest extends TestCase
 
         $iterator = $currencies->getIterator();
 
-        $this->assertContainsOnlyInstancesOf(Currency::class, $iterator);
+        self::assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
     /** @psalm-return non-empty-list<array{non-empty-string}> */

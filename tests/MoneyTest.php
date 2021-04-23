@@ -39,7 +39,7 @@ final class MoneyTest extends TestCase
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
 
-        $this->assertEquals($equality, $money->equals(new Money($amount, $currency)));
+        self::assertEquals($equality, $money->equals(new Money($amount, $currency)));
     }
 
     /** @test */
@@ -64,16 +64,16 @@ final class MoneyTest extends TestCase
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
         $other = new Money($other, new Currency(self::CURRENCY));
 
-        $this->assertEquals($result, $money->compare($other));
-        $this->assertEquals($result === 1, $money->greaterThan($other));
-        $this->assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
-        $this->assertEquals($result === -1, $money->lessThan($other));
-        $this->assertEquals(0 >= $result, $money->lessThanOrEqual($other));
+        self::assertEquals($result, $money->compare($other));
+        self::assertEquals($result === 1, $money->greaterThan($other));
+        self::assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
+        self::assertEquals($result === -1, $money->lessThan($other));
+        self::assertEquals(0 >= $result, $money->lessThanOrEqual($other));
 
         if ($result === 0) {
-            $this->assertEquals($money, $other);
+            self::assertEquals($money, $other);
         } else {
-            $this->assertNotEquals($money, $other);
+            self::assertNotEquals($money, $other);
         }
     }
 
@@ -91,8 +91,8 @@ final class MoneyTest extends TestCase
 
         $money = $money->multiply($multiplier, $roundingMode);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals($result, $money->getAmount());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($result, $money->getAmount());
     }
 
     /**
@@ -105,8 +105,8 @@ final class MoneyTest extends TestCase
         $money = new Money(100, new Currency(self::CURRENCY));
         $money = $money->multiply('0.1');
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals('10', $money->getAmount());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals('10', $money->getAmount());
     }
 
     /**
@@ -119,7 +119,7 @@ final class MoneyTest extends TestCase
      */
     public function it_divides_the_amount(string $divisor, int $roundingMode, string $result): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             $result,
             (new Money(1, new Currency(self::CURRENCY)))
                 ->multiply($divisor, $roundingMode)
@@ -147,7 +147,7 @@ final class MoneyTest extends TestCase
         foreach ($allocated as $key => $money) {
             $compareTo = new Money($results[$key], $money->getCurrency());
 
-            $this->assertTrue($money->equals($compareTo));
+            self::assertTrue($money->equals($compareTo));
         }
     }
 
@@ -188,7 +188,7 @@ final class MoneyTest extends TestCase
         foreach ($allocated as $key => $money) {
             $compareTo = new Money($results[$key], $money->getCurrency());
 
-            $this->assertTrue($money->equals($compareTo));
+            self::assertTrue($money->equals($compareTo));
         }
     }
 
@@ -202,9 +202,9 @@ final class MoneyTest extends TestCase
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
-        $this->assertEquals($isZero, $money->isZero());
-        $this->assertEquals($isPositive, $money->isPositive());
-        $this->assertEquals($isNegative, $money->isNegative());
+        self::assertEquals($isZero, $money->isZero());
+        self::assertEquals($isPositive, $money->isPositive());
+        self::assertEquals($isNegative, $money->isNegative());
     }
 
     /**
@@ -220,7 +220,7 @@ final class MoneyTest extends TestCase
 
         $money = $money->absolute();
 
-        $this->assertEquals($result, $money->getAmount());
+        self::assertEquals($result, $money->getAmount());
     }
 
     /**
@@ -236,7 +236,7 @@ final class MoneyTest extends TestCase
 
         $money = $money->negative();
 
-        $this->assertEquals($result, $money->getAmount());
+        self::assertEquals($result, $money->getAmount());
     }
 
     /**
@@ -254,8 +254,8 @@ final class MoneyTest extends TestCase
 
         $money = $money->mod($rightMoney);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals($expected, $money->getAmount());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($expected, $money->getAmount());
     }
 
     /**
@@ -263,12 +263,12 @@ final class MoneyTest extends TestCase
      */
     public function itConvertsToJson(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             '{"amount":"350","currency":"EUR"}',
             json_encode(Money::EUR(350))
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             ['amount' => '350', 'currency' => 'EUR'],
             Money::EUR(350)->jsonSerialize()
         );
@@ -281,9 +281,9 @@ final class MoneyTest extends TestCase
     {
         $one = new Money(1, new Currency('EUR'));
 
-        $this->assertInstanceOf(Money::class, new Money(PHP_INT_MAX, new Currency('EUR')));
-        $this->assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->add($one));
-        $this->assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
+        self::assertInstanceOf(Money::class, new Money(PHP_INT_MAX, new Currency('EUR')));
+        self::assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->add($one));
+        self::assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 
     /**
@@ -296,10 +296,10 @@ final class MoneyTest extends TestCase
         $three    = new Money(3, $currency);
         $six      = new Money(6, $currency);
 
-        $this->assertEquals(0, $zero->ratioOf($six));
-        $this->assertEquals(0.5, $three->ratioOf($six));
-        $this->assertEquals(1, $three->ratioOf($three));
-        $this->assertEquals(2, $six->ratioOf($three));
+        self::assertEquals(0, $zero->ratioOf($six));
+        self::assertEquals(0.5, $three->ratioOf($six));
+        self::assertEquals(1, $three->ratioOf($three));
+        self::assertEquals(2, $six->ratioOf($three));
     }
 
     /**
@@ -325,7 +325,7 @@ final class MoneyTest extends TestCase
      */
     public function itCalculatesSum(array $values, Money $sum): void
     {
-        $this->assertEquals($sum, Money::sum(...$values));
+        self::assertEquals($sum, Money::sum(...$values));
     }
 
     /**
@@ -336,7 +336,7 @@ final class MoneyTest extends TestCase
      */
     public function itCalculatesMin(array $values, Money $min): void
     {
-        $this->assertEquals($min, Money::min(...$values));
+        self::assertEquals($min, Money::min(...$values));
     }
 
     /**
@@ -347,7 +347,7 @@ final class MoneyTest extends TestCase
      */
     public function itCalculatesMax(array $values, Money $max): void
     {
-        $this->assertEquals($max, Money::max(...$values));
+        self::assertEquals($max, Money::max(...$values));
     }
 
     /**
@@ -358,7 +358,7 @@ final class MoneyTest extends TestCase
      */
     public function itCalculatesAvg(array $values, Money $avg): void
     {
-        $this->assertEquals($avg, Money::avg(...$values));
+        self::assertEquals($avg, Money::avg(...$values));
     }
 
     /**

@@ -73,8 +73,8 @@ class BcMathCalculatorTest extends CalculatorTestCase
      */
     public function itComparesNumbersCloseToZero(): void
     {
-        $this->assertEquals(1, $this->getCalculator()::compare('1', '0.0005'));
-        $this->assertEquals(1, $this->getCalculator()::compare('1', '0.000000000000000000000000005'));
+        self::assertEquals(1, $this->getCalculator()::compare('1', '0.0005'));
+        self::assertEquals(1, $this->getCalculator()::compare('1', '0.000000000000000000000000005'));
     }
 
     /**
@@ -82,7 +82,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
      */
     public function itUsesScaleForAdd(): void
     {
-        $this->assertEquals('0.00130154000000', $this->getCalculator()::add('0.00125148', '0.00005006'));
+        self::assertEquals('0.00130154000000', $this->getCalculator()::add('0.00125148', '0.00005006'));
     }
 
     /**

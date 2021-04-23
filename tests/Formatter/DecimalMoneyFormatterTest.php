@@ -32,7 +32,7 @@ final class DecimalMoneyFormatterTest extends TestCase
             ->willReturn($subunit);
 
         $moneyFormatter = new DecimalMoneyFormatter($currencies);
-        $this->assertSame($result, $moneyFormatter->format($money));
+        self::assertSame($result, $moneyFormatter->format($money));
     }
 
     /**

@@ -27,9 +27,9 @@ final class ComparatorTest extends TestCase
         $money_a = Money::EUR(1);
         $money_b = Money::EUR(2);
 
-        $this->assertFalse($this->comparator->accepts($money_a, false));
-        $this->assertFalse($this->comparator->accepts(false, $money_a));
-        $this->assertTrue($this->comparator->accepts($money_a, $money_b));
+        self::assertFalse($this->comparator->accepts($money_a, false));
+        self::assertFalse($this->comparator->accepts(false, $money_a));
+        self::assertTrue($this->comparator->accepts($money_a, $money_b));
     }
 
     /**
@@ -43,8 +43,8 @@ final class ComparatorTest extends TestCase
         try {
             $this->comparator->assertEquals($money_a, $money_b);
         } catch (ComparisonFailure $e) {
-            $this->assertSame('Failed asserting that two Money objects are equal.', $e->getMessage());
-            $this->assertStringContainsString(
+            self::assertSame('Failed asserting that two Money objects are equal.', $e->getMessage());
+            self::assertStringContainsString(
                 '--- Expected
 +++ Actual
 @@ @@
@@ -56,7 +56,7 @@ final class ComparatorTest extends TestCase
             return;
         }
 
-        $this->fail('ComparisonFailure should have been thrown.');
+        self::fail('ComparisonFailure should have been thrown.');
     }
 
     /**
@@ -69,7 +69,7 @@ final class ComparatorTest extends TestCase
 
         $this->comparator->assertEquals($money_a, $money_b);
 
-        $this->assertEquals(
+        self::assertEquals(
             $money_a,
             $money_b,
             'This is only here to increment the assertion counter, since we are testing an assertion'

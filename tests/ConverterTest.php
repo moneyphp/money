@@ -66,8 +66,8 @@ final class ConverterTest extends TestCase
             $counterCurrency
         );
 
-        $this->assertEquals($expectedAmount, $money->getAmount());
-        $this->assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
+        self::assertEquals($expectedAmount, $money->getAmount());
+        self::assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
     }
 
     /**

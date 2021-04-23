@@ -29,13 +29,13 @@ final class NumberTest extends TestCase
     {
         $number = Number::fromString($number);
 
-        $this->assertSame($decimal, $number->isDecimal());
-        $this->assertSame($half, $number->isHalf());
-        $this->assertSame($currentEven, $number->isCurrentEven());
-        $this->assertSame($negative, $number->isNegative());
-        $this->assertSame($integerPart, $number->getIntegerPart());
-        $this->assertSame($fractionalPart, $number->getFractionalPart());
-        $this->assertSame($negative ? '-1' : '1', $number->getIntegerRoundingMultiplier());
+        self::assertSame($decimal, $number->isDecimal());
+        self::assertSame($half, $number->isHalf());
+        self::assertSame($currentEven, $number->isCurrentEven());
+        self::assertSame($negative, $number->isNegative());
+        self::assertSame($integerPart, $number->getIntegerPart());
+        self::assertSame($fractionalPart, $number->getFractionalPart());
+        self::assertSame($negative ? '-1' : '1', $number->getIntegerRoundingMultiplier());
     }
 
     /**
@@ -60,7 +60,7 @@ final class NumberTest extends TestCase
     {
         $number = Number::fromString($numberString);
 
-        $this->assertSame($expectedResult, (string) $number->base10($baseNumber));
+        self::assertSame($expectedResult, (string) $number->base10($baseNumber));
     }
 
     /**
@@ -73,7 +73,7 @@ final class NumberTest extends TestCase
     {
         $number = Number::fromNumber($number);
 
-        $this->assertInstanceOf(Number::class, $number);
+        self::assertInstanceOf(Number::class, $number);
     }
 
     /** @test */

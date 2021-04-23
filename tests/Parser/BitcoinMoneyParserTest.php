@@ -26,9 +26,9 @@ final class BitcoinMoneyParserTest extends TestCase
 
         $money = $moneyParser->parse($string);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals($units, $money->getAmount());
-        $this->assertEquals(BitcoinCurrencies::CODE, $money->getCurrency()->getCode());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($units, $money->getAmount());
+        self::assertEquals(BitcoinCurrencies::CODE, $money->getCurrency()->getCode());
     }
 
     /**
@@ -40,9 +40,9 @@ final class BitcoinMoneyParserTest extends TestCase
 
         $money = $moneyParser->parse("\xC9\x830.25", new Currency('ETH'));
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals('25', $money->getAmount());
-        $this->assertEquals('ETH', $money->getCurrency()->getCode());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals('25', $money->getAmount());
+        self::assertEquals('ETH', $money->getCurrency()->getCode());
     }
 
     /**

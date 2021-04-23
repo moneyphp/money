@@ -25,7 +25,7 @@ final class ISOCurrenciesTest extends TestCase
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertTrue($currencies->contains(new Currency($currency)));
+        self::assertTrue($currencies->contains(new Currency($currency)));
     }
 
     /**
@@ -38,7 +38,7 @@ final class ISOCurrenciesTest extends TestCase
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertIsInt($currencies->subunitFor(new Currency($currency)));
+        self::assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
     /**
@@ -63,7 +63,7 @@ final class ISOCurrenciesTest extends TestCase
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertIsInt($currencies->numericCodeFor(new Currency($currency)));
+        self::assertIsInt($currencies->numericCodeFor(new Currency($currency)));
     }
 
     /**
@@ -87,7 +87,7 @@ final class ISOCurrenciesTest extends TestCase
 
         $iterator = $currencies->getIterator();
 
-        $this->assertContainsOnlyInstancesOf(Currency::class, $iterator);
+        self::assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
     /**

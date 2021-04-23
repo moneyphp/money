@@ -17,6 +17,6 @@ final class CurrencyTest extends TestCase
      */
     public function itConvertsToJson(): void
     {
-        $this->assertEquals('"USD"', json_encode(new Currency('USD')));
+        self::assertEquals('"USD"', json_encode(new Currency('USD')));
     }
 }
