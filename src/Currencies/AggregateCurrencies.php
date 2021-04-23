@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Money\Currencies;
 
+use AppendIterator;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
@@ -50,10 +51,13 @@ final class AggregateCurrencies implements Currencies
     /** {@inheritDoc} */
     public function getIterator(): Traversable
     {
+        /** @psalm-var AppendIterator&Traversable<int|string, Currency> $iterator */
+        $iterator = new AppendIterator();
+
         foreach ($this->currencies as $currencies) {
-            foreach ($currencies as $currency) {
-                yield $currency;
-            }
+            $iterator->append($currencies->getIterator());
         }
+
+        return $iterator;
     }
 }

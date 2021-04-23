@@ -122,7 +122,36 @@ final class AggregateCurrenciesTest extends TestCase
                 new Currency('EUR'),
                 new Currency('USD'),
             ],
-            iterator_to_array(new AggregateCurrencies([$currencies, $otherCurrencies]))
+            iterator_to_array(new AggregateCurrencies([$currencies, $otherCurrencies]), false)
+        );
+    }
+
+    /** @test */
+    public function it_can_operate_be_rewinded_and_reused(): void
+    {
+        $currencies      = $this->createMock(Currencies::class);
+        $otherCurrencies = $this->createMock(Currencies::class);
+
+        $currencies->method('getIterator')
+            ->willReturn(new ArrayIterator([new Currency('EUR')]));
+        $otherCurrencies->method('getIterator')
+            ->willReturn(new ArrayIterator([new Currency('USD')]));
+
+        $expectedCurrencies = [
+            new Currency('EUR'),
+            new Currency('USD'),
+        ];
+        $iterator           = (new AggregateCurrencies([$currencies, $otherCurrencies]))
+            ->getIterator();
+
+        self::assertEquals(
+            $expectedCurrencies,
+            iterator_to_array($iterator, false)
+        );
+        self::assertEquals(
+            $expectedCurrencies,
+            iterator_to_array($iterator, false),
+            'Can re-use the previous iteration'
         );
     }
 }
