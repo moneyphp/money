@@ -83,6 +83,57 @@ final class ConverterTest extends TestCase
      * @dataProvider convertExamples
      * @test
      */
+    public function itCreatesConversions(
+        string $baseCurrencyCode,
+        string $counterCurrencyCode,
+        int $subunitBase,
+        int $subunitCounter,
+        int|float $ratio,
+        int|string $amount,
+        int $expectedAmount
+    ): void {
+        $baseCurrency    = new Currency($baseCurrencyCode);
+        $counterCurrency = new Currency($counterCurrencyCode);
+        $numericRatio    =  sprintf('%.14F', $ratio);
+
+        self::assertIsNumeric($numericRatio);
+
+        $pair       = new CurrencyPair($baseCurrency, $counterCurrency, $numericRatio);
+        $currencies = $this->createMock(Currencies::class);
+        $exchange   = $this->createMock(Exchange::class);
+        $converter  = new Converter($currencies, $exchange);
+
+        $currencies->method('subunitFor')
+            ->with(self::logicalOr(self::equalTo($baseCurrency), self::equalTo($counterCurrency)))
+            ->willReturnCallback(
+                static fn (Currency $currency): int => $currency->equals($baseCurrency) ? $subunitBase : $subunitCounter
+            );
+
+        $exchange->method('quote')
+            ->with(self::equalTo($baseCurrency), self::equalTo($counterCurrency))
+            ->willReturn($pair);
+
+        $money = $converter->conversion(
+            new Money($amount, new Currency($baseCurrencyCode)),
+            $counterCurrency
+        );
+
+        self::assertEquals($expectedAmount, $money->getMoney()->getAmount());
+        self::assertEquals($counterCurrencyCode, $money->getMoney()->getCurrency()->getCode());
+    }
+
+    /**
+     * @psalm-param non-empty-string $baseCurrencyCode
+     * @psalm-param non-empty-string $counterCurrencyCode
+     * @psalm-param positive-int|0 $subunitBase
+     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param int|float $ratio
+     * @psalm-param positive-int|numeric-string $amount
+     * @psalm-param positive-int|0 $expectedAmount
+     *
+     * @dataProvider convertExamples
+     * @test
+     */
     public function itConvertsAgainst(
         string $baseCurrencyCode,
         string $counterCurrencyCode,

@@ -22,5 +22,5 @@ jobs:
       - name: Download dependencies
         run: composer install --classmap-authoritative
 
-      - name: Psalm
+      - name: PHP CS
         run: vendor/bin/phpcs

@@ -33,6 +33,16 @@ final class Converter
         );
     }
 
+    public function conversion(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): Conversion
+    {
+        $pair = $this->exchange->quote(
+            $money->getCurrency(),
+            $counterCurrency
+        );
+
+        return new Conversion($this->convertAgainst($money, $pair, $roundingMode), $pair);
+    }
+
     public function convertAgainst(Money $money, CurrencyPair $currencyPair, int $roundingMode = Money::ROUND_HALF_UP): Money
     {
         if (! $money->getCurrency()->equals($currencyPair->getBaseCurrency())) {
