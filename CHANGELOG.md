@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
+- Fix GMP multiply and divide by negative (#640 #626)
+- Currency code must be uppercase (#639 #638 #637)
 - The CPU no longer overheats when using this library (#634)
 - No longer allowing null amount (#615)
 - Update cached currencies (#583)
