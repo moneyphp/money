@@ -87,6 +87,19 @@ final class MoneySpec extends ObjectBehavior
         $this->isSameCurrency(new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY)))->shouldReturn(false);
     }
 
+    public function it_tests_currency_equality_with_multiple_arguments(): void
+    {
+        $this->isSameCurrency(
+            new Money(self::AMOUNT, new Currency(self::CURRENCY)),
+            new Money(self::AMOUNT, new Currency(self::CURRENCY))
+        )->shouldReturn(true);
+
+        $this->isSameCurrency(
+            new Money(self::AMOUNT, new Currency(self::CURRENCY)),
+            new Money(self::AMOUNT, new Currency(self::OTHER_CURRENCY))
+        )->shouldReturn(false);
+    }
+
     public function it_equals_to_another_money(): void
     {
         $this->equals(new Money(self::AMOUNT, new Currency(self::CURRENCY)))->shouldReturn(true);
