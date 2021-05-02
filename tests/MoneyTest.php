@@ -362,6 +362,19 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param int $amount
+     * @psalm-param positive-int|0 $unit
+     * @psalm-param int $expected
+     *
+     * @test
+     * @dataProvider roundToUnitExamples
+     */
+    public function itRoundsToUnit($amount, $unit, $expected): void
+    {
+        self::assertEquals(Money::EUR($expected), Money::EUR($amount)->roundToUnit($unit));
+    }
+
+    /**
      * @test
      * @requires PHP 7.0
      */
@@ -554,6 +567,31 @@ final class MoneyTest extends TestCase
             [9, 3, '0'],
             [1006, 10, '6'],
             [1007, 10, '7'],
+        ];
+    }
+
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     positive-int|0,
+     *     int
+     * }>
+     */
+    public function roundToUnitExamples(): array
+    {
+        return [
+            [510, 2, 500],
+            [510, 1, 510],
+            [515, 1, 520],
+            [4550, 2, 4600],
+            [-4550, 2, -4600],
+            [-4550, 0, -4550],
+            [-4551, 0, -4551],
+            [1, 2, 0],
+            [5, 2, 0],
+            [5, 1, 10],
+            [10, 1, 10],
+            [10, 8, 0],
         ];
     }
 }

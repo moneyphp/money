@@ -16,6 +16,9 @@ use function count;
 use function filter_var;
 use function floor;
 use function max;
+use function str_pad;
+use function strlen;
+use function substr;
 
 use const FILTER_VALIDATE_INT;
 use const PHP_ROUND_HALF_DOWN;
@@ -354,21 +357,46 @@ final class Money implements JsonSerializable
 
     /**
      * @psalm-param numeric-string $amount
-     * @psalm-param self::ROUND_*  $rounding_mode
+     * @psalm-param self::ROUND_*  $roundingMode
      *
      * @psalm-return numeric-string
      */
-    private function round(string $amount, int $rounding_mode): string
+    private function round(string $amount, int $roundingMode): string
     {
-        if ($rounding_mode === self::ROUND_UP) {
+        if ($roundingMode === self::ROUND_UP) {
             return self::$calculator::ceil($amount);
         }
 
-        if ($rounding_mode === self::ROUND_DOWN) {
+        if ($roundingMode === self::ROUND_DOWN) {
             return self::$calculator::floor($amount);
         }
 
-        return self::$calculator::round($amount, $rounding_mode);
+        return self::$calculator::round($amount, $roundingMode);
+    }
+
+    /**
+     * Round to a specific unit.
+     *
+     * @psalm-param positive-int|0  $unit
+     * @psalm-param self::ROUND_* $roundingMode
+     */
+    public function roundToUnit(int $unit, int $roundingMode = self::ROUND_HALF_UP): self
+    {
+        if ($unit === 0) {
+            return $this;
+        }
+
+        $abs = self::$calculator::absolute($this->amount);
+        if (strlen($abs) < $unit) {
+            return new self('0', $this->currency);
+        }
+
+        /** @psalm-var numeric-string $toBeRounded */
+        $toBeRounded = substr($this->amount, 0, strlen($this->amount) - $unit) . '.' . substr($this->amount, $unit * -1);
+        /** @psalm-var numeric-string $result */
+        $result = self::$calculator::round($toBeRounded, $roundingMode) . str_pad('', $unit, '0');
+
+        return new self($result, $this->currency);
     }
 
     public function absolute(): Money
