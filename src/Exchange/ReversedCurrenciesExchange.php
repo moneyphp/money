@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Money\Exchange;
 
+use Money\Calculator;
+use Money\Calculator\BcMathCalculator;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
@@ -16,11 +18,23 @@ use Money\Exchange;
  */
 final class ReversedCurrenciesExchange implements Exchange
 {
+    /**
+     * @var Calculator
+     * @psalm-var class-string<Calculator>
+     */
+    private static string $calculator = BcMathCalculator::class;
+
     private Exchange $exchange;
 
     public function __construct(Exchange $exchange)
     {
         $this->exchange = $exchange;
+    }
+
+    /** @psalm-param class-string<Calculator> $calculator */
+    public static function registerCalculator(string $calculator): void
+    {
+        self::$calculator = $calculator;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
@@ -34,7 +48,7 @@ final class ReversedCurrenciesExchange implements Exchange
                 return new CurrencyPair(
                     $baseCurrency,
                     $counterCurrency,
-                    (string) (1.0 / (float) $currencyPair->getConversionRatio())
+                    self::$calculator::divide('1', $currencyPair->getConversionRatio())
                 );
             } catch (UnresolvableCurrencyPairException) {
                 throw $exception;

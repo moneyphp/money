@@ -50,7 +50,7 @@ final class ReversedCurrenciesExchangeTest extends TestCase
             });
 
         self::assertEquals(
-            new CurrencyPair($base, $counter, '0.8'),
+            new CurrencyPair($base, $counter, '0.80000000000000'),
             (new ReversedCurrenciesExchange($wrappedExchange))
                 ->quote($base, $counter)
         );
