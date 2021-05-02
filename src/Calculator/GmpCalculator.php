@@ -22,6 +22,7 @@ use function gmp_strval;
 use function gmp_sub;
 use function ltrim;
 use function str_pad;
+use function str_replace;
 use function strlen;
 use function substr;
 
@@ -80,6 +81,11 @@ final class GmpCalculator implements Calculator
         if ($multiplier->isDecimal()) {
             $decimalPlaces  = strlen($multiplier->getFractionalPart());
             $multiplierBase = $multiplier->getIntegerPart();
+            $negativeZero   = $multiplierBase === '-0';
+
+            if ($negativeZero) {
+                $multiplierBase = '-';
+            }
 
             if ($multiplierBase) {
                 $multiplierBase .= $multiplier->getFractionalPart();
@@ -105,6 +111,11 @@ final class GmpCalculator implements Calculator
             /** @psalm-var numeric-string $finalResult */
             $finalResult = substr($resultBase, 0, $decimalPlaces * -1) . '.' . $result;
 
+            if ($negativeZero) {
+                /** @psalm-var numeric-string $finalResult */
+                $finalResult = str_replace('-.', '-0.', $finalResult);
+            }
+
             return $finalResult;
         }
 
@@ -122,9 +133,15 @@ final class GmpCalculator implements Calculator
 
         if ($divisor->isDecimal()) {
             $decimalPlaces = strlen($divisor->getFractionalPart());
+            $divisorBase   = $divisor->getIntegerPart();
+            $negativeZero  = $divisorBase === '-0';
+
+            if ($negativeZero) {
+                $divisorBase = '-';
+            }
 
             if ($divisor->getIntegerPart()) {
-                $divisor = new Number($divisor->getIntegerPart() . $divisor->getFractionalPart());
+                $divisor = new Number($divisorBase . $divisor->getFractionalPart());
             } else {
                 $divisor = new Number(ltrim($divisor->getFractionalPart(), '0'));
             }

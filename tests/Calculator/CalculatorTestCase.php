@@ -293,6 +293,9 @@ abstract class CalculatorTestCase extends TestCase
             [1000, 0.0029, '2.9'],
             [2000, 0.0029, '5.8'],
             ['1', 0.006597, '0.006597'],
+            ['1', -0.99, '-0.99'],
+            ['1', -1.99, '-1.99'],
+            ['-1', -1.99, '1.99'],
         ];
     }
 
@@ -317,6 +320,9 @@ abstract class CalculatorTestCase extends TestCase
             [98, 24, '4.083333333333333'],
             [1, 5.1555, '0.19396760740956'],
             ['-500', 110, '-4.54545454545455'],
+            ['1', -0.99, '-1.0101010101'],
+            ['-1', -0.99, '1.0101010101'],
+            ['-1', -1.99, '0.5025125628'],
         ];
     }
 
@@ -474,8 +480,8 @@ abstract class CalculatorTestCase extends TestCase
             $normalizedResult = '0' . $normalizedResult;
         }
 
-        $normalizedExpected = rtrim(preg_replace('/^(\d+\.\d*?[1-9]*)0+$/', '$1', $normalizedExpected), '.');
-        $normalizedResult   = rtrim(preg_replace('/^(\d+\.\d*?[1-9]*)0+$/', '$1', $normalizedResult), '.');
+        $normalizedExpected = rtrim(preg_replace('/^(-?\d+\.\d*?[1-9]*)0+$/', '$1', $normalizedExpected), '.');
+        $normalizedResult   = rtrim(preg_replace('/^(-?\d+\.\d*?[1-9]*)0+$/', '$1', $normalizedResult), '.');
 
         self::assertEquals($normalizedExpected, $normalizedResult);
     }
