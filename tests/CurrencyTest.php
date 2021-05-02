@@ -19,4 +19,12 @@ final class CurrencyTest extends TestCase
     {
         self::assertEquals('"USD"', json_encode(new Currency('USD')));
     }
+
+    /**
+     * @test
+     */
+    public function itAppliesUppercase(): void
+    {
+        self::assertEquals('USD', (new Currency('usd'))->getCode());
+    }
 }

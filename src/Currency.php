@@ -25,7 +25,7 @@ final class Currency implements JsonSerializable
     /** @psalm-param non-empty-string $code */
     public function __construct(string $code)
     {
-        $this->code = $code;
+        $this->code = \strtoupper($code);
     }
 
     /**
