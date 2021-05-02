@@ -90,10 +90,16 @@ final class Money implements JsonSerializable
     /**
      * Checks whether a Money has the same Currency as this.
      */
-    public function isSameCurrency(Money $other): bool
+    public function isSameCurrency(Money ...$others): bool
     {
-        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-        return $this->currency == $other->currency;
+        foreach ($others as $other) {
+            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+            if ($this->currency != $other->currency) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
