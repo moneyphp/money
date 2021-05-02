@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Money;
 
+use InvalidArgumentException;
 use Money\Converter;
 use Money\Currencies;
 use Money\Currency;
@@ -82,6 +83,53 @@ final class ConverterTest extends TestCase
      * @dataProvider convertExamples
      * @test
      */
+    public function itConvertsAgainst(
+        string $baseCurrencyCode,
+        string $counterCurrencyCode,
+        int $subunitBase,
+        int $subunitCounter,
+        int|float $ratio,
+        int|string $amount,
+        int $expectedAmount
+    ): void {
+        $baseCurrency    = new Currency($baseCurrencyCode);
+        $counterCurrency = new Currency($counterCurrencyCode);
+        $numericRatio    = sprintf('%.14F', $ratio);
+
+        self::assertIsNumeric($numericRatio);
+
+        $pair       = new CurrencyPair($baseCurrency, $counterCurrency, $numericRatio);
+        $currencies = $this->createMock(Currencies::class);
+        $exchange   = $this->createMock(Exchange::class);
+        $converter  = new Converter($currencies, $exchange);
+
+        $currencies->method('subunitFor')
+            ->with(self::logicalOr(self::equalTo($baseCurrency), self::equalTo($counterCurrency)))
+            ->willReturnCallback(
+                static fn (Currency $currency): int => $currency->equals($baseCurrency) ? $subunitBase : $subunitCounter
+            );
+
+        $money = $converter->convertAgainst(
+            new Money($amount, new Currency($baseCurrencyCode)),
+            $pair
+        );
+
+        self::assertEquals($expectedAmount, $money->getAmount());
+        self::assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
+    }
+
+    /**
+     * @psalm-param non-empty-string $baseCurrencyCode
+     * @psalm-param non-empty-string $counterCurrencyCode
+     * @psalm-param positive-int|0 $subunitBase
+     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param int|float $ratio
+     * @psalm-param positive-int|numeric-string $amount
+     * @psalm-param positive-int|0 $expectedAmount
+     *
+     * @dataProvider convertExamples
+     * @test
+     */
     public function itConvertsToADifferentCurrencyWhenDecimalSeparatorIsComma(
         $baseCurrencyCode,
         $counterCurrencyCode,
@@ -102,6 +150,21 @@ final class ConverterTest extends TestCase
             $amount,
             $expectedAmount
         );
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsWhenConvertingAgainstTheWrongBaseCurrency(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $pair       = new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1');
+        $currencies = $this->createMock(Currencies::class);
+        $exchange   = $this->createMock(Exchange::class);
+        $converter  = new Converter($currencies, $exchange);
+
+        $converter->convertAgainst(new Money(100, new Currency('XYZ')), $pair);
     }
 
     /**
