@@ -23,6 +23,7 @@ Same Currency
 instances in a collection have the same currency as the target or not.
 
 .. code-block:: php
+
     $target = Money::USD(800);
     $containsEuros = [
         Money::USD(500),
