@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - **[BC break]** Removed PhpCalculator
 - **[BC break]** Removed `Currency#isAvailableWithin()`
 - **[BC break]** Removed string as allowed parameter for `MoneyParser#parse`
-- **[BC break]** Completely remove float usage, methods now return numberic-strings
+- **[BC break]** Completely remove float usage, methods now return numeric-strings
 
 
 ## [3.3.1] - 2019-03-13
