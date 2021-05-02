@@ -55,6 +55,7 @@
             <errorLevel type="suppress">
                 <!-- calculators are not swapped at runtime in our test suite - they are a dead/deprecated concept
                      that will likely be removed, but we generally do not register calculators manually -->
+                <referencedMethod name="Money\Exchange\ReversedCurrenciesExchange::registerCalculator"/>
                 <referencedMethod name="Money\Exchange\IndirectExchange::registerCalculator"/>
                 <referencedMethod name="Money\Money::registerCalculator"/>
             </errorLevel>
