@@ -1,129 +1,144 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
+use InvalidArgumentException;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
+use function json_encode;
+
+use const LC_ALL;
+use const PHP_INT_MAX;
+
+/** @covers \Money\Money */
 final class MoneyTest extends TestCase
 {
     use AggregateExamples;
     use RoundExamples;
 
-    const AMOUNT = 10;
+    public const AMOUNT = 10;
 
-    const OTHER_AMOUNT = 5;
+    public const OTHER_AMOUNT = 5;
 
-    const CURRENCY = 'EUR';
+    public const CURRENCY = 'EUR';
 
-    const OTHER_CURRENCY = 'USD';
+    public const OTHER_CURRENCY = 'USD';
 
     /**
+     * @psalm-param int|numeric-string $amount
+     *
      * @dataProvider equalityExamples
      * @test
      */
-    public function it_equals_to_another_money($amount, $currency, $equality)
+    public function itEqualsToAnotherMoney(int|string $amount, Currency $currency, bool $equality): void
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
 
-        $this->assertEquals($equality, $money->equals(new Money($amount, $currency)));
+        self::assertEquals($equality, $money->equals(new Money($amount, $currency)));
+    }
+
+    /** @test */
+    public function it_can_compare_currency(): void
+    {
+        $money1 = new Money(self::AMOUNT, new Currency('USD'));
+        $money2 = new Money(self::AMOUNT, new Currency('USD'));
+        $money3 = new Money(self::AMOUNT, new Currency('EUR'));
+
+        self::assertTrue($money1->isSameCurrency($money2));
+        self::assertTrue($money2->isSameCurrency($money1));
+        self::assertFalse($money1->isSameCurrency($money3));
+        self::assertFalse($money3->isSameCurrency($money1));
     }
 
     /**
      * @dataProvider comparisonExamples
      * @test
      */
-    public function it_compares_two_amounts($other, $result)
+    public function itComparesTwoAmounts(int $other, int $result): void
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
         $other = new Money($other, new Currency(self::CURRENCY));
 
-        $this->assertEquals($result, $money->compare($other));
-        $this->assertEquals(1 === $result, $money->greaterThan($other));
-        $this->assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
-        $this->assertEquals(-1 === $result, $money->lessThan($other));
-        $this->assertEquals(0 >= $result, $money->lessThanOrEqual($other));
+        self::assertEquals($result, $money->compare($other));
+        self::assertEquals($result === 1, $money->greaterThan($other));
+        self::assertEquals(0 <= $result, $money->greaterThanOrEqual($other));
+        self::assertEquals($result === -1, $money->lessThan($other));
+        self::assertEquals(0 >= $result, $money->lessThanOrEqual($other));
 
         if ($result === 0) {
-            $this->assertEquals($money, $other);
+            self::assertEquals($money, $other);
         } else {
-            $this->assertNotEquals($money, $other);
+            self::assertNotEquals($money, $other);
         }
     }
 
     /**
-     * @dataProvider roundExamples
+     * @psalm-param numeric-string $multiplier
+     * @psalm-param Money::ROUND_* $roundingMode
+     * @psalm-param numeric-string $result
+     *
+     * @dataProvider roundingExamples
      * @test
      */
-    public function it_multiplies_the_amount($multiplier, $roundingMode, $result)
+    public function itMultipliesTheAmount(string $multiplier, int $roundingMode, string $result): void
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
         $money = $money->multiply($multiplier, $roundingMode);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals((string) $result, $money->getAmount());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($result, $money->getAmount());
     }
 
     /**
      * @test
      */
-    public function it_multiplies_the_amount_with_locale_that_uses_comma_separator()
+    public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator(): void
     {
         $this->setLocale(LC_ALL, 'es_ES.utf8');
 
         $money = new Money(100, new Currency(self::CURRENCY));
-        $money = $money->multiply(10 / 100);
+        $money = $money->multiply('0.1');
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals(10, $money->getAmount());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals('10', $money->getAmount());
     }
 
     /**
-     * @dataProvider invalidOperandExamples
+     * @psalm-param numeric-string $divisor
+     * @psalm-param Money::ROUND_* $roundingMode
+     * @psalm-param numeric-string $result
+     *
+     * @dataProvider roundingExamples
      * @test
      */
-    public function it_throws_an_exception_when_operand_is_invalid_during_multiplication($operand)
+    public function it_divides_the_amount(string $divisor, int $roundingMode, string $result): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $money = new Money(1, new Currency(self::CURRENCY));
-
-        $money->multiply($operand);
+        self::assertEquals(
+            $result,
+            (new Money(1, new Currency(self::CURRENCY)))
+                ->multiply($divisor, $roundingMode)
+                ->multiply($divisor, $roundingMode)
+                ->divide($divisor, $roundingMode)
+                ->getAmount(),
+            'Our dataset does not contain a lot of data around divisions: we abuse multiplication to verify inverse function properties'
+        );
     }
 
     /**
-     * @dataProvider roundExamples
-     */
-    public function it_divides_the_amount($divisor, $roundingMode, $result)
-    {
-        $money = new Money(1, new Currency(self::CURRENCY));
-
-        $money = $money->divide(1 / $divisor, $roundingMode);
-
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals((string) $result, $money->getAmount());
-    }
-
-    /**
-     * @dataProvider invalidOperandExamples
-     * @test
-     */
-    public function it_throws_an_exception_when_operand_is_invalid_during_division($operand)
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $money = new Money(1, new Currency(self::CURRENCY));
-
-        $money->divide($operand);
-    }
-
-    /**
+     * @psalm-param int $amount
+     * @psalm-param non-empty-array<positive-int|0|float> $ratios
+     * @psalm-param non-empty-array<int> $results
+     *
      * @dataProvider allocationExamples
      * @test
      */
-    public function it_allocates_amount($amount, $ratios, $results)
+    public function itAllocatesAmount(int $amount, array $ratios, array $results): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -132,15 +147,39 @@ final class MoneyTest extends TestCase
         foreach ($allocated as $key => $money) {
             $compareTo = new Money($results[$key], $money->getCurrency());
 
-            $this->assertEquals($money, $compareTo);
+            self::assertTrue($money->equals($compareTo));
         }
     }
 
+    /** @test */
+    public function it_throws_an_exception_when_allocation_ratio_is_negative(): void
+    {
+        $money = new Money(100, new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
+        $money->allocate([-1]);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_allocation_total_is_zero(): void
+    {
+        $money = new Money(100, new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
+        $money->allocate([0, 0]);
+    }
+
     /**
+     * @psalm-param positive-int $amount
+     * @psalm-param positive-int $target
+     * @psalm-param non-empty-list<positive-int> $results
+     *
      * @dataProvider allocationTargetExamples
      * @test
      */
-    public function it_allocates_amount_to_n_targets($amount, $target, $results)
+    public function itAllocatesAmountToNTargets(int $amount, int $target, array $results): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -149,75 +188,87 @@ final class MoneyTest extends TestCase
         foreach ($allocated as $key => $money) {
             $compareTo = new Money($results[$key], $money->getCurrency());
 
-            $this->assertEquals($money, $compareTo);
+            self::assertTrue($money->equals($compareTo));
         }
     }
 
     /**
+     * @psalm-param int|numeric-string $amount
+     *
      * @dataProvider comparatorExamples
      * @test
      */
-    public function it_has_comparators($amount, $isZero, $isPositive, $isNegative)
+    public function itHasComparators(int|string $amount, bool $isZero, bool $isPositive, bool $isNegative): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
-        $this->assertEquals($isZero, $money->isZero());
-        $this->assertEquals($isPositive, $money->isPositive());
-        $this->assertEquals($isNegative, $money->isNegative());
+        self::assertEquals($isZero, $money->isZero());
+        self::assertEquals($isPositive, $money->isPositive());
+        self::assertEquals($isNegative, $money->isNegative());
     }
 
     /**
+     * @psalm-param int|numeric-string $amount
+     * @psalm-param positive-int|0 $result
+     *
      * @dataProvider absoluteExamples
      * @test
      */
-    public function it_calculates_the_absolute_amount($amount, $result)
+    public function itCalculatesTheAbsoluteAmount($amount, $result): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
         $money = $money->absolute();
 
-        $this->assertEquals($result, $money->getAmount());
+        self::assertEquals($result, $money->getAmount());
     }
 
     /**
+     * @psalm-param int|numeric-string $amount
+     * @psalm-param int $result
+     *
      * @dataProvider negativeExamples
      * @test
      */
-    public function it_calculates_the_negative_amount($amount, $result)
+    public function itCalculatesTheNegativeAmount($amount, $result): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
         $money = $money->negative();
 
-        $this->assertEquals($result, $money->getAmount());
+        self::assertEquals($result, $money->getAmount());
     }
 
     /**
+     * @psalm-param positive-int $left
+     * @psalm-param positive-int $right
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider modExamples
      * @test
      */
-    public function it_calculates_the_modulus_of_an_amount($left, $right, $expected)
+    public function itCalculatesTheModulusOfAnAmount($left, $right, $expected): void
     {
-        $money = new Money($left, new Currency(self::CURRENCY));
+        $money      = new Money($left, new Currency(self::CURRENCY));
         $rightMoney = new Money($right, new Currency(self::CURRENCY));
 
         $money = $money->mod($rightMoney);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals($expected, $money->getAmount());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($expected, $money->getAmount());
     }
 
     /**
      * @test
      */
-    public function it_converts_to_json()
+    public function itConvertsToJson(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             '{"amount":"350","currency":"EUR"}',
             json_encode(Money::EUR(350))
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             ['amount' => '350', 'currency' => 'EUR'],
             Money::EUR(350)->jsonSerialize()
         );
@@ -226,88 +277,97 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
-    public function it_supports_max_int()
+    public function itSupportsMaxInt(): void
     {
         $one = new Money(1, new Currency('EUR'));
 
-        $this->assertInstanceOf(Money::class, new Money(PHP_INT_MAX, new Currency('EUR')));
-        $this->assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->add($one));
-        $this->assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
+        self::assertInstanceOf(Money::class, new Money(PHP_INT_MAX, new Currency('EUR')));
+        self::assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->add($one));
+        self::assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 
     /**
      * @test
      */
-    public function it_returns_ratio_of()
+    public function itReturnsRatioOf(): void
     {
         $currency = new Currency('EUR');
-        $zero = new Money(0, $currency);
-        $three = new Money(3, $currency);
-        $six = new Money(6, $currency);
+        $zero     = new Money(0, $currency);
+        $three    = new Money(3, $currency);
+        $six      = new Money(6, $currency);
 
-        $this->assertEquals(0, $zero->ratioOf($six));
-        $this->assertEquals(0.5, $three->ratioOf($six));
-        $this->assertEquals(1, $three->ratioOf($three));
-        $this->assertEquals(2, $six->ratioOf($three));
+        self::assertEquals(0, $zero->ratioOf($six));
+        self::assertEquals(0.5, $three->ratioOf($six));
+        self::assertEquals(1, $three->ratioOf($three));
+        self::assertEquals(2, $six->ratioOf($three));
     }
 
     /**
      * @test
      */
-    public function it_throws_when_calculating_ratio_of_zero()
+    public function itThrowsWhenCalculatingRatioOfZero(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-
         $currency = new Currency('EUR');
-        $zero = new Money(0, $currency);
-        $six = new Money(6, $currency);
+        $zero     = new Money(0, $currency);
+        $six      = new Money(6, $currency);
 
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
         $six->ratioOf($zero);
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider sumExamples
      * @test
      */
-    public function it_calculates_sum($values, $sum)
+    public function itCalculatesSum(array $values, Money $sum): void
     {
-        $this->assertEquals($sum, Money::sum(...$values));
+        self::assertEquals($sum, Money::sum(...$values));
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider minExamples
      * @test
      */
-    public function it_calculates_min($values, $min)
+    public function itCalculatesMin(array $values, Money $min): void
     {
-        $this->assertEquals($min, Money::min(...$values));
+        self::assertEquals($min, Money::min(...$values));
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider maxExamples
      * @test
      */
-    public function it_calculates_max($values, $max)
+    public function itCalculatesMax(array $values, Money $max): void
     {
-        $this->assertEquals($max, Money::max(...$values));
+        self::assertEquals($max, Money::max(...$values));
     }
 
     /**
+     * @psalm-param non-empty-list<Money> $values
+     *
      * @dataProvider avgExamples
      * @test
      */
-    public function it_calculates_avg($values, $avg)
+    public function itCalculatesAvg(array $values, Money $avg): void
     {
-        $this->assertEquals($avg, Money::avg(...$values));
+        self::assertEquals($avg, Money::avg(...$values));
     }
 
     /**
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_min_with_zero_arguments()
+    public function itThrowsWhenCalculatingMinWithZeroArguments(): void
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::min(...[]);
     }
 
@@ -315,9 +375,9 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_max_with_zero_arguments()
+    public function itThrowsWhenCalculatingMaxWithZeroArguments(): void
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::max(...[]);
     }
 
@@ -325,9 +385,9 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_sum_with_zero_arguments()
+    public function itThrowsWhenCalculatingSumWithZeroArguments(): void
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::sum(...[]);
     }
 
@@ -335,25 +395,37 @@ final class MoneyTest extends TestCase
      * @test
      * @requires PHP 7.0
      */
-    public function it_throws_when_calculating_avg_with_zero_arguments()
+    public function itThrowsWhenCalculatingAvgWithZeroArguments(): void
     {
-        $this->expectException(\Throwable::class);
+        $this->expectException(Throwable::class);
         Money::avg(...[]);
     }
 
-    public function equalityExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     Currency,
+     *     bool
+     * }>
+     */
+    public function equalityExamples(): array
     {
         return [
-            [self::AMOUNT, new Currency(self::CURRENCY), true],
-            [self::AMOUNT + 1, new Currency(self::CURRENCY), false],
-            [self::AMOUNT, new Currency(self::OTHER_CURRENCY), false],
-            [self::AMOUNT + 1, new Currency(self::OTHER_CURRENCY), false],
-            [(string) self::AMOUNT, new Currency(self::CURRENCY), true],
-            [((string) self::AMOUNT).'.000', new Currency(self::CURRENCY), true],
+            [10, new Currency(self::CURRENCY), true],
+            [10, new Currency(self::OTHER_CURRENCY), false],
+            [11, new Currency(self::OTHER_CURRENCY), false],
+            ['10', new Currency(self::CURRENCY), true],
+            ['10.000', new Currency(self::CURRENCY), true],
         ];
     }
 
-    public function comparisonExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     int
+     * }>
+     */
+    public function comparisonExamples(): array
     {
         return [
             [self::AMOUNT, 0],
@@ -362,18 +434,17 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function invalidOperandExamples()
-    {
-        return [
-            [[]],
-            [false],
-            ['operand'],
-            [null],
-            [new \stdClass()],
-        ];
-    }
-
-    public function allocationExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int,
+     *     non-empty-array<int|string, positive-int|0|float>,
+     *     non-empty-array<int|string, int>
+     * }>
+     *
+     * @psalm-suppress LessSpecificReturnStatement type inference for `array<string, T>` fails to find non-empty-array for the last item
+     * @psalm-suppress MoreSpecificReturnType type inference for `array<string, T>` fails to find non-empty-array for the last item
+     */
+    public function allocationExamples(): array
     {
         return [
             [100, [1, 1, 1], [34, 33, 33]],
@@ -396,7 +467,14 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function allocationTargetExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     positive-int,
+     *     non-empty-list<positive-int>
+     * }>
+     */
+    public function allocationTargetExamples(): array
     {
         return [
             [15, 2, [8, 7]],
@@ -406,7 +484,15 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function comparatorExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     bool,
+     *     bool,
+     *     bool
+     * }>
+     */
+    public function comparatorExamples(): array
     {
         return [
             [1, false, true, false],
@@ -418,7 +504,13 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function absoluteExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     positive-int|0
+     * }>
+     */
+    public function absoluteExamples(): array
     {
         return [
             [1, 1],
@@ -430,7 +522,13 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function negativeExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     int
+     * }>
+     */
+    public function negativeExamples(): array
     {
         return [
             [1, -1],
@@ -442,7 +540,14 @@ final class MoneyTest extends TestCase
         ];
     }
 
-    public function modExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     positive-int,
+     *     numeric-string
+     * }>
+     */
+    public function modExamples(): array
     {
         return [
             [11, 5, '1'],

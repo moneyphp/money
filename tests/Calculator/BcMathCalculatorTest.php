@@ -1,75 +1,132 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Calculator;
 
 use Money\Calculator\BcMathCalculator;
+use Money\Exception\InvalidArgumentException;
+
+use function array_merge;
+use function bcscale;
+use function ini_get;
 
 /**
  * @requires extension bcmath
+ * @covers \Money\Calculator\BcMathCalculator
  */
 class BcMathCalculatorTest extends CalculatorTestCase
 {
-    private $defaultScale;
+    private int $defaultScale;
 
-    protected function getCalculator()
+    /**
+     * @return BcMathCalculator
+     * @psalm-return class-string<BcMathCalculator>
+     */
+    protected function getCalculator(): string
     {
-        return new BcMathCalculator();
+        return BcMathCalculator::class;
     }
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->defaultScale = ini_get('bcmath.scale');
+        $this->defaultScale = (int) ini_get('bcmath.scale');
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         bcscale($this->defaultScale);
     }
 
     /**
+     * @psalm-param positive-int   $value1
+     * @psalm-param positive-int   $value2
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider additionExamples
      * @test
      */
-    public function it_adds_two_values_with_scale_set($value1, $value2, $expected)
+    public function itAddsTwoValuesWithScaleSet(int $value1, int $value2, string $expected): void
     {
         bcscale(1);
 
-        $this->assertEquals($expected, $this->getCalculator()->add($value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::add((string) $value1, (string) $value2));
     }
 
     /**
+     * @psalm-param positive-int   $value1
+     * @psalm-param positive-int   $value2
+     * @psalm-param numeric-string $expected
+     *
      * @dataProvider subtractionExamples
      * @test
      */
-    public function it_subtracts_a_value_from_another_with_scale_set($value1, $value2, $expected)
+    public function itSubtractsAValueFromAnotherWithScaleSet(int $value1, int $value2, string $expected): void
     {
         bcscale(1);
 
-        $this->assertEquals($expected, $this->getCalculator()->subtract($value1, $value2));
+        self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
     }
 
     /**
      * @test
      */
-    public function it_compares_numbers_close_to_zero()
+    public function itComparesNumbersCloseToZero(): void
     {
-        $this->assertEquals(1, $this->getCalculator()->compare('1', '0.0005'));
-        $this->assertEquals(1, $this->getCalculator()->compare('1', '0.000000000000000000000000005'));
+        self::assertEquals(1, $this->getCalculator()::compare('1', '0.0005'));
+        self::assertEquals(1, $this->getCalculator()::compare('1', '0.000000000000000000000000005'));
     }
 
     /**
      * @test
      */
-    public function it_uses_scale_for_add()
+    public function itUsesScaleForAdd(): void
     {
-        $this->assertEquals('0.00130154000000', $this->getCalculator()->add('0.00125148', '0.00005006'));
+        self::assertEquals('0.00130154000000', $this->getCalculator()::add('0.00125148', '0.00005006'));
     }
 
     /**
      * @test
      */
-    public function it_uses_scale_for_subtract()
+    public function itUsesScaleForSubtract(): void
     {
-        $this->assertEquals('0.00120142', $this->getCalculator()->subtract('0.00125148', '0.00005006'));
+        self::assertEqualNumber('0.00120142', $this->getCalculator()::subtract('0.00125148', '0.00005006'));
+    }
+
+    /** @test */
+    public function itRefusesToDivideByZeroWhenDivisorIsTooSmallToCompare(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::divide('1', '0.0000000000000000000000000000000000000000001');
+    }
+
+    /** @test */
+    public function itRefusesToModuloByZeroWhenDivisorIsTooSmallToCompare(): void
+    {
+        $calculator = $this->getCalculator();
+
+        $this->expectException(InvalidArgumentException::class);
+
+        $calculator::mod('1', '0.0000000000000000000000000000000000000000001');
+    }
+
+    /**
+     * @psalm-return non-empty-list<array{
+     *     int|numeric-string,
+     *     int|numeric-string
+     * }>
+     */
+    public function compareLessExamples(): array
+    {
+        return array_merge(
+            parent::compareLessExamples(),
+            [
+                // Slightly below PHP_INT_MIN on 64 bit systems (does not work with the PhpCalculator)
+                ['-9223372036854775810', '-9223372036854775809', -1],
+            ]
+        );
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Currencies;
 
 use Money\Currencies\CurrencyList;
@@ -7,42 +9,50 @@ use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 use PHPUnit\Framework\TestCase;
 
+use function array_keys;
+use function array_map;
+
+/** @covers \Money\Currencies\CurrencyList */
 final class CurrencyListTest extends TestCase
 {
-    private static $correctCurrencies = [
+    private const CORRECT_CURRENCIES = [
         'MY1' => 2,
         'MY2' => 0,
         'MY3' => 1,
     ];
 
     /**
+     * @psalm-param non-empty-string $currency
+     *
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_has_currencies($currency)
+    public function itHasCurrencies(string $currency): void
     {
-        $currencies = new CurrencyList(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::CORRECT_CURRENCIES);
 
-        $this->assertTrue($currencies->contains(new Currency($currency)));
+        self::assertTrue($currencies->contains(new Currency($currency)));
     }
 
     /**
+     * @psalm-param non-empty-string $currency
+     *
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_provides_subunit($currency)
+    public function itProvidesSubunit(string $currency): void
     {
-        $currencies = new CurrencyList(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::CORRECT_CURRENCIES);
 
-        $this->assertInternalType('int', $currencies->subunitFor(new Currency($currency)));
+        self::assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
     /**
      * @test
      */
-    public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
+    public function itThrowsAnExceptionWhenProvidingSubunitAndCurrencyIsUnknown(): void
     {
-        $currencies = new CurrencyList(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::CORRECT_CURRENCIES);
 
         $this->expectException(UnknownCurrencyException::class);
 
@@ -52,45 +62,22 @@ final class CurrencyListTest extends TestCase
     /**
      * @test
      */
-    public function it_is_iterable()
+    public function itIsIterable(): void
     {
-        $currencies = new CurrencyList(self::$correctCurrencies);
+        $currencies = new CurrencyList(self::CORRECT_CURRENCIES);
 
         $iterator = $currencies->getIterator();
 
-        $this->assertContainsOnlyInstancesOf(Currency::class, $iterator);
+        self::assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
-    /**
-     * @dataProvider invalidInstantiation
-     * @test
-     */
-    public function it_does_not_initialize_if_array_is_invalid(array $currencies)
+    /** @psalm-return non-empty-list<array{non-empty-string}> */
+    public function currencyCodeExamples(): array
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $currencies = array_keys(self::CORRECT_CURRENCIES);
 
-        new CurrencyList($currencies);
-    }
-
-    public function currencyCodeExamples()
-    {
-        $currencies = array_keys(self::$correctCurrencies);
-
-        return array_map(function ($currency) {
+        return array_map(static function ($currency) {
             return [$currency];
         }, $currencies);
-    }
-
-    public function invalidInstantiation()
-    {
-        return [
-            [[1 => 2]],
-            [['' => 2]],
-            [['OWO' => []]],
-            [['OWO' => null]],
-            [['OWO' => '']],
-            [['OWO' => -2]],
-            [['OWO' => 2.1]],
-        ];
     }
 }

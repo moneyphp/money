@@ -1,241 +1,220 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Calculator;
 
+use InvalidArgumentException as CoreInvalidArgumentException;
 use Money\Calculator;
+use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use Money\Number;
 
-/**
- * @author Frederik Bosch <f.bosch@genkgo.nl>
- */
+use function bcadd;
+use function bccomp;
+use function bcdiv;
+use function bcmod;
+use function bcmul;
+use function bcsub;
+use function ltrim;
+
 final class BcMathCalculator implements Calculator
 {
-    /**
-     * @var string
-     */
-    private $scale;
+    private const SCALE = 14;
 
-    /**
-     * @param int $scale
-     */
-    public function __construct($scale = 14)
+    /** @psalm-pure */
+    public static function compare(string $a, string $b): int
     {
-        $this->scale = $scale;
+        return bccomp($a, $b, self::SCALE);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function supported()
+    /** @psalm-pure */
+    public static function add(string $amount, string $addend): string
     {
-        return extension_loaded('bcmath');
+        return bcadd($amount, $addend, self::SCALE);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function compare($a, $b)
+    /** @psalm-pure */
+    public static function subtract(string $amount, string $subtrahend): string
     {
-        return bccomp($a, $b, $this->scale);
+        return bcsub($amount, $subtrahend, self::SCALE);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function add($amount, $addend)
+    /** @psalm-pure */
+    public static function multiply(string $amount, string $multiplier): string
     {
-        return (string) Number::fromString(bcadd($amount, $addend, $this->scale));
+        return bcmul($amount, $multiplier, self::SCALE);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param $amount
-     * @param $subtrahend
-     *
-     * @return string
-     */
-    public function subtract($amount, $subtrahend)
+    /** @psalm-pure */
+    public static function divide(string $amount, string $divisor): string
     {
-        return (string) Number::fromString(bcsub($amount, $subtrahend, $this->scale));
+        if (bccomp($divisor, '0', self::SCALE) === 0) {
+            throw InvalidArgumentException::divisionByZero();
+        }
+
+        return bcdiv($amount, $divisor, self::SCALE);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function multiply($amount, $multiplier)
+    /** @psalm-pure */
+    public static function ceil(string $number): string
     {
-        $multiplier = Number::fromNumber($multiplier);
-
-        return bcmul($amount, (string) $multiplier, $this->scale);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function divide($amount, $divisor)
-    {
-        $divisor = Number::fromNumber($divisor);
-
-        return bcdiv($amount, (string) $divisor, $this->scale);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function ceil($number)
-    {
-        $number = Number::fromNumber($number);
+        $number = Number::fromString($number);
 
         if ($number->isInteger()) {
-            return (string) $number;
+            return $number->__toString();
         }
 
         if ($number->isNegative()) {
-            return bcadd((string) $number, '0', 0);
+            return bcadd($number->__toString(), '0', 0);
         }
 
-        return bcadd((string) $number, '1', 0);
+        return bcadd($number->__toString(), '1', 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function floor($number)
+    /** @psalm-pure */
+    public static function floor(string $number): string
     {
-        $number = Number::fromNumber($number);
+        $number = Number::fromString($number);
 
         if ($number->isInteger()) {
-            return (string) $number;
+            return $number->__toString();
         }
 
         if ($number->isNegative()) {
-            return bcadd((string) $number, '-1', 0);
+            return bcadd($number->__toString(), '-1', 0);
         }
 
-        return bcadd($number, '0', 0);
+        return bcadd($number->__toString(), '0', 0);
     }
 
     /**
-     * {@inheritdoc}
+     * @psalm-suppress MoreSpecificReturnType we know that trimming `-` produces a positive numeric-string here
+     * @psalm-suppress LessSpecificReturnStatement we know that trimming `-` produces a positive numeric-string here
+     * @psalm-pure
      */
-    public function absolute($number)
+    public static function absolute(string $number): string
     {
         return ltrim($number, '-');
     }
 
     /**
-     * {@inheritdoc}
+     * @psalm-param Money::ROUND_* $roundingMode
+     *
+     * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function round($number, $roundingMode)
+    public static function round(string $number, int $roundingMode): string
     {
-        $number = Number::fromNumber($number);
+        $number = Number::fromString($number);
 
         if ($number->isInteger()) {
-            return (string) $number;
+            return $number->__toString();
         }
 
         if ($number->isHalf() === false) {
-            return $this->roundDigit($number);
+            return self::roundDigit($number);
         }
 
-        if (Money::ROUND_HALF_UP === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_UP) {
             return bcadd(
-                (string) $number,
+                $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
                 0
             );
         }
 
-        if (Money::ROUND_HALF_DOWN === $roundingMode) {
-            return bcadd((string) $number, '0', 0);
+        if ($roundingMode === Money::ROUND_HALF_DOWN) {
+            return bcadd($number->__toString(), '0', 0);
         }
 
-        if (Money::ROUND_HALF_EVEN === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_EVEN) {
             if ($number->isCurrentEven()) {
-                return bcadd((string) $number, '0', 0);
+                return bcadd($number->__toString(), '0', 0);
             }
 
             return bcadd(
-                (string) $number,
+                $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
                 0
             );
         }
 
-        if (Money::ROUND_HALF_ODD === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_ODD) {
             if ($number->isCurrentEven()) {
                 return bcadd(
-                    (string) $number,
+                    $number->__toString(),
                     $number->getIntegerRoundingMultiplier(),
                     0
                 );
             }
 
-            return bcadd((string) $number, '0', 0);
+            return bcadd($number->__toString(), '0', 0);
         }
 
-        if (Money::ROUND_HALF_POSITIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {
             if ($number->isNegative()) {
-                return bcadd((string) $number, '0', 0);
+                return bcadd($number->__toString(), '0', 0);
             }
 
             return bcadd(
-                (string) $number,
+                $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
                 0
             );
         }
 
-        if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_NEGATIVE_INFINITY) {
             if ($number->isNegative()) {
                 return bcadd(
-                    (string) $number,
+                    $number->__toString(),
                     $number->getIntegerRoundingMultiplier(),
                     0
                 );
             }
 
             return bcadd(
-                (string) $number,
+                $number->__toString(),
                 '0',
                 0
             );
         }
 
-        throw new \InvalidArgumentException('Unknown rounding mode');
+        throw new CoreInvalidArgumentException('Unknown rounding mode');
     }
 
     /**
-     * @return string
+     * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    private function roundDigit(Number $number)
+    private static function roundDigit(Number $number): string
     {
         if ($number->isCloserToNext()) {
             return bcadd(
-                (string) $number,
+                $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
                 0
             );
         }
 
-        return bcadd((string) $number, '0', 0);
+        return bcadd($number->__toString(), '0', 0);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function share($amount, $ratio, $total)
+    /** @psalm-pure */
+    public static function share(string $amount, string $ratio, string $total): string
     {
-        return $this->floor(bcdiv(bcmul($amount, $ratio, $this->scale), $total, $this->scale));
+        return self::floor(bcdiv(bcmul($amount, $ratio, self::SCALE), $total, self::SCALE));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function mod($amount, $divisor)
+    /** @psalm-pure */
+    public static function mod(string $amount, string $divisor): string
     {
-        return bcmod($amount, $divisor);
+        if (bccomp($divisor, '0') === 0) {
+            throw InvalidArgumentException::moduloByZero();
+        }
+
+        return bcmod($amount, $divisor) ?? '0';
     }
 }

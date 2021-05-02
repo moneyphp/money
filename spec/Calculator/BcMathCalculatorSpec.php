@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Calculator;
 
 use Money\Calculator\BcMathCalculator;
@@ -9,7 +11,7 @@ final class BcMathCalculatorSpec extends ObjectBehavior
 {
     use CalculatorBehavior;
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(BcMathCalculator::class);
     }

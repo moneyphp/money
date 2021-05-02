@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Exchange;
 
 use Exchanger\Contract\ExchangeRateProvider;
@@ -11,37 +13,37 @@ use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 
+use function assert;
+use function is_numeric;
+use function sprintf;
+
 /**
  * Provides a way to get exchange rate from a third-party source and return a currency pair.
- *
- * @author Maksim (Ellrion) Platonov <ellrion11@gmail.com>
  */
 final class ExchangerExchange implements Exchange
 {
-    /**
-     * @var ExchangeRateProvider
-     */
-    private $exchanger;
+    private ExchangeRateProvider $exchanger;
 
     public function __construct(ExchangeRateProvider $exchanger)
     {
         $this->exchanger = $exchanger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(Currency $baseCurrency, Currency $counterCurrency)
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
     {
         try {
             $query = new ExchangeRateQuery(
                 new ExchangerCurrencyPair($baseCurrency->getCode(), $counterCurrency->getCode())
             );
-            $rate = $this->exchanger->getExchangeRate($query);
-        } catch (ExchangerException $e) {
+            $rate  = $this->exchanger->getExchangeRate($query);
+        } catch (ExchangerException) {
             throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
         }
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, $rate->getValue());
+        $rateValue = sprintf('%.14F', $rate->getValue());
+
+        assert(is_numeric($rateValue));
+
+        return new CurrencyPair($baseCurrency, $counterCurrency, $rateValue);
     }
 }

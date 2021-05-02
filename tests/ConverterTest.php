@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Converter;
@@ -9,55 +11,78 @@ use Money\CurrencyPair;
 use Money\Exchange;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 
+use function sprintf;
+
+use const LC_ALL;
+
+/** @covers \Money\Converter */
 final class ConverterTest extends TestCase
 {
     /**
+     * @psalm-param non-empty-string $baseCurrencyCode
+     * @psalm-param non-empty-string $counterCurrencyCode
+     * @psalm-param positive-int|0 $subunitBase
+     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param int|float $ratio
+     * @psalm-param positive-int|numeric-string $amount
+     * @psalm-param positive-int|0 $expectedAmount
+     *
      * @dataProvider convertExamples
      * @test
      */
-    public function it_converts_to_a_different_currency(
-        $baseCurrencyCode,
-        $counterCurrencyCode,
-        $subunitBase,
-        $subunitCounter,
-        $ratio,
-        $amount,
-        $expectedAmount
-    ) {
-        $baseCurrency = new Currency($baseCurrencyCode);
+    public function itConvertsToADifferentCurrency(
+        string $baseCurrencyCode,
+        string $counterCurrencyCode,
+        int $subunitBase,
+        int $subunitCounter,
+        int|float $ratio,
+        int|string $amount,
+        int $expectedAmount
+    ): void {
+        $baseCurrency    = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, $ratio);
+        $numericRatio    =  sprintf('%.14F', $ratio);
 
-        /** @var Currencies|ObjectProphecy $currencies */
-        $currencies = $this->prophesize(Currencies::class);
+        self::assertIsNumeric($numericRatio);
 
-        /** @var Exchange|ObjectProphecy $exchange */
-        $exchange = $this->prophesize(Exchange::class);
+        $pair       = new CurrencyPair($baseCurrency, $counterCurrency, $numericRatio);
+        $currencies = $this->createMock(Currencies::class);
+        $exchange   = $this->createMock(Exchange::class);
+        $converter  = new Converter($currencies, $exchange);
 
-        $converter = new Converter($currencies->reveal(), $exchange->reveal());
+        $currencies->method('subunitFor')
+            ->with(self::logicalOr(self::equalTo($baseCurrency), self::equalTo($counterCurrency)))
+            ->willReturnCallback(
+                static fn (Currency $currency): int => $currency->equals($baseCurrency) ? $subunitBase : $subunitCounter
+            );
 
-        $currencies->subunitFor($baseCurrency)->willReturn($subunitBase);
-        $currencies->subunitFor($counterCurrency)->willReturn($subunitCounter);
-
-        $exchange->quote($baseCurrency, $counterCurrency)->willReturn($pair);
+        $exchange->method('quote')
+            ->with(self::equalTo($baseCurrency), self::equalTo($counterCurrency))
+            ->willReturn($pair);
 
         $money = $converter->convert(
             new Money($amount, new Currency($baseCurrencyCode)),
             $counterCurrency
         );
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals($expectedAmount, $money->getAmount());
-        $this->assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
+        self::assertEquals($expectedAmount, $money->getAmount());
+        self::assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
     }
 
     /**
+     * @psalm-param non-empty-string $baseCurrencyCode
+     * @psalm-param non-empty-string $counterCurrencyCode
+     * @psalm-param positive-int|0 $subunitBase
+     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param int|float $ratio
+     * @psalm-param positive-int|numeric-string $amount
+     * @psalm-param positive-int|0 $expectedAmount
+     *
      * @dataProvider convertExamples
      * @test
      */
-    public function it_converts_to_a_different_currency_when_decimal_separator_is_comma(
+    public function itConvertsToADifferentCurrencyWhenDecimalSeparatorIsComma(
         $baseCurrencyCode,
         $counterCurrencyCode,
         $subunitBase,
@@ -65,10 +90,10 @@ final class ConverterTest extends TestCase
         $ratio,
         $amount,
         $expectedAmount
-    ) {
+    ): void {
         $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
 
-        $this->it_converts_to_a_different_currency(
+        $this->itConvertsToADifferentCurrency(
             $baseCurrencyCode,
             $counterCurrencyCode,
             $subunitBase,
@@ -79,7 +104,18 @@ final class ConverterTest extends TestCase
         );
     }
 
-    public function convertExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     non-empty-string,
+     *     non-empty-string,
+     *     positive-int|0,
+     *     positive-int|0,
+     *     int|float,
+     *     positive-int|numeric-string,
+     *     positive-int|0
+     * }>
+     */
+    public function convertExamples(): array
     {
         return [
             ['USD', 'JPY', 2, 0, 101, 100, 101],

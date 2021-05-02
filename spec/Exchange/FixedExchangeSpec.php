@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Exchange;
 
 use Money\Currency;
@@ -11,28 +13,26 @@ use PhpSpec\ObjectBehavior;
 
 final class FixedExchangeSpec extends ObjectBehavior
 {
-    function let()
+    public function let(): void
     {
         $this->beConstructedWith([
-            'EUR' => [
-                'USD' => 1.25,
-            ],
+            'EUR' => ['USD' => '1.25'],
         ]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(FixedExchange::class);
     }
 
-    function it_is_an_exchange()
+    public function it_is_an_exchange(): void
     {
         $this->shouldImplement(Exchange::class);
     }
 
-    function it_exchanges_currencies()
+    public function it_exchanges_currencies(): void
     {
-        $baseCurrency = new Currency('EUR');
+        $baseCurrency    = new Currency('EUR');
         $counterCurrency = new Currency('USD');
 
         $currencyPair = $this->quote($baseCurrency, $counterCurrency);
@@ -40,10 +40,10 @@ final class FixedExchangeSpec extends ObjectBehavior
         $currencyPair->shouldHaveType(CurrencyPair::class);
         $currencyPair->getBaseCurrency()->shouldReturn($baseCurrency);
         $currencyPair->getCounterCurrency()->shouldReturn($counterCurrency);
-        $currencyPair->getConversionRatio()->shouldReturn(1.25);
+        $currencyPair->getConversionRatio()->shouldReturn('1.25');
     }
 
-    function it_cannot_exchange_currencies()
+    public function it_cannot_exchange_currencies(): void
     {
         $this->shouldThrow(UnresolvableCurrencyPairException::class)
             ->duringQuote(new Currency('USD'), new Currency('EUR'));

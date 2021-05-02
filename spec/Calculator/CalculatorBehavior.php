@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Calculator;
 
 use Money\Calculator;
+
+use function rand;
 
 /**
  * Mocking with typehints usage won't work here as the trait is autoloaded.
@@ -11,49 +15,49 @@ use Money\Calculator;
  */
 trait CalculatorBehavior
 {
-    function it_is_a_calculator()
+    public function it_is_a_calculator(): void
     {
         $this->shouldImplement(Calculator::class);
     }
 
-    function it_compares_two_values()
+    public function it_compares_two_values(): void
     {
         $this->compare(2, 1)->shouldReturn(1);
         $this->compare(1, 2)->shouldReturn(-1);
         $this->compare(1, 1)->shouldReturn(0);
     }
 
-    function it_adds_two_values()
+    public function it_adds_two_values(): void
     {
         $this->add(rand(-100, 100), rand(-100, 100))->shouldBeString();
     }
 
-    function it_subtracts_a_value_from_another()
+    public function it_subtracts_a_value_from_another(): void
     {
         $this->subtract(rand(-100, 100), rand(-100, 100))->shouldBeString();
     }
 
-    function it_multiplies_a_value_by_another()
+    public function it_multiplies_a_value_by_another(): void
     {
         $this->multiply(rand(-100, 100), rand(-100, 100))->shouldBeString();
     }
 
-    function it_divides_a_value_by_another()
+    public function it_divides_a_value_by_another(): void
     {
         $this->divide(rand(-100, 100), rand(1, 100))->shouldBeString();
     }
 
-    function it_ceils_a_value()
+    public function it_ceils_a_value(): void
     {
         $this->ceil(rand(-100, 100) / 100)->shouldBeString();
     }
 
-    function it_floors_a_value()
+    public function it_floors_a_value(): void
     {
         $this->floor(rand(-100, 100) / 100)->shouldBeString();
     }
 
-    function it_calculates_the_absolute_value()
+    public function it_calculates_the_absolute_value(): void
     {
         $result = $this->absolute(rand(1, 100));
 
@@ -66,20 +70,21 @@ trait CalculatorBehavior
         $result->shouldBeString();
     }
 
-    function it_shares_a_value()
+    public function it_shares_a_value(): void
     {
-        $this->share(10, 2, 4)->shouldBeString();
+        $this->share('10', '2', '4')->shouldBeString();
     }
 
-    function it_calculates_the_modulus()
+    public function it_calculates_the_modulus(): void
     {
-        $this->mod(11, 5)->shouldBeString();
+        $this->mod('11', '5')->shouldBeString();
     }
 
-    public function getMatchers()
+    /** {@inheritDoc} */
+    public function getMatchers(): array
     {
         return [
-            'beGreaterThanZero' => function ($subject) {
+            'beGreaterThanZero' => static function ($subject) {
                 return $subject > 0;
             },
         ];

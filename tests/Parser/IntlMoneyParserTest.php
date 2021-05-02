@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use Money\Currencies;
@@ -8,46 +10,47 @@ use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Money;
 use Money\Parser\IntlMoneyParser;
+use NumberFormatter;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
+/** @covers \Money\Parser\IntlMoneyParser */
 final class IntlMoneyParserTest extends TestCase
 {
     /**
-     * @dataProvider formattedMoneyExamples
+     * @psalm-param non-empty-string $string
      *
+     * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function it_parses_money($string, $units)
+    public function itParsesMoney(string $string, int $units): void
     {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => 'USD' === $givenCurrency->getCode()))
+            ->willReturn(2);
 
         $currencyCode = 'USD';
-        $currency = new Currency($currencyCode);
+        $currency     = new Currency($currencyCode);
 
-        $parser = new IntlMoneyParser($formatter, $currencies->reveal());
-        $this->assertEquals($units, $parser->parse($string, $currency)->getAmount());
+        $parser = new IntlMoneyParser($formatter, $currencies);
+        self::assertEquals($units, $parser->parse($string, $currency)->getAmount());
     }
 
     /**
      * @test
      */
-    public function it_cannot_convert_string_to_units()
+    public function itCannotConvertStringToUnits(): void
     {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $currencyCode = 'USD';
-        $currency = new Currency($currencyCode);
-        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
+        $currency     = new Currency($currencyCode);
+        $parser       = new IntlMoneyParser($formatter, new ISOCurrencies());
 
         $this->expectException(ParserException::class);
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', $currency);
@@ -56,47 +59,47 @@ final class IntlMoneyParserTest extends TestCase
     /**
      * @test
      */
-    public function it_works_with_all_kinds_of_locales()
+    public function itWorksWithAllKindsOfLocales(): void
     {
-        $formatter = new \NumberFormatter('en_CA', \NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter('en_CA', NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('$1000.00');
+        $money  = $parser->parse('$1000.00');
 
-        $this->assertTrue(Money::CAD(100000)->equals($money));
+        self::assertTrue(Money::CAD(100000)->equals($money));
     }
 
     /**
      * @test
      */
-    public function it_accepts_a_forced_currency()
+    public function itAcceptsAForcedCurrency(): void
     {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
 
         $currencyCode = 'CAD';
-        $currency = new Currency($currencyCode);
-        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('$1000.00', $currency);
+        $currency     = new Currency($currencyCode);
+        $parser       = new IntlMoneyParser($formatter, new ISOCurrencies());
+        $money        = $parser->parse('$1000.00', $currency);
 
-        $this->assertEquals('100000', $money->getAmount());
-        $this->assertEquals('CAD', $money->getCurrency()->getCode());
+        self::assertEquals('100000', $money->getAmount());
+        self::assertEquals('CAD', $money->getCurrency()->getCode());
     }
 
     /**
      * @test
      */
-    public function it_supports_fraction_digits()
+    public function itSupportsFractionDigits(): void
     {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
-        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 3);
 
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('$1000.005');
+        $money  = $parser->parse('$1000.005');
 
-        $this->assertEquals('100001', $money->getAmount());
+        self::assertEquals('100001', $money->getAmount());
     }
 
     /**
@@ -105,33 +108,25 @@ final class IntlMoneyParserTest extends TestCase
      * @group segmentation
      * @test
      */
-    public function it_supports_fraction_digits_with_different_style_and_pattern()
+    public function itSupportsFractionDigitsWithDifferentStyleAndPattern(): void
     {
-        $formatter = new \NumberFormatter('en_US', \NumberFormatter::DECIMAL);
+        $formatter = new NumberFormatter('en_US', NumberFormatter::DECIMAL);
         $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
-        $formatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, 3);
+        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 3);
 
         $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $money = $parser->parse('$1000.005');
+        $money  = $parser->parse('$1000.005');
 
-        $this->assertEquals('100001', $money->getAmount());
+        self::assertEquals('100001', $money->getAmount());
     }
 
     /**
-     * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
-     * @test
+     * @psalm-return non-empty-list<array{
+     *     non-empty-string,
+     *     int
+     * }>
      */
-    public function it_accepts_only_a_currency_object()
-    {
-        $formatter = new \NumberFormatter('en_CA', \NumberFormatter::CURRENCY);
-        $formatter->setPattern('¤#,##0.00;-¤#,##0.00');
-
-        $parser = new IntlMoneyParser($formatter, new ISOCurrencies());
-        $parser->parse('$1000.00', 'EUR');
-    }
-
-    public function formattedMoneyExamples()
+    public function formattedMoneyExamples(): array
     {
         return [
             ['$1000.50', 100050],

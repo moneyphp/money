@@ -1,180 +1,158 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
 
+use InvalidArgumentException;
+use JsonSerializable;
 use Money\Calculator\BcMathCalculator;
-use Money\Calculator\GmpCalculator;
-use Money\Calculator\PhpCalculator;
+
+use function array_fill;
+use function array_keys;
+use function array_map;
+use function array_sum;
+use function count;
+use function filter_var;
+use function floor;
+use function max;
+
+use const FILTER_VALIDATE_INT;
+use const PHP_ROUND_HALF_DOWN;
+use const PHP_ROUND_HALF_EVEN;
+use const PHP_ROUND_HALF_ODD;
+use const PHP_ROUND_HALF_UP;
 
 /**
  * Money Value Object.
  *
- * @author Mathias Verraes
- *
  * @psalm-immutable
  */
-final class Money implements \JsonSerializable
+final class Money implements JsonSerializable
 {
     use MoneyFactory;
 
-    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
-    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
 
-    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
 
-    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
-    const ROUND_UP = 5;
+    public const ROUND_UP = 5;
 
-    const ROUND_DOWN = 6;
+    public const ROUND_DOWN = 6;
 
-    const ROUND_HALF_POSITIVE_INFINITY = 7;
+    public const ROUND_HALF_POSITIVE_INFINITY = 7;
 
-    const ROUND_HALF_NEGATIVE_INFINITY = 8;
+    public const ROUND_HALF_NEGATIVE_INFINITY = 8;
 
     /**
      * Internal value.
      *
-     * @var string
+     * @psalm-var numeric-string
      */
-    private $amount;
+    private string $amount;
 
-    /**
-     * @var Currency
-     */
-    private $currency;
+    private Currency $currency;
 
     /**
      * @var Calculator
+     * @psalm-var class-string<Calculator>
      */
-    private static $calculator;
-
-    /**
-     * @var array
-     */
-    private static $calculators = [
-        BcMathCalculator::class,
-        GmpCalculator::class,
-        PhpCalculator::class,
-    ];
+    private static string $calculator = BcMathCalculator::class;
 
     /**
      * @param int|string $amount Amount, expressed in the smallest units of $currency (eg cents)
+     * @psalm-param int|numeric-string $amount
      *
-     * @throws \InvalidArgumentException If amount is not integer
+     * @throws InvalidArgumentException If amount is not integer.
      */
-    public function __construct($amount, Currency $currency)
+    public function __construct(int|string $amount, Currency $currency)
     {
+        $this->currency = $currency;
+
         if (filter_var($amount, FILTER_VALIDATE_INT) === false) {
-            $numberFromString = Number::fromString($amount);
-            if (!$numberFromString->isInteger()) {
-                throw new \InvalidArgumentException('Amount must be an integer(ish) value');
+            $numberFromString = Number::fromString((string) $amount);
+            if (! $numberFromString->isInteger()) {
+                throw new InvalidArgumentException('Amount must be an integer(ish) value');
             }
 
-            $amount = $numberFromString->getIntegerPart();
+            $this->amount = $numberFromString->getIntegerPart();
+
+            return;
         }
 
         $this->amount = (string) $amount;
-        $this->currency = $currency;
-    }
-
-    /**
-     * Returns a new Money instance based on the current one using the Currency.
-     *
-     * @param int|string $amount
-     *
-     * @return Money
-     *
-     * @throws \InvalidArgumentException If amount is not integer
-     */
-    private function newInstance($amount)
-    {
-        return new self($amount, $this->currency);
     }
 
     /**
      * Checks whether a Money has the same Currency as this.
-     *
-     * @return bool
      */
-    public function isSameCurrency(Money $other)
+    public function isSameCurrency(Money $other): bool
     {
-        return $this->currency->equals($other->currency);
-    }
-
-    /**
-     * Asserts that a Money has the same currency as this.
-     *
-     * @throws \InvalidArgumentException If $other has a different currency
-     */
-    private function assertSameCurrency(Money $other)
-    {
-        if (!$this->isSameCurrency($other)) {
-            throw new \InvalidArgumentException('Currencies must be identical');
-        }
+        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+        return $this->currency == $other->currency;
     }
 
     /**
      * Checks whether the value represented by this object equals to the other.
-     *
-     * @return bool
      */
-    public function equals(Money $other)
+    public function equals(Money $other): bool
     {
-        return $this->isSameCurrency($other) && $this->amount === $other->amount;
+        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+        if ($this->currency != $other->currency) {
+            return false;
+        }
+
+        if ($this->amount === $other->amount) {
+            return true;
+        }
+
+        // @TODO do we want Money instance to be byte-equivalent when trailing zeroes exist? Very expensive!
+        // Assumption: Money#equals() is called **less** than other number-based comparisons, and probably
+        // only within test suites. Therefore, using complex normalization here is acceptable waste of performance.
+        return $this->compare($other) === 0;
     }
 
     /**
      * Returns an integer less than, equal to, or greater than zero
      * if the value of this object is considered to be respectively
      * less than, equal to, or greater than the other.
-     *
-     * @return int
      */
-    public function compare(Money $other)
+    public function compare(Money $other): int
     {
-        $this->assertSameCurrency($other);
+        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+        if ($this->currency != $other->currency) {
+            throw new InvalidArgumentException('Currencies must be identical');
+        }
 
-        return $this->getCalculator()->compare($this->amount, $other->amount);
+        return self::$calculator::compare($this->amount, $other->amount);
     }
 
     /**
      * Checks whether the value represented by this object is greater than the other.
-     *
-     * @return bool
      */
-    public function greaterThan(Money $other)
+    public function greaterThan(Money $other): bool
     {
         return $this->compare($other) > 0;
     }
 
-    /**
-     * @param \Money\Money $other
-     *
-     * @return bool
-     */
-    public function greaterThanOrEqual(Money $other)
+    public function greaterThanOrEqual(Money $other): bool
     {
         return $this->compare($other) >= 0;
     }
 
     /**
      * Checks whether the value represented by this object is less than the other.
-     *
-     * @return bool
      */
-    public function lessThan(Money $other)
+    public function lessThan(Money $other): bool
     {
         return $this->compare($other) < 0;
     }
 
-    /**
-     * @param \Money\Money $other
-     *
-     * @return bool
-     */
-    public function lessThanOrEqual(Money $other)
+    public function lessThanOrEqual(Money $other): bool
     {
         return $this->compare($other) <= 0;
     }
@@ -182,19 +160,17 @@ final class Money implements \JsonSerializable
     /**
      * Returns the value represented by this object.
      *
-     * @return string
+     * @psalm-return numeric-string
      */
-    public function getAmount()
+    public function getAmount(): string
     {
         return $this->amount;
     }
 
     /**
      * Returns the currency of this object.
-     *
-     * @return Currency
      */
-    public function getCurrency()
+    public function getCurrency(): Currency
     {
         return $this->currency;
     }
@@ -204,18 +180,18 @@ final class Money implements \JsonSerializable
      * the sum of this and an other Money object.
      *
      * @param Money[] $addends
-     *
-     * @return Money
      */
-    public function add(Money ...$addends)
+    public function add(Money ...$addends): Money
     {
         $amount = $this->amount;
-        $calculator = $this->getCalculator();
 
         foreach ($addends as $addend) {
-            $this->assertSameCurrency($addend);
+            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+            if ($this->currency != $addend->currency) {
+                throw new InvalidArgumentException('Currencies must be identical');
+            }
 
-            $amount = $calculator->add($amount, $addend->amount);
+            $amount = self::$calculator::add($amount, $addend->amount);
         }
 
         return new self($amount, $this->currency);
@@ -227,158 +203,116 @@ final class Money implements \JsonSerializable
      *
      * @param Money[] $subtrahends
      *
-     * @return Money
-     *
      * @psalm-pure
      */
-    public function subtract(Money ...$subtrahends)
+    public function subtract(Money ...$subtrahends): Money
     {
         $amount = $this->amount;
-        $calculator = $this->getCalculator();
 
         foreach ($subtrahends as $subtrahend) {
-            $this->assertSameCurrency($subtrahend);
+            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+            if ($this->currency != $subtrahend->currency) {
+                throw new InvalidArgumentException('Currencies must be identical');
+            }
 
-            $amount = $calculator->subtract($amount, $subtrahend->amount);
+            $amount = self::$calculator::subtract($amount, $subtrahend->amount);
         }
 
         return new self($amount, $this->currency);
     }
 
     /**
-     * Asserts that the operand is integer or float.
-     *
-     * @param float|int|string $operand
-     *
-     * @throws \InvalidArgumentException If $operand is neither integer nor float
-     */
-    private function assertOperand($operand)
-    {
-        if (!is_numeric($operand)) {
-            throw new \InvalidArgumentException(sprintf('Operand should be a numeric value, "%s" given.', is_object($operand) ? get_class($operand) : gettype($operand)));
-        }
-    }
-
-    /**
-     * Asserts that rounding mode is a valid integer value.
-     *
-     * @param int $roundingMode
-     *
-     * @throws \InvalidArgumentException If $roundingMode is not valid
-     */
-    private function assertRoundingMode($roundingMode)
-    {
-        if (!in_array(
-            $roundingMode, [
-                self::ROUND_HALF_DOWN, self::ROUND_HALF_EVEN, self::ROUND_HALF_ODD,
-                self::ROUND_HALF_UP, self::ROUND_UP, self::ROUND_DOWN,
-                self::ROUND_HALF_POSITIVE_INFINITY, self::ROUND_HALF_NEGATIVE_INFINITY,
-            ], true
-        )) {
-            throw new \InvalidArgumentException('Rounding mode should be Money::ROUND_HALF_DOWN | '.'Money::ROUND_HALF_EVEN | Money::ROUND_HALF_ODD | '.'Money::ROUND_HALF_UP | Money::ROUND_UP | Money::ROUND_DOWN'.'Money::ROUND_HALF_POSITIVE_INFINITY | Money::ROUND_HALF_NEGATIVE_INFINITY');
-        }
-    }
-
-    /**
      * Returns a new Money object that represents
      * the multiplied value by the given factor.
      *
-     * @param float|int|string $multiplier
-     * @param int              $roundingMode
-     *
-     * @return Money
+     * @psalm-param numeric-string $multiplier
+     * @psalm-param self::ROUND_*  $roundingMode
      */
-    public function multiply($multiplier, $roundingMode = self::ROUND_HALF_UP)
+    public function multiply(string $multiplier, int $roundingMode = self::ROUND_HALF_UP): Money
     {
-        $this->assertOperand($multiplier);
-        $this->assertRoundingMode($roundingMode);
+        $product = $this->round(self::$calculator::multiply($this->amount, $multiplier), $roundingMode);
 
-        $product = $this->round($this->getCalculator()->multiply($this->amount, $multiplier), $roundingMode);
-
-        return $this->newInstance($product);
+        return new self($product, $this->currency);
     }
 
     /**
      * Returns a new Money object that represents
      * the divided value by the given factor.
      *
-     * @param float|int|string $divisor
-     * @param int              $roundingMode
-     *
-     * @return Money
+     * @psalm-param numeric-string $divisor
+     * @psalm-param self::ROUND_*  $roundingMode
      */
-    public function divide($divisor, $roundingMode = self::ROUND_HALF_UP)
+    public function divide(string $divisor, int $roundingMode = self::ROUND_HALF_UP): Money
     {
-        $this->assertOperand($divisor);
-        $this->assertRoundingMode($roundingMode);
+        $quotient = $this->round(self::$calculator::divide($this->amount, $divisor), $roundingMode);
 
-        $divisor = (string) Number::fromNumber($divisor);
-
-        if ($this->getCalculator()->compare($divisor, '0') === 0) {
-            throw new \InvalidArgumentException('Division by zero');
-        }
-
-        $quotient = $this->round($this->getCalculator()->divide($this->amount, $divisor), $roundingMode);
-
-        return $this->newInstance($quotient);
+        return new self($quotient, $this->currency);
     }
 
     /**
      * Returns a new Money object that represents
      * the remainder after dividing the value by
      * the given factor.
-     *
-     * @return Money
      */
-    public function mod(Money $divisor)
+    public function mod(Money $divisor): Money
     {
-        $this->assertSameCurrency($divisor);
+        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+        if ($this->currency != $divisor->currency) {
+            throw new InvalidArgumentException('Currencies must be identical');
+        }
 
-        return new self($this->getCalculator()->mod($this->amount, $divisor->amount), $this->currency);
+        return new self(self::$calculator::mod($this->amount, $divisor->amount), $this->currency);
     }
 
     /**
      * Allocate the money according to a list of ratios.
      *
+     * @psalm-param TRatios $ratios
+     *
      * @return Money[]
+     * @psalm-return (
+     *     TRatios is list
+     *         ? non-empty-list<Money>
+     *         : non-empty-array<Money>
+     * )
+     *
+     * @template TRatios as non-empty-array<float|int>
      */
-    public function allocate(array $ratios)
+    public function allocate(array $ratios): array
     {
-        if (count($ratios) === 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none, ratios cannot be an empty array');
-        }
-
         $remainder = $this->amount;
-        $results = [];
-        $total = array_sum($ratios);
+        $results   = [];
+        $total     = array_sum($ratios);
 
         if ($total <= 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
+            throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
         }
 
         foreach ($ratios as $key => $ratio) {
             if ($ratio < 0) {
-                throw new \InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
+                throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
-            $share = $this->getCalculator()->share($this->amount, $ratio, $total);
-            $results[$key] = $this->newInstance($share);
-            $remainder = $this->getCalculator()->subtract($remainder, $share);
+
+            $share         = self::$calculator::share($this->amount, (string) $ratio, (string) $total);
+            $results[$key] = new self($share, $this->currency);
+            $remainder     = self::$calculator::subtract($remainder, $share);
         }
 
-        if ($this->getCalculator()->compare($remainder, '0') === 0) {
+        if (self::$calculator::compare($remainder, '0') === 0) {
             return $results;
         }
 
-        $fractions = array_map(function ($ratio) use ($total) {
-            $share = ($ratio / $total) * $this->amount;
+        $amount    = $this->amount;
+        $fractions = array_map(static function (float|int $ratio) use ($total, $amount) {
+            $share = (float) $ratio / $total * (float) $amount;
 
             return $share - floor($share);
         }, $ratios);
 
-        while ($this->getCalculator()->compare($remainder, '0') > 0) {
-            $index = !empty($fractions) ? array_keys($fractions, max($fractions))[0] : 0;
-            $results[$index]->amount = $this->getCalculator()->add($results[$index]->amount, '1');
-            $remainder = $this->getCalculator()->subtract($remainder, '1');
+        while (self::$calculator::compare($remainder, '0') > 0) {
+            $index           = ! empty($fractions) ? array_keys($fractions, max($fractions))[0] : 0;
+            $results[$index] = new self(self::$calculator::add($results[$index]->amount, '1'), $results[$index]->currency);
+            $remainder       = self::$calculator::subtract($remainder, '1');
             unset($fractions[$index]);
         }
 
@@ -388,102 +322,85 @@ final class Money implements \JsonSerializable
     /**
      * Allocate the money among N targets.
      *
-     * @param int $n
+     * @psalm-param positive-int $n
      *
      * @return Money[]
+     * @psalm-return non-empty-list<Money>
      *
-     * @throws \InvalidArgumentException If number of targets is not an integer
+     * @throws InvalidArgumentException If number of targets is not an integer.
      */
-    public function allocateTo($n)
+    public function allocateTo(int $n): array
     {
-        if (!is_int($n)) {
-            throw new \InvalidArgumentException('Number of targets must be an integer');
-        }
-
-        if ($n <= 0) {
-            throw new \InvalidArgumentException('Cannot allocate to none, target must be greater than zero');
-        }
-
         return $this->allocate(array_fill(0, $n, 1));
     }
 
     /**
-     * @return string
+     * @throws InvalidArgumentException if the given $money is zero.
      */
-    public function ratioOf(Money $money)
+    public function ratioOf(Money $money): string
     {
         if ($money->isZero()) {
-            throw new \InvalidArgumentException('Cannot calculate a ratio of zero');
+            throw new InvalidArgumentException('Cannot calculate a ratio of zero');
         }
 
-        return $this->getCalculator()->divide($this->amount, $money->amount);
+        return self::$calculator::divide($this->amount, $money->amount);
     }
 
     /**
-     * @param string $amount
-     * @param int    $rounding_mode
+     * @psalm-param numeric-string $amount
+     * @psalm-param self::ROUND_*  $rounding_mode
      *
-     * @return string
+     * @psalm-return numeric-string
      */
-    private function round($amount, $rounding_mode)
+    private function round(string $amount, int $rounding_mode): string
     {
-        $this->assertRoundingMode($rounding_mode);
-
         if ($rounding_mode === self::ROUND_UP) {
-            return $this->getCalculator()->ceil($amount);
+            return self::$calculator::ceil($amount);
         }
 
         if ($rounding_mode === self::ROUND_DOWN) {
-            return $this->getCalculator()->floor($amount);
+            return self::$calculator::floor($amount);
         }
 
-        return $this->getCalculator()->round($amount, $rounding_mode);
+        return self::$calculator::round($amount, $rounding_mode);
     }
 
-    /**
-     * @return Money
-     */
-    public function absolute()
+    public function absolute(): Money
     {
-        return $this->newInstance($this->getCalculator()->absolute($this->amount));
+        return new self(
+            self::$calculator::absolute($this->amount),
+            $this->currency
+        );
     }
 
-    /**
-     * @return Money
-     */
-    public function negative()
+    public function negative(): Money
     {
-        return $this->newInstance(0)->subtract($this);
+        return (new self(0, $this->currency))
+            ->subtract($this);
     }
 
     /**
      * Checks if the value represented by this object is zero.
-     *
-     * @return bool
      */
-    public function isZero()
+    public function isZero(): bool
     {
-        return $this->getCalculator()->compare($this->amount, 0) === 0;
+        return self::$calculator::compare($this->amount, '0') === 0;
     }
 
     /**
      * Checks if the value represented by this object is positive.
-     *
-     * @return bool
      */
-    public function isPositive()
+    public function isPositive(): bool
     {
-        return $this->getCalculator()->compare($this->amount, 0) > 0;
+        return self::$calculator::compare($this->amount, '0') > 0;
     }
 
     /**
      * Checks if the value represented by this object is negative.
-     *
-     * @return bool
      */
-    public function isNegative()
+    public function isNegative(): bool
     {
-        return $this->getCalculator()->compare($this->amount, 0) < 0;
+        return self::$calculator::compare($this->amount, '0') < 0;
     }
 
     /**
@@ -503,18 +420,18 @@ final class Money implements \JsonSerializable
      * @param Money $first
      * @param Money ...$collection
      *
-     * @return Money
-     *
      * @psalm-pure
      */
-    public static function min(self $first, self ...$collection)
+    public static function min(self $first, self ...$collection): Money
     {
         $min = $first;
 
         foreach ($collection as $money) {
-            if ($money->lessThan($min)) {
-                $min = $money;
+            if (! $money->lessThan($min)) {
+                continue;
             }
+
+            $min = $money;
         }
 
         return $min;
@@ -524,89 +441,38 @@ final class Money implements \JsonSerializable
      * @param Money $first
      * @param Money ...$collection
      *
-     * @return Money
-     *
      * @psalm-pure
      */
-    public static function max(self $first, self ...$collection)
+    public static function max(self $first, self ...$collection): Money
     {
         $max = $first;
 
         foreach ($collection as $money) {
-            if ($money->greaterThan($max)) {
-                $max = $money;
+            if (! $money->greaterThan($max)) {
+                continue;
             }
+
+            $max = $money;
         }
 
         return $max;
     }
 
-    /**
-     * @param Money $first
-     * @param Money ...$collection
-     *
-     * @return Money
-     *
-     * @psalm-pure
-     */
-    public static function sum(self $first, self ...$collection)
+    /** @psalm-pure */
+    public static function sum(self $first, self ...$collection): Money
     {
         return $first->add(...$collection);
     }
 
-    /**
-     * @param Money $first
-     * @param Money ...$collection
-     *
-     * @return Money
-     *
-     * @psalm-pure
-     */
-    public static function avg(self $first, self ...$collection)
+    /** @psalm-pure */
+    public static function avg(self $first, self ...$collection): Money
     {
-        return $first->add(...$collection)->divide(func_num_args());
+        return $first->add(...$collection)->divide((string) (count($collection) + 1));
     }
 
-    /**
-     * @param string $calculator
-     */
-    public static function registerCalculator($calculator)
+    /** @psalm-param class-string<Calculator> $calculator */
+    public static function registerCalculator(string $calculator): void
     {
-        if (is_a($calculator, Calculator::class, true) === false) {
-            throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
-        }
-
-        array_unshift(self::$calculators, $calculator);
-    }
-
-    /**
-     * @return Calculator
-     *
-     * @throws \RuntimeException If cannot find calculator for money calculations
-     */
-    private static function initializeCalculator()
-    {
-        $calculators = self::$calculators;
-
-        foreach ($calculators as $calculator) {
-            /** @var Calculator $calculator */
-            if ($calculator::supported()) {
-                return new $calculator();
-            }
-        }
-
-        throw new \RuntimeException('Cannot find calculator for money calculations');
-    }
-
-    /**
-     * @return Calculator
-     */
-    private function getCalculator()
-    {
-        if (null === self::$calculator) {
-            self::$calculator = self::initializeCalculator();
-        }
-
-        return self::$calculator;
+        self::$calculator = $calculator;
     }
 }

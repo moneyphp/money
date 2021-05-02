@@ -1,22 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true" bootstrap="tests/bootstrap.php">
+<?xml version="1.0"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="./vendor/autoload.php"
+    colors="true"
+    verbose="true"
+    columns="max"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    beStrictAboutResourceUsageDuringSmallTests="true"
+    beStrictAboutChangesToGlobalState="true"
+>
     <testsuites>
         <testsuite name="Money Test Suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
+    <coverage>
+        <include>
             <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
-
-    <php>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled=1"/>
-    </php>
+        </include>
+    </coverage>
 </phpunit>

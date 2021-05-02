@@ -1,51 +1,67 @@
 <?xml version="1.0"?>
 <psalm
+    findUnusedPsalmSuppress="true"
+    findUnusedCode="true"
+    findUnusedVariablesAndParams="true"
+    strictBinaryOperands="true"
     totallyTyped="true"
-    resolveFromConfigFile="true"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
 >
     <projectFiles>
-        <directory name="static-analysis" />
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+        <directory name="static-analysis"/>
+        <directory name="src"/>
+        <directory name="tests"/>
     </projectFiles>
 
-    <!--
     <issueHandlers>
-        <LessSpecificReturnType errorLevel="error" />
-        <DeprecatedMethod errorLevel="error" />
-        <DeprecatedProperty errorLevel="error" />
-        <DeprecatedClass errorLevel="error" />
-        <DeprecatedConstant errorLevel="error" />
-        <DeprecatedFunction errorLevel="error" />
-        <DeprecatedInterface errorLevel="error" />
-        <DeprecatedTrait errorLevel="error" />
+        <ImpureStaticProperty>
+            <errorLevel type="suppress">
+                <!-- the Money object uses internal static properties to cache the calculator
+                     that is in use, as well as the calculators that are available. This is
+                     not supposed to change at runtime, and therefore the VO can still be
+                     considered immutable -->
+                <file name="src/Money.php"/>
+            </errorLevel>
+        </ImpureStaticProperty>
 
-        <InternalMethod errorLevel="error" />
-        <InternalProperty errorLevel="error" />
-        <InternalClass errorLevel="error" />
+        <ImpureVariable>
+            <errorLevel type="suppress">
+                <!-- @TODO is this even needed? -->
+                <!-- we can safely access $this->amount within Money -->
+                <file name="src/Money.php"/>
+            </errorLevel>
+        </ImpureVariable>
 
-        <MissingClosureReturnType errorLevel="error" />
-        <MissingReturnType errorLevel="error" />
-        <MissingPropertyType errorLevel="error" />
-        <InvalidDocblock errorLevel="error" />
-        <MisplacedRequiredParam errorLevel="error" />
+        <InternalClass>
+            <errorLevel type="suppress">
+                <!-- Internal symbols of the library can be used from within the test suite -->
+                <directory name="tests"/>
+            </errorLevel>
+        </InternalClass>
 
-        <PropertyNotSetInConstructor errorLevel="error" />
-        <MissingConstructor errorLevel="error" />
-        <MissingClosureParamType errorLevel="error" />
-        <MissingParamType errorLevel="error" />
+        <InternalMethod>
+            <errorLevel type="suppress">
+                <!-- Internal symbols of the library can be used from within the test suite -->
+                <directory name="tests"/>
+            </errorLevel>
+        </InternalMethod>
 
-        <RedundantCondition errorLevel="error" />
-
-        <DocblockTypeContradiction errorLevel="error" />
-        <RedundantConditionGivenDocblockType errorLevel="error" />
-
-        <UnresolvableInclude errorLevel="error" />
-
-        <RawObjectIteration errorLevel="error" />
-
-        <InvalidStringClass errorLevel="error" />
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <!-- calculators are not swapped at runtime in our test suite - they are a dead/deprecated concept
+                     that will likely be removed, but we generally do not register calculators manually -->
+                <referencedMethod name="Money\Exchange\IndirectExchange::registerCalculator"/>
+                <referencedMethod name="Money\Money::registerCalculator"/>
+            </errorLevel>
+        </PossiblyUnusedMethod>
     </issueHandlers>
-    -->
+
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
 </psalm>

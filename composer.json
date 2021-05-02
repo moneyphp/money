@@ -24,28 +24,30 @@
         }
     ],
     "require": {
-        "php": ">=5.6",
+        "php": "^8.0",
+        "ext-bcmath": "*",
         "ext-json": "*"
     },
     "require-dev": {
-        "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
-        "cache/taggable-cache": "^0.4.0",
-        "doctrine/instantiator": "^1.0.5",
-        "florianv/exchanger": "^1.0",
-        "florianv/swap": "^3.0",
-        "friends-of-phpspec/phpspec-code-coverage": "^3.1.1 || ^4.3",
+        "cache/taggable-cache": "^1.1.0",
+        "doctrine/coding-standard": "^9.0",
+        "doctrine/instantiator": "^1.4.0",
+        "florianv/exchanger": "^2.6.3",
+        "florianv/swap": "^4.3.0",
         "moneyphp/iso-currencies": "^3.2.1",
-        "php-http/message": "^1.4",
-        "php-http/mock-client": "^1.0.0",
-        "phpspec/phpspec": "^3.4.3",
-        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.18 || ^8.5",
-        "psr/cache": "^1.0",
-        "symfony/phpunit-bridge": "^4"
+        "php-http/message": "^1.11.0",
+        "php-http/mock-client": "^1.4.1",
+        "phpbench/phpbench": "1.0.0-beta1@BETA",
+        "phpspec/phpspec": "^7.0.1",
+        "phpunit/phpunit": "^9.5.4",
+        "psalm/plugin-phpunit": "^0.15.1",
+        "psr/cache": "^1.0.1",
+        "roave/infection-static-analysis-plugin": "^1.7",
+        "vimeo/psalm": "^4.7"
     },
     "suggest": {
-        "ext-bcmath": "Calculate without integer limits",
         "ext-gmp": "Calculate without integer limits",
         "ext-intl": "Format Money objects with intl",
         "florianv/exchanger": "Exchange rates library for PHP",
@@ -67,6 +69,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "Benchmark\\Money\\": "benchmark/",
             "Tests\\Money\\": "tests/",
             "spec\\Money\\": "spec/"
         }
@@ -74,13 +77,16 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
+        "benchmark": [
+            "vendor/bin/phpbench run --retry-threshold=3 --iterations=15 --revs=1000  --warmup=2"
+        ],
         "clean": "rm -rf build/ vendor/",
         "test": [
             "vendor/bin/phpspec run",
-            "vendor/bin/phpunit -v"
+            "vendor/bin/phpunit -v",
+            "vendor/bin/phpbench run"
         ],
         "test-coverage": [
-            "vendor/bin/phpspec run -c phpspec.ci.yml",
             "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": [

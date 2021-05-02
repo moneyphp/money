@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use Money\Currencies;
@@ -7,67 +9,60 @@ use Money\Currency;
 use Money\Exception\ParserException;
 use Money\Parser\DecimalMoneyParser;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
+/** @covers \Money\Parser\DecimalMoneyParser */
 final class DecimalMoneyParserTest extends TestCase
 {
     /**
+     * @psalm-param non-empty-string $currency
+     * @psalm-param positive-int|0 $subunit
+     * @psalm-param int $result
+     *
      * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function it_parses_money($decimal, $currency, $subunit, $result)
+    public function itParsesMoney(string $decimal, string $currency, int $subunit, int $result): void
     {
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn($subunit);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => $currency === $givenCurrency->getCode()))
+            ->willReturn($subunit);
 
-        $parser = new DecimalMoneyParser($currencies->reveal());
+        $parser = new DecimalMoneyParser($currencies);
 
-        $this->assertEquals($result, $parser->parse($decimal, new Currency($currency))->getAmount());
+        self::assertEquals($result, $parser->parse($decimal, new Currency($currency))->getAmount());
     }
 
     /**
+     * @psalm-param non-empty-string $input
+     *
      * @dataProvider invalidMoneyExamples
      * @test
      */
-    public function it_throws_an_exception_upon_invalid_inputs($input)
+    public function itThrowsAnExceptionUponInvalidInputs($input): void
     {
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => 'USD' === $givenCurrency->getCode()))
+            ->willReturn(2);
 
-        $parser = new DecimalMoneyParser($currencies->reveal());
+        $parser = new DecimalMoneyParser($currencies);
 
         $this->expectException(ParserException::class);
-        $parser->parse($input, new Currency('USD'))->getAmount();
+        $parser->parse($input, new Currency('USD'));
     }
 
     /**
-     * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
-     * @test
+     * @psalm-return non-empty-list<array{
+     *     string,
+     *     non-empty-string,
+     *     positive-int|0,
+     *     int
+     * }>
      */
-    public function it_accepts_only_a_currency_object()
-    {
-        $currencies = $this->prophesize(Currencies::class);
-
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
-
-        $parser = new DecimalMoneyParser($currencies->reveal());
-
-        $parser->parse('1.0', 'USD')->getAmount();
-    }
-
-    public function formattedMoneyExamples()
+    public function formattedMoneyExamples(): array
     {
         return [
             ['1000.50', 'USD', 2, 100050],
@@ -123,6 +118,7 @@ final class DecimalMoneyParserTest extends TestCase
         ];
     }
 
+    /** @psalm-return non-empty-list<array{non-empty-string}> */
     public static function invalidMoneyExamples()
     {
         return [

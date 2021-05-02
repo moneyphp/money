@@ -1,17 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Currency;
 use PHPUnit\Framework\TestCase;
 
+use function json_encode;
+
+/** @covers \Money\Currency */
 final class CurrencyTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_converts_to_json()
+    public function itConvertsToJson(): void
     {
-        $this->assertEquals('"USD"', json_encode(new Currency('USD')));
+        self::assertEquals('"USD"', json_encode(new Currency('USD')));
     }
 }

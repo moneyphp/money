@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money;
 
 use Money\Converter;
@@ -10,23 +12,25 @@ use Money\Exchange;
 use Money\Money;
 use PhpSpec\ObjectBehavior;
 
+use const PHP_ROUND_HALF_DOWN;
+
 final class ConverterSpec extends ObjectBehavior
 {
-    function let(Currencies $currencies, Exchange $exchange)
+    public function let(Currencies $currencies, Exchange $exchange): void
     {
         $this->beConstructedWith($currencies, $exchange);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(Converter::class);
     }
 
-    function it_converts_to_a_different_currency(Currencies $currencies, Exchange $exchange)
+    public function it_converts_to_a_different_currency(Currencies $currencies, Exchange $exchange): void
     {
-        $baseCurrency = new Currency($baseCurrencyCode = 'ABC');
+        $baseCurrency    = new Currency($baseCurrencyCode = 'ABC');
         $counterCurrency = new Currency($counterCurrencyCode = 'XYZ');
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, 0.5);
+        $pair            = new CurrencyPair($baseCurrency, $counterCurrency, '0.5');
 
         $currencies->subunitFor($baseCurrency)->willReturn(100);
         $currencies->subunitFor($counterCurrency)->willReturn(100);
@@ -43,11 +47,11 @@ final class ConverterSpec extends ObjectBehavior
         $money->getCurrency()->getCode()->shouldBe($counterCurrencyCode);
     }
 
-    function it_converts_using_rounding_modes(Currencies $currencies, Exchange $exchange)
+    public function it_converts_using_rounding_modes(Currencies $currencies, Exchange $exchange): void
     {
-        $baseCurrency = new Currency('EUR');
+        $baseCurrency    = new Currency('EUR');
         $counterCurrency = new Currency('USD');
-        $pair = new CurrencyPair($baseCurrency, $counterCurrency, 1.25);
+        $pair            = new CurrencyPair($baseCurrency, $counterCurrency, '1.25');
 
         $currencies->subunitFor($baseCurrency)->willReturn(2);
         $currencies->subunitFor($counterCurrency)->willReturn(2);

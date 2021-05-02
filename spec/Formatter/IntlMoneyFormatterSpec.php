@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Formatter;
 
 use Money\Currencies;
@@ -7,26 +9,27 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use Money\MoneyFormatter;
+use NumberFormatter;
 use PhpSpec\ObjectBehavior;
 
 final class IntlMoneyFormatterSpec extends ObjectBehavior
 {
-    function let(\NumberFormatter $numberFormatter, Currencies $currencies)
+    public function let(NumberFormatter $numberFormatter, Currencies $currencies): void
     {
         $this->beConstructedWith($numberFormatter, $currencies);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(IntlMoneyFormatter::class);
     }
 
-    function it_is_a_money_formatter()
+    public function it_is_a_money_formatter(): void
     {
         $this->shouldImplement(MoneyFormatter::class);
     }
 
-    function it_formats_money(\NumberFormatter $numberFormatter, Currencies $currencies)
+    public function it_formats_money(NumberFormatter $numberFormatter, Currencies $currencies): void
     {
         $money = new Money(1, new Currency('EUR'));
 
