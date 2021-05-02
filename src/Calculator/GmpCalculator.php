@@ -81,7 +81,7 @@ final class GmpCalculator implements Calculator
         if ($multiplier->isDecimal()) {
             $decimalPlaces  = strlen($multiplier->getFractionalPart());
             $multiplierBase = $multiplier->getIntegerPart();
-            $negativeZero = $multiplierBase === '-0';
+            $negativeZero   = $multiplierBase === '-0';
 
             if ($negativeZero) {
                 $multiplierBase = '-';
@@ -133,8 +133,8 @@ final class GmpCalculator implements Calculator
 
         if ($divisor->isDecimal()) {
             $decimalPlaces = strlen($divisor->getFractionalPart());
-            $divisorBase = $divisor->getIntegerPart();
-            $negativeZero = $divisorBase === '-0';
+            $divisorBase   = $divisor->getIntegerPart();
+            $negativeZero  = $divisorBase === '-0';
 
             if ($negativeZero) {
                 $divisorBase = '-';
