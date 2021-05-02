@@ -16,6 +16,9 @@ use function count;
 use function filter_var;
 use function floor;
 use function max;
+use function str_pad;
+use function strlen;
+use function substr;
 
 use const FILTER_VALIDATE_INT;
 use const PHP_ROUND_HALF_DOWN;
@@ -383,14 +386,14 @@ final class Money implements JsonSerializable
         }
 
         $abs = self::$calculator::absolute($this->amount);
-        if (\strlen($abs) < $unit) {
+        if (strlen($abs) < $unit) {
             return new self('0', $this->currency);
         }
 
         /** @psalm-var numeric-string $toBeRounded */
-        $toBeRounded = \substr($this->amount, 0, \strlen($this->amount) - $unit) . '.' . \substr($this->amount, $unit * -1);
+        $toBeRounded = substr($this->amount, 0, strlen($this->amount) - $unit) . '.' . substr($this->amount, $unit * -1);
         /** @psalm-var numeric-string $result */
-        $result = self::$calculator::round($toBeRounded, $roundingMode) . \str_pad('', $unit, '0');
+        $result = self::$calculator::round($toBeRounded, $roundingMode) . str_pad('', $unit, '0');
 
         return new self($result, $this->currency);
     }
