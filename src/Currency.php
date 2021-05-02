@@ -6,6 +6,8 @@ namespace Money;
 
 use JsonSerializable;
 
+use function strtoupper;
+
 /**
  * Currency Value Object.
  *
@@ -25,7 +27,8 @@ final class Currency implements JsonSerializable
     /** @psalm-param non-empty-string $code */
     public function __construct(string $code)
     {
-        $this->code = $code;
+        /** @psalm-var non-empty-string $this->code */
+        $this->code = strtoupper($code);
     }
 
     /**
