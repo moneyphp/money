@@ -377,7 +377,8 @@ final class Money implements JsonSerializable
     /**
      * Round to a specific unit.
      *
-     * @psalm-param self::ROUND_*  $roundingMode
+     * @psalm-param positive-int|0  $unit
+     * @psalm-param self::ROUND_* $roundingMode
      */
     public function roundToUnit(int $unit, int $roundingMode = self::ROUND_HALF_UP): self
     {

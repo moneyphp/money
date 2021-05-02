@@ -363,7 +363,7 @@ final class MoneyTest extends TestCase
 
     /**
      * @psalm-param int $amount
-     * @psalm-param int $unit
+     * @psalm-param positive-int|0 $unit
      * @psalm-param int $expected
      *
      * @test
@@ -573,7 +573,7 @@ final class MoneyTest extends TestCase
     /**
      * @psalm-return non-empty-list<array{
      *     int,
-     *     int,
+     *     positive-int|0,
      *     int
      * }>
      */

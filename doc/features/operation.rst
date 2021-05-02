@@ -106,8 +106,8 @@ Amounts can be rounded to unit.
 
     $value = Money::EUR(813);           // €8.13
 
-    $result = $value->roundToUnit(2);   // €8.00
-    $result = $value->roundToUnit(1);   // €8.10
+    $result = $value->roundToUnit(2);   // Money::EUR(800)
+    $result = $value->roundToUnit(1);   // Money::EUR(810)
 
 .. _absolute:
 
