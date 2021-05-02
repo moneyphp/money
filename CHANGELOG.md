@@ -10,6 +10,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [4.x] - Unreleased
+
+### Added
+
+- PHP8.0 compatibility (#633 and #619)
+- Recommendation to use a type-checker like psalm or phpstan
+
+### Changed
+
+- **[BC break]** BC Math required as it is the default calculator
+
+### Fixed
+
+- The CPU no longer overheats when using this library (#634)
+- No longer allowing null amount (#615)
+- Update cached currencies (#583)
+- Only numeric strings allowed (#575)
+- Calculator and Number are internal (#465)
+- Negative ratio in `Money#allocate()` is now allowed (#258)
+
+### Removed
+
+- **[BC break]** Removed PhpCalculator
+- **[BC break]** Removed `Currency#isAvailableWithin()`
+- **[BC break]** Removed string as allowed parameter for `MoneyParser#parse`
+- **[BC break]** Completely remove float usage, methods now return numberic-strings
+
+
 ## [3.3.1] - 2019-03-13
 
 ### Fixed
