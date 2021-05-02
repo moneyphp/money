@@ -115,7 +115,7 @@ final class GmpCalculator implements Calculator
     public static function divide(string $amount, string $divisor): string
     {
         if (self::compare($divisor, '0') === 0) {
-            throw InvalidArgumentException::moduloByZero();
+            throw InvalidArgumentException::divisionByZero();
         }
 
         $divisor = Number::fromString($divisor);
