@@ -509,4 +509,10 @@ final class Money implements JsonSerializable
     {
         self::$calculator = $calculator;
     }
+
+    /** @psalm-return class-string<Calculator> */
+    public static function getCalculator(): string
+    {
+        return self::$calculator;
+    }
 }
