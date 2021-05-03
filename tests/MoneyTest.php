@@ -376,7 +376,6 @@ final class MoneyTest extends TestCase
 
     /**
      * @test
-     * @requires PHP 7.0
      */
     public function itThrowsWhenCalculatingMinWithZeroArguments(): void
     {
@@ -386,7 +385,6 @@ final class MoneyTest extends TestCase
 
     /**
      * @test
-     * @requires PHP 7.0
      */
     public function itThrowsWhenCalculatingMaxWithZeroArguments(): void
     {
@@ -396,7 +394,6 @@ final class MoneyTest extends TestCase
 
     /**
      * @test
-     * @requires PHP 7.0
      */
     public function itThrowsWhenCalculatingSumWithZeroArguments(): void
     {
@@ -406,7 +403,6 @@ final class MoneyTest extends TestCase
 
     /**
      * @test
-     * @requires PHP 7.0
      */
     public function itThrowsWhenCalculatingAvgWithZeroArguments(): void
     {
