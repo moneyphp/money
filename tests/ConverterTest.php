@@ -83,7 +83,7 @@ final class ConverterTest extends TestCase
      * @dataProvider convertExamples
      * @test
      */
-    public function itCreatesConversions(
+    public function itConvertsWithReceipt(
         string $baseCurrencyCode,
         string $counterCurrencyCode,
         int $subunitBase,
@@ -113,13 +113,15 @@ final class ConverterTest extends TestCase
             ->with(self::equalTo($baseCurrency), self::equalTo($counterCurrency))
             ->willReturn($pair);
 
-        $money = $converter->conversion(
+        [$money, $currencyPair] = $converter->convertWithReceipt(
             new Money($amount, new Currency($baseCurrencyCode)),
             $counterCurrency
         );
 
-        self::assertEquals($expectedAmount, $money->getMoney()->getAmount());
-        self::assertEquals($counterCurrencyCode, $money->getMoney()->getCurrency()->getCode());
+        self::assertEquals($expectedAmount, $money->getAmount());
+        self::assertEquals($counterCurrencyCode, $money->getCurrency()->getCode());
+        self::assertEquals($baseCurrencyCode, $currencyPair->getBaseCurrency()->getCode());
+        self::assertEquals($counterCurrencyCode, $currencyPair->getCounterCurrency()->getCode());
     }
 
     /**
@@ -134,7 +136,7 @@ final class ConverterTest extends TestCase
      * @dataProvider convertExamples
      * @test
      */
-    public function itConvertsAgainst(
+    public function itConvertsAgainstCurrencyPair(
         string $baseCurrencyCode,
         string $counterCurrencyCode,
         int $subunitBase,
@@ -160,7 +162,7 @@ final class ConverterTest extends TestCase
                 static fn (Currency $currency): int => $currency->equals($baseCurrency) ? $subunitBase : $subunitCounter
             );
 
-        $money = $converter->convertAgainst(
+        $money = $converter->convertAgainstCurrencyPair(
             new Money($amount, new Currency($baseCurrencyCode)),
             $pair
         );
@@ -215,7 +217,7 @@ final class ConverterTest extends TestCase
         $exchange   = $this->createMock(Exchange::class);
         $converter  = new Converter($currencies, $exchange);
 
-        $converter->convertAgainst(new Money(100, new Currency('XYZ')), $pair);
+        $converter->convertAgainstCurrencyPair(new Money(100, new Currency('XYZ')), $pair);
     }
 
     /**

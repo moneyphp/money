@@ -23,7 +23,7 @@ final class Converter
 
     public function convert(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): Money
     {
-        return $this->convertAgainst(
+        return $this->convertAgainstCurrencyPair(
             $money,
             $this->exchange->quote(
                 $money->getCurrency(),
@@ -33,17 +33,18 @@ final class Converter
         );
     }
 
-    public function conversion(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): Conversion
+    /** @return array{0: Money, 1: CurrencyPair} */
+    public function convertWithReceipt(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): array
     {
         $pair = $this->exchange->quote(
             $money->getCurrency(),
             $counterCurrency
         );
 
-        return new Conversion($this->convertAgainst($money, $pair, $roundingMode), $pair);
+        return [$this->convertAgainstCurrencyPair($money, $pair, $roundingMode), $pair];
     }
 
-    public function convertAgainst(Money $money, CurrencyPair $currencyPair, int $roundingMode = Money::ROUND_HALF_UP): Money
+    public function convertAgainstCurrencyPair(Money $money, CurrencyPair $currencyPair, int $roundingMode = Money::ROUND_HALF_UP): Money
     {
         if (! $money->getCurrency()->equals($currencyPair->getBaseCurrency())) {
             throw new InvalidArgumentException();
