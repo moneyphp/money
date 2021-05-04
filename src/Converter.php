@@ -6,6 +6,8 @@ namespace Money;
 
 use InvalidArgumentException;
 
+use function sprintf;
+
 /**
  * Provides a way to convert Money to Money in another Currency using an exchange rate.
  */
@@ -47,7 +49,13 @@ final class Converter
     public function convertAgainstCurrencyPair(Money $money, CurrencyPair $currencyPair, int $roundingMode = Money::ROUND_HALF_UP): Money
     {
         if (! $money->getCurrency()->equals($currencyPair->getBaseCurrency())) {
-            throw new InvalidArgumentException();
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Expecting to convert against base currency %s, but got %s instead',
+                    $money->getCurrency()->getCode(),
+                    $currencyPair->getBaseCurrency()->getCode()
+                )
+            );
         }
 
         $ratio                  = $currencyPair->getConversionRatio();
