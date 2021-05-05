@@ -33,16 +33,16 @@ final class DecimalMoneyParser implements MoneyParser
         $this->currencies = $currencies;
     }
 
-    public function parse(string $money, Currency|null $forceCurrency = null): Money
+    public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
-        if ($forceCurrency === null) {
+        if ($fallbackCurrency === null) {
             throw new ParserException('DecimalMoneyParser cannot parse currency symbols. Use forceCurrency argument');
         }
 
         $decimal = trim($money);
 
         if ($decimal === '') {
-            return new Money(0, $forceCurrency);
+            return new Money(0, $fallbackCurrency);
         }
 
         if (! preg_match(self::DECIMAL_PATTERN, $decimal, $matches) || ! isset($matches['digits'])) {
@@ -57,7 +57,7 @@ final class DecimalMoneyParser implements MoneyParser
             $decimal = '-' . $decimal;
         }
 
-        $subunit = $this->currencies->subunitFor($forceCurrency);
+        $subunit = $this->currencies->subunitFor($fallbackCurrency);
 
         if (isset($matches['fraction'])) {
             $fractionDigits = strlen($matches['fraction']);
@@ -84,6 +84,6 @@ final class DecimalMoneyParser implements MoneyParser
         }
 
         /** @psalm-var numeric-string $decimal */
-        return new Money($decimal, $forceCurrency);
+        return new Money($decimal, $fallbackCurrency);
     }
 }

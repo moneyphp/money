@@ -35,7 +35,7 @@ final class IntlMoneyParser implements MoneyParser
         $this->currencies = $currencies;
     }
 
-    public function parse(string $money, Currency|null $forceCurrency = null): Money
+    public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
         $currency = null;
         $decimal  = $this->formatter->parseCurrency($money, $currency);
@@ -44,14 +44,14 @@ final class IntlMoneyParser implements MoneyParser
             throw new ParserException('Cannot parse ' . $money . ' to Money. ' . $this->formatter->getErrorMessage());
         }
 
-        if ($forceCurrency === null) {
+        if ($fallbackCurrency === null) {
             assert(! empty($currency));
 
-            $forceCurrency = new Currency($currency);
+            $fallbackCurrency = new Currency($currency);
         }
 
         $decimal         = (string) $decimal;
-        $subunit         = $this->currencies->subunitFor($forceCurrency);
+        $subunit         = $this->currencies->subunitFor($fallbackCurrency);
         $decimalPosition = strpos($decimal, '.');
 
         if ($decimalPosition !== false) {
@@ -80,6 +80,6 @@ final class IntlMoneyParser implements MoneyParser
         }
 
         /** @psalm-var numeric-string $decimal */
-        return new Money($decimal, $forceCurrency);
+        return new Money($decimal, $fallbackCurrency);
     }
 }
