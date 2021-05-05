@@ -7,9 +7,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
-
-
 ## [4.x] - Unreleased
 
 ### Added
@@ -17,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PHP8.0 compatibility (#633 and #619)
 - Recommendation to use a type-checker like psalm or phpstan
 - Rounding to units
+- `Converter#convertAndReturnWithCurrencyPair` to get the combination of the converted money and currency pair
+- `Converter#convertAgainstCurrencyPair` to convert against a currency pair
 
 ### Changed
 
