@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - **[BC break]** BC Math required as it is the default calculator
 - Allow multiple arguments to `Money#isSameCurrency`
+- Renamed second parameter of `Parser#parse` to `$fallbackCurrency`
 
 ### Fixed
 

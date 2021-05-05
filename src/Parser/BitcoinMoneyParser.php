@@ -30,13 +30,13 @@ final class BitcoinMoneyParser implements MoneyParser
         $this->fractionDigits = $fractionDigits;
     }
 
-    public function parse(string $money, Currency|null $forceCurrency = null): Money
+    public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
         if (strpos($money, BitcoinCurrencies::SYMBOL) === false) {
             throw new ParserException('Value cannot be parsed as Bitcoin');
         }
 
-        $currency         = $forceCurrency ?? new Currency(BitcoinCurrencies::CODE);
+        $currency         = $fallbackCurrency ?? new Currency(BitcoinCurrencies::CODE);
         $decimal          = str_replace(BitcoinCurrencies::SYMBOL, '', $money);
         $decimalSeparator = strpos($decimal, '.');
 

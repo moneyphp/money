@@ -31,11 +31,11 @@ final class AggregateMoneyParser implements MoneyParser
         $this->parsers = $parsers;
     }
 
-    public function parse(string $money, Currency|null $forceCurrency = null): Money
+    public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
         foreach ($this->parsers as $parser) {
             try {
-                return $parser->parse($money, $forceCurrency);
+                return $parser->parse($money, $fallbackCurrency);
             } catch (Exception\ParserException $e) {
             }
         }

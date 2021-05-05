@@ -34,9 +34,9 @@ final class IntlLocalizedDecimalParser implements MoneyParser
         $this->currencies = $currencies;
     }
 
-    public function parse(string $money, Currency|null $forceCurrency = null): Money
+    public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
-        if ($forceCurrency === null) {
+        if ($fallbackCurrency === null) {
             throw new ParserException('IntlLocalizedDecimalParser cannot parse currency symbols. Use forceCurrency argument');
         }
 
@@ -47,7 +47,7 @@ final class IntlLocalizedDecimalParser implements MoneyParser
         }
 
         $decimal         = (string) $decimal;
-        $subunit         = $this->currencies->subunitFor($forceCurrency);
+        $subunit         = $this->currencies->subunitFor($fallbackCurrency);
         $decimalPosition = strpos($decimal, '.');
 
         if ($decimalPosition !== false) {
@@ -76,6 +76,6 @@ final class IntlLocalizedDecimalParser implements MoneyParser
         }
 
         /** @psalm-var numeric-string $decimal */
-        return new Money($decimal, $forceCurrency);
+        return new Money($decimal, $fallbackCurrency);
     }
 }
