@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Money\Exchange;
 
-use Money\Calculator;
-use Money\Calculator\BcMathCalculator;
 use Money\Currencies;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Money;
 use SplQueue;
 
 use function array_reduce;
@@ -21,12 +20,6 @@ use function array_reverse;
  */
 final class IndirectExchange implements Exchange
 {
-    /**
-     * @var Calculator
-     * @psalm-var class-string<Calculator>
-     */
-    private static string $calculator = BcMathCalculator::class;
-
     private Currencies $currencies;
 
     private Exchange $exchange;
@@ -35,12 +28,6 @@ final class IndirectExchange implements Exchange
     {
         $this->exchange   = $exchange;
         $this->currencies = $currencies;
-    }
-
-    /** @psalm-param class-string<Calculator> $calculator */
-    public static function registerCalculator(string $calculator): void
-    {
-        self::$calculator = $calculator;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
@@ -56,7 +43,9 @@ final class IndirectExchange implements Exchange
                  * @psalm-return numeric-string
                  */
                 static function (string $carry, CurrencyPair $pair) {
-                    return self::$calculator::multiply($carry, $pair->getConversionRatio());
+                    $calculator = Money::getCalculator();
+
+                    return $calculator::multiply($carry, $pair->getConversionRatio());
                 },
                 '1.0'
             );
