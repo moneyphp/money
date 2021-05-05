@@ -113,7 +113,7 @@ final class ConverterTest extends TestCase
             ->with(self::equalTo($baseCurrency), self::equalTo($counterCurrency))
             ->willReturn($pair);
 
-        [$money, $currencyPair] = $converter->convertWithReceipt(
+        [$money, $currencyPair] = $converter->convertAndReturnWithCurrencyPair(
             new Money($amount, new Currency($baseCurrencyCode)),
             $counterCurrency
         );

@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - PHP8.0 compatibility (#633 and #619)
 - Recommendation to use a type-checker like psalm or phpstan
 - Rounding to units
-- `Converter#convertWithReceipt` to get the combination of the converted money and currency pair
+- `Converter#convertAndReturnWithCurrencyPair` to get the combination of the converted money and currency pair
 - `Converter#convertAgainstCurrencyPair` to convert against a currency pair
 
 ### Changed

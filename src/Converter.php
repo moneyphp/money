@@ -36,7 +36,7 @@ final class Converter
     }
 
     /** @return array{0: Money, 1: CurrencyPair} */
-    public function convertWithReceipt(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): array
+    public function convertAndReturnWithCurrencyPair(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): array
     {
         $pair = $this->exchange->quote(
             $money->getCurrency(),

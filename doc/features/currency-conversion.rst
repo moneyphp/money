@@ -15,6 +15,7 @@ You can use a fixed exchange to convert `Money` into another Currency.
 
     use Money\Converter;
     use Money\Currency;
+    use Money\Currencies\ISOCurrencies;
     use Money\Exchange\FixedExchange;
 
     $exchange = new FixedExchange([
@@ -45,6 +46,7 @@ define the currency pairs in both directions.
 
     use Money\Converter;
     use Money\Currency;
+    use Money\Currencies\ISOCurrencies;
     use Money\Exchange\FixedExchange;
     use Money\Exchange\ReversedCurrenciesExchange;
 
@@ -83,6 +85,7 @@ Then conversion is quite simple:
 
     use Money\Money;
     use Money\Converter;
+    use Money\Currencies\ISOCurrencies;
     use Money\Exchange\SwapExchange;
 
     // $swap = Implementation of \Swap\SwapInterface
@@ -91,6 +94,7 @@ Then conversion is quite simple:
     $converter = new Converter(new ISOCurrencies(), $exchange);
     $eur100 = Money::EUR(100);
     $usd125 = $converter->convert($eur100, new Currency('USD'));
+    [$usd125, $pair] = $converter->convertAndReturnWithCurrencyPair($eur100, new Currency('USD'));
 
 
 .. _Swap: https://github.com/florianv/swap
@@ -113,6 +117,7 @@ Then conversion is quite simple:
 
     use Money\Money;
     use Money\Converter;
+    use Money\Currencies\ISOCurrencies;
     use Money\Exchanger\ExchangerExchange;
 
     // $exchanger = Implementation of \Exchanger\Contract\ExchangeRateProvider
@@ -121,6 +126,7 @@ Then conversion is quite simple:
     $converter = new Converter(new ISOCurrencies(), $exchange);
     $eur100 = Money::EUR(100);
     $usd125 = $converter->convert($eur100, new Currency('USD'));
+    [$usd125, $pair] = $converter->convertAndReturnWithCurrencyPair($eur100, new Currency('USD'));
 
 
 .. _Exchanger: https://github.com/florianv/exchanger
@@ -164,3 +170,19 @@ which you can install via Composer_.
     $exchange = new SwapExchange($swap);
 
     $pair = $exchange->quote($eur, $usd);
+
+A currency pair can be used to convert an amount.
+
+.. code:: php
+
+    use Money\Money;
+    use Money\Currency;
+    use Money\Currencies\ISOCurrencies;
+    use Money\Exchange\SwapExchange;
+
+    // $swap = Implementation of \Swap\SwapInterface
+    $exchange = new SwapExchange($swap);
+
+    $converter = new Converter(new ISOCurrencies(), $exchange);
+    $eur100 = Money::EUR(100);
+    $usd125 = $converter->convertAgainstCurrencyPair($eur100, $pair);
