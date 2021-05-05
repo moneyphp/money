@@ -83,7 +83,7 @@ final class ConverterTest extends TestCase
      * @dataProvider convertExamples
      * @test
      */
-    public function itConvertsWithReceipt(
+    public function itConvertsAndReturnWithCurrencyPair(
         string $baseCurrencyCode,
         string $counterCurrencyCode,
         int $subunitBase,
