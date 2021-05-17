@@ -15,6 +15,7 @@ use function array_sum;
 use function count;
 use function filter_var;
 use function floor;
+use function is_int;
 use function max;
 use function str_pad;
 use function strlen;
@@ -234,11 +235,15 @@ final class Money implements JsonSerializable
      * Returns a new Money object that represents
      * the multiplied value by the given factor.
      *
-     * @psalm-param numeric-string $multiplier
+     * @psalm-param int|numeric-string $multiplier
      * @psalm-param self::ROUND_*  $roundingMode
      */
-    public function multiply(string $multiplier, int $roundingMode = self::ROUND_HALF_UP): Money
+    public function multiply(int|string $multiplier, int $roundingMode = self::ROUND_HALF_UP): Money
     {
+        if (is_int($multiplier)) {
+            $multiplier = (string) $multiplier;
+        }
+
         $product = $this->round(self::$calculator::multiply($this->amount, $multiplier), $roundingMode);
 
         return new self($product, $this->currency);
@@ -248,11 +253,15 @@ final class Money implements JsonSerializable
      * Returns a new Money object that represents
      * the divided value by the given factor.
      *
-     * @psalm-param numeric-string $divisor
+     * @psalm-param int|numeric-string $divisor
      * @psalm-param self::ROUND_*  $roundingMode
      */
-    public function divide(string $divisor, int $roundingMode = self::ROUND_HALF_UP): Money
+    public function divide(int|string $divisor, int $roundingMode = self::ROUND_HALF_UP): Money
     {
+        if (is_int($divisor)) {
+            $divisor = (string) $divisor;
+        }
+
         $quotient = $this->round(self::$calculator::divide($this->amount, $divisor), $roundingMode);
 
         return new self($quotient, $this->currency);

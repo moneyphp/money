@@ -78,14 +78,14 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param numeric-string $multiplier
+     * @psalm-param int|numeric-string $multiplier
      * @psalm-param Money::ROUND_* $roundingMode
      * @psalm-param numeric-string $result
      *
      * @dataProvider roundingExamples
      * @test
      */
-    public function itMultipliesTheAmount(string $multiplier, int $roundingMode, string $result): void
+    public function itMultipliesTheAmount(int|string $multiplier, int $roundingMode, string $result): void
     {
         $money = new Money(1, new Currency(self::CURRENCY));
 
@@ -110,14 +110,14 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param numeric-string $divisor
+     * @psalm-param int|numeric-string $divisor
      * @psalm-param Money::ROUND_* $roundingMode
      * @psalm-param numeric-string $result
      *
      * @dataProvider roundingExamples
      * @test
      */
-    public function it_divides_the_amount(string $divisor, int $roundingMode, string $result): void
+    public function it_divides_the_amount(int|string $divisor, int $roundingMode, string $result): void
     {
         self::assertEquals(
             $result,
