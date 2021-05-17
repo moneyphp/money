@@ -149,14 +149,14 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param float|int|numeric-string $value
+     * @psalm-param int|numeric-string $value
      * @psalm-param Money::ROUND_* $mode
      * @psalm-param numeric-string $expected
      *
      * @dataProvider roundingExamples
      * @test
      */
-    public function itRoundsAValue(float|int|string $value, int $mode, string $expected): void
+    public function itRoundsAValue(int|string $value, int $mode, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::round((string) $value, $mode));
     }
