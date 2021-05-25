@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - **[BC break]** BC Math required as it is the default calculator
+- **[BC break]** The methods `multiply` and `divide` do not accept floating points any more. Callers are required to
+  convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling these methods.
 - Allow multiple arguments to `Money#isSameCurrency`
 - Renamed second parameter of `Parser#parse` to `$fallbackCurrency`
 
