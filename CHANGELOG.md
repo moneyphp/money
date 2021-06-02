@@ -381,7 +381,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
 
-[Unreleased]: https://github.com/moneyphp/money/compare/v3.3.0...HEAD
+[4.0.1]: https://github.com/moneyphp/money/compare/v4.0.0...v4.0.1
+[4.0.0]: https://github.com/moneyphp/money/compare/v3.3.1...v4.0.0
+[3.3.1]: https://github.com/moneyphp/money/compare/v3.3.0...v3.3.1
 [3.3.0]: https://github.com/moneyphp/money/compare/v3.2.1...v3.3.0
 [3.2.1]: https://github.com/moneyphp/money/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/moneyphp/money/compare/v3.1.3...v3.2.0
