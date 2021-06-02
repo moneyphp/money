@@ -7,6 +7,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+
 ## [4.0.1] - 2021-05-25
 
 ### Changed
@@ -380,8 +382,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2013-01-08 Use vendor/autoload.php instead of lib/bootstrap.php (or use PSR-0 autolaoding)
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
-
-[Unreleased]: https://github.com/moneyphp/money/compare/v3.3.0...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v4.0.1...HEAD
+[4.0.1]: https://github.com/moneyphp/money/compare/v4.0.0...v4.0.1
+[4.0.0]: https://github.com/moneyphp/money/compare/v3.3.1...v4.0.0
+[3.3.1]: https://github.com/moneyphp/money/compare/v3.3.0...v3.3.1
 [3.3.0]: https://github.com/moneyphp/money/compare/v3.2.1...v3.3.0
 [3.2.1]: https://github.com/moneyphp/money/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/moneyphp/money/compare/v3.1.3...v3.2.0
