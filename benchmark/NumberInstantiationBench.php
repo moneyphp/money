@@ -4,22 +4,11 @@ declare(strict_types=1);
 
 namespace Benchmark\Money;
 
-use Money\Currency;
 use Money\Number;
 use PhpBench\Benchmark\Metadata\Annotations\BeforeMethods;
 
-/**
- * @BeforeMethods({"setUp"})
- */
 final class NumberInstantiationBench
 {
-    /** @var Currency */
-    private $currency;
-
-    public function setUp(): void
-    {
-        $this->currency = new Currency('EUR');
-    }
 
     public function benchConstructorWithZeroIntegerAmount(): void
     {
