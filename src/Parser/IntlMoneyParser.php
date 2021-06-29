@@ -38,7 +38,7 @@ final class IntlMoneyParser implements MoneyParser
     public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
         $currency = '';
-        // @codingStandardsIgnoreStart
+        // phpcs:ignore
         /** @var string|float|bool|null $decimal */
         $decimal = $this->formatter->parseCurrency($money, $currency);
 
