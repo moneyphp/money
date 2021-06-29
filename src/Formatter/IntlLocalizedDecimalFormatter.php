@@ -59,7 +59,7 @@ final class IntlLocalizedDecimalFormatter implements MoneyFormatter
 
         $formatted = $this->formatter->format((float) $formatted);
 
-        assert(is_string($formatted) && ! empty($formatted));
+        assert(is_string($formatted) && $formatted !== '');
 
         return $formatted;
     }

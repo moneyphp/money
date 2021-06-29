@@ -328,7 +328,7 @@ final class Money implements JsonSerializable
         }, $ratios);
 
         while (self::$calculator::compare($remainder, '0') > 0) {
-            $index           = ! empty($fractions) ? array_keys($fractions, max($fractions))[0] : 0;
+            $index           = $fractions !== [] ? array_keys($fractions, max($fractions))[0] : 0;
             $results[$index] = new self(self::$calculator::add($results[$index]->amount, '1'), $results[$index]->currency);
             $remainder       = self::$calculator::subtract($remainder, '1');
             unset($fractions[$index]);

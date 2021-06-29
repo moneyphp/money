@@ -37,7 +37,7 @@ final class IntlMoneyParser implements MoneyParser
 
     public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
-        $currency = null;
+        $currency = '';
         $decimal  = $this->formatter->parseCurrency($money, $currency);
 
         if ($decimal === false) {
@@ -45,7 +45,7 @@ final class IntlMoneyParser implements MoneyParser
         }
 
         if ($fallbackCurrency === null) {
-            assert(! empty($currency));
+            assert($currency !== '');
 
             $fallbackCurrency = new Currency($currency);
         }

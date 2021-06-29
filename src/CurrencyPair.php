@@ -61,7 +61,7 @@ final class CurrencyPair implements JsonSerializable
             throw new InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
         }
 
-        assert(! empty($matches[1]));
+        assert($matches[1] !== '');
         assert(is_numeric($matches[2]));
         assert(is_numeric($matches[3]));
 
