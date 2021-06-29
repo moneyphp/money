@@ -52,7 +52,7 @@ final class DecimalMoneyFormatter implements MoneyFormatter
             return '-' . $formatted;
         }
 
-        assert(! empty($formatted));
+        assert($formatted !== '');
 
         return $formatted;
     }

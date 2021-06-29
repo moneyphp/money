@@ -58,7 +58,7 @@ final class IntlMoneyFormatter implements MoneyFormatter
 
         $formatted = $this->formatter->formatCurrency((float) $formatted, $money->getCurrency()->getCode());
 
-        assert(! empty($formatted));
+        assert($formatted !== '');
 
         return $formatted;
     }

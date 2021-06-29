@@ -33,7 +33,7 @@ final class IntlMoneyParserSpec extends ObjectBehavior
 
     public function it_parses_money(NumberFormatter $numberFormatter, Currencies $currencies): void
     {
-        $currencyString = null;
+        $currencyString = '';
 
         $numberFormatter->parseCurrency('€1.00', $currencyString)->willReturn(1);
         $currencies->subunitFor(Argument::type(Currency::class))->willReturn(2);
@@ -48,7 +48,7 @@ final class IntlMoneyParserSpec extends ObjectBehavior
 
     public function it_throws_an_exception_when_money_cannot_be_parsed(NumberFormatter $numberFormatter): void
     {
-        $currencyString = null;
+        $currencyString = '';
 
         $numberFormatter->parseCurrency('INVALID', $currencyString)->willReturn(false);
         $numberFormatter->getErrorMessage()->willReturn('Some message');
