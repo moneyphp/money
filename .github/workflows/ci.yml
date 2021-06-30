@@ -104,8 +104,8 @@ jobs:
       - name: Download dependencies
         run: composer install --classmap-authoritative
 
-      - name: Psalm
-        run: vendor/bin/roave-infection-static-analysis-plugin --min-covered-msi=75
+      - name: Roave Infection test
+        run: vendor/bin/roave-infection-static-analysis-plugin
 
   docs:
     name: Docs
