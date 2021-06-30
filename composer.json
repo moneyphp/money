@@ -25,9 +25,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "ext-bcmath": "*",
-        "ext-filter": "*",
-        "ext-json": "*"
+        "ext-bcmath": "*"
     },
     "require-dev": {
         "ext-gmp": "*",
