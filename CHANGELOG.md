@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.2] - 2021-06-30
+
+### Changes
+
+- Added all extensions to `composer.json`, including those bundled with PHP.
+
+### Fixed
+
+- Remove all `empty` uses. Money values of '0' gave an assertion error in decimal formats (#655)
+
+
 ## [4.0.1] - 2021-05-25
 
 ### Changed
