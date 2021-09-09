@@ -47,7 +47,7 @@ final class ExponentialMoneyParser implements MoneyParser
          * Currency object.
          */
         $currency = $forceCurrency;
-        if (!$currency instanceof Currency) {
+        if (! $currency instanceof Currency) {
             @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
             $currency = new Currency($currency);
         }
@@ -59,7 +59,7 @@ final class ExponentialMoneyParser implements MoneyParser
 
         $subunit = $this->currencies->subunitFor($currency);
 
-        if (!preg_match(self::EXPO_DECIMAL_PATTERN, $expo, $matches) || !isset($matches['digits'])) {
+        if (! preg_match(self::EXPO_DECIMAL_PATTERN, $expo, $matches) || !i sset($matches['digits'])) {
             throw new ParserException(sprintf(
                 'Cannot parse "%s" to Money.',
                 $expo
@@ -67,7 +67,7 @@ final class ExponentialMoneyParser implements MoneyParser
         }
 
         $number = number_format($expo, $subunit, '.', '');
-        if (!preg_match(self::DECIMAL_PATTERN, $number, $matches) || !isset($matches['digits'])) {
+        if (! preg_match(self::DECIMAL_PATTERN, $number, $matches) || ! isset($matches['digits'])) {
             throw new ParserException(sprintf(
                 'Cannot parse "%s" to Money.',
                 $expo
