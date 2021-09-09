@@ -10,6 +10,7 @@ use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
+
 use function trim;
 use function preg_match;
 use function sprintf;
