@@ -54,6 +54,12 @@ final class ExponentialMoneyParserTest extends TestCase
 
     /**
      * @return mixed[][]
+     * @psalm-return non-empty-list<array{
+     *     non-empty-string,
+     *     non-empty-string,
+     *     int,
+     *     int
+     * }>
      */
     public function formattedMoneyExamples(): array
     {
