@@ -9,6 +9,61 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.2] - 2021-06-30
+
+### Changes
+
+- Added all extensions to `composer.json`, including those bundled with PHP.
+
+### Fixed
+
+- Remove all `empty` uses. Money values of '0' gave an assertion error in decimal formats (#655)
+
+
+## [4.0.1] - 2021-05-25
+
+### Changed
+
+- Allow `int` as multiplier for `Money::multiply`
+- Allow `int` as divisor for `Money::divide`
+
+
+## [4.0.0] - 2021-05-17
+
+### Added
+
+- PHP8.0 compatibility (#633 and #619)
+- Recommendation to use a type-checker like psalm or phpstan
+- Rounding to units
+- `Converter#convertAndReturnWithCurrencyPair` to get the combination of the converted money and currency pair
+- `Converter#convertAgainstCurrencyPair` to convert against a currency pair
+
+### Changed
+
+- **[BC break]** BC Math required as it is the default calculator
+- **[BC break]** The methods `multiply` and `divide` do not accept floating points any more. Callers are required to
+  convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling these methods.
+- Allow multiple arguments to `Money#isSameCurrency`
+- Renamed second parameter of `Parser#parse` to `$fallbackCurrency`
+
+### Fixed
+
+- Fix GMP multiply and divide by negative (#640 #626)
+- Currency code must be uppercase (#639 #638 #637)
+- The CPU no longer overheats when using this library (#634)
+- No longer allowing null amount (#615)
+- Update cached currencies (#583)
+- Only numeric strings allowed (#575)
+- Calculator and Number are internal (#465)
+- Negative ratio in `Money#allocate()` is now allowed (#258)
+
+### Removed
+
+- **[BC break]** Removed PhpCalculator
+- **[BC break]** Removed `Currency#isAvailableWithin()`
+- **[BC break]** Removed string as allowed parameter for `MoneyParser#parse`
+- **[BC break]** Completely remove float usage, methods now return numeric-strings
+
 
 ## [3.3.1] - 2019-03-13
 
@@ -338,8 +393,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2013-01-08 Use vendor/autoload.php instead of lib/bootstrap.php (or use PSR-0 autolaoding)
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
-
-[Unreleased]: https://github.com/moneyphp/money/compare/v3.3.0...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v4.0.1...HEAD
+[4.0.1]: https://github.com/moneyphp/money/compare/v4.0.0...v4.0.1
+[4.0.0]: https://github.com/moneyphp/money/compare/v3.3.1...v4.0.0
+[3.3.1]: https://github.com/moneyphp/money/compare/v3.3.0...v3.3.1
 [3.3.0]: https://github.com/moneyphp/money/compare/v3.2.1...v3.3.0
 [3.2.1]: https://github.com/moneyphp/money/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/moneyphp/money/compare/v3.1.3...v3.2.0

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Parser;
 
 use Money\Currencies\BitcoinCurrencies;
@@ -11,22 +13,22 @@ use PhpSpec\ObjectBehavior;
 
 final class BitcoinMoneyParserSpec extends ObjectBehavior
 {
-    function let()
+    public function let(): void
     {
         $this->beConstructedWith(2);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(BitcoinMoneyParser::class);
     }
 
-    function it_is_a_money_parser()
+    public function it_is_a_money_parser(): void
     {
         $this->shouldImplement(MoneyParser::class);
     }
 
-    function it_parses_money()
+    public function it_parses_money(): void
     {
         $money = $this->parse('Ƀ1000.00');
 
@@ -34,12 +36,12 @@ final class BitcoinMoneyParserSpec extends ObjectBehavior
         $money->getCurrency()->getCode()->shouldReturn(BitcoinCurrencies::CODE);
     }
 
-    function it_does_not_parse_a_different_currency()
+    public function it_does_not_parse_a_different_currency(): void
     {
         $this->shouldThrow(ParserException::class)->duringParse('€1.00');
     }
 
-    function it_does_not_parse_an_invalid_value()
+    public function it_does_not_parse_an_invalid_value(): void
     {
         $this->shouldThrow(ParserException::class)->duringParse(true);
     }

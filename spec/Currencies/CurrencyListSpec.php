@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Currencies;
 
 use Money\Currencies;
@@ -11,7 +13,7 @@ final class CurrencyListSpec extends ObjectBehavior
 {
     use Matchers;
 
-    function let()
+    public function let(): void
     {
         $this->beConstructedWith([
             'MY1' => 2,
@@ -20,27 +22,27 @@ final class CurrencyListSpec extends ObjectBehavior
         ]);
     }
 
-    function it_is_a_currency_repository()
+    public function it_is_a_currency_repository(): void
     {
         $this->shouldImplement(Currencies::class);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(CurrencyList::class);
     }
 
-    function it_contains_custom_currency()
+    public function it_contains_custom_currency(): void
     {
         $this->contains(new Currency('MY1'))->shouldReturn(true);
     }
 
-    function it_does_not_contain_currency()
+    public function it_does_not_contain_currency(): void
     {
         $this->contains(new Currency('EUR'))->shouldReturn(false);
     }
 
-    function it_is_iterable()
+    public function it_is_iterable(): void
     {
         $this->getIterator()->shouldHaveCurrency('MY1');
     }

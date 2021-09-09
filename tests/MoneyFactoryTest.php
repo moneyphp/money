@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Currencies\AggregateCurrencies;
@@ -9,22 +11,24 @@ use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\MoneyFactory */
 final class MoneyFactoryTest extends TestCase
 {
     /**
      * @dataProvider currencyExamples
      * @test
      */
-    public function it_creates_money_using_factories(Currency $currency)
+    public function itCreatesMoneyUsingFactories(Currency $currency): void
     {
-        $code = $currency->getCode();
+        $code  = $currency->getCode();
         $money = Money::{$code}(20);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals(new Money(20, $currency), $money);
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals(new Money(20, $currency), $money);
     }
 
-    public function currencyExamples()
+    /** @psalm-return list<array{Currency}> */
+    public function currencyExamples(): array
     {
         $currencies = new AggregateCurrencies([
             new ISOCurrencies(),

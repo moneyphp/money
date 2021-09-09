@@ -1,44 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Calculator;
 
+use InvalidArgumentException as CoreInvalidArgumentException;
 use Money\Calculator;
+use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use Money\Number;
 
+use function gmp_add;
+use function gmp_cmp;
+use function gmp_div_q;
+use function gmp_div_qr;
+use function gmp_init;
+use function gmp_mod;
+use function gmp_mul;
+use function gmp_neg;
+use function gmp_strval;
+use function gmp_sub;
+use function ltrim;
+use function str_pad;
+use function str_replace;
+use function strlen;
+use function substr;
+
+use const GMP_ROUND_MINUSINF;
+use const STR_PAD_LEFT;
+
 /**
- * @author Frederik Bosch <f.bosch@genkgo.nl>
+ * @psalm-immutable
+ *
+ * Important: the {@see GmpCalculator} is not optimized for decimal operations, as GMP
+ *            is designed to operate on large integers. Consider using this only if your
+ *            system does not have `ext-bcmath` installed.
  */
 final class GmpCalculator implements Calculator
 {
-    /**
-     * @var string
-     */
-    private $scale;
+    private const SCALE = 14;
 
-    /**
-     * @param int $scale
-     */
-    public function __construct($scale = 14)
+    /** @psalm-pure */
+    public static function compare(string $a, string $b): int
     {
-        $this->scale = $scale;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function supported()
-    {
-        return extension_loaded('gmp');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function compare($a, $b)
-    {
-        $aNum = Number::fromNumber($a);
-        $bNum = Number::fromNumber($b);
+        $aNum = Number::fromString($a);
+        $bNum = Number::fromString($b);
 
         if ($aNum->isDecimal() || $bNum->isDecimal()) {
             $integersCompared = gmp_cmp($aNum->getIntegerPart(), $bNum->getIntegerPart());
@@ -55,32 +61,31 @@ final class GmpCalculator implements Calculator
         return gmp_cmp($a, $b);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function add($amount, $addend)
+    /** @psalm-pure */
+    public static function add(string $amount, string $addend): string
     {
         return gmp_strval(gmp_add($amount, $addend));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function subtract($amount, $subtrahend)
+    /** @psalm-pure */
+    public static function subtract(string $amount, string $subtrahend): string
     {
         return gmp_strval(gmp_sub($amount, $subtrahend));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function multiply($amount, $multiplier)
+    /** @psalm-pure */
+    public static function multiply(string $amount, string $multiplier): string
     {
-        $multiplier = Number::fromNumber($multiplier);
+        $multiplier = Number::fromString($multiplier);
 
         if ($multiplier->isDecimal()) {
-            $decimalPlaces = strlen($multiplier->getFractionalPart());
+            $decimalPlaces  = strlen($multiplier->getFractionalPart());
             $multiplierBase = $multiplier->getIntegerPart();
+            $negativeZero   = $multiplierBase === '-0';
+
+            if ($negativeZero) {
+                $multiplierBase = '-';
+            }
 
             if ($multiplierBase) {
                 $multiplierBase .= $multiplier->getFractionalPart();
@@ -90,42 +95,61 @@ final class GmpCalculator implements Calculator
 
             $resultBase = gmp_strval(gmp_mul(gmp_init($amount), gmp_init($multiplierBase)));
 
-            if ('0' === $resultBase) {
+            if ($resultBase === '0') {
                 return '0';
             }
 
-            $result = substr($resultBase, $decimalPlaces * -1);
+            $result       = substr($resultBase, $decimalPlaces * -1);
             $resultLength = strlen($result);
             if ($decimalPlaces > $resultLength) {
-                return '0.'.str_pad('', $decimalPlaces - $resultLength, '0').$result;
+                /** @psalm-var numeric-string $finalResult */
+                $finalResult = '0.' . str_pad('', $decimalPlaces - $resultLength, '0') . $result;
+
+                return $finalResult;
             }
 
-            return substr($resultBase, 0, $decimalPlaces * -1).'.'.$result;
+            /** @psalm-var numeric-string $finalResult */
+            $finalResult = substr($resultBase, 0, $decimalPlaces * -1) . '.' . $result;
+
+            if ($negativeZero) {
+                /** @psalm-var numeric-string $finalResult */
+                $finalResult = str_replace('-.', '-0.', $finalResult);
+            }
+
+            return $finalResult;
         }
 
         return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((string) $multiplier)));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function divide($amount, $divisor)
+    /** @psalm-pure */
+    public static function divide(string $amount, string $divisor): string
     {
-        $divisor = Number::fromNumber($divisor);
+        if (self::compare($divisor, '0') === 0) {
+            throw InvalidArgumentException::divisionByZero();
+        }
+
+        $divisor = Number::fromString($divisor);
 
         if ($divisor->isDecimal()) {
             $decimalPlaces = strlen($divisor->getFractionalPart());
+            $divisorBase   = $divisor->getIntegerPart();
+            $negativeZero  = $divisorBase === '-0';
+
+            if ($negativeZero) {
+                $divisorBase = '-';
+            }
 
             if ($divisor->getIntegerPart()) {
-                $divisor = new Number($divisor->getIntegerPart().$divisor->getFractionalPart());
+                $divisor = new Number($divisorBase . $divisor->getFractionalPart());
             } else {
                 $divisor = new Number(ltrim($divisor->getFractionalPart(), '0'));
             }
 
-            $amount = gmp_strval(gmp_mul(gmp_init($amount), gmp_init('1'.str_pad('', $decimalPlaces, '0'))));
+            $amount = gmp_strval(gmp_mul(gmp_init($amount), gmp_init('1' . str_pad('', $decimalPlaces, '0'))));
         }
 
-        list($integer, $remainder) = gmp_div_qr(gmp_init($amount), gmp_init((string) $divisor));
+        [$integer, $remainder] = gmp_div_qr(gmp_init($amount), gmp_init((string) $divisor));
 
         if (gmp_cmp($remainder, '0') === 0) {
             return gmp_strval($integer);
@@ -133,7 +157,7 @@ final class GmpCalculator implements Calculator
 
         $divisionOfRemainder = gmp_strval(
             gmp_div_q(
-                gmp_mul($remainder, gmp_init('1'.str_pad('', $this->scale, '0'))),
+                gmp_mul($remainder, gmp_init('1' . str_pad('', self::SCALE, '0'))),
                 gmp_init((string) $divisor),
                 GMP_ROUND_MINUSINF
             )
@@ -143,180 +167,177 @@ final class GmpCalculator implements Calculator
             $divisionOfRemainder = substr($divisionOfRemainder, 1);
         }
 
-        return gmp_strval($integer).'.'.str_pad($divisionOfRemainder, $this->scale, '0', STR_PAD_LEFT);
+        /** @psalm-var numeric-string $finalResult */
+        $finalResult = gmp_strval($integer) . '.' . str_pad($divisionOfRemainder, self::SCALE, '0', STR_PAD_LEFT);
+
+        return $finalResult;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function ceil($number)
+    /** @psalm-pure */
+    public static function ceil(string $number): string
     {
-        $number = Number::fromNumber($number);
+        $number = Number::fromString($number);
 
         if ($number->isInteger()) {
-            return (string) $number;
+            return $number->__toString();
         }
 
         if ($number->isNegative()) {
-            return $this->add($number->getIntegerPart(), '0');
+            return self::add($number->getIntegerPart(), '0');
         }
 
-        return $this->add($number->getIntegerPart(), '1');
+        return self::add($number->getIntegerPart(), '1');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function floor($number)
+    /** @psalm-pure */
+    public static function floor(string $number): string
     {
-        $number = Number::fromNumber($number);
+        $number = Number::fromString($number);
 
         if ($number->isInteger()) {
-            return (string) $number;
+            return $number->__toString();
         }
 
         if ($number->isNegative()) {
-            return $this->add($number->getIntegerPart(), '-1');
+            return self::add($number->getIntegerPart(), '-1');
         }
 
-        return $this->add($number->getIntegerPart(), '0');
+        return self::add($number->getIntegerPart(), '0');
     }
 
     /**
-     * {@inheritdoc}
+     * @psalm-suppress MoreSpecificReturnType we know that trimming `-` produces a positive numeric-string here
+     * @psalm-suppress LessSpecificReturnStatement we know that trimming `-` produces a positive numeric-string here
+     * @psalm-pure
      */
-    public function absolute($number)
+    public static function absolute(string $number): string
     {
         return ltrim($number, '-');
     }
 
     /**
-     * {@inheritdoc}
+     * @psalm-param Money::ROUND_* $roundingMode
+     *
+     * @psalm-return numeric-string
+     *
+     * @psalm-pure
      */
-    public function round($number, $roundingMode)
+    public static function round(string $number, int $roundingMode): string
     {
-        $number = Number::fromNumber($number);
+        $number = Number::fromString($number);
 
         if ($number->isInteger()) {
-            return (string) $number;
+            return $number->__toString();
         }
 
         if ($number->isHalf() === false) {
-            return $this->roundDigit($number);
+            return self::roundDigit($number);
         }
 
-        if (Money::ROUND_HALF_UP === $roundingMode) {
-            return $this->add(
+        if ($roundingMode === Money::ROUND_HALF_UP) {
+            return self::add(
                 $number->getIntegerPart(),
                 $number->getIntegerRoundingMultiplier()
             );
         }
 
-        if (Money::ROUND_HALF_DOWN === $roundingMode) {
-            return $this->add($number->getIntegerPart(), '0');
+        if ($roundingMode === Money::ROUND_HALF_DOWN) {
+            return self::add($number->getIntegerPart(), '0');
         }
 
-        if (Money::ROUND_HALF_EVEN === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_EVEN) {
             if ($number->isCurrentEven()) {
-                return $this->add($number->getIntegerPart(), '0');
+                return self::add($number->getIntegerPart(), '0');
             }
 
-            return $this->add(
+            return self::add(
                 $number->getIntegerPart(),
                 $number->getIntegerRoundingMultiplier()
             );
         }
 
-        if (Money::ROUND_HALF_ODD === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_ODD) {
             if ($number->isCurrentEven()) {
-                return $this->add(
+                return self::add(
                     $number->getIntegerPart(),
                     $number->getIntegerRoundingMultiplier()
                 );
             }
 
-            return $this->add($number->getIntegerPart(), '0');
+            return self::add($number->getIntegerPart(), '0');
         }
 
-        if (Money::ROUND_HALF_POSITIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_POSITIVE_INFINITY) {
             if ($number->isNegative()) {
-                return $this->add(
+                return self::add(
                     $number->getIntegerPart(),
                     '0'
                 );
             }
 
-            return $this->add(
+            return self::add(
                 $number->getIntegerPart(),
                 $number->getIntegerRoundingMultiplier()
             );
         }
 
-        if (Money::ROUND_HALF_NEGATIVE_INFINITY === $roundingMode) {
+        if ($roundingMode === Money::ROUND_HALF_NEGATIVE_INFINITY) {
             if ($number->isNegative()) {
-                return $this->add(
+                return self::add(
                     $number->getIntegerPart(),
                     $number->getIntegerRoundingMultiplier()
                 );
             }
 
-            return $this->add(
+            return self::add(
                 $number->getIntegerPart(),
                 '0'
             );
         }
 
-        throw new \InvalidArgumentException('Unknown rounding mode');
+        throw new CoreInvalidArgumentException('Unknown rounding mode');
     }
 
     /**
-     * @param $number
+     * @psalm-return numeric-string
      *
-     * @return string
+     * @psalm-pure
      */
-    private function roundDigit(Number $number)
+    private static function roundDigit(Number $number): string
     {
         if ($number->isCloserToNext()) {
-            return $this->add(
+            return self::add(
                 $number->getIntegerPart(),
                 $number->getIntegerRoundingMultiplier()
             );
         }
 
-        return $this->add($number->getIntegerPart(), '0');
+        return self::add($number->getIntegerPart(), '0');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function share($amount, $ratio, $total)
+    /** @psalm-pure */
+    public static function share(string $amount, string $ratio, string $total): string
     {
-        return $this->floor($this->divide($this->multiply($amount, $ratio), $total));
+        return self::floor(self::divide(self::multiply($amount, $ratio), $total));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function mod($amount, $divisor)
+    /** @psalm-pure */
+    public static function mod(string $amount, string $divisor): string
     {
+        if (self::compare($divisor, '0') === 0) {
+            throw InvalidArgumentException::moduloByZero();
+        }
+
         // gmp_mod() only calculates non-negative integers, so we use absolutes
-        $remainder = gmp_mod($this->absolute($amount), $this->absolute($divisor));
+        $remainder = gmp_mod(self::absolute($amount), self::absolute($divisor));
 
         // If the amount was negative, we negate the result of the modulus operation
-        $amount = Number::fromNumber($amount);
+        $amount = Number::fromString($amount);
 
         if ($amount->isNegative()) {
             $remainder = gmp_neg($remainder);
         }
 
         return gmp_strval($remainder);
-    }
-
-    /**
-     * @test
-     */
-    public function it_divides_bug538()
-    {
-        $this->assertSame('-4.54545454545455', $this->getCalculator()->divide('-500', 110));
     }
 }

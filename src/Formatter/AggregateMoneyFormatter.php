@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Formatter;
 
 use Money\Exception\FormatterException;
@@ -8,38 +10,25 @@ use Money\MoneyFormatter;
 
 /**
  * Formats a Money object using other Money formatters.
- *
- * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class AggregateMoneyFormatter implements MoneyFormatter
 {
     /**
-     * @var MoneyFormatter[]
+     * @var MoneyFormatter[] indexed by currency code
+     * @psalm-var non-empty-array<non-empty-string, MoneyFormatter> indexed by currency code
      */
-    private $formatters = [];
+    private array $formatters;
 
     /**
-     * @param MoneyFormatter[] $formatters
+     * @param MoneyFormatter[] $formatters indexed by currency code
+     * @psalm-param non-empty-array<non-empty-string, MoneyFormatter> $formatters indexed by currency code
      */
     public function __construct(array $formatters)
     {
-        if (empty($formatters)) {
-            throw new \InvalidArgumentException(sprintf('Initialize an empty %s is not possible', self::class));
-        }
-
-        foreach ($formatters as $currencyCode => $formatter) {
-            if (false === $formatter instanceof MoneyFormatter) {
-                throw new \InvalidArgumentException('All formatters must implement '.MoneyFormatter::class);
-            }
-
-            $this->formatters[$currencyCode] = $formatter;
-        }
+        $this->formatters = $formatters;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function format(Money $money)
+    public function format(Money $money): string
     {
         $currencyCode = $money->getCurrency()->getCode();
 
@@ -51,6 +40,6 @@ final class AggregateMoneyFormatter implements MoneyFormatter
             return $this->formatters['*']->format($money);
         }
 
-        throw new FormatterException('No formatter found for currency '.$currencyCode);
+        throw new FormatterException('No formatter found for currency ' . $currencyCode);
     }
 }

@@ -1,25 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Exception;
 
+use DomainException;
 use Money\Exception;
 use Money\Exception\UnknownCurrencyException;
 use PhpSpec\ObjectBehavior;
 
 final class UnknownCurrencyExceptionSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(UnknownCurrencyException::class);
     }
 
-    function it_is_an_exception()
+    public function it_is_an_exception(): void
     {
         $this->shouldHaveType(Exception::class);
     }
 
-    function it_is_a_domain_exception()
+    public function it_is_a_domain_exception(): void
     {
-        $this->shouldHaveType(\DomainException::class);
+        $this->shouldHaveType(DomainException::class);
     }
 }

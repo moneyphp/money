@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use Money\Currencies\BitcoinCurrencies;
@@ -8,38 +10,48 @@ use Money\Money;
 use Money\Parser\BitcoinMoneyParser;
 use PHPUnit\Framework\TestCase;
 
+/** @covers \Money\Parser\BitcoinMoneyParser */
 final class BitcoinMoneyParserTest extends TestCase
 {
     /**
+     * @psalm-param non-empty-string $string
+     * @psalm-param int|numeric-string $units
+     *
      * @dataProvider bitcoinExamples
      * @test
      */
-    public function it_parses_money($string, $units)
+    public function itParsesMoney(string $string, int|string $units): void
     {
         $moneyParser = new BitcoinMoneyParser(2);
 
         $money = $moneyParser->parse($string);
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals($units, $money->getAmount());
-        $this->assertEquals(BitcoinCurrencies::CODE, $money->getCurrency()->getCode());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($units, $money->getAmount());
+        self::assertEquals(BitcoinCurrencies::CODE, $money->getCurrency()->getCode());
     }
 
     /**
      * @test
      */
-    public function force_currency_works()
+    public function forceCurrencyWorks(): void
     {
         $moneyParser = new BitcoinMoneyParser(2);
 
         $money = $moneyParser->parse("\xC9\x830.25", new Currency('ETH'));
 
-        $this->assertInstanceOf(Money::class, $money);
-        $this->assertEquals('25', $money->getAmount());
-        $this->assertEquals('ETH', $money->getCurrency()->getCode());
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals('25', $money->getAmount());
+        self::assertEquals('ETH', $money->getCurrency()->getCode());
     }
 
-    public function bitcoinExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     non-empty-string,
+     *     int|numeric-string
+     * }>
+     */
+    public function bitcoinExamples(): array
     {
         return [
             ["\xC9\x831000.00", 100000],
