@@ -13,6 +13,8 @@ use Prophecy\Argument;
 
 final class ExponentialMoneyParserTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @dataProvider formattedMoneyExamples
      * @test
@@ -34,9 +36,9 @@ final class ExponentialMoneyParserTest extends TestCase
     /**
      * @dataProvider invalidMoneyExamples
      * @test
-     * @param string[][] $input
+     * @param string $input
      */
-    public function it_throws_an_exception_upon_invalid_inputs(array $input): void
+    public function it_throws_an_exception_upon_invalid_inputs(string $input): void
     {
         $this->expectException(ParserException::class);
 
