@@ -15,7 +15,7 @@ final class ExponentialMoneyParserTest extends TestCase
      * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function it_parses_money($decimal, $currency, $subunit, $result)
+    public function it_parses_money(string $decimal, string $currency, int $subunit, int $result)
     {
         $currencies = $this->prophesize(Currencies::class);
 
