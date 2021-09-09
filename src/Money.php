@@ -353,9 +353,9 @@ final class Money implements JsonSerializable
     }
 
     /**
-     * @throws InvalidArgumentException if the given $money is zero.
-     *
      * @psalm-return numeric-string
+     *
+     * @throws InvalidArgumentException if the given $money is zero.
      */
     public function ratioOf(Money $money): string
     {

@@ -37,7 +37,7 @@ final class IntlLocalizedDecimalParser implements MoneyParser
     public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
         if ($fallbackCurrency === null) {
-            throw new ParserException('IntlLocalizedDecimalParser cannot parse currency symbols. Use forceCurrency argument');
+            throw new ParserException('IntlLocalizedDecimalParser cannot parse currency symbols. Use fallbackCurrency argument');
         }
 
         $decimal = $this->formatter->parse($money);

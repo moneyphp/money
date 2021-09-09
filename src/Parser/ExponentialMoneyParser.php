@@ -11,7 +11,9 @@ use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
 
+use function floatval;
 use function ltrim;
+use function number_format;
 use function preg_match;
 use function sprintf;
 use function str_pad;
@@ -20,11 +22,13 @@ use function substr;
 use function trim;
 
 /**
- * Parses a decimal string into a Money object.
+ * Parses an exponential string into a Money object.
  */
-final class DecimalMoneyParser implements MoneyParser
+final class ExponentialMoneyParser implements MoneyParser
 {
-    public const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
+    private const EXPO_DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?[eE][-+]\d+$/';
+
+    private const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
     private Currencies $currencies;
 
@@ -36,17 +40,33 @@ final class DecimalMoneyParser implements MoneyParser
     public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
         if ($fallbackCurrency === null) {
-            throw new ParserException('DecimalMoneyParser cannot parse currency symbols. Use fallbackCurrency argument');
+            throw new ParserException(
+                'ExponentialMoneyParser cannot parse currency symbols. Use fallbackCurrency argument'
+            );
         }
 
-        $decimal = trim($money);
+        $currency = $fallbackCurrency;
 
-        if ($decimal === '') {
-            return new Money(0, $fallbackCurrency);
+        $expo = trim($money);
+        if ($expo === '') {
+            return new Money(0, $currency);
         }
 
-        if (! preg_match(self::DECIMAL_PATTERN, $decimal, $matches) || ! isset($matches['digits'])) {
-            throw new ParserException(sprintf('Cannot parse "%s" to Money.', $decimal));
+        $subunit = $this->currencies->subunitFor($currency);
+
+        if (! preg_match(self::EXPO_DECIMAL_PATTERN, $expo, $matches) || ! isset($matches['digits'])) {
+            throw new ParserException(sprintf(
+                'Cannot parse "%s" to Money.',
+                $expo
+            ));
+        }
+
+        $number = number_format(floatval($expo), $subunit, '.', '');
+        if (! preg_match(self::DECIMAL_PATTERN, $number, $matches) || ! isset($matches['digits'])) {
+            throw new ParserException(sprintf(
+                'Cannot parse "%s" to Money.',
+                $expo
+            ));
         }
 
         $negative = isset($matches['sign']) && $matches['sign'] === '-';
@@ -56,8 +76,6 @@ final class DecimalMoneyParser implements MoneyParser
         if ($negative) {
             $decimal = '-' . $decimal;
         }
-
-        $subunit = $this->currencies->subunitFor($fallbackCurrency);
 
         if (isset($matches['fraction'])) {
             $fractionDigits = strlen($matches['fraction']);
@@ -84,6 +102,6 @@ final class DecimalMoneyParser implements MoneyParser
         }
 
         /** @psalm-var numeric-string $decimal */
-        return new Money($decimal, $fallbackCurrency);
+        return new Money($decimal, $currency);
     }
 }
