@@ -20,9 +20,9 @@ use Money\Number;
  */
 final class ExponentialMoneyParser implements MoneyParser
 {
-    const EXPO_DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?[eE][-+]\d+$/';
+    private const EXPO_DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?[eE][-+]\d+$/';
 
-    const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
+    private const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
     /**
      * @var Currencies
