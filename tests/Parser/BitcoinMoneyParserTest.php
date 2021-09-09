@@ -34,7 +34,7 @@ final class BitcoinMoneyParserTest extends TestCase
     /**
      * @test
      */
-    public function forceCurrencyWorks(): void
+    public function fallbackCurrencyWorks(): void
     {
         $moneyParser = new BitcoinMoneyParser(2);
 

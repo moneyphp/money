@@ -34,11 +34,11 @@ final class ExponentialMoneyParser implements MoneyParser
         $this->currencies = $currencies;
     }
 
-    public function parse(string $money, Currency|null $forceCurrency = null): Money
+    public function parse(string $money, Currency|null $fallbackCurrency = null): Money
     {
-        if ($forceCurrency === null) {
+        if ($fallbackCurrency === null) {
             throw new ParserException(
-                'ExponentialMoneyParser cannot parse currency symbols. Use forceCurrency argument'
+                'ExponentialMoneyParser cannot parse currency symbols. Use fallbackCurrency argument'
             );
         }
 
@@ -46,7 +46,7 @@ final class ExponentialMoneyParser implements MoneyParser
          * This conversion is only required whilst currency can be either a string or a
          * Currency object.
          */
-        $currency = $forceCurrency;
+        $currency = $fallbackCurrency;
         if (! $currency instanceof Currency) {
             @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
             $currency = new Currency($currency);
