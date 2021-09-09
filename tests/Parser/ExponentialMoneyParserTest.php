@@ -34,7 +34,7 @@ final class ExponentialMoneyParserTest extends TestCase
     /**
      * @dataProvider invalidMoneyExamples
      * @test
-     * @param mixed[][] $input
+     * @param string[][] $input
      */
     public function it_throws_an_exception_upon_invalid_inputs(array $input): void
     {
@@ -71,7 +71,7 @@ final class ExponentialMoneyParserTest extends TestCase
     }
 
     /**
-     * @return mixed[][]
+     * @return string[][]
      */
     public static function invalidMoneyExamples(): array
     {
