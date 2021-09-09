@@ -19,8 +19,6 @@ use function trim;
 
 /**
  * Parses an exponential string into a Money object.
- *
- * @author George Mponos <gmponos@gmail.com>
  */
 final class ExponentialMoneyParser implements MoneyParser
 {
