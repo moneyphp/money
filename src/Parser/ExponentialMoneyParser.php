@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Parser;
 
 use Money\Currencies;
