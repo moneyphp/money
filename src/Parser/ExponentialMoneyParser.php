@@ -59,7 +59,7 @@ final class ExponentialMoneyParser implements MoneyParser
 
         $subunit = $this->currencies->subunitFor($currency);
 
-        if (! preg_match(self::EXPO_DECIMAL_PATTERN, $expo, $matches) || !i sset($matches['digits'])) {
+        if (! preg_match(self::EXPO_DECIMAL_PATTERN, $expo, $matches) || ! isset($matches['digits'])) {
             throw new ParserException(sprintf(
                 'Cannot parse "%s" to Money.',
                 $expo
