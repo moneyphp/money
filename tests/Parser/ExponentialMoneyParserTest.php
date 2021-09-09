@@ -17,8 +17,9 @@ final class ExponentialMoneyParserTest extends TestCase
     use ProphecyTrait;
 
     /**
-     * @dataProvider formattedMoneyExamples
      * @psalm-param non-empty-string $currency
+     *
+     * @dataProvider formattedMoneyExamples
      * @test
      */
     public function it_parses_money(string $decimal, string $currency, int $subunit, int $result): void
