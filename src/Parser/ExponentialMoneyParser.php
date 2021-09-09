@@ -42,15 +42,7 @@ final class ExponentialMoneyParser implements MoneyParser
             );
         }
 
-        /*
-         * This conversion is only required whilst currency can be either a string or a
-         * Currency object.
-         */
         $currency = $fallbackCurrency;
-        if (! $currency instanceof Currency) {
-            @trigger_error('Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
-            $currency = new Currency($currency);
-        }
 
         $expo = trim($money);
         if ($expo === '') {
