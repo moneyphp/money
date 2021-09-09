@@ -37,7 +37,6 @@ final class ExponentialMoneyParserTest extends TestCase
     /**
      * @dataProvider invalidMoneyExamples
      * @test
-     * @param string $input
      */
     public function it_throws_an_exception_upon_invalid_inputs(string $input): void
     {
