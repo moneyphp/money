@@ -60,7 +60,7 @@ final class ExponentialMoneyParser implements MoneyParser
             ));
         }
 
-        $number = number_format($expo, $subunit, '.', '');
+        $number = number_format(floatval($expo), $subunit, '.', '');
         if (! preg_match(self::DECIMAL_PATTERN, $number, $matches) || ! isset($matches['digits'])) {
             throw new ParserException(sprintf(
                 'Cannot parse "%s" to Money.',
