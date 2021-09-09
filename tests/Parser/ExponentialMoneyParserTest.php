@@ -51,7 +51,7 @@ final class ExponentialMoneyParserTest extends TestCase
 
         $parser = new ExponentialMoneyParser($currencies->reveal());
 
-        $parser->parse($input, new Currency('USD'))->getAmount();
+        $parser->parse($input, new Currency('USD'));
     }
 
     /**
