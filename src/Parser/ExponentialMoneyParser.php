@@ -78,8 +78,8 @@ final class ExponentialMoneyParser implements MoneyParser
 
         if (isset($matches['fraction'])) {
             $fractionDigits = strlen($matches['fraction']);
-            $decimal .= $matches['fraction'];
-            $decimal = Number::roundMoneyValue($decimal, $subunit, $fractionDigits);
+            $decimal       .= $matches['fraction'];
+            $decimal        = Number::roundMoneyValue($decimal, $subunit, $fractionDigits);
 
             if ($fractionDigits > $subunit) {
                 $decimal = substr($decimal, 0, $subunit - $fractionDigits);
