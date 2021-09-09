@@ -29,17 +29,11 @@ final class ExponentialMoneyParser implements MoneyParser
      */
     private $currencies;
 
-    /**
-     * @param Currencies $currencies
-     */
     public function __construct(Currencies $currencies)
     {
         $this->currencies = $currencies;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function parse(string $money, Currency|null $forceCurrency = null): Money
     {
         if (null === $forceCurrency) {
