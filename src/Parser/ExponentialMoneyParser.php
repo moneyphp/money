@@ -11,11 +11,11 @@ use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
 
-use function trim;
+use function number_format;
 use function preg_match;
 use function sprintf;
-use function number_format;
 use function str_pad;
+use function trim;
 
 /**
  * Parses an exponential string into a Money object.
