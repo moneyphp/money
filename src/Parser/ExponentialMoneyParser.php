@@ -100,6 +100,7 @@ final class ExponentialMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
+        /** @psalm-var numeric-string $decimal */
         return new Money($decimal, $currency);
     }
 }
