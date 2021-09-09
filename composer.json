@@ -27,7 +27,8 @@
         "php": "^8.0",
         "ext-bcmath": "*",
         "ext-filter": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "phpspec/prophecy-phpunit": "^2.0"
     },
     "require-dev": {
         "ext-gmp": "*",
