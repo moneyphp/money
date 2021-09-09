@@ -11,6 +11,7 @@ use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
 
+use function floatval;
 use function ltrim;
 use function number_format;
 use function preg_match;
