@@ -11,10 +11,13 @@ use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
 
+use function ltrim;
 use function number_format;
 use function preg_match;
 use function sprintf;
 use function str_pad;
+use function strlen;
+use function substr;
 use function trim;
 
 /**
