@@ -10,11 +10,14 @@ use Money\Exception\ParserException;
 use Money\Money;
 use Money\MoneyParser;
 use Money\Number;
+use function trim;
+use function preg_match;
+use function sprintf;
+use function number_format;
+use function str_pad;
 
 /**
  * Parses an exponential string into a Money object.
- *
- * @example `2.8865798640254e+15`
  *
  * @author George Mponos <gmponos@gmail.com>
  */
@@ -24,9 +27,7 @@ final class ExponentialMoneyParser implements MoneyParser
 
     private const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>0|[1-9]\d*)?\.?(?P<fraction>\d+)?$/';
 
-    /**
-     * @var Currencies
-     */
+    /** @var Currencies */
     private $currencies;
 
     public function __construct(Currencies $currencies)
@@ -71,7 +72,7 @@ final class ExponentialMoneyParser implements MoneyParser
         $decimal = $matches['digits'];
 
         if ($negative) {
-            $decimal = '-'.$decimal;
+            $decimal = '-' . $decimal;
         }
 
         if (isset($matches['fraction'])) {
@@ -89,7 +90,7 @@ final class ExponentialMoneyParser implements MoneyParser
         }
 
         if ($negative) {
-            $decimal = '-'.ltrim(substr($decimal, 1), '0');
+            $decimal = '-' . ltrim(substr($decimal, 1), '0');
         } else {
             $decimal = ltrim($decimal, '0');
         }
