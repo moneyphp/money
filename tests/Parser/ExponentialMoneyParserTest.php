@@ -35,7 +35,7 @@ final class ExponentialMoneyParserTest extends TestCase
      * @dataProvider invalidMoneyExamples
      * @test
      */
-    public function it_throws_an_exception_upon_invalid_inputs($input): void
+    public function it_throws_an_exception_upon_invalid_inputs(array $input): void
     {
         $this->expectException(ParserException::class);
 
@@ -51,6 +51,9 @@ final class ExponentialMoneyParserTest extends TestCase
         $parser->parse($input, new Currency('USD'))->getAmount();
     }
 
+    /**
+     * @return mixed[][]
+     */
     public function formattedMoneyExamples(): array
     {
         return [
@@ -66,6 +69,9 @@ final class ExponentialMoneyParserTest extends TestCase
         ];
     }
 
+    /**
+     * @return mixed[][]
+     */
     public static function invalidMoneyExamples(): array
     {
         return [
