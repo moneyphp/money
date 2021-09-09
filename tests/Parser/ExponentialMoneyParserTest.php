@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Parser;
 
 use Money\Currencies;
@@ -15,7 +17,7 @@ final class ExponentialMoneyParserTest extends TestCase
      * @dataProvider formattedMoneyExamples
      * @test
      */
-    public function it_parses_money(string $decimal, string $currency, int $subunit, int $result)
+    public function it_parses_money(string $decimal, string $currency, int $subunit, int $result): void
     {
         $currencies = $this->prophesize(Currencies::class);
 
@@ -33,7 +35,7 @@ final class ExponentialMoneyParserTest extends TestCase
      * @dataProvider invalidMoneyExamples
      * @test
      */
-    public function it_throws_an_exception_upon_invalid_inputs($input)
+    public function it_throws_an_exception_upon_invalid_inputs($input): void
     {
         $this->expectException(ParserException::class);
 
@@ -49,7 +51,7 @@ final class ExponentialMoneyParserTest extends TestCase
         $parser->parse($input, new Currency('USD'))->getAmount();
     }
 
-    public function formattedMoneyExamples()
+    public function formattedMoneyExamples(): array
     {
         return [
             ['2.8865798640254e+15', 'USD', 2, 288657986402540000],
@@ -64,7 +66,7 @@ final class ExponentialMoneyParserTest extends TestCase
         ];
     }
 
-    public static function invalidMoneyExamples()
+    public static function invalidMoneyExamples(): array
     {
         return [
             ['INVALID'],
