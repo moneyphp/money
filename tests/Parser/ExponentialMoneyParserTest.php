@@ -10,6 +10,7 @@ use Money\Exception\ParserException;
 use Money\Parser\ExponentialMoneyParser;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 final class ExponentialMoneyParserTest extends TestCase
 {
