@@ -38,7 +38,7 @@ final class ExponentialMoneyParser implements MoneyParser
     /**
      * {@inheritdoc}
      */
-    public function parse($money, $forceCurrency = null)
+    public function parse(string $money, Currency|null $forceCurrency = null)
     {
         if (!is_string($money)) {
             throw new ParserException('Formatted raw money should be string, e.g. 1.00');
