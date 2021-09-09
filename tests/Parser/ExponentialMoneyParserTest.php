@@ -49,25 +49,6 @@ final class ExponentialMoneyParserTest extends TestCase
         $parser->parse($input, new Currency('USD'))->getAmount();
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation Passing a currency as string is deprecated since 3.1 and will be removed in 4.0. Please pass a Money\Currency instance instead.
-     * @test
-     */
-    public function it_accepts_only_a_currency_object()
-    {
-        $currencies = $this->prophesize(Currencies::class);
-
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', 'USD')
-        ))->willReturn(2);
-
-        $parser = new ExponentialMoneyParser($currencies->reveal());
-
-        $parser->parse('2.8865798640254e+15', 'USD')->getAmount();
-    }
-
     public function formattedMoneyExamples()
     {
         return [
