@@ -7,6 +7,7 @@ namespace Money;
 use InvalidArgumentException;
 use JsonSerializable;
 use Money\Calculator\BcMathCalculator;
+use ReturnTypeWillChange;
 
 use function array_fill;
 use function array_keys;
@@ -453,6 +454,7 @@ final class Money implements JsonSerializable
      *
      * @return array
      */
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return [

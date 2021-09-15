@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Money;
 
 use JsonSerializable;
+use ReturnTypeWillChange;
 
 use function strtoupper;
 
@@ -59,6 +60,7 @@ final class Currency implements JsonSerializable
      *
      * @return string
      */
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->code;

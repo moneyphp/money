@@ -6,6 +6,7 @@ namespace Money;
 
 use InvalidArgumentException;
 use JsonSerializable;
+use ReturnTypeWillChange;
 
 use function assert;
 use function is_numeric;
@@ -109,6 +110,7 @@ final class CurrencyPair implements JsonSerializable
      *
      * @return array
      */
+    #[ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return [
