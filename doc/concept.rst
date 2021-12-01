@@ -8,7 +8,7 @@ This section introduces the concept and basic features of the library
 Type Safety
 -----------
 
-This library abstracts concepts around `Money`, although with minimal runtime validation.
+This library abstracts concepts around `Money`, although with minimal run-time validation.
 We attempt to leverage PHP 8's type system as much as possible, but sometimes you will
 encounter `string` parameters that are documented as being `numeric-string`: should you
 encounter these, it means that the contained value **must** be a `string` that passes

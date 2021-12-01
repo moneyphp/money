@@ -72,7 +72,7 @@ the ``Money\Exchange`` interface.
 Swap
 ^^^^
 
-Swap_ is a currency exchanger library widespread in the PHP ecosystem. You can install it via Composer_:
+Swap_ is a currency exchange library widespread in the PHP ecosystem. You can install it via Composer_:
 
 .. code:: bash
 
