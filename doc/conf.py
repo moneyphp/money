@@ -37,6 +37,7 @@ highlight_language = 'php'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinxcontrib.phpdomain',
     'sphinxcontrib.spelling'
 ]
 
@@ -155,8 +156,8 @@ html_favicon = 'favicon.ico'
 html_static_path = ['_static']
 
 def setup(app):
-    app.add_stylesheet('custom.css')
-    app.add_stylesheet('highlight.css')
+    app.add_css_file('custom.css')
+    app.add_css_file('highlight.css')
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

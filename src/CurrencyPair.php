@@ -107,9 +107,9 @@ final class CurrencyPair implements JsonSerializable
     /**
      * {@inheritdoc}
      *
-     * @return array
+     * @psalm-return array{baseCurrency: Currency, counterCurrency: Currency, ratio: numeric-string}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'baseCurrency' => $this->baseCurrency,

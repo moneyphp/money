@@ -353,9 +353,9 @@ final class Money implements JsonSerializable
     }
 
     /**
-     * @throws InvalidArgumentException if the given $money is zero.
-     *
      * @psalm-return numeric-string
+     *
+     * @throws InvalidArgumentException if the given $money is zero.
      */
     public function ratioOf(Money $money): string
     {
@@ -451,9 +451,9 @@ final class Money implements JsonSerializable
     /**
      * {@inheritdoc}
      *
-     * @return array
+     * @psalm-return array{amount: string, currency: string}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'amount' => $this->amount,

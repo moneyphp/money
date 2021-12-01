@@ -12,9 +12,9 @@ Also see http://verraes.net/2011/04/fowler-money-pattern-in-php/
 This is a PHP implementation of the Money pattern, as described in [Fowler2002]_ :
 
    A large proportion of the computers in this world manipulate money, so it's always puzzled me
-   that money isn't actually a first class data type in any mainstream programming language. The
+   that money is not actually a first class data type in any mainstream programming language. The
    lack of a type causes problems, the most obvious surrounding currencies. If all your calculations
-   are done in a single currency, this isn't a huge problem, but once you involve multiple currencies
+   are done in a single currency, this is not a huge problem, but once you involve multiple currencies
    you want to avoid adding your dollars to your yen without taking the currency differences into
    account. The more subtle problem is with rounding. Monetary calculations are often rounded to the
    smallest currency unit. When you do this it's easy to lose pennies (or your local equivalent)
