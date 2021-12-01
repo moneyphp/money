@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.3] - 2021-12-01
+
+### Fixed
+
+- `jsonSerialize` return types, resulting in no PHP 8.1 warnings.
+- Documentation CI pipeline failure.
+
+
 ## [4.0.2] - 2021-06-30
 
 ### Changes
@@ -393,7 +401,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2013-01-08 Use vendor/autoload.php instead of lib/bootstrap.php (or use PSR-0 autolaoding)
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
-[Unreleased]: https://github.com/moneyphp/money/compare/v4.0.2...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v4.0.3...HEAD
+[4.0.3]: https://github.com/moneyphp/money/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/moneyphp/money/compare/v4.0.1...v4.0.2
 [4.0.1]: https://github.com/moneyphp/money/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/moneyphp/money/compare/v3.3.1...v4.0.0
