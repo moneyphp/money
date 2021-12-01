@@ -1,6 +1,6 @@
 git+https://github.com/fabpot/sphinx-php.git
 sphinx~=4.3.1
 sphinx-rtd-theme==1.0.0
-sphinxcontrib-phpdomain
+git+https://github.com/markstory/sphinxcontrib-phpdomain.git
 sphinxcontrib-spelling==7.2.1
 pyenchant
