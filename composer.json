@@ -56,7 +56,12 @@
         "psr/cache-implementation": "Used for Currency caching"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true,
+            "ergebnis/composer-normalize": true
+        }
     },
     "extra": {
         "branch-alias": {
