@@ -70,12 +70,12 @@
         }
     },
     "config": {
-        "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "infection/extension-installer": true,
             "ergebnis/composer-normalize": true
-        }
+        },
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {
