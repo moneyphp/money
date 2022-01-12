@@ -1,7 +1,7 @@
 Currencies
 ==========
 
-Applications often a certain subset of currencies. Those currencies come from different data sources. Therefore you can
+Applications often support a certain subset of currencies. Those currencies come from different data sources. Therefore you can
 implement the `Currencies` interface. The interface provides a list of available currencies and the subunit for the
 currency.
 
