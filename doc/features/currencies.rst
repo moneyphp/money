@@ -70,7 +70,7 @@ The class accepts an array of currency code and minor unit pairs. In case of an 
 
     $currencies->contains(new Currency('MY1')); // returns boolean whether MY1 is available in this repository (true)
     $currencies->contains(new Currency('USD')); // returns boolean whether USD is available in this repository (false)
-    $currencies->subunitFor(new Currency('MY1')); // returns the subunit for the currency MY1
+    $currencies->subunitFor(new Currency('MY1')); // returns the subunit for the currency MY1 (2)
 
 
 Aggregate Currencies
@@ -95,7 +95,7 @@ This formatter collects multiple currencies.
     }
 
     $currencies->contains(new Currency('XBT')); // returns boolean whether XBT is available in this repository (true)
-    $currencies->contains(new Currency('USD')); // returns boolean whether USD is available in this repository (false)
+    $currencies->contains(new Currency('USD')); // returns boolean whether USD is available in this repository (true)
     $currencies->subunitFor(new Currency('XBT')); // returns the subunit for the Bitcoin (8)
 
 
