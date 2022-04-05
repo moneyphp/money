@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Throwable;
 
 use function json_encode;
 
