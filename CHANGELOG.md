@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Full PHP8.1 compatibility (#670)
+
+### Changes
+
+- Dropped mutation testing as the library owners are unfamiliar with it
+
 ## [4.0.3] - 2021-12-01
 
 ### Fixed
