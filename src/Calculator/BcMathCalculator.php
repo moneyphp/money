@@ -46,7 +46,10 @@ final class BcMathCalculator implements Calculator
         return bcmul($amount, $multiplier, self::SCALE);
     }
 
-    /** @psalm-pure */
+    /**
+     * @psalm-suppress PossiblyUnusedReturnValue
+     * @psalm-pure
+     */
     public static function divide(string $amount, string $divisor): string
     {
         if (bccomp($divisor, '0', self::SCALE) === 0) {
@@ -208,7 +211,10 @@ final class BcMathCalculator implements Calculator
         return self::floor(bcdiv(bcmul($amount, $ratio, self::SCALE), $total, self::SCALE));
     }
 
-    /** @psalm-pure */
+    /**
+     * @psalm-suppress PossiblyUnusedReturnValue
+     * @psalm-pure
+     */
     public static function mod(string $amount, string $divisor): string
     {
         if (bccomp($divisor, '0') === 0) {

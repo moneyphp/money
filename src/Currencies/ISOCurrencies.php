@@ -102,14 +102,14 @@ final class ISOCurrencies implements Currencies
      *     numericCode: positive-int
      * }>
      *
-     * @psalm-suppress MixedInferredReturnType `include` cannot be inferred here
-     * @psalm-suppress MixedReturnStatement `include` cannot be inferred here
+     * @psalm-suppress MoreSpecificReturnType do not specify all keys and values
      */
     private function loadCurrencies(): array
     {
         $file = __DIR__ . '/../../resources/currency.php';
 
         if (is_file($file)) {
+            /** @psalm-suppress LessSpecificReturnStatement */
             return require $file;
         }
 

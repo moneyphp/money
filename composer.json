@@ -40,12 +40,11 @@
         "moneyphp/iso-currencies": "^3.2.1",
         "php-http/message": "^1.11.0",
         "php-http/mock-client": "^1.4.1",
-        "phpbench/phpbench": "1.0.0-beta1@BETA",
-        "phpspec/phpspec": "^7.0.1",
+        "phpbench/phpbench": "^1.2.5",
+        "phpspec/phpspec": "^7.2",
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.15.1",
         "psr/cache": "^1.0.1",
-        "roave/infection-static-analysis-plugin": "^1.7",
         "vimeo/psalm": "~4.7.0 || ^4.8.2"
     },
     "suggest": {
@@ -71,6 +70,7 @@
     },
     "config": {
         "allow-plugins": {
+            "composer/package-versions-deprecated": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "ergebnis/composer-normalize": true,
             "infection/extension-installer": true

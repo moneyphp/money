@@ -8,7 +8,6 @@ use InvalidArgumentException;
 use Money\Currency;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Throwable;
 
 use function json_encode;
 
@@ -313,7 +312,6 @@ final class MoneyTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
         $six->ratioOf($zero);
     }
 
@@ -372,42 +370,6 @@ final class MoneyTest extends TestCase
     public function itRoundsToUnit($amount, $unit, $expected): void
     {
         self::assertEquals(Money::EUR($expected), Money::EUR($amount)->roundToUnit($unit));
-    }
-
-    /**
-     * @test
-     */
-    public function itThrowsWhenCalculatingMinWithZeroArguments(): void
-    {
-        $this->expectException(Throwable::class);
-        Money::min(...[]);
-    }
-
-    /**
-     * @test
-     */
-    public function itThrowsWhenCalculatingMaxWithZeroArguments(): void
-    {
-        $this->expectException(Throwable::class);
-        Money::max(...[]);
-    }
-
-    /**
-     * @test
-     */
-    public function itThrowsWhenCalculatingSumWithZeroArguments(): void
-    {
-        $this->expectException(Throwable::class);
-        Money::sum(...[]);
-    }
-
-    /**
-     * @test
-     */
-    public function itThrowsWhenCalculatingAvgWithZeroArguments(): void
-    {
-        $this->expectException(Throwable::class);
-        Money::avg(...[]);
     }
 
     /**
