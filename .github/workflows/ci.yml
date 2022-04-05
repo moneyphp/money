@@ -80,33 +80,6 @@ jobs:
       - name: Psalm
         run: vendor/bin/psalm
 
-  mutation-tests:
-    name: Infection
-    runs-on: ubuntu-latest
-    needs:
-      - tests
-      - psalm
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-          extensions: bcmath, gmp, intl, dom, mbstring
-          coverage: pcov
-
-      - name: Set up locales
-        run: ./hack/setup-locales.sh
-
-      - name: Download dependencies
-        run: composer install --classmap-authoritative
-
-      - name: Roave Infection test
-        run: vendor/bin/roave-infection-static-analysis-plugin
-
   docs:
     name: Docs
     runs-on: ubuntu-latest
