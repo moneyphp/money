@@ -47,8 +47,8 @@ final class BcMathCalculator implements Calculator
     }
 
     /**
-     * @psalm-pure
      * @psalm-suppress PossiblyUnusedReturnValue
+     * @psalm-pure
      */
     public static function divide(string $amount, string $divisor): string
     {
@@ -212,8 +212,8 @@ final class BcMathCalculator implements Calculator
     }
 
     /**
-     * @psalm-pure
      * @psalm-suppress PossiblyUnusedReturnValue
+     * @psalm-pure
      */
     public static function mod(string $amount, string $divisor): string
     {
