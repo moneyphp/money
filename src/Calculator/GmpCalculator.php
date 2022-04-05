@@ -159,7 +159,7 @@ final class GmpCalculator implements Calculator
             gmp_div_q(
                 gmp_mul($remainder, gmp_init('1' . str_pad('', self::SCALE, '0'))),
                 gmp_init((string) $divisor),
-                GMP_ROUND_MINUSINF
+                \GMP_ROUND_MINUSINF
             )
         );
 
