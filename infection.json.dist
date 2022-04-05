@@ -6,8 +6,8 @@
     },
     "logs": {
         "text": "php://stderr",
-        "badge": {
-            "branch": "master"
+        "stryker": {
+            "badge": "master"
         },
         "github": true
     },
