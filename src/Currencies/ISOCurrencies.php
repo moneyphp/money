@@ -85,7 +85,7 @@ final class ISOCurrencies implements Currencies
      *     numericCode: positive-int
      * }>
      */
-    private function getCurrencies(): array
+    public function getCurrencies(): array
     {
         if (self::$currencies === null) {
             self::$currencies = $this->loadCurrencies();
