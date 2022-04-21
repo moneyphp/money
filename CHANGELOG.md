@@ -77,9 +77,9 @@ convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling the c
 
 ### Removed
 
-- **[BC break]** Removed PhpCalculator
+- **[BC break]** Removed `PhpCalculator`
 - **[BC break]** Removed `Currency#isAvailableWithin()`
-- **[BC break]** Removed string as allowed parameter for `MoneyParser#parse`
+- **[BC break]** Removed string as allowed type for second parameter to `MoneyParser#parse`, only Currency objects are accepted now
 - **[BC break]** Completely remove float usage, methods now return numeric-strings
 
 
