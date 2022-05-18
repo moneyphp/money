@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [4.0.4] - 2022-05-18
+
 ### Added
 
 - Full PHP8.1 compatibility (#670)
@@ -16,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 - Dropped mutation testing as the library owners are unfamiliar with it
+- CHANGELOG BC change improvement
 
 ## [4.0.3] - 2021-12-01
 
