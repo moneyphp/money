@@ -415,7 +415,8 @@ convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling the c
 - 2013-01-08 Use vendor/autoload.php instead of lib/bootstrap.php (or use PSR-0 autolaoding)
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
-[Unreleased]: https://github.com/moneyphp/money/compare/v4.0.3...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v4.0.4...HEAD
+[4.0.4]: https://github.com/moneyphp/money/compare/v4.0.3...v4.0.4
 [4.0.3]: https://github.com/moneyphp/money/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/moneyphp/money/compare/v4.0.1...v4.0.2
 [4.0.1]: https://github.com/moneyphp/money/compare/v4.0.0...v4.0.1
