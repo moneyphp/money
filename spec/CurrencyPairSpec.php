@@ -27,6 +27,14 @@ final class CurrencyPairSpec extends ObjectBehavior
         $this->shouldImplement(JsonSerializable::class);
     }
 
+    public function it_parses_an_iso_string(): void
+    {
+        $this->equals(
+            new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.250000'),
+            CurrencyPair::createFromIso('EUR/USD 1.250000')
+        );
+    }
+
     public function it_has_currencies_and_ratio(): void
     {
         $this->beConstructedWith($base = new Currency('EUR'), $counter = new Currency('USD'), $ratio = '1.0');
