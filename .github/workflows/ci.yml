@@ -73,6 +73,7 @@ jobs:
         with:
           php-version: '8.0'
           extensions: bcmath, gmp, intl, dom, mbstring
+          ini-values: zend.assertions=1
 
       - name: Download dependencies
         run: composer install --classmap-authoritative
