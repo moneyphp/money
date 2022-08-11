@@ -7,7 +7,7 @@ namespace spec\Money\Currencies;
 use Money\Currency;
 
 use function assert;
-use function is_array;
+use function is_iterable;
 
 trait Matchers
 {
@@ -16,7 +16,7 @@ trait Matchers
     {
         return [
             'haveCurrency' => static function (mixed $subject, mixed $value): bool {
-                assert(is_array($subject));
+                assert(is_iterable($subject));
 
                 foreach ($subject as $currency) {
                     assert($currency instanceof Currency);
