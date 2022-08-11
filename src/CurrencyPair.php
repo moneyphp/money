@@ -62,7 +62,7 @@ final class CurrencyPair implements JsonSerializable
         }
 
         assert($matches[1] !== '');
-        assert(is_numeric($matches[2]));
+        assert($matches[2] !== '');
         assert(is_numeric($matches[3]));
 
         return new self(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
