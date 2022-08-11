@@ -44,6 +44,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: bcmath, gmp, intl, dom, mbstring
+          ini-values: zend.assertions=1
 
       - name: Setup Problem Matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
@@ -73,7 +74,6 @@ jobs:
         with:
           php-version: '8.0'
           extensions: bcmath, gmp, intl, dom, mbstring
-          ini-values: zend.assertions=1
 
       - name: Download dependencies
         run: composer install --classmap-authoritative
