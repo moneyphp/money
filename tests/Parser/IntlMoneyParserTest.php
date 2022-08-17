@@ -151,6 +151,7 @@ final class IntlMoneyParserTest extends TestCase
             ['$99.', 9900],
             ['$00099.', 9900],
             ['-$00099.', -9900],
+            ['$000', 0],
         ];
     }
 }
