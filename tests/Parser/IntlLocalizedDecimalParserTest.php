@@ -122,6 +122,7 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     {
         return [
             ['1000.50', 100050, 'en_US'],
+            ['0001000.50', 100050, 'en_US'],
             ['1000.00', 100000, 'en_US'],
             ['1000.0', 100000, 'en_US'],
             ['1000.00', 100000, 'en_US'],
@@ -133,6 +134,7 @@ final class IntlLocalizedDecimalParserTest extends TestCase
             ['0.00', 0, 'en_US'],
             ['1', 100, 'en_US'],
             ['-1000', -100000, 'en_US'],
+            ['-0001000', -100000, 'en_US'],
             ['-1000.0', -100000, 'en_US'],
             ['-1000.00', -100000, 'en_US'],
             ['-1,000', -100000, 'en_US'],
