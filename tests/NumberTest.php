@@ -125,6 +125,9 @@ final class NumberTest extends TestCase
             ['-10.5', true, true, true, true, '-10', '5'],
             ['-.5', true, true, true, true, '-0', '5'],
             ['.5', true, true, true, false, '0', '5'],
+            ['000', false, false, true, false, '0', ''],
+            ['005', false, false, false, false, '5', ''],
+            ['-005', false, false, false, true, '-5', ''],
             [(string) PHP_INT_MAX, false, false, false, false, (string) PHP_INT_MAX, ''],
             [(string) -PHP_INT_MAX, false, false, false, true, (string) -PHP_INT_MAX, ''],
             [
@@ -162,8 +165,6 @@ final class NumberTest extends TestCase
     {
         return [
             [''],
-            ['000'],
-            ['005'],
             ['123456789012345678-123456'],
             ['---123'],
             ['123456789012345678+13456'],

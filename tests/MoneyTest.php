@@ -373,6 +373,18 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param numeric-string $amount
+     * @psalm-param numeric-string $result
+     *
+     * @dataProvider leadingZerosExamples
+     * @test
+     */
+    public function itSupportLeadingZeros(string $amount, string $result): void
+    {
+        self::assertEquals($result, (new Money($amount, new Currency(self::CURRENCY)))->getAmount());
+    }
+
+    /**
      * @psalm-return non-empty-list<array{
      *     int|numeric-string,
      *     Currency,
@@ -550,6 +562,24 @@ final class MoneyTest extends TestCase
             [5, 1, 10],
             [10, 1, 10],
             [10, 8, 0],
+        ];
+    }
+
+    /**
+     * @psalm-return non-empty-list<array{
+     *     numeric-string,
+     *     numeric-string
+     * }>
+     */
+    public function leadingZerosExamples(): array
+    {
+        return [
+            ['000', '0'],
+            ['000.00', '0'],
+            ['005', '5'],
+            ['005.00', '5'],
+            ['00500', '500'],
+            ['-00500', '-500'],
         ];
     }
 }

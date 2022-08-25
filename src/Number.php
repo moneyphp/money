@@ -11,6 +11,7 @@ use function explode;
 use function is_int;
 use function ltrim;
 use function min;
+use function preg_replace;
 use function rtrim;
 use function sprintf;
 use function str_pad;
@@ -188,6 +189,7 @@ final class Number
      */
     private static function parseIntegerPart(string $number): string
     {
+        $number = preg_replace('/^(-?)0+(\d)/', '$1$2', $number);
         if ($number === '' || $number === '0') {
             return '0';
         }
@@ -202,8 +204,6 @@ final class Number
             return $number;
         }
 
-        $nonZero = false;
-
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
 
@@ -211,12 +211,6 @@ final class Number
             if (! isset(self::NUMBERS[$digit]) && ! ($position === 0 && $digit === '-')) {
                 throw new InvalidArgumentException(sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit));
             }
-
-            if ($nonZero === false && $digit === '0') {
-                throw new InvalidArgumentException('Leading zeros are not allowed');
-            }
-
-            $nonZero = true;
         }
 
         return $number;
