@@ -71,7 +71,7 @@ final class Money implements JsonSerializable
      * @param int|string $amount Amount, expressed in the smallest units of $currency (eg cents)
      * @psalm-param int|numeric-string $amount
      *
-     * @throws InvalidArgumentException If amount is not integer.
+     * @throws InvalidArgumentException If amount is not integer(ish).
      */
     public function __construct(int|string $amount, Currency $currency)
     {
