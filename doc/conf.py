@@ -37,6 +37,7 @@ highlight_language = 'php'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinxcontrib.phpdomain',
     'sphinxcontrib.spelling'
 ]
 
