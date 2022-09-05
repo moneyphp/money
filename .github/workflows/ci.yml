@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@1.7.0
+        uses: shivammathur/setup-php@2
         with:
           php-version: '5.6'
           extensions: bcmath, gmp, intl, dom, mbstring
@@ -22,7 +22,7 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Set up locales
         run: ./hack/setup-locales.sh
@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@1.6.2
+        uses: shivammathur/setup-php@2
         with:
           php-version: ${{ matrix.php }}
           extensions: bcmath, gmp, intl, dom, mbstring
@@ -52,7 +52,7 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Set up locales
         run: ./hack/setup-locales.sh
@@ -74,7 +74,7 @@ jobs:
           architecture: 'x64'
 
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Install dependencies
         run: |
