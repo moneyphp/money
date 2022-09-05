@@ -1,13 +1,12 @@
 {
     "name": "moneyphp/money",
     "description": "PHP implementation of Fowler's Money pattern",
+    "license": "MIT",
     "keywords": [
         "money",
         "vo",
         "value object"
     ],
-    "homepage": "http://moneyphp.org",
-    "license": "MIT",
     "authors": [
         {
             "name": "Mathias Verraes",
@@ -23,6 +22,7 @@
             "email": "f.bosch@genkgo.nl"
         }
     ],
+    "homepage": "http://moneyphp.org",
     "require": {
         "php": ">=5.6",
         "ext-json": "*"
@@ -52,14 +52,8 @@
         "florianv/swap": "Exchange rates library for PHP",
         "psr/cache-implementation": "Used for Currency caching"
     },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.x-dev"
-        }
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Money\\": "src/"
@@ -71,8 +65,18 @@
             "spec\\Money\\": "spec/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        }
+    },
     "scripts": {
         "clean": "rm -rf build/ vendor/",
         "test": [
