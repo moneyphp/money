@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '5.6'
           extensions: bcmath, gmp, intl, dom, mbstring
@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Set up PHP
-        uses: shivammathur/setup-php@2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: bcmath, gmp, intl, dom, mbstring
