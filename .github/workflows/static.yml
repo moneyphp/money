@@ -53,7 +53,7 @@ jobs:
           args: install --ignore-platform-reqs --no-ansi --no-suggest
 
       - name: Psalm
-        uses: docker://vimeo/psalm-github-actions
+        uses: docker://vimeo/psalm-github-actions:3.18.2
         with:
           entrypoint: ./.github/workflows/psalm.entrypoint
           args: --threads=8 --diff
