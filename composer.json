@@ -54,6 +54,29 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Money\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Money\\": "tests/",
+            "spec\\Money\\": "spec/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        }
+    },
     "scripts": {
         "clean": "rm -rf build/ vendor/",
         "test": [
@@ -68,28 +91,5 @@
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
             "php resources/generate-money-factory.php"
         ]
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "ergebnis/composer-normalize": true
-        },
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.x-dev"
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "Money\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\Money\\": "tests/",
-            "spec\\Money\\": "spec/"
-        }
     }
 }
