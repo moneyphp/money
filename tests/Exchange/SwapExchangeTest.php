@@ -27,13 +27,16 @@ final class SwapExchangeTest extends TestCase
         $exchangeRate->method('getValue')
             ->willReturn(1.25);
 
+        $exchangeRate->method('getProviderName')
+            ->willReturn('some-provider');
+
         $swapExchange->expects(self::once())
             ->method('latest')
             ->with('EUR/USD')
             ->willReturn($exchangeRate);
 
         self::assertEquals(
-            new CurrencyPair($base, $counter, '1.25'),
+            new CurrencyPair($base, $counter, '1.25', 'some-provider'),
             (new SwapExchange($swapExchange))
                 ->quote($base, $counter)
         );

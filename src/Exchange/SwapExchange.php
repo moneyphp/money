@@ -31,6 +31,6 @@ final class SwapExchange implements Exchange
             throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
         }
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, (string) $rate->getValue());
+        return new CurrencyPair($baseCurrency, $counterCurrency, (string) $rate->getValue(), $rate->getProviderName());
     }
 }

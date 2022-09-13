@@ -37,7 +37,8 @@ final class ReversedCurrenciesExchange implements Exchange
                 return new CurrencyPair(
                     $baseCurrency,
                     $counterCurrency,
-                    $calculator::divide('1', $currencyPair->getConversionRatio())
+                    $calculator::divide('1', $currencyPair->getConversionRatio()),
+                    $currencyPair->providerName()
                 );
             } catch (UnresolvableCurrencyPairException) {
                 throw $exception;

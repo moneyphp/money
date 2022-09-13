@@ -18,7 +18,7 @@ final class CurrencyPairTest extends TestCase
      */
     public function itConvertsToJson(): void
     {
-        $expectedJson = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":"1.25"}';
+        $expectedJson = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":"1.25","providerName":""}';
         $actualJson   = json_encode(new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.25'));
 
         self::assertEquals($expectedJson, $actualJson);

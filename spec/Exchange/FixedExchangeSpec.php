@@ -17,7 +17,7 @@ final class FixedExchangeSpec extends ObjectBehavior
     {
         $this->beConstructedWith([
             'EUR' => ['USD' => '1.25'],
-        ]);
+        ], 'provider-name');
     }
 
     public function it_is_initializable(): void

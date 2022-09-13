@@ -14,7 +14,7 @@ final class CurrencyPairSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->beConstructedWith(new Currency('EUR'), new Currency('USD'), '1.250000');
+        $this->beConstructedWith(new Currency('EUR'), new Currency('USD'), '1.250000', 'fixed');
     }
 
     public function it_is_initializable(): void
@@ -47,5 +47,10 @@ final class CurrencyPairSpec extends ObjectBehavior
     public function it_throws_an_exception_when_iso_string_cannot_be_parsed(): void
     {
         $this->shouldThrow(InvalidArgumentException::class)->duringCreateFromIso('1.250000');
+    }
+
+    public function it_returns_the_provider_name_when_asked_for(): void
+    {
+        $this->providerName()->shouldReturn('fixed');
     }
 }

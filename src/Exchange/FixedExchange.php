@@ -17,10 +17,14 @@ final class FixedExchange implements Exchange
     /** @psalm-var array<non-empty-string, array<non-empty-string, numeric-string>> */
     private array $list;
 
+    /** @psalm-var non-empty-string  */
+    private string $providerName;
+
     /** @psalm-param array<non-empty-string, array<non-empty-string, numeric-string>> $list */
-    public function __construct(array $list)
+    public function __construct(array $list, string $providerName = 'fixed')
     {
         $this->list = $list;
+        $this->providerName = $providerName;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
@@ -29,7 +33,8 @@ final class FixedExchange implements Exchange
             return new CurrencyPair(
                 $baseCurrency,
                 $counterCurrency,
-                $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()]
+                $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()],
+                $this->providerName
             );
         }
 

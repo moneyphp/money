@@ -27,6 +27,7 @@ final class IndirectExchangeTest extends TestCase
         self::assertEquals('USD', $pair->getBaseCurrency()->getCode());
         self::assertEquals('AOA', $pair->getCounterCurrency()->getCode());
         self::assertEquals(12, $pair->getConversionRatio());
+        self::assertEquals('fixed', $pair->providerName());
     }
 
     private function createExchange(): IndirectExchange

@@ -35,22 +35,22 @@ final class IndirectExchange implements Exchange
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);
         } catch (UnresolvableCurrencyPairException) {
-            $rate = array_reduce(
+            [$rate, $providerName] = array_reduce(
                 $this->getConversions($baseCurrency, $counterCurrency),
                 /**
-                 * @psalm-param numeric-string $carry
+                 * @psalm-param array<numeric-string, string> $carry
                  *
-                 * @psalm-return numeric-string
+                 * @psalm-return array<numeric-string, string>
                  */
-                static function (string $carry, CurrencyPair $pair) {
+                static function (array $carry, CurrencyPair $pair) {
                     $calculator = Money::getCalculator();
 
-                    return $calculator::multiply($carry, $pair->getConversionRatio());
+                    return [$calculator::multiply($carry[0], $pair->getConversionRatio()), $pair->providerName()];
                 },
-                '1.0'
+                ['1.0', '']
             );
 
-            return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
+            return new CurrencyPair($baseCurrency, $counterCurrency, $rate, $providerName);
         }
     }
 

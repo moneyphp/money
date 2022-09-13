@@ -29,6 +29,9 @@ final class ExchangerExchangeTest extends TestCase
             ->with(self::equalTo(new ExchangeRateQuery(new ExchangerCurrencyPair('EUR', 'USD'))))
             ->willReturn($exchangeRate);
 
+        $exchangeRate->method('getProviderName')
+            ->willReturn('some-provider');
+
         $base         = new Currency('EUR');
         $counter      = new Currency('USD');
         $currencyPair = (new ExchangerExchange($exchangeRates))
@@ -37,6 +40,7 @@ final class ExchangerExchangeTest extends TestCase
         self::assertEquals($base, $currencyPair->getBaseCurrency());
         self::assertEquals($counter, $currencyPair->getCounterCurrency());
         self::assertEquals('1.12000000000000', $currencyPair->getConversionRatio());
+        self::assertEquals('some-provider', $currencyPair->providerName());
     }
 
     /** @test */

@@ -23,10 +23,10 @@ final class ReversedCurrenciesExchangeTest extends TestCase
 
         $wrappedExchange->method('quote')
             ->with(self::equalTo($base), self::equalTo($counter))
-            ->willReturn(new CurrencyPair($base, $counter, '1.25'));
+            ->willReturn(new CurrencyPair($base, $counter, '1.25', 'reversed'));
 
         self::assertEquals(
-            new CurrencyPair($base, $counter, '1.25'),
+            new CurrencyPair($base, $counter, '1.25', 'reversed'),
             (new ReversedCurrenciesExchange($wrappedExchange))
                 ->quote($base, $counter)
         );

@@ -32,14 +32,18 @@ final class CurrencyPair implements JsonSerializable
     /** @psalm-var numeric-string */
     private string $conversionRatio;
 
+    /** @psalm-var non-empty-string **/
+    private string $providerName;
+
     /**
      * @psalm-param numeric-string $conversionRatio
      */
-    public function __construct(Currency $baseCurrency, Currency $counterCurrency, string $conversionRatio)
+    public function __construct(Currency $baseCurrency, Currency $counterCurrency, string $conversionRatio, string $providerName = '')
     {
         $this->counterCurrency = $counterCurrency;
         $this->baseCurrency    = $baseCurrency;
         $this->conversionRatio = $conversionRatio;
+        $this->providerName    = $providerName;
     }
 
     /**
@@ -94,6 +98,11 @@ final class CurrencyPair implements JsonSerializable
         return $this->conversionRatio;
     }
 
+    public function providerName(): string
+    {
+        return $this->providerName;
+    }
+
     /**
      * Checks if an other CurrencyPair has the same parameters as this.
      */
@@ -115,6 +124,7 @@ final class CurrencyPair implements JsonSerializable
             'baseCurrency' => $this->baseCurrency,
             'counterCurrency' => $this->counterCurrency,
             'ratio' => $this->conversionRatio,
+            'providerName' => $this->providerName,
         ];
     }
 }

@@ -44,6 +44,6 @@ final class ExchangerExchange implements Exchange
 
         assert(is_numeric($rateValue));
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, $rateValue);
+        return new CurrencyPair($baseCurrency, $counterCurrency, $rateValue, $rate->getProviderName());
     }
 }
