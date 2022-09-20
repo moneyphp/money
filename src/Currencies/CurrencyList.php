@@ -58,6 +58,7 @@ final class CurrencyList implements Currencies
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator(

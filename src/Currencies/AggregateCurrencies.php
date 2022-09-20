@@ -63,6 +63,7 @@ final class AggregateCurrencies implements Currencies
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         $iterator = new \AppendIterator();
