@@ -73,6 +73,7 @@ final class CachedCurrencies implements Currencies
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \CallbackFilterIterator(

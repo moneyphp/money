@@ -38,6 +38,7 @@ final class BitcoinCurrencies implements Currencies
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator([new Currency(self::CODE)]);

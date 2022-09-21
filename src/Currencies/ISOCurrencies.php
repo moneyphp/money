@@ -59,6 +59,7 @@ final class ISOCurrencies implements Currencies
     /**
      * @return \Traversable
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new \ArrayIterator(
