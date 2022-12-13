@@ -96,7 +96,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get install enchant
+          sudo apt-get install enchant-2
           pip install --user -r doc/requirements.txt
 
       - name: Build docs
