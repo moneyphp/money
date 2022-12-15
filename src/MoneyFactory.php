@@ -188,7 +188,6 @@ use InvalidArgumentException;
  * @method static Money ZAR(numeric-string|int $amount)
  * @method static Money ZMW(numeric-string|int $amount)
  * @method static Money ZWL(numeric-string|int $amount)
- *
  * @psalm-immutable
  */
 trait MoneyFactory
