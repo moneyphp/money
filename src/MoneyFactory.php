@@ -9,7 +9,6 @@ use InvalidArgumentException;
 /**
  * This is a generated file. Do not edit it manually!
  *
- * @method static Money 1INCH(numeric-string|int $amount)
  * @method static Money AAVE(numeric-string|int $amount)
  * @method static Money ACA(numeric-string|int $amount)
  * @method static Money ACH(numeric-string|int $amount)

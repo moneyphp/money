@@ -59,6 +59,10 @@ PHP;
 
     /** @var Currency[] $currencies */
     foreach ($currencies as $currency) {
+        if (is_numeric($currency->getCode()[0])) {
+            // skip currencies that start with a number, as php function has to start with a letter or underscore
+            continue;
+        }
         $methodBuffer .= sprintf(" * @method static Money %s(numeric-string|int \$amount)\n", $currency->getCode());
     }
 
