@@ -48,12 +48,14 @@ PHP;
 
     $methodBuffer = '';
 
-    $currencies = iterator_to_array(new Currencies\AggregateCurrencies([
+    $iterator = new Currencies\AggregateCurrencies([
         new Currencies\ISOCurrencies(),
         new Currencies\BitcoinCurrencies(),
         new Currencies\CryptoCurrencies(),
-    ]));
+    ]);
 
+
+    $currencies = [...$iterator];
     usort($currencies, static fn (Currency $a, Currency $b): int => strcmp($a->getCode(), $b->getCode()));
 
     /** @var Currency[] $currencies */
