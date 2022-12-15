@@ -60,6 +60,12 @@
                 <referencedMethod name="Money\Money::registerCalculator"/>
             </errorLevel>
         </PossiblyUnusedMethod>
+
+        <MissingTemplateParam>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </MissingTemplateParam>
     </issueHandlers>
 
     <plugins>
