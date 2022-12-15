@@ -31,9 +31,9 @@ trait MoneyFactory
      * $fiveDollar = Money::USD(500);
      * </code>
      *
-     * @param string $method
-     * @param array  $arguments
-     * @psalm-param empty $arguments
+     * @param array $arguments
+     * @psalm-param non-empty-string          $method
+     * @psalm-param array{numeric-string|int} $arguments
      *
      * @throws InvalidArgumentException If amount is not integer(ish).
      *

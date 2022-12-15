@@ -24,10 +24,8 @@ final class CryptoCurrencies implements Currencies
      * Map of known currencies indexed by code.
      *
      * @psalm-var non-empty-array<non-empty-string, array{
-     *     alphabeticCode: non-empty-string,
-     *     currency: non-empty-string,
-     *     minorUnit: positive-int|0,
-     *     numericCode: positive-int
+     *     symbol: non-empty-string,
+     *     minorUnit: positive-int|0
      * }>|null
      */
     private static ?array $currencies = null;
@@ -65,10 +63,8 @@ final class CryptoCurrencies implements Currencies
      * Returns a map of known currencies indexed by code.
      *
      * @psalm-return non-empty-array<non-empty-string, array{
-     *     alphabeticCode: non-empty-string,
-     *     currency: non-empty-string,
-     *     minorUnit: positive-int|0,
-     *     numericCode: positive-int
+     *     symbol: non-empty-string,
+     *     minorUnit: positive-int|0
      * }>
      */
     private function getCurrencies(): array
@@ -82,10 +78,8 @@ final class CryptoCurrencies implements Currencies
 
     /**
      * @psalm-return non-empty-array<non-empty-string, array{
-     *     alphabeticCode: non-empty-string,
-     *     currency: non-empty-string,
-     *     minorUnit: positive-int|0,
-     *     numericCode: positive-int
+     *     symbol: non-empty-string,
+     *     minorUnit: positive-int|0
      * }>
      *
      * @psalm-suppress MoreSpecificReturnType do not specify all keys and values
