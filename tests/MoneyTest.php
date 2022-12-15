@@ -533,6 +533,7 @@ final class MoneyTest extends TestCase
      * @psalm-return non-empty-list<array{
      *     int,
      *     positive-int|0,
+     *     int,
      *     int
      * }>
      */
