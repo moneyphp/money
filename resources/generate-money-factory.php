@@ -55,7 +55,7 @@ PHP;
     ]);
 
 
-    $currencies = [...$iterator];
+    $currencies = array_unique([...$iterator]);
     usort($currencies, static fn (Currency $a, Currency $b): int => strcmp($a->getCode(), $b->getCode()));
 
     /** @var Currency[] $currencies */
