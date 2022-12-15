@@ -54,7 +54,6 @@ PHP;
         new Currencies\CryptoCurrencies(),
     ]);
 
-
     $currencies = array_unique([...$iterator]);
     usort($currencies, static fn (Currency $a, Currency $b): int => strcmp($a->getCode(), $b->getCode()));
 
