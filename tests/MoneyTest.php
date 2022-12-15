@@ -363,13 +363,14 @@ final class MoneyTest extends TestCase
      * @psalm-param int $amount
      * @psalm-param positive-int|0 $unit
      * @psalm-param int $expected
+     * @psalm-param int $roundingMode
      *
      * @test
      * @dataProvider roundToUnitExamples
      */
-    public function itRoundsToUnit($amount, $unit, $expected): void
+    public function itRoundsToUnit($amount, $unit, $expected, $roundingMode): void
     {
-        self::assertEquals(Money::EUR($expected), Money::EUR($amount)->roundToUnit($unit));
+        self::assertEquals(Money::EUR($expected), Money::EUR($amount)->roundToUnit($unit, $roundingMode));
     }
 
     /**
@@ -538,18 +539,26 @@ final class MoneyTest extends TestCase
     public function roundToUnitExamples(): array
     {
         return [
-            [510, 2, 500],
-            [510, 1, 510],
-            [515, 1, 520],
-            [4550, 2, 4600],
-            [-4550, 2, -4600],
-            [-4550, 0, -4550],
-            [-4551, 0, -4551],
-            [1, 2, 0],
-            [5, 2, 0],
-            [5, 1, 10],
-            [10, 1, 10],
-            [10, 8, 0],
+            [510, 2, 500, Money::ROUND_HALF_UP],
+            [510, 1, 510, Money::ROUND_HALF_UP],
+            [515, 1, 520, Money::ROUND_HALF_UP],
+            [4550, 2, 4600, Money::ROUND_HALF_UP],
+            [-4550, 2, -4600, Money::ROUND_HALF_UP],
+            [-4550, 0, -4550, Money::ROUND_HALF_UP],
+            [-4551, 0, -4551, Money::ROUND_HALF_UP],
+            [1, 2, 0, Money::ROUND_HALF_UP],
+            [5, 2, 0, Money::ROUND_HALF_UP],
+            [5, 1, 10, Money::ROUND_HALF_UP],
+            [10, 1, 10, Money::ROUND_HALF_UP],
+            [10, 8, 0, Money::ROUND_HALF_UP],
+            [1250, 2, 1300, Money::ROUND_HALF_UP],
+            [1250, 2, 1200, Money::ROUND_HALF_DOWN],
+            [1250, 2, 1200, Money::ROUND_HALF_EVEN],
+            [1250, 2, 1300, Money::ROUND_HALF_ODD],
+            [1250, 2, 1300, Money::ROUND_UP],
+            [1250, 2, 1200, Money::ROUND_DOWN],
+            [1250, 2, 1300, Money::ROUND_HALF_POSITIVE_INFINITY],
+            [1250, 2, 1200, Money::ROUND_HALF_NEGATIVE_INFINITY],
         ];
     }
 }
