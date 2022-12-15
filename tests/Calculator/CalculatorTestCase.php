@@ -406,10 +406,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
-     *     int|numeric-string,
-     *     int|numeric-string
-     * }>
+     * @psalm-return array<int,array<int|numeric-string>>
      */
     public function compareLessExamples(): array
     {

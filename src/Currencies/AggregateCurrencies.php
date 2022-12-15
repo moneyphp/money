@@ -55,7 +55,9 @@ final class AggregateCurrencies implements Currencies
         $iterator = new AppendIterator();
 
         foreach ($this->currencies as $currencies) {
-            $iterator->append($currencies->getIterator());
+            $currencyIterator = $currencies->getIterator();
+            /** @psalm-var AppendIterator&Traversable<int|string, Currency> $currencyIterator */
+            $iterator->append($currencyIterator);
         }
 
         return $iterator;
