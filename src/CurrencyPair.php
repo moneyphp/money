@@ -26,12 +26,12 @@ final class CurrencyPair implements \JsonSerializable
     private $counterCurrency;
 
     /**
-     * @var float
+     * @var string
      */
     private $conversionRatio;
 
     /**
-     * @param float $conversionRatio
+     * @param string $conversionRatio
      *
      * @throws \InvalidArgumentException If conversion ratio is not numeric
      */
@@ -93,7 +93,7 @@ final class CurrencyPair implements \JsonSerializable
     /**
      * Returns the conversion ratio.
      *
-     * @return float
+     * @return string
      */
     public function getConversionRatio()
     {
