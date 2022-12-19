@@ -63,7 +63,7 @@ PHP;
         if (is_numeric($code[0])) {
             preg_match('/^([0-9]*)(.*?)$/', $code, $extracted);
 
-            $formatter = new \NumberFormatter('en', NumberFormatter::SPELLOUT);
+            $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
             $code = strtoupper(preg_replace('/\s+/', '', $formatter->format($extracted[1])) . $extracted[2]);
         }
 
