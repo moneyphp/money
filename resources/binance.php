@@ -184,11 +184,6 @@
     'symbol' => 'AUCTION',
     'minorUnit' => 8,
   ),
-  'AUD' => 
-  array (
-    'symbol' => 'AUD',
-    'minorUnit' => 8,
-  ),
   'AUDIO' => 
   array (
     'symbol' => 'AUDIO',
@@ -312,11 +307,6 @@
   'BOND' => 
   array (
     'symbol' => 'BOND',
-    'minorUnit' => 8,
-  ),
-  'BRL' => 
-  array (
-    'symbol' => 'BRL',
     'minorUnit' => 8,
   ),
   'BSW' => 
@@ -589,11 +579,6 @@
     'symbol' => 'EPX',
     'minorUnit' => 8,
   ),
-  'ERN' => 
-  array (
-    'symbol' => 'ERN',
-    'minorUnit' => 8,
-  ),
   'ETC' => 
   array (
     'symbol' => 'ETC',
@@ -602,11 +587,6 @@
   'ETH' => 
   array (
     'symbol' => 'ETH',
-    'minorUnit' => 8,
-  ),
-  'EUR' => 
-  array (
-    'symbol' => 'EUR',
     'minorUnit' => 8,
   ),
   'FARM' => 
@@ -707,11 +687,6 @@
   'GAS' => 
   array (
     'symbol' => 'GAS',
-    'minorUnit' => 8,
-  ),
-  'GBP' => 
-  array (
-    'symbol' => 'GBP',
     'minorUnit' => 8,
   ),
   'GHST' => 
@@ -1109,11 +1084,6 @@
     'symbol' => 'NEXO',
     'minorUnit' => 8,
   ),
-  'NGN' => 
-  array (
-    'symbol' => 'NGN',
-    'minorUnit' => 8,
-  ),
   'NKN' => 
   array (
     'symbol' => 'NKN',
@@ -1237,11 +1207,6 @@
   'PLA' => 
   array (
     'symbol' => 'PLA',
-    'minorUnit' => 8,
-  ),
-  'PLN' => 
-  array (
-    'symbol' => 'PLN',
     'minorUnit' => 8,
   ),
   'PNT' => 
@@ -1384,11 +1349,6 @@
     'symbol' => 'RNDR',
     'minorUnit' => 8,
   ),
-  'RON' => 
-  array (
-    'symbol' => 'RON',
-    'minorUnit' => 8,
-  ),
   'ROSE' => 
   array (
     'symbol' => 'ROSE',
@@ -1397,11 +1357,6 @@
   'RSR' => 
   array (
     'symbol' => 'RSR',
-    'minorUnit' => 8,
-  ),
-  'RUB' => 
-  array (
-    'symbol' => 'RUB',
     'minorUnit' => 8,
   ),
   'RUNE' => 
@@ -1609,11 +1564,6 @@
     'symbol' => 'TRX',
     'minorUnit' => 8,
   ),
-  'TRY' => 
-  array (
-    'symbol' => 'TRY',
-    'minorUnit' => 8,
-  ),
   'TVK' => 
   array (
     'symbol' => 'TVK',
@@ -1622,11 +1572,6 @@
   'TWT' => 
   array (
     'symbol' => 'TWT',
-    'minorUnit' => 8,
-  ),
-  'UAH' => 
-  array (
-    'symbol' => 'UAH',
     'minorUnit' => 8,
   ),
   'UFT' => 
@@ -1817,11 +1762,6 @@
   'YGG' => 
   array (
     'symbol' => 'YGG',
-    'minorUnit' => 8,
-  ),
-  'ZAR' => 
-  array (
-    'symbol' => 'ZAR',
     'minorUnit' => 8,
   ),
   'ZEC' => 
