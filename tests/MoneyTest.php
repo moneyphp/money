@@ -413,8 +413,6 @@ final class MoneyTest extends TestCase
      *     non-empty-array<int|string, int>
      * }>
      *
-     * @psalm-suppress LessSpecificReturnStatement type inference for `array<string, T>` fails to find non-empty-array for the last item
-     * @psalm-suppress MoreSpecificReturnType type inference for `array<string, T>` fails to find non-empty-array for the last item
      */
     public function allocationExamples(): array
     {
