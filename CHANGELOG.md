@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changes
 
 - `composer.lock` is not committed anymore
+- MoneyFactory now also contains all crypto-currencies
+
+### Added
+
+- `CrytoCurrencies` class that serves crypto-currencies from [moneyphp/crypto-currencies](https://github.com/moneyphp/crypto-currencies)
 
 
 ## [4.0.5] - 2022-08-11
