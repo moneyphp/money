@@ -412,7 +412,6 @@ final class MoneyTest extends TestCase
      *     non-empty-array<int|string, positive-int|0|float>,
      *     non-empty-array<int|string, int>
      * }>
-     *
      */
     public function allocationExamples(): array
     {

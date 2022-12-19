@@ -91,7 +91,9 @@
         "test": [
             "vendor/bin/phpspec run",
             "vendor/bin/phpunit -v",
-            "vendor/bin/phpbench run"
+            "vendor/bin/phpbench run",
+            "vendor/bin/psalm",
+            "vendor/bin/phpcs"
         ],
         "test-coverage": [
             "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
