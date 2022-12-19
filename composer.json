@@ -38,7 +38,7 @@
         "florianv/exchanger": "^2.6.3",
         "florianv/swap": "^4.3.0",
         "moneyphp/iso-currencies": "^3.2.1",
-        "moneyphp/crypto-currencies": "^1.0.0-beta1",
+        "moneyphp/crypto-currencies": "^1.0.0",
         "php-http/message": "^1.11.0",
         "php-http/mock-client": "^1.4.1",
         "phpbench/phpbench": "^1.2.5",
