@@ -42,7 +42,7 @@
         "php-http/message": "^1.11.0",
         "php-http/mock-client": "^1.4.1",
         "phpbench/phpbench": "^1.2.5",
-        "phpspec/phpspec": "^7.2",
+        "phpspec/phpspec": "^7.3",
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.18.4",
         "psr/cache": "^1.0.1",
