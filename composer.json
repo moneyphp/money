@@ -38,14 +38,15 @@
         "florianv/exchanger": "^2.6.3",
         "florianv/swap": "^4.3.0",
         "moneyphp/iso-currencies": "^3.2.1",
+        "moneyphp/crypto-currencies": "^1.0.0",
         "php-http/message": "^1.11.0",
         "php-http/mock-client": "^1.4.1",
         "phpbench/phpbench": "^1.2.5",
-        "phpspec/phpspec": "^7.2",
+        "phpspec/phpspec": "^7.3",
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.18.4",
         "psr/cache": "^1.0.1",
-        "vimeo/psalm": "^5.2"
+        "vimeo/psalm": "^5.3"
     },
     "suggest": {
         "ext-gmp": "Calculate without integer limits",
@@ -90,13 +91,16 @@
         "test": [
             "vendor/bin/phpspec run",
             "vendor/bin/phpunit -v",
-            "vendor/bin/phpbench run"
+            "vendor/bin/phpbench run",
+            "vendor/bin/psalm",
+            "vendor/bin/phpcs"
         ],
         "test-coverage": [
             "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": [
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
+            "cp vendor/moneyphp/crypto-currencies/resources/binance.php resources/binance.php",
             "php resources/generate-money-factory.php"
         ]
     }

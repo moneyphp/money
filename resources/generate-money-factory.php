@@ -19,7 +19,6 @@ use InvalidArgumentException;
  * This is a generated file. Do not edit it manually!
  *
 PHPDOC
- *
  * @psalm-immutable
  */
 trait MoneyFactory
@@ -31,9 +30,9 @@ trait MoneyFactory
      * $fiveDollar = Money::USD(500);
      * </code>
      *
-     * @param string $method
-     * @param array  $arguments
-     * @psalm-param empty $arguments
+     * @param array $arguments
+     * @psalm-param non-empty-string          $method
+     * @psalm-param array{numeric-string|int} $arguments
      *
      * @throws InvalidArgumentException If amount is not integer(ish).
      *
@@ -49,16 +48,26 @@ PHP;
 
     $methodBuffer = '';
 
-    $currencies = iterator_to_array(new Currencies\AggregateCurrencies([
+    $iterator = new Currencies\AggregateCurrencies([
         new Currencies\ISOCurrencies(),
         new Currencies\BitcoinCurrencies(),
-    ]));
+        new Currencies\CryptoCurrencies(),
+    ]);
 
+    $currencies = array_unique([...$iterator]);
     usort($currencies, static fn (Currency $a, Currency $b): int => strcmp($a->getCode(), $b->getCode()));
 
     /** @var Currency[] $currencies */
     foreach ($currencies as $currency) {
-        $methodBuffer .= sprintf(" * @method static Money %s(numeric-string|int \$amount)\n", $currency->getCode());
+        $code = $currency->getCode();
+        if (is_numeric($code[0])) {
+            preg_match('/^([0-9]*)(.*?)$/', $code, $extracted);
+
+            $formatter = new \NumberFormatter('en', \NumberFormatter::SPELLOUT);
+            $code = strtoupper(preg_replace('/\s+/', '', $formatter->format($extracted[1])) . $extracted[2]);
+        }
+
+        $methodBuffer .= sprintf(" * @method static Money %s(numeric-string|int \$amount)\n", $code);
     }
 
     $buffer = str_replace('PHPDOC', rtrim($methodBuffer), $buffer);
