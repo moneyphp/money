@@ -59,11 +59,15 @@ PHP;
 
     /** @var Currency[] $currencies */
     foreach ($currencies as $currency) {
-        if (is_numeric($currency->getCode()[0])) {
-            // skip currencies that start with a number, as php function has to start with a letter or underscore
-            continue;
+        $code = $currency->getCode();
+        if (is_numeric($code[0])) {
+            preg_match('/^([0-9]*)(.*?)$/', $code, $extracted);
+
+            $formatter = new \NumberFormatter('en', NumberFormatter::SPELLOUT);
+            $code = strtoupper(preg_replace('/\s+/', '', $formatter->format($extracted[1])) . $extracted[2]);
         }
-        $methodBuffer .= sprintf(" * @method static Money %s(numeric-string|int \$amount)\n", $currency->getCode());
+
+        $methodBuffer .= sprintf(" * @method static Money %s(numeric-string|int \$amount)\n", $code);
     }
 
     $buffer = str_replace('PHPDOC', rtrim($methodBuffer), $buffer);
