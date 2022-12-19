@@ -9,9 +9,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Full PHP8.2 compatibility
+
 ### Fixed
 
 - Fix parsing amounts with leading zero's
+- Fix invalid exception message in DecimalMoneyParser
+- Upgrade enchant to newer version
+- Support Psalm 5.3
+- Fix ROUND_UP and ROUND_DOWN in roundToUnit
+
+### Changes
+
+- `composer.lock` is not committed anymore
 
 
 ## [4.0.5] - 2022-08-11
