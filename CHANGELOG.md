@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+
+## [4.1.0] - 2022-12-19
+
 ### Added
 
 - Full PHP8.2 compatibility
@@ -444,8 +447,9 @@ convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling the c
 - 2013-01-08 Use vendor/autoload.php instead of lib/bootstrap.php (or use PSR-0 autolaoding)
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
-[Unreleased]: https://github.com/moneyphp/money/compare/v4.0.5...HEAD
-[4.0.5]: https://github.com/moneyphp/money/compare/v4.0.5...v4.0.5
+[Unreleased]: https://github.com/moneyphp/money/compare/v4.1.0...HEAD
+[4.1.0]: https://github.com/moneyphp/money/compare/v4.0.5...v4.1.0
+[4.0.5]: https://github.com/moneyphp/money/compare/v4.0.4...v4.0.5
 [4.0.4]: https://github.com/moneyphp/money/compare/v4.0.3...v4.0.4
 [4.0.3]: https://github.com/moneyphp/money/compare/v4.0.2...v4.0.3
 [4.0.2]: https://github.com/moneyphp/money/compare/v4.0.1...v4.0.2
