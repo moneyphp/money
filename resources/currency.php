@@ -255,7 +255,7 @@
   array (
     'alphabeticCode' => 'CLP',
     'currency' => 'Chilean Peso',
-    'minorUnit' => 0,
+    'minorUnit' => 2,
     'numericCode' => 152,
   ),
   'CLF' => 
