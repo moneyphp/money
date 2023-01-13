@@ -25,6 +25,7 @@ final class DecimalMoneyFormatter implements MoneyFormatter
         $this->currencies = $currencies;
     }
 
+    /** @psalm-return numeric-string */
     public function format(Money $money): string
     {
         $valueBase = $money->getAmount();
