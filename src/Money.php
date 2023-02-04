@@ -363,6 +363,11 @@ final class Money implements JsonSerializable
             throw new InvalidArgumentException('Cannot calculate a ratio of zero');
         }
 
+        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+        if ($this->currency != $money->currency) {
+            throw new InvalidArgumentException('Currencies must be identical');
+        }
+
         return self::$calculator::divide($this->amount, $money->amount);
     }
 
