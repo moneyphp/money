@@ -37,9 +37,8 @@
         "doctrine/instantiator": "^1.4.0",
         "florianv/exchanger": "^2.6.3",
         "florianv/swap": "^4.3.0",
-        "moneyphp/crypto-currencies": "^1.0.0",
         "moneyphp/iso-currencies": "^3.2.1",
-        "nyholm/psr7": "^1.5",
+        "moneyphp/crypto-currencies": "^1.0.0",
         "php-http/message": "^1.11.0",
         "php-http/mock-client": "^1.4.1",
         "phpbench/phpbench": "^1.2.5",
@@ -47,7 +46,6 @@
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.18.4",
         "psr/cache": "^1.0.1",
-        "symfony/http-client": "^6.2",
         "vimeo/psalm": "~5.3.0"
     },
     "suggest": {
@@ -77,7 +75,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "ergebnis/composer-normalize": true,
             "infection/extension-installer": true,
-            "php-http/discovery": true
+            "php-http/discovery": false
         },
         "sort-packages": true
     },
