@@ -339,7 +339,6 @@ final class MoneyTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        /** @psalm-suppress UnusedMethodCall this method throws */
         $money->ratioOf($rightMoney);
     }
 
