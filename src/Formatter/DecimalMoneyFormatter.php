@@ -25,6 +25,7 @@ final class DecimalMoneyFormatter implements MoneyFormatter
         $this->currencies = $currencies;
     }
 
+    /** @psalm-return numeric-string */
     public function format(Money $money): string
     {
         $valueBase = $money->getAmount();
@@ -49,11 +50,12 @@ final class DecimalMoneyFormatter implements MoneyFormatter
         }
 
         if ($negative) {
-            return '-' . $formatted;
+            $formatted = '-' . $formatted;
         }
 
         assert($formatted !== '');
 
+        /** @psalm-var numeric-string $formatted */
         return $formatted;
     }
 }
