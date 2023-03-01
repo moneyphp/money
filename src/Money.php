@@ -409,9 +409,13 @@ final class Money implements JsonSerializable
 
         /** @psalm-var numeric-string $toBeRounded */
         $toBeRounded = substr($this->amount, 0, strlen($this->amount) - $unit) . '.' . substr($this->amount, $unit * -1);
-        /** @psalm-var numeric-string $result */
-        $result = $this->round($toBeRounded, $roundingMode) . str_pad('', $unit, '0');
 
+        $result = $this->round($toBeRounded, $roundingMode);
+        if ($result !== '0') {
+            $result .= str_pad('', $unit, '0');
+        }
+
+        /** @psalm-var numeric-string $result */
         return new self($result, $this->currency);
     }
 
