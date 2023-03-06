@@ -29,7 +29,7 @@ final class ExchangerExchange implements Exchange
         $this->exchanger = $exchanger;
     }
 
-    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): \Money\Exchange\CurrencyPair
     {
         try {
             $query = new ExchangeRateQuery(

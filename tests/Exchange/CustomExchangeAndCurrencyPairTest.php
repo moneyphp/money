@@ -1,24 +1,40 @@
 <?php
 
-declare(strict_types=1);
+namespace Tests\Money\Exchange;
 
-namespace Money;
-
-use InvalidArgumentException;
-use JsonSerializable;
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
+use Money\Exception\UnresolvableCurrencyPairException;
+use Money\Exchange;
+use Money\Exchange\CurrencyPair;
 use Money\Exchange\CurrencyPair as CurrencyPairContract;
+use Money\Exchange\FixedExchange;
+use Money\Exchange\IndirectExchange;
+use Money\Exchange\ReversedCurrenciesExchange;
+use PHPUnit\Framework\TestCase;
 
-use function assert;
-use function is_numeric;
-use function preg_match;
-use function sprintf;
+/** @covers \Money\Exchange\CurrencyPair */
+class CustomExchangeAndCurrencyPairTest extends TestCase
+{
+    public function test_it_can_use_a_different_currency_pair_object()
+    {
+        $base            = new Currency('EUR');
+        $counter         = new Currency('USD');
+        $wrappedExchange = $this->createMock(Exchange::class);
 
-/**
- * Currency Pair holding a base, a counter currency and a conversion ratio.
- *
- * @see http://en.wikipedia.org/wiki/Currency_pair
- */
-final class CurrencyPair implements JsonSerializable, CurrencyPairContract
+        $wrappedExchange->method('quote')
+            ->with(self::equalTo($base), self::equalTo($counter))
+            ->willReturn(new CustomCurrencyPair($base, $counter, '1.25', 'local'));
+
+        self::assertEquals(
+            new CustomCurrencyPair($base, $counter, '1.25', 'local'),
+            (new ReversedCurrenciesExchange($wrappedExchange))
+                ->quote($base, $counter)
+        );
+    }
+}
+
+final class CustomCurrencyPair implements CurrencyPairContract
 {
     /**
      * Currency to convert from.
@@ -33,14 +49,17 @@ final class CurrencyPair implements JsonSerializable, CurrencyPairContract
     /** @psalm-var numeric-string */
     private string $conversionRatio;
 
+    private string $providerName;
+
     /**
      * @psalm-param numeric-string $conversionRatio
      */
-    public function __construct(Currency $baseCurrency, Currency $counterCurrency, string $conversionRatio)
+    public function __construct(Currency $baseCurrency, Currency $counterCurrency, string $conversionRatio, string $provider)
     {
         $this->counterCurrency = $counterCurrency;
         $this->baseCurrency    = $baseCurrency;
         $this->conversionRatio = $conversionRatio;
+        $this->providerName = $provider;
     }
 
     /**
@@ -75,6 +94,11 @@ final class CurrencyPair implements JsonSerializable, CurrencyPairContract
     public function getCounterCurrency(): Currency
     {
         return $this->counterCurrency;
+    }
+
+    public function getProviderName(): string
+    {
+        return $this->providerName;
     }
 
     /**

@@ -9,6 +9,7 @@ use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Exchange\CurrencyPair as CurrencyPairContract;
 use Money\Money;
 use SplQueue;
 
@@ -30,7 +31,7 @@ final class IndirectExchange implements Exchange
         $this->currencies = $currencies;
     }
 
-    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPairContract
     {
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);
@@ -42,7 +43,7 @@ final class IndirectExchange implements Exchange
                  *
                  * @psalm-return numeric-string
                  */
-                static function (string $carry, CurrencyPair $pair) {
+                static function (string $carry, CurrencyPairContract $pair) {
                     $calculator = Money::getCalculator();
 
                     return $calculator::multiply($carry, $pair->getConversionRatio());
@@ -55,7 +56,7 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @return CurrencyPair[]
+     * @return CurrencyPairContract[]
      *
      * @throws UnresolvableCurrencyPairException
      */
@@ -111,8 +112,8 @@ final class IndirectExchange implements Exchange
     /**
      * @psalm-param array<non-empty-string, IndirectExchangeQueuedItem> $currencies
      *
-     * @return CurrencyPair[]
-     * @psalm-return list<CurrencyPair>
+     * @return CurrencyPairContract[]
+     * @psalm-return list<CurrencyPairContract>
      */
     private function reconstructConversionChain(array $currencies, IndirectExchangeQueuedItem $goalNode): array
     {

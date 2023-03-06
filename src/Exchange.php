@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Money;
 
 use Money\Exception\UnresolvableCurrencyPairException;
+use Money\Exchange\CurrencyPair;
 
 /**
  * Provides a way to get exchange rate from a third-party source and return a currency pair.

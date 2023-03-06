@@ -23,7 +23,7 @@ final class SwapExchange implements Exchange
         $this->swap = $swap;
     }
 
-    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): \Money\Exchange\CurrencyPair
     {
         try {
             $rate = $this->swap->latest($baseCurrency->getCode() . '/' . $counterCurrency->getCode());

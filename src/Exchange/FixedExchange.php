@@ -6,6 +6,7 @@ namespace Money\Exchange;
 
 use Money\Currency;
 use Money\CurrencyPair;
+use Money\Exchange\CurrencyPair as CurrencyPairContract;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 
@@ -23,7 +24,7 @@ final class FixedExchange implements Exchange
         $this->list = $list;
     }
 
-    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPairContract
     {
         if (isset($this->list[$baseCurrency->getCode()][$counterCurrency->getCode()])) {
             return new CurrencyPair(

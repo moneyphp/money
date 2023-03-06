@@ -6,6 +6,7 @@ namespace Money\Exchange;
 
 use Money\Currency;
 use Money\CurrencyPair;
+use Money\Exchange\CurrencyPair as CurrencyPairContract;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 use Money\Money;
@@ -24,7 +25,7 @@ final class ReversedCurrenciesExchange implements Exchange
         $this->exchange = $exchange;
     }
 
-    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPairContract
     {
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);

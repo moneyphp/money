@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Money;
 
 use InvalidArgumentException;
+use Money\Exchange\CurrencyPair;
 
 use function sprintf;
 

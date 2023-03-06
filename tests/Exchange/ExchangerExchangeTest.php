@@ -11,6 +11,7 @@ use Exchanger\Exception\Exception;
 use Exchanger\ExchangeRateQuery;
 use Money\Currency;
 use Money\Exception\UnresolvableCurrencyPairException;
+use Money\Exchange\CurrencyPair;
 use Money\Exchange\ExchangerExchange;
 use PHPUnit\Framework\TestCase;
 
@@ -37,6 +38,7 @@ final class ExchangerExchangeTest extends TestCase
         self::assertEquals($base, $currencyPair->getBaseCurrency());
         self::assertEquals($counter, $currencyPair->getCounterCurrency());
         self::assertEquals('1.12000000000000', $currencyPair->getConversionRatio());
+        self::assertInstanceOf(CurrencyPair::class, $currencyPair);
     }
 
     /** @test */

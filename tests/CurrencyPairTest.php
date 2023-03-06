@@ -24,6 +24,14 @@ final class CurrencyPairTest extends TestCase
         self::assertEquals($expectedJson, $actualJson);
     }
 
+    /**
+     * @test
+     */
+    public function it_implements_currencyPair(): void
+    {
+        self::assertInstanceOf(\Money\Exchange\CurrencyPair::class, new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.250000'));
+    }
+
     /** @test */
     public function it_parses_an_iso_string(): void
     {

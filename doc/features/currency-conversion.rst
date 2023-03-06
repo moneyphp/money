@@ -186,3 +186,14 @@ A currency pair can be used to convert an amount.
     $converter = new Converter(new ISOCurrencies(), $exchange);
     $eur100 = Money::EUR(100);
     $usd125 = $converter->convertAgainstCurrencyPair($eur100, $pair);
+
+Implementing your own CurrencyPair
+------------
+Sometimes you would like to have retrieve more data than our CurrencyPair provides
+perhaps you would like to store which date the currency conversion was made.
+
+In order to do so you can create your very own CurrencyPair valueObject.
+
+That object needs to implement \Money\Exchange\CurrencyPair.
+
+Then you can create your own exchange and have it return that CurrencyPair instead of the default \Money\CurrencyPair object.
