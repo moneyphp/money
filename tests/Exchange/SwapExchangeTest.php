@@ -16,8 +16,29 @@ use Swap\Swap;
 /** @covers \Money\Exchange\SwapExchange */
 final class SwapExchangeTest extends TestCase
 {
-    /** @test */
-    public function it_exchanges_currencies(): void
+    /**
+     * @psalm-return non-empty-list<array{
+     *     float,
+     *     numeric-string
+     * }>
+     */
+    public function exchangeRateExamples(): array
+    {
+        return [
+            [1.25, '1.25000000000000'],
+            [0.0000550000, '0.00005500000000'],
+            [1.4E-5, '0.00001400000000'],
+        ];
+    }
+
+    /**
+     * @psalm-param float $exchangeRateValue
+     * @psalm-param numeric-string $expectedConversionRatio
+     *
+     * @dataProvider exchangeRateExamples
+     * @test
+     */
+    public function it_exchanges_currencies(float $exchangeRateValue, string $expectedConversionRatio): void
     {
         $base         = new Currency('EUR');
         $counter      = new Currency('USD');
@@ -25,7 +46,7 @@ final class SwapExchangeTest extends TestCase
         $exchangeRate = $this->createMock(ExchangeRate::class);
 
         $exchangeRate->method('getValue')
-            ->willReturn(1.25);
+            ->willReturn($exchangeRateValue);
 
         $swapExchange->expects(self::once())
             ->method('latest')
@@ -33,7 +54,7 @@ final class SwapExchangeTest extends TestCase
             ->willReturn($exchangeRate);
 
         self::assertEquals(
-            new CurrencyPair($base, $counter, '1.25'),
+            new CurrencyPair($base, $counter, $expectedConversionRatio),
             (new SwapExchange($swapExchange))
                 ->quote($base, $counter)
         );

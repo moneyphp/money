@@ -11,6 +11,10 @@ use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
 use Swap\Swap;
 
+use function assert;
+use function is_numeric;
+use function sprintf;
+
 /**
  * Provides a way to get exchange rate from a third-party source and return a currency pair.
  */
@@ -31,6 +35,10 @@ final class SwapExchange implements Exchange
             throw UnresolvableCurrencyPairException::createFromCurrencies($baseCurrency, $counterCurrency);
         }
 
-        return new CurrencyPair($baseCurrency, $counterCurrency, (string) $rate->getValue());
+        $rateValue = sprintf('%.14F', $rate->getValue());
+
+        assert(is_numeric($rateValue));
+
+        return new CurrencyPair($baseCurrency, $counterCurrency, $rateValue);
     }
 }
