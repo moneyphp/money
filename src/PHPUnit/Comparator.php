@@ -43,7 +43,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
     }
 
     /** {@inheritDoc} */
-    public function accepts($expected, $actual)
+    public function accepts($expected, $actual): bool
     {
         return $expected instanceof Money && $actual instanceof Money;
     }
