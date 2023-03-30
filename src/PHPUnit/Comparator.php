@@ -31,7 +31,12 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
 
     public function __construct()
     {
-        parent::__construct();
+        // PHPUnit 10 + sebastian/comparitor:5 remove the parent class
+        // constructor. Call conditionally if detected to keep working on
+        // previous versions.
+        if (method_exists(parent::class, '__construct')) {
+            parent::__construct();
+        }
 
         $currencies = new AggregateCurrencies([
             new ISOCurrencies(),
