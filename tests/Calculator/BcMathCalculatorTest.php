@@ -116,7 +116,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
     /**
      * @psalm-return array<int,array<int|numeric-string>>
      */
-    public function compareLessExamples(): array
+    public static function compareLessExamples(): array
     {
         return array_merge(
             parent::compareLessExamples(),

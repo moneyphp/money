@@ -68,7 +68,7 @@ final class CryptoCurrenciesTest extends TestCase
     /**
      * @psalm-return non-empty-list<array{non-empty-string}>
      */
-    public function currencyCodeExamples(): array
+    public static function currencyCodeExamples(): array
     {
         /** @psalm-var non-empty-array<non-empty-string, array> $currencies */
         $currencies = require __DIR__ . '/../../resources/binance.php';

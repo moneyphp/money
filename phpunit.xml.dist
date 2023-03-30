@@ -4,21 +4,19 @@
     xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
     bootstrap="./vendor/autoload.php"
     colors="true"
-    verbose="true"
     columns="max"
-    beStrictAboutTestsThatDoNotTestAnything="true"
-    beStrictAboutResourceUsageDuringSmallTests="true"
     beStrictAboutChangesToGlobalState="true"
 >
-    <testsuites>
-        <testsuite name="Money Test Suite">
-            <directory>tests/</directory>
-        </testsuite>
-    </testsuites>
 
-    <coverage>
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
+  <testsuites>
+    <testsuite name="Money Test Suite">
+      <directory>tests/</directory>
+    </testsuite>
+  </testsuites>
+
+  <source>
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
 </phpunit>

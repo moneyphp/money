@@ -250,7 +250,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function additionExamples(): array
+    public static function additionExamples(): array
     {
         return [
             [1, 1, '2'],
@@ -265,7 +265,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function subtractionExamples(): array
+    public static function subtractionExamples(): array
     {
         return [
             [1, 1, '0'],
@@ -280,7 +280,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function multiplicationExamples(): array
+    public static function multiplicationExamples(): array
     {
         return [
             [1, 1.5, '1.5'],
@@ -306,7 +306,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function divisionExamples(): array
+    public static function divisionExamples(): array
     {
         return [
             [6, 3, '2'],
@@ -333,7 +333,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function divisionExactExamples(): array
+    public static function divisionExactExamples(): array
     {
         return [
             [6, 3, '2'],
@@ -352,7 +352,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function ceilExamples(): array
+    public static function ceilExamples(): array
     {
         return [
             [1.2, '2'],
@@ -367,7 +367,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function floorExamples(): array
+    public static function floorExamples(): array
     {
         return [
             [2.7, '2'],
@@ -382,7 +382,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function absoluteExamples(): array
+    public static function absoluteExamples(): array
     {
         return [
             [2, '2'],
@@ -398,7 +398,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function shareExamples(): array
+    public static function shareExamples(): array
     {
         return [
             [10, 2, 4, '5'],
@@ -408,7 +408,7 @@ abstract class CalculatorTestCase extends TestCase
     /**
      * @psalm-return array<int,array<int|numeric-string>>
      */
-    public function compareLessExamples(): array
+    public static function compareLessExamples(): array
     {
         return [
             [0, 1],
@@ -427,7 +427,7 @@ abstract class CalculatorTestCase extends TestCase
      *     int|numeric-string
      * }>
      */
-    public function compareEqualExamples(): array
+    public static function compareEqualExamples(): array
     {
         return [
             [1, 1],
@@ -443,7 +443,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function modExamples(): array
+    public static function modExamples(): array
     {
         return [
             [11, 5, '1'],

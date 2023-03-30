@@ -126,7 +126,7 @@ final class IntlMoneyParserTest extends TestCase
      *     int
      * }>
      */
-    public function formattedMoneyExamples(): array
+    public static function formattedMoneyExamples(): array
     {
         return [
             ['$1000.50', 100050],

@@ -31,8 +31,6 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
 
     public function __construct()
     {
-        parent::__construct();
-
         $currencies = new AggregateCurrencies([
             new ISOCurrencies(),
             new BitcoinCurrencies(),
@@ -43,15 +41,21 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
     }
 
     /** {@inheritDoc} */
-    public function accepts($expected, $actual)
+    public function accepts(mixed $expected, mixed $actual): bool
     {
         return $expected instanceof Money && $actual instanceof Money;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @param float $delta
+     * @param bool  $canonicalize
+     * @param bool  $ignoreCase
+     */
     public function assertEquals(
-        $expected,
-        $actual,
+        mixed $expected,
+        mixed $actual,
         $delta = 0.0,
         $canonicalize = false,
         $ignoreCase = false
@@ -60,7 +64,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
         assert($actual instanceof Money);
 
         if (! $expected->equals($actual)) {
-            throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), false, 'Failed asserting that two Money objects are equal.');
+            throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), 'Failed asserting that two Money objects are equal.');
         }
     }
 }

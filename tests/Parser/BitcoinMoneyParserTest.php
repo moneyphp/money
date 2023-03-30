@@ -51,7 +51,7 @@ final class BitcoinMoneyParserTest extends TestCase
      *     int|numeric-string
      * }>
      */
-    public function bitcoinExamples(): array
+    public static function bitcoinExamples(): array
     {
         return [
             ["\xC9\x831000.00", 100000],
