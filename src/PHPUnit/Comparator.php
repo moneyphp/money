@@ -13,6 +13,7 @@ use NumberFormatter;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 use function assert;
+use function method_exists;
 
 /**
  * The comparator is for comparing Money objects in PHPUnit tests.
