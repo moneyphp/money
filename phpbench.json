@@ -1,4 +1,9 @@
 {
     "runner.bootstrap": "vendor/autoload.php",
-    "runner.path": "benchmark"
+    "runner.path": "benchmark",
+    "runner.php_config":
+    {
+        "opcache.enable": 1,
+        "opcache.enable_cli": 1
+    }
 }
