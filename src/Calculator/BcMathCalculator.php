@@ -31,13 +31,13 @@ final class BcMathCalculator implements Calculator
     /** @psalm-pure */
     public static function add(string $amount, string $addend): string
     {
-        return bcadd($amount, $addend, self::SCALE);
+        return bcadd($amount, $addend, 0);
     }
 
     /** @psalm-pure */
     public static function subtract(string $amount, string $subtrahend): string
     {
-        return bcsub($amount, $subtrahend, self::SCALE);
+        return bcsub($amount, $subtrahend, 0);
     }
 
     /** @psalm-pure */
