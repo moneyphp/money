@@ -17,6 +17,7 @@ use function bcmod;
 use function bcmul;
 use function bcsub;
 use function ltrim;
+use function str_contains;
 
 final class BcMathCalculator implements Calculator
 {
@@ -31,13 +32,17 @@ final class BcMathCalculator implements Calculator
     /** @psalm-pure */
     public static function add(string $amount, string $addend): string
     {
-        return bcadd($amount, $addend, self::SCALE);
+        $scale = str_contains($amount . $addend, '.') ? self::SCALE : 0;
+
+        return bcadd($amount, $addend, $scale);
     }
 
     /** @psalm-pure */
     public static function subtract(string $amount, string $subtrahend): string
     {
-        return bcsub($amount, $subtrahend, self::SCALE);
+        $scale = str_contains($amount . $subtrahend, '.') ? self::SCALE : 0;
+
+        return bcsub($amount, $subtrahend, $scale);
     }
 
     /** @psalm-pure */

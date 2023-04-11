@@ -57,12 +57,12 @@ final class MoneyOperationBench
 
     public function benchMax(): void
     {
-        Money::min($this->a, $this->b, $this->a, $this->b);
+        Money::max($this->a, $this->b, $this->a, $this->b);
     }
 
     public function benchAvg(): void
     {
-        Money::min($this->a, $this->b, $this->a, $this->b);
+        Money::avg($this->a, $this->b, $this->a, $this->b);
     }
 
     public function benchRatioOf(): void
