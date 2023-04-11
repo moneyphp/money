@@ -32,7 +32,7 @@ final class BcMathCalculator implements Calculator
     /** @psalm-pure */
     public static function add(string $amount, string $addend): string
     {
-        $scale = str_contains($amount, '.') || str_contains($addend, '.') ? self::SCALE : 0;
+        $scale = str_contains($amount . $addend, '.') ? self::SCALE : 0;
 
         return bcadd($amount, $addend, $scale);
     }
@@ -40,7 +40,7 @@ final class BcMathCalculator implements Calculator
     /** @psalm-pure */
     public static function subtract(string $amount, string $subtrahend): string
     {
-        $scale = str_contains($amount, '.') || str_contains($subtrahend, '.') ? self::SCALE : 0;
+        $scale = str_contains($amount . $subtrahend, '.') ? self::SCALE : 0;
 
         return bcsub($amount, $subtrahend, $scale);
     }
