@@ -433,7 +433,14 @@
     'minorUnit' => 2,
     'numericCode' => 332,
   ),
-  'HUF' => 
+  'HRK' =>
+    array (
+      'alphabeticCode' => 'HRK',
+      'currency' => 'Kuna',
+      'minorUnit' => 2,
+      'numericCode' => 191,
+    ),
+  'HUF' =>
   array (
     'alphabeticCode' => 'HUF',
     'currency' => 'Forint',

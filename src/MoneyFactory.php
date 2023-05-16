@@ -225,6 +225,7 @@ use InvalidArgumentException;
  * @method static Money HNT(numeric-string|int $amount)
  * @method static Money HOOK(numeric-string|int $amount)
  * @method static Money HOT(numeric-string|int $amount)
+ * @method static Money HRK(numeric-string|int $amount)
  * @method static Money HTG(numeric-string|int $amount)
  * @method static Money HUF(numeric-string|int $amount)
  * @method static Money ICP(numeric-string|int $amount)
