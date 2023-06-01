@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Currencies;
 
 use Money\Currencies\ISOCurrencies;
@@ -7,34 +9,42 @@ use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
 use PHPUnit\Framework\TestCase;
 
+use function array_keys;
+use function array_map;
+
+/** @covers \Money\Currencies\ISOCurrencies */
 final class ISOCurrenciesTest extends TestCase
 {
     /**
+     * @psalm-param non-empty-string $currency
+     *
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_has_iso_currencies($currency)
+    public function itHasIsoCurrencies(string $currency): void
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertTrue($currencies->contains(new Currency($currency)));
+        self::assertTrue($currencies->contains(new Currency($currency)));
     }
 
     /**
+     * @psalm-param non-empty-string $currency
+     *
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_provides_subunit($currency)
+    public function itProvidesSubunit(string $currency): void
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertInternalType('int', $currencies->subunitFor(new Currency($currency)));
+        self::assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
     /**
      * @test
      */
-    public function it_throws_an_exception_when_providing_subunit_and_currency_is_unknown()
+    public function itThrowsAnExceptionWhenProvidingSubunitAndCurrencyIsUnknown(): void
     {
         $this->expectException(UnknownCurrencyException::class);
 
@@ -44,20 +54,22 @@ final class ISOCurrenciesTest extends TestCase
     }
 
     /**
+     * @psalm-param non-empty-string $currency
+     *
      * @dataProvider currencyCodeExamples
      * @test
      */
-    public function it_provides_numeric_code($currency)
+    public function itProvidesNumericCode(string $currency): void
     {
         $currencies = new ISOCurrencies();
 
-        $this->assertInternalType('int', $currencies->numericCodeFor(new Currency($currency)));
+        self::assertIsInt($currencies->numericCodeFor(new Currency($currency)));
     }
 
     /**
      * @test
      */
-    public function it_throws_an_exception_when_providing_numeric_code_and_currency_is_unknown()
+    public function itThrowsAnExceptionWhenProvidingNumericCodeAndCurrencyIsUnknown(): void
     {
         $this->expectException(UnknownCurrencyException::class);
 
@@ -69,22 +81,25 @@ final class ISOCurrenciesTest extends TestCase
     /**
      * @test
      */
-    public function it_is_iterable()
+    public function itIsIterable(): void
     {
         $currencies = new ISOCurrencies();
 
         $iterator = $currencies->getIterator();
 
-        $this->assertContainsOnlyInstancesOf(Currency::class, $iterator);
+        self::assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
-    public function currencyCodeExamples()
+    /**
+     * @psalm-return non-empty-list<array{non-empty-string}>
+     */
+    public function currencyCodeExamples(): array
     {
-        $currencies = require __DIR__.'/../../resources/currency.php';
-        $currencies = array_keys($currencies);
+        /** @psalm-var non-empty-array<non-empty-string, array> $currencies */
+        $currencies = require __DIR__ . '/../../resources/currency.php';
 
-        return array_map(function ($currency) {
+        return array_map(static function (string $currency) {
             return [$currency];
-        }, $currencies);
+        }, array_keys($currencies));
     }
 }

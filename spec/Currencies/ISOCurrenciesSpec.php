@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Money\Currencies;
 
 use Money\Currencies;
@@ -10,12 +12,12 @@ final class ISOCurrenciesSpec extends ObjectBehavior
 {
     use Matchers;
 
-    function it_is_initializable()
+    public function it_is_initializable(): void
     {
         $this->shouldHaveType(ISOCurrencies::class);
     }
 
-    function it_is_a_currency_repository()
+    public function it_is_a_currency_repository(): void
     {
         $this->shouldImplement(Currencies::class);
     }

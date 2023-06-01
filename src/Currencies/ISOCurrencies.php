@@ -1,40 +1,46 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Currencies;
 
+use ArrayIterator;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
+use RuntimeException;
+use Traversable;
+
+use function array_keys;
+use function array_map;
+use function is_file;
 
 /**
  * List of supported ISO 4217 currency codes and names.
- *
- * @author Mathias Verraes
  */
 final class ISOCurrencies implements Currencies
 {
     /**
      * Map of known currencies indexed by code.
      *
-     * @var array
+     * @psalm-var non-empty-array<non-empty-string, array{
+     *     alphabeticCode: non-empty-string,
+     *     currency: non-empty-string,
+     *     minorUnit: positive-int|0,
+     *     numericCode: positive-int
+     * }>|null
      */
-    private static $currencies;
+    private static ?array $currencies = null;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function contains(Currency $currency)
+    public function contains(Currency $currency): bool
     {
         return isset($this->getCurrencies()[$currency->getCode()]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function subunitFor(Currency $currency)
+    public function subunitFor(Currency $currency): int
     {
-        if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+        if (! $this->contains($currency)) {
+            throw new UnknownCurrencyException('Cannot find ISO currency ' . $currency->getCode());
         }
 
         return $this->getCurrencies()[$currency->getCode()]['minorUnit'];
@@ -43,27 +49,25 @@ final class ISOCurrencies implements Currencies
     /**
      * Returns the numeric code for a currency.
      *
-     * @return int
-     *
-     * @throws UnknownCurrencyException If currency is not available in the current context
+     * @throws UnknownCurrencyException If currency is not available in the current context.
      */
-    public function numericCodeFor(Currency $currency)
+    public function numericCodeFor(Currency $currency): int
     {
-        if (!$this->contains($currency)) {
-            throw new UnknownCurrencyException('Cannot find ISO currency '.$currency->getCode());
+        if (! $this->contains($currency)) {
+            throw new UnknownCurrencyException('Cannot find ISO currency ' . $currency->getCode());
         }
 
         return $this->getCurrencies()[$currency->getCode()]['numericCode'];
     }
 
     /**
-     * @return \Traversable
+     * @psalm-return Traversable<int, Currency>
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator(
+        return new ArrayIterator(
             array_map(
-                function ($code) {
+                static function ($code) {
                     return new Currency($code);
                 },
                 array_keys($this->getCurrencies())
@@ -74,11 +78,16 @@ final class ISOCurrencies implements Currencies
     /**
      * Returns a map of known currencies indexed by code.
      *
-     * @return array
+     * @psalm-return non-empty-array<non-empty-string, array{
+     *     alphabeticCode: non-empty-string,
+     *     currency: non-empty-string,
+     *     minorUnit: positive-int|0,
+     *     numericCode: positive-int
+     * }>
      */
-    private function getCurrencies()
+    private function getCurrencies(): array
     {
-        if (null === self::$currencies) {
+        if (self::$currencies === null) {
             self::$currencies = $this->loadCurrencies();
         }
 
@@ -86,16 +95,24 @@ final class ISOCurrencies implements Currencies
     }
 
     /**
-     * @return array
+     * @psalm-return non-empty-array<non-empty-string, array{
+     *     alphabeticCode: non-empty-string,
+     *     currency: non-empty-string,
+     *     minorUnit: positive-int|0,
+     *     numericCode: positive-int
+     * }>
+     *
+     * @psalm-suppress MoreSpecificReturnType do not specify all keys and values
      */
-    private function loadCurrencies()
+    private function loadCurrencies(): array
     {
-        $file = __DIR__.'/../../resources/currency.php';
+        $file = __DIR__ . '/../../resources/currency.php';
 
-        if (file_exists($file)) {
+        if (is_file($file)) {
+            /** @psalm-suppress LessSpecificReturnStatement */
             return require $file;
         }
 
-        throw new \RuntimeException('Failed to load currency ISO codes.');
+        throw new RuntimeException('Failed to load currency ISO codes.');
     }
 }

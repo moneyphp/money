@@ -10,6 +10,128 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [4.1.1] - 2023-04-11
+
+### Fixed
+
+- Optimized result representation for BcMathCalculator
+- Use sprintf for float to string conversion in swap exchange
+- Fix rounding to unit with value between 10 and 49
+- Return type for DecimalMoneyFormatter::format is numeric-string
+- Money::ratioOf throws exception if currencies don't match.
+- Updated currencies: added SLE and VED, removed HRK.
+- Do not let php-http/discovery change composer.json.
+
+
+## [4.1.0] - 2022-12-19
+
+### Added
+
+- Full PHP8.2 compatibility
+
+### Fixed
+
+- Fix parsing amounts with leading zero's
+- Fix invalid exception message in DecimalMoneyParser
+- Upgrade enchant to newer version
+- Support Psalm 5.3
+- Fix ROUND_UP and ROUND_DOWN in roundToUnit
+
+### Changes
+
+- `composer.lock` is not committed anymore
+- MoneyFactory now also contains crypto-currencies
+
+### Added
+
+- `CryptoCurrencies` class that serves crypto-currencies from [moneyphp/crypto-currencies](https://github.com/moneyphp/crypto-currencies)
+
+
+## [4.0.5] - 2022-08-11
+
+### Fixed
+
+- Enabled zend.assertions during CI
+- Fixed invalid assertions
+
+
+## [4.0.4] - 2022-05-18
+
+### Added
+
+- Full PHP8.1 compatibility (#670)
+
+### Changes
+
+- Dropped mutation testing as the library owners are unfamiliar with it
+- CHANGELOG BC change improvement
+
+## [4.0.3] - 2021-12-01
+
+### Fixed
+
+- `jsonSerialize` return types, resulting in no PHP 8.1 warnings.
+- Documentation CI pipeline failure.
+
+
+## [4.0.2] - 2021-06-30
+
+### Changes
+
+- Added all extensions to `composer.json`, including those bundled with PHP.
+
+### Fixed
+
+- Remove all `empty` uses. Money values of '0' gave an assertion error in decimal formats (#655)
+
+
+## [4.0.1] - 2021-05-25
+
+### Changed
+
+- Allow `int` as multiplier for `Money::multiply`
+- Allow `int` as divisor for `Money::divide`
+
+
+## [4.0.0] - 2021-05-17
+
+### Added
+
+- PHP8.0 compatibility (#633 and #619)
+- Recommendation to use a type-checker like psalm or phpstan
+- Rounding to units
+- `Converter#convertAndReturnWithCurrencyPair` to get the combination of the converted money and currency pair
+- `Converter#convertAgainstCurrencyPair` to convert against a currency pair
+
+### Changed
+
+- **[BC break]** BC Math required as it is the default calculator
+- **[BC break]** The methods `multiply` and `divide` do not accept floating points any more. Callers are required to
+  convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling these methods.
+- **[BC break]** The constructor of the `FixedExchange` does not accept floating points any more. Callers are required to
+convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling the constructor.
+- Allow multiple arguments to `Money#isSameCurrency`
+- Renamed second parameter of `Parser#parse` to `$fallbackCurrency`
+
+### Fixed
+
+- Fix GMP multiply and divide by negative (#640 #626)
+- Currency code must be uppercase (#639 #638 #637)
+- The CPU no longer overheats when using this library (#634)
+- No longer allowing null amount (#615)
+- Update cached currencies (#583)
+- Only numeric strings allowed (#575)
+- Calculator and Number are internal (#465)
+- Negative ratio in `Money#allocate()` is now allowed (#258)
+
+### Removed
+
+- **[BC break]** Removed `PhpCalculator`
+- **[BC break]** Removed `Currency#isAvailableWithin()`
+- **[BC break]** Removed string as allowed type for second parameter to `MoneyParser#parse`, only Currency objects are accepted now
+- **[BC break]** Completely remove float usage, methods now return numeric-strings
+
+
 ## [3.3.1] - 2019-03-13
 
 ### Fixed
@@ -338,8 +460,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - 2013-01-08 Use vendor/autoload.php instead of lib/bootstrap.php (or use PSR-0 autolaoding)
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
-
-[Unreleased]: https://github.com/moneyphp/money/compare/v3.3.0...HEAD
+[Unreleased]: https://github.com/moneyphp/money/compare/v4.1.1...HEAD
+[4.1.1]: https://github.com/moneyphp/money/compare/v4.1.0...v4.1.1
+[4.1.0]: https://github.com/moneyphp/money/compare/v4.0.5...v4.1.0
+[4.0.5]: https://github.com/moneyphp/money/compare/v4.0.4...v4.0.5
+[4.0.4]: https://github.com/moneyphp/money/compare/v4.0.3...v4.0.4
+[4.0.3]: https://github.com/moneyphp/money/compare/v4.0.2...v4.0.3
+[4.0.2]: https://github.com/moneyphp/money/compare/v4.0.1...v4.0.2
+[4.0.1]: https://github.com/moneyphp/money/compare/v4.0.0...v4.0.1
+[4.0.0]: https://github.com/moneyphp/money/compare/v3.3.1...v4.0.0
+[3.3.1]: https://github.com/moneyphp/money/compare/v3.3.0...v3.3.1
 [3.3.0]: https://github.com/moneyphp/money/compare/v3.2.1...v3.3.0
 [3.2.1]: https://github.com/moneyphp/money/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/moneyphp/money/compare/v3.1.3...v3.2.0

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
@@ -7,30 +9,42 @@ use Money\Currency;
 use Money\Formatter\BitcoinMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Prophecy\ObjectProphecy;
 
+/** @covers \Money\Formatter\BitcoinMoneyFormatter */
 final class BitcoinMoneyFormatterTest extends TestCase
 {
     /**
+     * @psalm-param positive-int $value
+     * @psalm-param non-empty-string $formatted
+     * @psalm-param positive-int|0 $fractionDigits
+     *
      * @dataProvider bitcoinExamples
      * @test
      */
-    public function it_formats_money($value, $formatted, $fractionDigits)
+    public function itFormatsMoney(int $value, string $formatted, int $fractionDigits): void
     {
-        /** @var Currencies|ObjectProphecy $currencies */
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
+        $currency   = new Currency('XBT');
 
-        $formatter = new BitcoinMoneyFormatter($fractionDigits, $currencies->reveal());
+        $currencies->method('subunitFor')
+            ->with(self::equalTo($currency))
+            ->willReturn(8);
 
-        $currency = new Currency('XBT');
-        $money = new Money($value, $currency);
-
-        $currencies->subunitFor($currency)->willReturn(8);
-
-        $this->assertSame($formatted, $formatter->format($money));
+        self::assertSame(
+            $formatted,
+            (new BitcoinMoneyFormatter($fractionDigits, $currencies))
+                ->format(new Money($value, $currency))
+        );
     }
 
-    public function bitcoinExamples()
+    /**
+     * @psalm-return non-empty-list<array{
+     *     positive-int,
+     *     non-empty-string,
+     *     positive-int|0
+     * }>
+     */
+    public function bitcoinExamples(): array
     {
         return [
             [100000000000, "\xC9\x831000.00", 2],

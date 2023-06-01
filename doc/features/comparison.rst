@@ -8,7 +8,7 @@ A number of built in methods are available for comparing Money objects.
 Same Currency
 -------------
 
-``isSameCurrency()`` compares whether two Money objects have the same currency.
+``isSameCurrency()`` compares whether two or more Money objects have the same currency.
 
 .. code-block:: php
 
@@ -18,6 +18,23 @@ Same Currency
 
     $result = $value1->isSameCurrency($value2);    // true
     $result = $value1->isSameCurrency($value3);    // false
+
+``isSameCurrency()`` also accepts variadic arguments so that you can test whether all
+instances in a collection have the same currency as the target or not.
+
+.. code-block:: php
+
+    $target = Money::USD(800);
+    $containsEuros = [
+        Money::USD(500),
+        Money::EUR(800)
+    ];
+    $allDollars = [
+        Money::USD(500),
+        Money::USD(600),
+    ];
+    $result = $target->isSameCurrency(...$containsEuros); // false
+    $result = $target->isSameCurrency(...$allDollars);    // true
 
 .. _equality:
 

@@ -1,77 +1,54 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Exchange;
 
-use Money\Calculator;
-use Money\Calculator\BcMathCalculator;
-use Money\Calculator\GmpCalculator;
-use Money\Calculator\PhpCalculator;
 use Money\Currencies;
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Money;
+use SplQueue;
+
+use function array_reduce;
+use function array_reverse;
 
 /**
  * Provides a way to get an exchange rate through a minimal set of intermediate conversions.
- *
- * @author Michael Cordingley <Michael.Cordingley@gmail.com>
  */
 final class IndirectExchange implements Exchange
 {
-    /**
-     * @var Calculator
-     */
-    private static $calculator;
+    private Currencies $currencies;
 
-    /**
-     * @var array
-     */
-    private static $calculators = [
-        BcMathCalculator::class,
-        GmpCalculator::class,
-        PhpCalculator::class,
-    ];
-
-    /**
-     * @var Currencies
-     */
-    private $currencies;
-
-    /**
-     * @var Exchange
-     */
-    private $exchange;
+    private Exchange $exchange;
 
     public function __construct(Exchange $exchange, Currencies $currencies)
     {
-        $this->exchange = $exchange;
+        $this->exchange   = $exchange;
         $this->currencies = $currencies;
     }
 
-    /**
-     * @param string $calculator
-     */
-    public static function registerCalculator($calculator)
-    {
-        if (is_a($calculator, Calculator::class, true) === false) {
-            throw new \InvalidArgumentException('Calculator must implement '.Calculator::class);
-        }
-
-        array_unshift(self::$calculators, $calculator);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(Currency $baseCurrency, Currency $counterCurrency)
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
     {
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);
-        } catch (UnresolvableCurrencyPairException $exception) {
-            $rate = array_reduce($this->getConversions($baseCurrency, $counterCurrency), function ($carry, CurrencyPair $pair) {
-                return static::getCalculator()->multiply($carry, $pair->getConversionRatio());
-            }, '1.0');
+        } catch (UnresolvableCurrencyPairException) {
+            $rate = array_reduce(
+                $this->getConversions($baseCurrency, $counterCurrency),
+                /**
+                 * @psalm-param numeric-string $carry
+                 *
+                 * @psalm-return numeric-string
+                 */
+                static function (string $carry, CurrencyPair $pair) {
+                    $calculator = Money::getCalculator();
+
+                    return $calculator::multiply($carry, $pair->getConversionRatio());
+                },
+                '1.0'
+            );
 
             return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
         }
@@ -82,48 +59,48 @@ final class IndirectExchange implements Exchange
      *
      * @throws UnresolvableCurrencyPairException
      */
-    private function getConversions(Currency $baseCurrency, Currency $counterCurrency)
+    private function getConversions(Currency $baseCurrency, Currency $counterCurrency): array
     {
-        $startNode = $this->initializeNode($baseCurrency);
+        $startNode             = new IndirectExchangeQueuedItem($baseCurrency);
         $startNode->discovered = true;
 
+        /** @psalm-var array<non-empty-string, IndirectExchangeQueuedItem> $nodes */
         $nodes = [$baseCurrency->getCode() => $startNode];
 
-        $frontier = new \SplQueue();
+        /** @psam-var SplQueue<IndirectExchangeQueuedItem> $frontier */
+        $frontier = new SplQueue();
         $frontier->enqueue($startNode);
 
         while ($frontier->count()) {
-            /** @var \stdClass $currentNode */
-            $currentNode = $frontier->dequeue();
-
-            /** @var Currency $currentCurrency */
+            /** @psalm-var IndirectExchangeQueuedItem $currentNode */
+            $currentNode     = $frontier->dequeue();
             $currentCurrency = $currentNode->currency;
 
             if ($currentCurrency->equals($counterCurrency)) {
                 return $this->reconstructConversionChain($nodes, $currentNode);
             }
 
-            /** @var Currency $candidateCurrency */
             foreach ($this->currencies as $candidateCurrency) {
-                if (!isset($nodes[$candidateCurrency->getCode()])) {
-                    $nodes[$candidateCurrency->getCode()] = $this->initializeNode($candidateCurrency);
+                if (! isset($nodes[$candidateCurrency->getCode()])) {
+                    $nodes[$candidateCurrency->getCode()] = new IndirectExchangeQueuedItem($candidateCurrency);
                 }
 
-                /** @var \stdClass $node */
                 $node = $nodes[$candidateCurrency->getCode()];
 
-                if (!$node->discovered) {
-                    try {
-                        // Check if the candidate is a neighbor. This will throw an exception if it isn't.
-                        $this->exchange->quote($currentCurrency, $candidateCurrency);
+                if ($node->discovered) {
+                    continue;
+                }
 
-                        $node->discovered = true;
-                        $node->parent = $currentNode;
+                try {
+                    // Check if the candidate is a neighbor. This will throw an exception if it isn't.
+                    $this->exchange->quote($currentCurrency, $candidateCurrency);
 
-                        $frontier->enqueue($node);
-                    } catch (UnresolvableCurrencyPairException $exception) {
-                        // Not a neighbor. Move on.
-                    }
+                    $node->discovered = true;
+                    $node->parent     = $currentNode;
+
+                    $frontier->enqueue($node);
+                } catch (UnresolvableCurrencyPairException $exception) {
+                    // Not a neighbor. Move on.
                 }
             }
         }
@@ -132,64 +109,22 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @return \stdClass
-     */
-    private function initializeNode(Currency $currency)
-    {
-        $node = new \stdClass();
-
-        $node->currency = $currency;
-        $node->discovered = false;
-        $node->parent = null;
-
-        return $node;
-    }
-
-    /**
+     * @psalm-param array<non-empty-string, IndirectExchangeQueuedItem> $currencies
+     *
      * @return CurrencyPair[]
+     * @psalm-return list<CurrencyPair>
      */
-    private function reconstructConversionChain(array $currencies, \stdClass $goalNode)
+    private function reconstructConversionChain(array $currencies, IndirectExchangeQueuedItem $goalNode): array
     {
-        $current = $goalNode;
+        $current     = $goalNode;
         $conversions = [];
 
         while ($current->parent) {
-            $previous = $currencies[$current->parent->currency->getCode()];
+            $previous      = $currencies[$current->parent->currency->getCode()];
             $conversions[] = $this->exchange->quote($previous->currency, $current->currency);
-            $current = $previous;
+            $current       = $previous;
         }
 
         return array_reverse($conversions);
-    }
-
-    /**
-     * @return Calculator
-     */
-    private function getCalculator()
-    {
-        if (null === self::$calculator) {
-            self::$calculator = self::initializeCalculator();
-        }
-
-        return self::$calculator;
-    }
-
-    /**
-     * @return Calculator
-     *
-     * @throws \RuntimeException If cannot find calculator for money calculations
-     */
-    private static function initializeCalculator()
-    {
-        $calculators = self::$calculators;
-
-        foreach ($calculators as $calculator) {
-            /** @var Calculator $calculator */
-            if ($calculator::supported()) {
-                return new $calculator();
-            }
-        }
-
-        throw new \RuntimeException('Cannot find calculator for money calculations');
     }
 }

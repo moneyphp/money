@@ -1,44 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Exchange;
 
 use Money\Currency;
 use Money\CurrencyPair;
 use Money\Exception\UnresolvableCurrencyPairException;
 use Money\Exchange;
+use Money\Money;
 
 /**
  * Tries the reverse of the currency pair if one is not available.
  *
  * Note: adding nested ReversedCurrenciesExchange could cause a huge performance hit.
- *
- * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
 final class ReversedCurrenciesExchange implements Exchange
 {
-    /**
-     * @var Exchange
-     */
-    private $exchange;
+    private Exchange $exchange;
 
     public function __construct(Exchange $exchange)
     {
         $this->exchange = $exchange;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(Currency $baseCurrency, Currency $counterCurrency)
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
     {
         try {
             return $this->exchange->quote($baseCurrency, $counterCurrency);
         } catch (UnresolvableCurrencyPairException $exception) {
+            $calculator = Money::getCalculator();
+
             try {
                 $currencyPair = $this->exchange->quote($counterCurrency, $baseCurrency);
 
-                return new CurrencyPair($baseCurrency, $counterCurrency, 1 / $currencyPair->getConversionRatio());
-            } catch (UnresolvableCurrencyPairException $inversedException) {
+                return new CurrencyPair(
+                    $baseCurrency,
+                    $counterCurrency,
+                    $calculator::divide('1', $currencyPair->getConversionRatio())
+                );
+            } catch (UnresolvableCurrencyPairException) {
                 throw $exception;
             }
         }

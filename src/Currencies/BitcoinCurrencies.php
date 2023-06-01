@@ -1,45 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Currencies;
 
+use ArrayIterator;
 use Money\Currencies;
 use Money\Currency;
 use Money\Exception\UnknownCurrencyException;
+use Traversable;
 
-/**
- * @author Frederik Bosch <f.bosch@genkgo.nl>
- */
 final class BitcoinCurrencies implements Currencies
 {
-    const CODE = 'XBT';
+    public const CODE = 'XBT';
 
-    const SYMBOL = "\xC9\x83";
+    public const SYMBOL = "\xC9\x83";
 
-    /**
-     * {@inheritdoc}
-     */
-    public function contains(Currency $currency)
+    public function contains(Currency $currency): bool
     {
-        return self::CODE === $currency->getCode();
+        return $currency->getCode() === self::CODE;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function subunitFor(Currency $currency)
+    public function subunitFor(Currency $currency): int
     {
         if ($currency->getCode() !== self::CODE) {
-            throw new UnknownCurrencyException($currency->getCode().' is not bitcoin and is not supported by this currency repository');
+            throw new UnknownCurrencyException($currency->getCode() . ' is not bitcoin and is not supported by this currency repository');
         }
 
         return 8;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getIterator()
+    /** {@inheritDoc} */
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator([new Currency(self::CODE)]);
+        return new ArrayIterator([new Currency(self::CODE)]);
     }
 }
