@@ -2,7 +2,6 @@
 
 namespace Tests\Money;
 
-use Money\Calculator\PhpCalculator;
 use Money\Money;
 use Money\Teller;
 
@@ -10,10 +9,6 @@ class TellerTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp()
     {
-        // this overrides the GmpCalculator, which has multiply/divide problems
-        // with negative values
-        Money::registerCalculator(PhpCalculator::class);
-
         $this->teller = Teller::USD();
     }
 
@@ -139,7 +134,7 @@ class TellerTest extends \PHPUnit\Framework\TestCase
         $amount = '-0.09';
         $multiplier = '0.01';
         $actual = $this->teller->multiply($amount, $multiplier);
-        $expect = '-0.00';
+        $expect = '0.00';
         $this->assertSame($expect, $actual);
 
         $amount = '-100.00';
@@ -194,7 +189,7 @@ class TellerTest extends \PHPUnit\Framework\TestCase
         $amount = '-0.09';
         $divisor = '100';
         $actual = $this->teller->divide($amount, $divisor);
-        $expect = '-0.00';
+        $expect = '0.00';
         $this->assertSame($expect, $actual);
 
         $amount = '-100.00';
