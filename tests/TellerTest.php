@@ -17,7 +17,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_demonstrates_the_pennies_problem(): void
+    public function itDemonstratesThePenniesProblem(): void
     {
         $amount1 = 1.23;
         $amount2 = 4.56;
@@ -38,7 +38,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_compares_equal_amounts(): void
+    public function itComparesEqualAmounts(): void
     {
         $this->assertTrue($this->teller->equals('7.00', 7.00));
         $this->assertTrue($this->teller->equals('7', 7.00));
@@ -48,7 +48,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_compares_two_amounts(): void
+    public function itComparesTwoAmounts(): void
     {
         $amount = 1.23;
         $other = 4.56;
@@ -61,7 +61,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_compares_greater_than_amounts(): void
+    public function itComparesGreaterThanAmounts(): void
     {
         $this->assertTrue($this->teller->greaterThan('45.67', '9.01'));
     }
@@ -69,7 +69,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_compares_greater_than_or_equal_amounts(): void
+    public function itComparesGreaterThanOrEqualAmounts(): void
     {
         $this->assertTrue($this->teller->greaterThanOrEqual('45.67', '9.01'));
         $this->assertTrue($this->teller->greaterThanOrEqual('7.00', 7.00));
@@ -81,7 +81,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_compares_less_than_amounts(): void
+    public function itComparesLessThanAmounts(): void
     {
         $this->assertTrue($this->teller->lessThan('9.01', '45.67'));
     }
@@ -89,7 +89,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_compares_less_than_or_equal_amounts(): void
+    public function itComparesLessThanOrEqualAmounts(): void
     {
         $this->assertTrue($this->teller->lessThanOrEqual('9.01', '45.67'));
         $this->assertTrue($this->teller->lessThanOrEqual('7.00', 7.00));
@@ -101,7 +101,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_adds_amounts(): void
+    public function itAddsAmounts(): void
     {
         $actual = $this->teller->add(1.1, '2.2', 3, 4.44, '5.55');
         $expect = '16.29';
@@ -111,7 +111,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_subtracts_amounts(): void
+    public function itSubtractsAmounts(): void
     {
         $actual = $this->teller->subtract(1.1, '2.2', 3, 4.44, '5.55');
         $expect = '-14.09';
@@ -121,7 +121,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_multiplies_amounts(): void
+    public function itMultipliesAmounts(): void
     {
         $amount = 1.23;
         $multiplier = 4.56;
@@ -134,7 +134,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_multiplies_negative_amounts(): void
+    public function itMultipliesNegativeAmounts(): void
     {
         $amount = '-0.09';
         $multiplier = '0.01';
@@ -176,7 +176,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_divides_amounts(): void
+    public function itDividesAmounts(): void
     {
         $amount = 1.23;
         $divisor = 4.56;
@@ -189,7 +189,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_divides_negative_amounts(): void
+    public function itDividesNegativeAmounts(): void
     {
         $amount = '-0.09';
         $divisor = '100';
@@ -225,7 +225,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_mods_amounts(): void
+    public function itModsAmounts(): void
     {
         $amount = '10';
         $divisor = '3';
@@ -237,7 +237,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_allocates_amounts_across_ratios(): void
+    public function itAllocatesAmountsAcrossRatios(): void
     {
         $amount = '100.00';
         $ratios = [1 / 2, 1 / 3, 1 / 6];
@@ -253,7 +253,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_allocates_amounts_among_targets(): void
+    public function itAllocatesAmountsAmongTargets(): void
     {
         $amount = '100.00';
         $n = 3;
@@ -269,7 +269,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_calculates_ratios_of_amounts(): void
+    public function itCalculatesRatiosOfAmounts(): void
     {
         $amount = '100.00';
         $other = '30';
@@ -281,7 +281,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_calculates_absolute_amount(): void
+    public function itCalculatesAbsoluteAmount(): void
     {
         $this->assertSame('7.00', $this->teller->absolute(-7));
         $this->assertSame('7.00', $this->teller->absolute(7.0));
@@ -290,7 +290,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_calculates_negative_amount(): void
+    public function itCalculatesNegativeAmount(): void
     {
         $this->assertSame('-7.00', $this->teller->negative(7));
         $this->assertSame('7.00', $this->teller->negative(-7));
@@ -299,7 +299,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_compares_an_amount_to_zero(): void
+    public function itComparesAnAmountToZero(): void
     {
         $this->assertTrue($this->teller->isZero(0.00));
         $this->assertFalse($this->teller->isZero(0.01));
@@ -308,7 +308,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_tells_if_an_amount_is_positive(): void
+    public function itTellsIfAnAmountIsPositive(): void
     {
         $this->assertTrue($this->teller->isPositive(1));
         $this->assertFalse($this->teller->isPositive(0));
@@ -318,7 +318,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_tells_if_an_amount_is_negative(): void
+    public function itTellsIfAnAmountIsNegative(): void
     {
         $this->assertFalse($this->teller->isNegative(1));
         $this->assertFalse($this->teller->isNegative(0));
@@ -328,7 +328,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_finds_the_minimum_amount(): void
+    public function itFindsTheMinimumAmount(): void
     {
         $amounts = [
             '1.23',
@@ -345,7 +345,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_finds_the_maximum_amount(): void
+    public function itFindsTheMaximumAmount(): void
     {
         $amounts = [
             '1.23',
@@ -362,7 +362,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_sums_amounts(): void
+    public function itSumsAmounts(): void
     {
         $amounts = [
             '1.23',
@@ -379,7 +379,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_averages_amounts(): void
+    public function itAveragesAmounts(): void
     {
         $amounts = [
             '1.23',
@@ -396,7 +396,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_returns_a_zero_string(): void
+    public function itReturnsAZeroString(): void
     {
         $this->assertSame('0.00', $this->teller->zero());
     }
@@ -404,7 +404,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     /**
      * @test
      */
-    public function it_converts_monetary_amounts(): void
+    public function itConvertsMonetaryAmounts(): void
     {
         $money = $this->teller->convertToMoney('1.23');
         $this->assertInstanceOf(Money::class, $money);
