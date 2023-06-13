@@ -15,12 +15,11 @@ class Teller
      * $teller = Teller::USD();
      * </code>
      *
-     * @param string $method
-     * @param array  $arguments
+     * @param non-empty-string $method
      *
      * @return Teller
      */
-    public static function __callStatic($method, $arguments)
+    public static function __callStatic(string $method, array $arguments)
     {
         $class = get_called_class();
         $currency = new Currency($method);
@@ -29,7 +28,7 @@ class Teller
         $formatter = new DecimalMoneyFormatter($currencies);
         $roundingMode = empty($arguments)
             ? Money::ROUND_HALF_UP
-            : array_shift($arguments);
+            : (int) array_shift($arguments);
 
         return new $class(
             $currency,
@@ -39,20 +38,13 @@ class Teller
         );
     }
 
-    /** @var ISOCurrencies */
-    private $currencies;
+    private Currency $currency;
 
-    /** @var Currency */
-    private $currency;
+    private MoneyFormatter $formatter;
 
-    /** @var MoneyFormatter */
-    private $formatter;
+    private MoneyParser $parser;
 
-    /** @var MoneyParser */
-    private $parser;
-
-    /** @var int Rounding mode for multiply/divide */
-    private $roundingMode;
+    private int $roundingMode = Money::ROUND_HALF_UP;
 
     /**
      * Constructor.
@@ -63,7 +55,7 @@ class Teller
         Currency $currency,
         MoneyParser $parser,
         MoneyFormatter $formatter,
-        $roundingMode = Money::ROUND_HALF_UP
+        int $roundingMode = Money::ROUND_HALF_UP
     ) {
         $this->currency = $currency;
         $this->parser = $parser;
@@ -76,10 +68,8 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      * @param mixed $other  another monetary amount
-     *
-     * @return bool
      */
-    public function equals($amount, $other)
+    public function equals($amount, $other): bool
     {
         return $this->convertToMoney($amount)->equals(
             $this->convertToMoney($other)
@@ -93,10 +83,8 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      * @param mixed $other  another monetary amount
-     *
-     * @return int
      */
-    public function compare($amount, $other)
+    public function compare($amount, $other): int
     {
         return $this->convertToMoney($amount)->compare(
             $this->convertToMoney($other)
@@ -108,10 +96,8 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      * @param mixed $other  another monetary amount
-     *
-     * @return bool
      */
-    public function greaterThan($amount, $other)
+    public function greaterThan($amount, $other): bool
     {
         return $this->convertToMoney($amount)->greaterThan(
             $this->convertToMoney($other)
@@ -123,10 +109,8 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      * @param mixed $other  another monetary amount
-     *
-     * @return bool
      */
-    public function greaterThanOrEqual($amount, $other)
+    public function greaterThanOrEqual($amount, $other): bool
     {
         return $this->convertToMoney($amount)->greaterThanOrEqual(
             $this->convertToMoney($other)
@@ -138,10 +122,8 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      * @param mixed $other  another monetary amount
-     *
-     * @return bool
      */
-    public function lessThan($amount, $other)
+    public function lessThan($amount, $other): bool
     {
         return $this->convertToMoney($amount)->lessThan(
             $this->convertToMoney($other)
@@ -153,10 +135,8 @@ class Teller
      *
      * @param mixed $amount a monetary amount
      * @param mixed $other  another monetary amount
-     *
-     * @return bool
      */
-    public function lessThanOrEqual($amount, $other)
+    public function lessThanOrEqual($amount, $other): bool
     {
         return $this->convertToMoney($amount)->lessThanOrEqual(
             $this->convertToMoney($other)
@@ -172,7 +152,7 @@ class Teller
      *
      * @return string the calculated monetary amount
      */
-    public function add($amount, $other, ...$others)
+    public function add($amount, $other, ...$others): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->add(
@@ -188,10 +168,8 @@ class Teller
      * @param mixed   $amount a monetary amount
      * @param mixed   $other  another monetary amount
      * @param mixed[] $others subsequent monetary amounts
-     *
-     * @return string the calculated monetary amount
      */
-    public function subtract($amount, $other, ...$others)
+    public function subtract($amount, $other, ...$others): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->subtract(
@@ -204,16 +182,14 @@ class Teller
     /**
      * Multiplies a monetary amount by a factor.
      *
-     * @param mixed            $amount     a monetary amount
-     * @param int|float|string $multiplier the multiplier
-     *
-     * @return string the calculated monetary amount
+     * @param mixed                    $amount     a monetary amount
+     * @param int|float|numeric-string $multiplier the multiplier
      */
-    public function multiply($amount, $multiplier)
+    public function multiply($amount, int|float|string $multiplier): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->multiply(
-                $multiplier, $this->roundingMode
+                (string) $multiplier, $this->roundingMode
             )
         );
     }
@@ -221,16 +197,14 @@ class Teller
     /**
      * Divides a monetary amount by a divisor.
      *
-     * @param mixed            $amount  a monetary amount
-     * @param int|float|string $divisor the divisor
-     *
-     * @return string the calculated monetary amount
+     * @param mixed                    $amount  a monetary amount
+     * @param int|float|numeric-string $divisor the divisor
      */
-    public function divide($amount, $divisor)
+    public function divide($amount, int|float|string $divisor): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->divide(
-                $divisor, $this->roundingMode
+                (string) $divisor, $this->roundingMode
             )
         );
     }
@@ -238,16 +212,14 @@ class Teller
     /**
      * Mods a monetary amount by a divisor.
      *
-     * @param mixed            $amount  a monetary amount
-     * @param int|float|string $divisor the divisor
-     *
-     * @return string the calculated monetary amount
+     * @param mixed                    $amount  a monetary amount
+     * @param int|float|numeric-string $divisor the divisor
      */
-    public function mod($amount, $divisor)
+    public function mod($amount, int|float|string $divisor): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->mod(
-                $this->convertToMoney($divisor)
+                $this->convertToMoney((string) $divisor)
             )
         );
     }
@@ -255,12 +227,12 @@ class Teller
     /**
      * Allocates a monetary amount according to an array of ratios.
      *
-     * @param mixed $amount a monetary amount
-     * @param array $ratios an array of ratios
+     * @param mixed                                 $amount a monetary amount
+     * @param non-empty-array<array-key, float|int> $ratios an array of ratios
      *
      * @return string[] the calculated monetary amounts
      */
-    public function allocate($amount, array $ratios)
+    public function allocate($amount, array $ratios): array
     {
         return $this->convertToStringArray(
             $this->convertToMoney($amount)->allocate($ratios)
@@ -270,12 +242,12 @@ class Teller
     /**
      * Allocates a monetary amount among N targets.
      *
-     * @param mixed $amount a monetary amount
-     * @param int   $n      the number of targets
+     * @param mixed         $amount a monetary amount
+     * @param int<1, max>   $n      the number of targets
      *
      * @return string[] the calculated monetary amounts
      */
-    public function allocateTo($amount, $n)
+    public function allocateTo($amount, int $n): array
     {
         return $this->convertToStringArray(
             $this->convertToMoney($amount)->allocateTo($n)
@@ -286,11 +258,9 @@ class Teller
      * Determines the ratio of one monetary amount to another.
      *
      * @param mixed $amount a monetary amount
-     * @param array $other  another monetary amount
-     *
-     * @return string the calculated monetary amount
+     * @param mixed $other  another monetary amount
      */
-    public function ratioOf($amount, $other)
+    public function ratioOf($amount, $other): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->ratioOf(
@@ -303,10 +273,8 @@ class Teller
      * Returns an absolute monetary amount.
      *
      * @param mixed $amount a monetary amount
-     *
-     * @return string the absolute monetary amount
      */
-    public function absolute($amount)
+    public function absolute($amount): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->absolute()
@@ -318,10 +286,8 @@ class Teller
      * amounts to positive ones.
      *
      * @param mixed $amount a monetary amount
-     *
-     * @return string the negative monetary amount
      */
-    public function negative($amount)
+    public function negative($amount): string
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->negative()
@@ -332,10 +298,8 @@ class Teller
      * Is a monetary amount equal to zero?
      *
      * @param mixed $amount a monetary amount
-     *
-     * @return bool
      */
-    public function isZero($amount)
+    public function isZero($amount): bool
     {
         return $this->convertToMoney($amount)->isZero();
     }
@@ -344,10 +308,8 @@ class Teller
      * Is a monetary amount greater than zero?
      *
      * @param mixed $amount a monetary amount
-     *
-     * @return bool
      */
-    public function isPositive($amount)
+    public function isPositive($amount): bool
     {
         return $this->convertToMoney($amount)->isPositive();
     }
@@ -356,10 +318,8 @@ class Teller
      * Is a monetary amount less than zero?
      *
      * @param mixed $amount a monetary amount
-     *
-     * @return bool
      */
-    public function isNegative($amount)
+    public function isNegative($amount): bool
     {
         return $this->convertToMoney($amount)->isNegative();
     }
@@ -369,10 +329,8 @@ class Teller
      *
      * @param mixed $amount     a monetary amount
      * @param mixed ...$amounts additional monetary amounts
-     *
-     * @return string
      */
-    public function min($amount, ...$amounts)
+    public function min($amount, ...$amounts): string
     {
         return $this->convertToString(
             Money::min(
@@ -387,10 +345,8 @@ class Teller
      *
      * @param mixed $amount     a monetary amount
      * @param mixed ...$amounts additional monetary amounts
-     *
-     * @return string
      */
-    public function max($amount, ...$amounts)
+    public function max($amount, ...$amounts): string
     {
         return $this->convertToString(
             Money::max(
@@ -405,10 +361,8 @@ class Teller
      *
      * @param mixed $amount     a monetary amount
      * @param mixed ...$amounts additional monetary amounts
-     *
-     * @return string
      */
-    public function sum($amount, ...$amounts)
+    public function sum($amount, ...$amounts): string
     {
         return $this->convertToString(
             Money::sum(
@@ -423,10 +377,8 @@ class Teller
      *
      * @param mixed $amount     a monetary amount
      * @param mixed ...$amounts additional monetary amounts
-     *
-     * @return string
      */
-    public function avg($amount, ...$amounts)
+    public function avg($amount, ...$amounts): string
     {
         return $this->convertToString(
             Money::avg(
@@ -440,10 +392,8 @@ class Teller
      * Converts a monetary amount to a Money object.
      *
      * @param mixed $amount a monetary amount
-     *
-     * @return Money
      */
-    public function convertToMoney($amount)
+    public function convertToMoney($amount): Money
     {
         return $this->parser->parse((string) $amount, $this->currency);
     }
@@ -455,13 +405,15 @@ class Teller
      *
      * @return Money[]
      */
-    public function convertToMoneyArray(array $amounts)
+    public function convertToMoneyArray(array $amounts): array
     {
+        $converted = [];
+
         foreach ($amounts as $key => $amount) {
-            $amounts[$key] = $this->convertToMoney($amount);
+            $converted[$key] = $this->convertToMoney($amount);
         }
 
-        return $amounts;
+        return $converted;
     }
 
     /**
@@ -469,10 +421,8 @@ class Teller
      *
      * @param mixed $amount typically a Money object, int, float, or string
      *                      representing a monetary amount
-     *
-     * @return string
      */
-    public function convertToString($amount)
+    public function convertToString($amount): string
     {
         if (!$amount instanceof Money) {
             $amount = $this->convertToMoney($amount);
@@ -487,23 +437,23 @@ class Teller
      *
      * @param array $amounts an array of monetary amounts
      *
-     * @return array
+     * @return string[]
      */
-    public function convertToStringArray(array $amounts)
+    public function convertToStringArray(array $amounts): array
     {
+        $converted = [];
+
         foreach ($amounts as $key => $amount) {
-            $amounts[$key] = $this->convertToString($amount);
+            $converted[$key] = $this->convertToString($amount);
         }
 
-        return $amounts;
+        return $converted;
     }
 
     /**
      * Returns a "zero" monetary amount.
-     *
-     * @return string
      */
-    public function zero()
+    public function zero(): string
     {
         return '0.00';
     }
