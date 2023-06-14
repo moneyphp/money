@@ -187,6 +187,8 @@ class Teller
      */
     public function multiply($amount, int|float|string $multiplier): string
     {
+        $multiplier = \is_float($multiplier) ? Number::fromFloat($multiplier) : Number::fromNumber($multiplier);
+
         return $this->convertToString(
             $this->convertToMoney($amount)->multiply(
                 (string) $multiplier, $this->roundingMode
@@ -202,6 +204,8 @@ class Teller
      */
     public function divide($amount, int|float|string $divisor): string
     {
+        $divisor = \is_float($divisor) ? Number::fromFloat($divisor) : Number::fromNumber($divisor);
+
         return $this->convertToString(
             $this->convertToMoney($amount)->divide(
                 (string) $divisor, $this->roundingMode
@@ -217,6 +221,8 @@ class Teller
      */
     public function mod($amount, int|float|string $divisor): string
     {
+        $divisor = \is_float($divisor) ? Number::fromFloat($divisor) : Number::fromNumber($divisor);
+
         return $this->convertToString(
             $this->convertToMoney($amount)->mod(
                 $this->convertToMoney((string) $divisor)
