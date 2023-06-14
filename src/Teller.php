@@ -6,7 +6,7 @@ use Money\Currencies\ISOCurrencies;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Parser\DecimalMoneyParser;
 
-class Teller
+final class Teller
 {
     /**
      * Convenience factory method for a Teller object.
@@ -21,7 +21,6 @@ class Teller
      */
     public static function __callStatic(string $method, array $arguments)
     {
-        $class = get_called_class();
         $currency = new Currency($method);
         $currencies = new ISOCurrencies();
         $parser = new DecimalMoneyParser($currencies);
@@ -30,7 +29,7 @@ class Teller
             ? Money::ROUND_HALF_UP
             : (int) array_shift($arguments);
 
-        return new $class(
+        return new static(
             $currency,
             $parser,
             $formatter,
@@ -46,11 +45,6 @@ class Teller
 
     private int $roundingMode = Money::ROUND_HALF_UP;
 
-    /**
-     * Constructor.
-     *
-     * @param int $roundingMode
-     */
     public function __construct(
         Currency $currency,
         MoneyParser $parser,
