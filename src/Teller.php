@@ -250,8 +250,8 @@ final class Teller
     /**
      * Allocates a monetary amount among N targets.
      *
-     * @param mixed       $amount a monetary amount
-     * @param int<1, max> $n      the number of targets
+     * @param mixed $amount a monetary amount
+     * @psalm-param positive-int $n the number of targets
      *
      * @return string[] the calculated monetary amounts
      */
