@@ -6,8 +6,9 @@ namespace Tests\Money;
 
 use Money\Money;
 use Money\Teller;
+use PHPUnit\Framework\TestCase;
 
-final class TellerTest extends \PHPUnit\Framework\TestCase
+final class TellerTest extends TestCase
 {
     protected Teller $teller;
 
@@ -57,7 +58,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     public function itComparesTwoAmounts(): void
     {
         $amount = 1.23;
-        $other = 4.56;
+        $other  = 4.56;
 
         $this->assertSame(-1, $this->teller->compare($amount, $other));
         $this->assertSame(0, $this->teller->compare($amount, $amount));
@@ -129,7 +130,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
      */
     public function itMultipliesAmounts(): void
     {
-        $amount = 1.23;
+        $amount     = 1.23;
         $multiplier = 4.56;
 
         $actual = $this->teller->multiply($amount, $multiplier);
@@ -142,40 +143,40 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
      */
     public function itMultipliesNegativeAmounts(): void
     {
-        $amount = '-0.09';
+        $amount     = '-0.09';
         $multiplier = '0.01';
-        $actual = $this->teller->multiply($amount, $multiplier);
-        $expect = '0.00';
+        $actual     = $this->teller->multiply($amount, $multiplier);
+        $expect     = '0.00';
         $this->assertSame($expect, $actual);
 
-        $amount = '-100.00';
+        $amount     = '-100.00';
         $multiplier = '0.01';
-        $actual = $this->teller->multiply($amount, $multiplier);
-        $expect = '-1.00';
+        $actual     = $this->teller->multiply($amount, $multiplier);
+        $expect     = '-1.00';
         $this->assertSame($expect, $actual);
 
-        $amount = '100.00';
+        $amount     = '100.00';
         $multiplier = '-0.01';
-        $actual = $this->teller->multiply($amount, $multiplier);
-        $expect = '-1.00';
+        $actual     = $this->teller->multiply($amount, $multiplier);
+        $expect     = '-1.00';
         $this->assertSame($expect, $actual);
 
-        $amount = '141950.00';
+        $amount     = '141950.00';
         $multiplier = '-0.01';
-        $actual = $this->teller->multiply($amount, $multiplier);
-        $expect = '-1419.50';
+        $actual     = $this->teller->multiply($amount, $multiplier);
+        $expect     = '-1419.50';
         $this->assertSame($expect, $actual);
 
-        $amount = '141950.00';
+        $amount     = '141950.00';
         $multiplier = '-0.01056710109193';
-        $actual = $this->teller->multiply($amount, $multiplier);
-        $expect = '-1500.00';
+        $actual     = $this->teller->multiply($amount, $multiplier);
+        $expect     = '-1500.00';
         $this->assertSame($expect, $actual);
 
-        $amount = '141950.00';
+        $amount     = '141950.00';
         $multiplier = '-0.0001056710109193';
-        $actual = $this->teller->multiply($amount, $multiplier);
-        $expect = '-15.00';
+        $actual     = $this->teller->multiply($amount, $multiplier);
+        $expect     = '-15.00';
         $this->assertSame($expect, $actual);
     }
 
@@ -184,7 +185,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
      */
     public function itDividesAmounts(): void
     {
-        $amount = 1.23;
+        $amount  = 1.23;
         $divisor = 4.56;
 
         $actual = $this->teller->divide($amount, $divisor);
@@ -197,34 +198,34 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
      */
     public function itDividesNegativeAmounts(): void
     {
-        $amount = '-0.09';
+        $amount  = '-0.09';
         $divisor = '100';
-        $actual = $this->teller->divide($amount, $divisor);
-        $expect = '0.00';
+        $actual  = $this->teller->divide($amount, $divisor);
+        $expect  = '0.00';
         $this->assertSame($expect, $actual);
 
-        $amount = '-100.00';
+        $amount  = '-100.00';
         $divisor = '0.01';
-        $actual = $this->teller->divide($amount, $divisor);
-        $expect = '-10000.00';
+        $actual  = $this->teller->divide($amount, $divisor);
+        $expect  = '-10000.00';
         $this->assertSame($expect, $actual);
 
-        $amount = '100.00';
+        $amount  = '100.00';
         $divisor = '-0.01';
-        $actual = $this->teller->divide($amount, $divisor);
-        $expect = '-10000.00';
+        $actual  = $this->teller->divide($amount, $divisor);
+        $expect  = '-10000.00';
         $this->assertSame($expect, $actual);
 
-        $amount = '141950.00';
+        $amount  = '141950.00';
         $divisor = '-0.01056710109193';
-        $actual = $this->teller->divide($amount, $divisor);
-        $expect = '-13433201.67';
+        $actual  = $this->teller->divide($amount, $divisor);
+        $expect  = '-13433201.67';
         $this->assertSame($expect, $actual);
 
-        $amount = '141950.00';
+        $amount  = '141950.00';
         $divisor = '-0.0001056710109193';
-        $actual = $this->teller->divide($amount, $divisor);
-        $expect = '-1343320166.67';
+        $actual  = $this->teller->divide($amount, $divisor);
+        $expect  = '-1343320166.67';
         $this->assertSame($expect, $actual);
     }
 
@@ -233,10 +234,10 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
      */
     public function itModsAmounts(): void
     {
-        $amount = '10';
+        $amount  = '10';
         $divisor = '3';
-        $actual = $this->teller->mod($amount, $divisor);
-        $expect = '1.00';
+        $actual  = $this->teller->mod($amount, $divisor);
+        $expect  = '1.00';
         $this->assertSame($expect, $actual);
     }
 
@@ -262,7 +263,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     public function itAllocatesAmountsAmongTargets(): void
     {
         $amount = '100.00';
-        $n = 3;
+        $n      = 3;
         $actual = $this->teller->allocateTo($amount, $n);
         $expect = [
             '33.34',
@@ -278,7 +279,7 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
     public function itCalculatesRatiosOfAmounts(): void
     {
         $amount = '100.00';
-        $other = '30';
+        $other  = '30';
         $actual = $this->teller->ratioOf($amount, $other);
         $expect = '3.33';
         $this->assertSame($expect, $actual);
