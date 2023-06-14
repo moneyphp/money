@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Money;
@@ -27,6 +29,10 @@ final class TellerTest extends \PHPUnit\Framework\TestCase
         // we end up with tenths of pennies.
         $actual = $amount1 * $amount2;
         $expect = 5.6088;
+
+        /**
+         * @psalm-suppress RedundantCondition
+         */
         $this->assertSame($expect, $actual);
 
         // instead, use the Teller to do monetary math.

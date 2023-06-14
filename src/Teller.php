@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
 
 use Money\Currencies\ISOCurrencies;
@@ -401,7 +403,7 @@ final class Teller
     /**
      * Converts an array of monetary amounts to an array of Money objects.
      *
-     * @param array $amounts an array of monetary amounts
+     * @param array<int|string, mixed> $amounts an array of monetary amounts
      *
      * @return Money[]
      */
@@ -409,6 +411,7 @@ final class Teller
     {
         $converted = [];
 
+        /** @var mixed $amount */
         foreach ($amounts as $key => $amount) {
             $converted[$key] = $this->convertToMoney($amount);
         }
@@ -443,6 +446,7 @@ final class Teller
     {
         $converted = [];
 
+        /** @var mixed $amount */
         foreach ($amounts as $key => $amount) {
             $converted[$key] = $this->convertToString($amount);
         }
