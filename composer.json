@@ -91,7 +91,7 @@
         "clean": "rm -rf build/ vendor/",
         "test": [
             "vendor/bin/phpspec run",
-            "vendor/bin/phpunit -v",
+            "vendor/bin/phpunit",
             "vendor/bin/phpbench run",
             "vendor/bin/psalm",
             "vendor/bin/phpcs"
