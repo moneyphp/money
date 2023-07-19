@@ -35,14 +35,14 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
 
     public function __construct()
     {
-        // PHPUnit 10 + sebastian/comparitor:5 remove the parent class
+        // PHPUnit 10 + sebastian/comparator:5 remove the parent class
         // constructor. Call conditionally if detected to keep working on
         // previous versions.
         if (method_exists(parent::class, '__construct')) {
             parent::__construct();
         }
 
-        // Similarly, comparitor:5 changed the constructor signature of
+        // Similarly, comparator:5 changed the constructor signature of
         // ComparisonFailure. This needs to be detected so the correct version
         // can be used depending on installed tools.
         $cfConstructor              = new ReflectionMethod(ComparisonFailure::class, '__construct');
