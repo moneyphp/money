@@ -88,6 +88,10 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
                 throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), 'Failed asserting that two Money objects are equal.');
             }
 
+            /**
+             * @psalm-suppress TooManyArguments
+             * @psalm-suppress InvalidArgument
+             */
             throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), false, 'Failed asserting that two Money objects are equal.');
         }
     }

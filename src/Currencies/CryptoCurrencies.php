@@ -81,15 +81,12 @@ final class CryptoCurrencies implements Currencies
      *     symbol: non-empty-string,
      *     minorUnit: positive-int|0
      * }>
-     *
-     * @psalm-suppress MoreSpecificReturnType do not specify all keys and values
      */
     private function loadCurrencies(): array
     {
         $file = __DIR__ . '/../../resources/binance.php';
 
         if (is_file($file)) {
-            /** @psalm-suppress LessSpecificReturnStatement */
             return require $file;
         }
 
