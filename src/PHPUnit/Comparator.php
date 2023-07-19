@@ -41,11 +41,12 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
         if (method_exists(parent::class, '__construct')) {
             parent::__construct();
         }
+
         // Similarly, comparitor:5 changed the constructor signature of
         // ComparisonFailure. This needs to be detected so the correct version
         // can be used depending on installed tools.
-        $cfConstructor = new ReflectionMethod(ComparisonFailure::class, '__construct');
-        $parameterCount = $cfConstructor->getNumberOfParameters();
+        $cfConstructor              = new ReflectionMethod(ComparisonFailure::class, '__construct');
+        $parameterCount             = $cfConstructor->getNumberOfParameters();
         $this->isComparatorVersion5 = $parameterCount === 5;
 
         $currencies = new AggregateCurrencies([
@@ -80,6 +81,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
             if ($this->isComparatorVersion5) {
                 throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), 'Failed asserting that two Money objects are equal.');
             }
+
             throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), false, 'Failed asserting that two Money objects are equal.');
         }
     }
