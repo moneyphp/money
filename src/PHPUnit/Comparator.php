@@ -68,8 +68,8 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
      * {@inheritDoc}
      *
      * @param float $delta
-     * @param bool $canonicalize
-     * @param bool $ignoreCase
+     * @param bool  $canonicalize
+     * @param bool  $ignoreCase
      */
     public function assertEquals(
         mixed $expected,
