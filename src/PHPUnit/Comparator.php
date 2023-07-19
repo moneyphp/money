@@ -59,15 +59,21 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
     }
 
     /** {@inheritDoc} */
-    public function accepts($expected, $actual): bool
+    public function accepts(mixed $expected, mixed $actual): bool
     {
         return $expected instanceof Money && $actual instanceof Money;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     *
+     * @param float $delta
+     * @param bool $canonicalize
+     * @param bool $ignoreCase
+     */
     public function assertEquals(
-        $expected,
-        $actual,
+        mixed $expected,
+        mixed $actual,
         $delta = 0.0,
         $canonicalize = false,
         $ignoreCase = false
