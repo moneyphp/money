@@ -10,6 +10,7 @@ use Money\Currencies\ISOCurrencies;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use NumberFormatter;
+use ReflectionMethod;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 use function assert;
@@ -28,6 +29,8 @@ use function method_exists;
  */
 final class Comparator extends \SebastianBergmann\Comparator\Comparator
 {
+    private bool $isComparatorVersion5;
+
     private IntlMoneyFormatter $formatter;
 
     public function __construct()
@@ -38,6 +41,12 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
         if (method_exists(parent::class, '__construct')) {
             parent::__construct();
         }
+        // Similarly, comparitor:5 changed the constructor signature of
+        // ComparisonFailure. This needs to be detected so the correct version
+        // can be used depending on installed tools.
+        $cfConstructor = new ReflectionMethod(ComparisonFailure::class, '__construct');
+        $parameterCount = $cfConstructor->getNumberOfParameters();
+        $this->isComparatorVersion5 = $parameterCount === 5;
 
         $currencies = new AggregateCurrencies([
             new ISOCurrencies(),
@@ -66,6 +75,11 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
         assert($actual instanceof Money);
 
         if (! $expected->equals($actual)) {
+            // Handle signature change in different versions; see notes in
+            // constructor.
+            if ($this->isComparatorVersion5) {
+                throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), 'Failed asserting that two Money objects are equal.');
+            }
             throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), false, 'Failed asserting that two Money objects are equal.');
         }
     }
