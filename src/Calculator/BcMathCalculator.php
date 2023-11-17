@@ -226,6 +226,6 @@ final class BcMathCalculator implements Calculator
             throw InvalidArgumentException::moduloByZero();
         }
 
-        return bcmod($amount, $divisor) ?? '0';
+        return bcmod($amount, $divisor);
     }
 }

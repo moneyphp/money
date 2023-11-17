@@ -97,6 +97,8 @@ final class NumberTest extends TestCase
      * }>
      *
      * @psalm-suppress InvalidOperand
+     * @psalm-suppress LessSpecificReturnStatement
+     * @psalm-suppress MoreSpecificReturnType
      *
      * the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
      * the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
