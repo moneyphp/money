@@ -101,7 +101,6 @@ final class ISOCurrencies implements Currencies
      *     minorUnit: positive-int|0,
      *     numericCode: positive-int
      * }>
-     *
      */
     private function loadCurrencies(): array
     {

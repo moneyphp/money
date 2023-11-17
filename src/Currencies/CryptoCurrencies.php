@@ -81,7 +81,6 @@ final class CryptoCurrencies implements Currencies
      *     symbol: non-empty-string,
      *     minorUnit: positive-int|0
      * }>
-     *
      */
     private function loadCurrencies(): array
     {
