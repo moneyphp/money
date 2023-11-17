@@ -46,7 +46,7 @@
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.18.4",
         "psr/cache": "^1.0.1",
-        "vimeo/psalm": "~5.3.0"
+        "vimeo/psalm": "~5.15.0"
     },
     "suggest": {
         "ext-gmp": "Calculate without integer limits",
