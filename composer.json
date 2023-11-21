@@ -64,7 +64,7 @@
     "autoload-dev": {
         "psr-4": {
             "Benchmark\\Money\\": "benchmark/",
-            "Tests\\Money\\": "tests/",
+            "Tests\\Money\\": "tests/"
         }
     },
     "config": {
