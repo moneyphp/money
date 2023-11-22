@@ -10,6 +10,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [4.3.0] - 2023-11-22
+
+### Added
+
+- Support for PHP 8.3
+- Allow divisor in mod to be a number as well
+
+### Removed
+
+- PHPSpec tests, we are using PHPUnit only now
+
+
 ## [4.2.0] - 2023-08-16
 
 ### Added
@@ -468,6 +480,7 @@ convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling the c
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
 [Unreleased]: https://github.com/moneyphp/money/compare/v4.1.1...HEAD
+[4.3.0]: https://github.com/moneyphp/money/compare/v4.2.0...v4.3.0
 [4.2.0]: https://github.com/moneyphp/money/compare/v4.1.1...v4.2.0
 [4.1.1]: https://github.com/moneyphp/money/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/moneyphp/money/compare/v4.0.5...v4.1.0
