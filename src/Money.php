@@ -279,15 +279,13 @@ final class Money implements JsonSerializable
             if ($this->currency != $divisor->currency) {
                 throw new InvalidArgumentException('Currencies must be identical');
             }
-            $amount = $divisor->amount;
+
+            $divisor = $divisor->amount;
         } else {
-            if (is_int($divisor)) {
-                $divisor = (string) $divisor;
-            }
-            $amount = $divisor;
+            $divisor = (string) Number::fromNumber($divisor);
         }
 
-        return new self(self::$calculator::mod($this->amount, $amount), $this->currency);
+        return new self(self::$calculator::mod($this->amount, $divisor), $this->currency);
     }
 
     /**

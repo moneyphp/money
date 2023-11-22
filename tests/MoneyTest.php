@@ -278,6 +278,19 @@ final class MoneyTest extends TestCase
     /**
      * @test
      */
+    public function itThrowsWhenDivisorIsInvalidStringArgument(): void
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress UnusedMethodCall this method throws */
+        $money->mod('test');
+    }
+
+    /**
+     * @test
+     */
     public function itThrowsWhenCalculatingModulusOfDifferentCurrencies(): void
     {
         $money      = new Money(self::AMOUNT, new Currency(self::CURRENCY));
