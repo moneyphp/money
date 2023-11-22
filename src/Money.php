@@ -272,14 +272,20 @@ final class Money implements JsonSerializable
      * the remainder after dividing the value by
      * the given factor.
      */
-    public function mod(Money $divisor): Money
+    public function mod(Money|int|string $divisor): Money
     {
-        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-        if ($this->currency != $divisor->currency) {
-            throw new InvalidArgumentException('Currencies must be identical');
+        if ($divisor instanceof self) {
+            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
+            if ($this->currency != $divisor->currency) {
+                throw new InvalidArgumentException('Currencies must be identical');
+            }
+
+            $divisor = $divisor->amount;
+        } else {
+            $divisor = (string) Number::fromNumber($divisor);
         }
 
-        return new self(self::$calculator::mod($this->amount, $divisor->amount), $this->currency);
+        return new self(self::$calculator::mod($this->amount, $divisor), $this->currency);
     }
 
     /**

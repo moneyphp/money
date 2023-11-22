@@ -258,6 +258,37 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param positive-int $left
+     * @psalm-param positive-int $right
+     * @psalm-param numeric-string $expected
+     *
+     * @dataProvider modExamples
+     * @test
+     */
+    public function itCalculatesTheModulusOfNumber($left, $right, $expected): void
+    {
+        $money = new Money($left, new Currency(self::CURRENCY));
+
+        $money = $money->mod($right);
+
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($expected, $money->getAmount());
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsWhenDivisorIsInvalidStringArgument(): void
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress UnusedMethodCall this method throws */
+        $money->mod('test');
+    }
+
+    /**
      * @test
      */
     public function itThrowsWhenCalculatingModulusOfDifferentCurrencies(): void
