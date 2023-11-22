@@ -3,7 +3,6 @@
 .php_cs.cache
 .phpunit.result.cache
 /build/
-/phpspec.yml
 /phpunit.xml
 /vendor/
 

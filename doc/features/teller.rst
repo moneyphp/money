@@ -24,14 +24,14 @@ The Teller offers these methods:
 
 * operation
 
-    * ``absolute($amount) : string`` Returns an absoute monetary amount.
+    * ``absolute($amount) : string`` Returns an absolute monetary amount.
     * ``add($amount, $other, ...$others) : string`` Adds one or more monetary amounts to a monetary amount.
     * ``divide($amount, $divisor) : string`` Divides a monetary amount by a divisor.
-    * ``mod($amount, $divisor)`` Retuns the mod of one amount by another.
+    * ``mod($amount, $divisor)`` Returns the mod of one amount by another.
     * ``multiply($amount, $multiplier) : string`` Multiplies a monetary amount by a multiplier.
     * ``negative($amount) : string`` Negates a monetary amount.
     * ``ratioOf($amount, $other)`` Determines the ratio of one monetary amount to another.
-    * ``subtract($amount, $other, ...$others) : string`` Subracts one or more monetary amounts from a monetary amount.
+    * ``subtract($amount, $other, ...$others) : string`` Subtracts one or more monetary amounts from a monetary amount.
 
 * comparison
 

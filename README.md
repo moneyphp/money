@@ -67,7 +67,7 @@ Please see the [official documentation](http://moneyphp.org).
 
 ## Testing
 
-We try to follow BDD and TDD, as such we use both [phpspec](http://www.phpspec.net) and [phpunit](https://phpunit.de) to test this library.
+We try to follow TDD by using [phpunit](https://phpunit.de) to test this library.
 
 ```bash
 $ composer test

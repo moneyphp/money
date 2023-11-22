@@ -122,4 +122,71 @@ final class CachedCurrenciesTest extends TestCase
             iterator_to_array(new CachedCurrencies($wrappedCurrencies, $cache))
         );
     }
+
+    /** @test */
+    public function it_checks_subunits_from_the_cache(): void
+    {
+        $currency = new Currency('EUR');
+
+        $hit               = $this->createMock(CacheItemInterface::class);
+        $cache             = $this->createMock(CacheItemPoolInterface::class);
+        $wrappedCurrencies = $this->createMock(Currencies::class);
+
+        $hit->method('isHit')
+            ->willReturn(true);
+        $hit->expects(self::never())
+            ->method('set');
+        $hit->method('get')
+            ->willReturn(2);
+
+        $cache->method('getItem')
+            ->with('currency|subunit|EUR')
+            ->willReturn($hit);
+        $cache->expects(self::never())
+            ->method('save');
+
+        $wrappedCurrencies->expects(self::never())
+            ->method('subunitFor');
+
+        self::assertEquals(
+            2,
+            (new CachedCurrencies($wrappedCurrencies, $cache))
+                ->subunitFor($currency)
+        );
+    }
+
+    /** @test */
+    public function it_saves_subunits_to_the_cache(): void
+    {
+        $currency = new Currency('EUR');
+
+        $hit               = $this->createMock(CacheItemInterface::class);
+        $cache             = $this->createMock(CacheItemPoolInterface::class);
+        $wrappedCurrencies = $this->createMock(Currencies::class);
+
+        $hit->method('isHit')
+            ->willReturn(false);
+        $hit->expects(self::once())
+            ->method('set')
+            ->with(2);
+        $hit->expects(self::once())
+            ->method('get')
+            ->willReturn(2);
+
+        $cache->method('getItem')
+            ->with('currency|subunit|EUR')
+            ->willReturn($hit);
+        $cache->expects(self::once())
+            ->method('save');
+
+        $wrappedCurrencies->expects(self::once())
+            ->method('subunitFor')
+            ->willReturn(2);
+
+        self::assertEquals(
+            2,
+            (new CachedCurrencies($wrappedCurrencies, $cache))
+                ->subunitFor($currency)
+        );
+    }
 }

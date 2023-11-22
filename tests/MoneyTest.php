@@ -400,6 +400,26 @@ final class MoneyTest extends TestCase
         self::assertEquals(Money::EUR($expected), Money::EUR($amount)->roundToUnit($unit, $roundingMode));
     }
 
+    /** @test */
+    public function itThrowsWithDecimal(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Money('5.1', new Currency(self::CURRENCY));
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsWhenComparingDifferentCurrencies(): void
+    {
+        $money = new Money('5', new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress UnusedMethodCall */
+        $money->compare(new Money('5', new Currency('SOME')));
+    }
+
     /**
      * @psalm-return non-empty-list<array{
      *     int|numeric-string,

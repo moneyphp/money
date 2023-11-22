@@ -24,7 +24,7 @@
     ],
     "homepage": "http://moneyphp.org",
     "require": {
-        "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
         "ext-bcmath": "*",
         "ext-filter": "*",
         "ext-json": "*"
@@ -42,11 +42,10 @@
         "php-http/message": "^1.11.0",
         "php-http/mock-client": "^1.4.1",
         "phpbench/phpbench": "^1.2.5",
-        "phpspec/phpspec": "^7.3",
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.18.4",
         "psr/cache": "^1.0.1",
-        "vimeo/psalm": "~5.3.0"
+        "vimeo/psalm": "~5.15.0"
     },
     "suggest": {
         "ext-gmp": "Calculate without integer limits",
@@ -65,8 +64,7 @@
     "autoload-dev": {
         "psr-4": {
             "Benchmark\\Money\\": "benchmark/",
-            "Tests\\Money\\": "tests/",
-            "spec\\Money\\": "spec/"
+            "Tests\\Money\\": "tests/"
         }
     },
     "config": {
@@ -90,7 +88,6 @@
         ],
         "clean": "rm -rf build/ vendor/",
         "test": [
-            "vendor/bin/phpspec run",
             "vendor/bin/phpunit -v",
             "vendor/bin/phpbench run",
             "vendor/bin/psalm",

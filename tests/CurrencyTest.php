@@ -27,4 +27,21 @@ final class CurrencyTest extends TestCase
     {
         self::assertEquals('USD', (new Currency('usd'))->getCode());
     }
+
+    /**
+     * @test
+     */
+    public function itIsStringable(): void
+    {
+        self::assertEquals('USD', (string) new Currency('usd'));
+    }
+
+    /**
+     * @test
+     */
+    public function itProvidesEqualityComparison(): void
+    {
+        $currency = new Currency('usd');
+        self::assertTrue($currency->equals(new Currency('USD')));
+    }
 }
