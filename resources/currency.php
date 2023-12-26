@@ -472,7 +472,7 @@
   array (
     'alphabeticCode' => 'IRR',
     'currency' => 'Iranian Rial',
-    'minorUnit' => 2,
+    'minorUnit' => 0,
     'numericCode' => 364,
   ),
   'ISK' => 
