@@ -50,7 +50,7 @@ final class Currency implements JsonSerializable
 
     public function __toString(): string
     {
-        return $this->code;
+        return $this->getCode();
     }
 
     public function jsonSerialize(): string
