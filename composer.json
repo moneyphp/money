@@ -44,7 +44,7 @@
         "phpbench/phpbench": "^1.2.5",
         "phpunit/phpunit": "^9.5.4",
         "psalm/plugin-phpunit": "^0.18.4",
-        "psr/cache": "^1.0.1",
+        "psr/cache": "^1.0.1 || ^2.0 || ^3.0",
         "vimeo/psalm": "~5.15.0"
     },
     "suggest": {
