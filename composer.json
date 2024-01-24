@@ -88,13 +88,13 @@
         ],
         "clean": "rm -rf build/ vendor/",
         "test": [
-            "vendor/bin/phpunit -v",
+            "vendor/bin/phpunit",
             "vendor/bin/phpbench run",
             "vendor/bin/psalm",
             "vendor/bin/phpcs"
         ],
         "test-coverage": [
-            "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
+            "vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": [
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
