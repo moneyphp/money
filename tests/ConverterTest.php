@@ -231,7 +231,7 @@ final class ConverterTest extends TestCase
      *     positive-int|0
      * }>
      */
-    public function convertExamples(): array
+    public static function convertExamples(): array
     {
         return [
             ['USD', 'JPY', 2, 0, 101, 100, 101],

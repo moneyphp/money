@@ -458,7 +458,7 @@ final class MoneyTest extends TestCase
      *     bool
      * }>
      */
-    public function equalityExamples(): array
+    public static function equalityExamples(): array
     {
         return [
             [10, new Currency(self::CURRENCY), true],
@@ -475,7 +475,7 @@ final class MoneyTest extends TestCase
      *     int
      * }>
      */
-    public function comparisonExamples(): array
+    public static function comparisonExamples(): array
     {
         return [
             [self::AMOUNT, 0],
@@ -491,7 +491,7 @@ final class MoneyTest extends TestCase
      *     non-empty-array<int|string, int>
      * }>
      */
-    public function allocationExamples(): array
+    public static function allocationExamples(): array
     {
         return [
             [100, [1, 1, 1], [34, 33, 33]],
@@ -521,7 +521,7 @@ final class MoneyTest extends TestCase
      *     non-empty-list<positive-int>
      * }>
      */
-    public function allocationTargetExamples(): array
+    public static function allocationTargetExamples(): array
     {
         return [
             [15, 2, [8, 7]],
@@ -539,7 +539,7 @@ final class MoneyTest extends TestCase
      *     bool
      * }>
      */
-    public function comparatorExamples(): array
+    public static function comparatorExamples(): array
     {
         return [
             [1, false, true, false],
@@ -557,7 +557,7 @@ final class MoneyTest extends TestCase
      *     positive-int|0
      * }>
      */
-    public function absoluteExamples(): array
+    public static function absoluteExamples(): array
     {
         return [
             [1, 1],
@@ -575,7 +575,7 @@ final class MoneyTest extends TestCase
      *     int
      * }>
      */
-    public function negativeExamples(): array
+    public static function negativeExamples(): array
     {
         return [
             [1, -1],
@@ -594,7 +594,7 @@ final class MoneyTest extends TestCase
      *     numeric-string
      * }>
      */
-    public function modExamples(): array
+    public static function modExamples(): array
     {
         return [
             [11, 5, '1'],
@@ -612,7 +612,7 @@ final class MoneyTest extends TestCase
      *     int
      * }>
      */
-    public function roundToUnitExamples(): array
+    public static function roundToUnitExamples(): array
     {
         return [
             [510, 2, 500, Money::ROUND_HALF_UP],

@@ -9,7 +9,7 @@ use Money\Money;
 trait AggregateExamples
 {
     /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
-    public function sumExamples(): array
+    public static function sumExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(30)],
@@ -19,7 +19,7 @@ trait AggregateExamples
     }
 
     /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
-    public function minExamples(): array
+    public static function minExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(5)],
@@ -29,7 +29,7 @@ trait AggregateExamples
     }
 
     /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
-    public function maxExamples(): array
+    public static function maxExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(15)],
@@ -39,7 +39,7 @@ trait AggregateExamples
     }
 
     /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
-    public function avgExamples(): array
+    public static function avgExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(10)],

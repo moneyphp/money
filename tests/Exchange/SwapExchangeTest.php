@@ -22,7 +22,7 @@ final class SwapExchangeTest extends TestCase
      *     numeric-string
      * }>
      */
-    public function exchangeRateExamples(): array
+    public static function exchangeRateExamples(): array
     {
         return [
             [1.25, '1.25000000000000'],

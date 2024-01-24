@@ -118,7 +118,7 @@ final class IntlLocalizedDecimalParserTest extends TestCase
      *     non-empty-string
      * }>
      */
-    public function formattedMoneyExamples()
+    public static function formattedMoneyExamples(): array
     {
         return [
             ['1000.50', 100050, 'en_US'],

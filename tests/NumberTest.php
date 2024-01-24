@@ -104,7 +104,7 @@ final class NumberTest extends TestCase
      * the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
      * concatenation of {@see PHP_INT_MAX} is disallowed by type checker, but valid in this scenario
      */
-    public function numberExamples(): array
+    public static function numberExamples(): array
     {
         return [
             ['0', false, false, true, false, '0', ''],
@@ -162,7 +162,7 @@ final class NumberTest extends TestCase
     }
 
     /** @psalm-return non-empty-list<array{string}> */
-    public function invalidNumberExamples()
+    public static function invalidNumberExamples(): array
     {
         return [
             [''],
@@ -187,7 +187,7 @@ final class NumberTest extends TestCase
      *     numeric-string
      * }>
      */
-    public function base10Examples()
+    public static function base10Examples(): array
     {
         return [
             ['0', 10, '0'],
@@ -208,7 +208,7 @@ final class NumberTest extends TestCase
     }
 
     /** @psalm-return non-empty-list<array{int|numeric-string}> */
-    public function numericExamples(): array
+    public static function numericExamples(): array
     {
         return [
             [1],

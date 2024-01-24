@@ -28,7 +28,7 @@ final class MoneyFactoryTest extends TestCase
     }
 
     /** @psalm-return list<array{Currency}> */
-    public function currencyExamples(): array
+    public static function currencyExamples(): array
     {
         $currencies = new AggregateCurrencies([
             new ISOCurrencies(),
