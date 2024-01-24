@@ -26,6 +26,7 @@ use function method_exists;
  * @internal do not use within your sources: this comparator is only to be used within the test suite of this library
  *
  * @psalm-suppress PropertyNotSetInConstructor the parent implementation includes factories that cannot be initialized here
+ * @psalm-suppress DirectConstructorCall
  */
 final class Comparator extends \SebastianBergmann\Comparator\Comparator
 {
