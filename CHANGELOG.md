@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [4.4.0] - 2024-01-24
+
+### Added
+
+- Extended support for psr/cache, now version 1.0.1 up until 3.0 is supported.
+
+
 ## [4.3.0] - 2023-11-22
 
 ### Added
