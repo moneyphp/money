@@ -10,11 +10,9 @@ use Money\Currencies\ISOCurrencies;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use NumberFormatter;
-use ReflectionMethod;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 use function assert;
-use function method_exists;
 
 /**
  * The comparator is for comparing Money objects in PHPUnit tests.
@@ -26,30 +24,13 @@ use function method_exists;
  * @internal do not use within your sources: this comparator is only to be used within the test suite of this library
  *
  * @psalm-suppress PropertyNotSetInConstructor the parent implementation includes factories that cannot be initialized here
- * @psalm-suppress DirectConstructorCall
  */
 final class Comparator extends \SebastianBergmann\Comparator\Comparator
 {
-    private bool $isComparatorVersion5;
-
     private IntlMoneyFormatter $formatter;
 
     public function __construct()
     {
-        // PHPUnit 10 + sebastian/comparator:5 remove the parent class
-        // constructor. Call conditionally if detected to keep working on
-        // previous versions.
-        if (method_exists(parent::class, '__construct')) {
-            parent::__construct();
-        }
-
-        // Similarly, comparator:5 changed the constructor signature of
-        // ComparisonFailure. This needs to be detected so the correct version
-        // can be used depending on installed tools.
-        $cfConstructor              = new ReflectionMethod(ComparisonFailure::class, '__construct');
-        $parameterCount             = $cfConstructor->getNumberOfParameters();
-        $this->isComparatorVersion5 = $parameterCount === 5;
-
         $currencies = new AggregateCurrencies([
             new ISOCurrencies(),
             new BitcoinCurrencies(),
@@ -83,17 +64,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
         assert($actual instanceof Money);
 
         if (! $expected->equals($actual)) {
-            // Handle signature change in different versions; see notes in
-            // constructor.
-            if ($this->isComparatorVersion5) {
-                throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), 'Failed asserting that two Money objects are equal.');
-            }
-
-            /**
-             * @psalm-suppress TooManyArguments
-             * @psalm-suppress InvalidArgument
-             */
-            throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), false, 'Failed asserting that two Money objects are equal.');
+            throw new ComparisonFailure($expected, $actual, $this->formatter->format($expected), $this->formatter->format($actual), 'Failed asserting that two Money objects are equal.');
         }
     }
 }
