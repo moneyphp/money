@@ -1,5 +1,7 @@
 amongst
 integrations
+codebases
+formatter
 formatters
 eg
 Bitcoin

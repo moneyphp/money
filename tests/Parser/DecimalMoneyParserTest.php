@@ -118,6 +118,8 @@ final class DecimalMoneyParserTest extends TestCase
             ['000009.99', 'USD', 2, 999],
             ['-000009.99', 'USD', 2, -999],
             ['000', 'USD', 2, 0],
+            ['003', 'USD', 2, 300],
+            ['0003', 'USD', 2, 300],
         ];
     }
 

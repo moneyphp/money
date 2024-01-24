@@ -1,7 +1,7 @@
 # Money
 
 [![Latest Version](https://img.shields.io/github/release/moneyphp/money.svg?style=flat-square)](https://github.com/moneyphp/money/releases)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/php-http/message/CI?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/moneyphp/money/ci.yml?branch=master&style=flat-square)
 [![Total Downloads](https://img.shields.io/packagist/dt/moneyphp/money.svg?style=flat-square)](https://packagist.org/packages/moneyphp/money)
 
 [![Email](https://img.shields.io/badge/email-team@moneyphp.org-blue.svg?style=flat-square)](mailto:team@moneyphp.org)
@@ -67,7 +67,7 @@ Please see the [official documentation](http://moneyphp.org).
 
 ## Testing
 
-We try to follow BDD and TDD, as such we use both [phpspec](http://www.phpspec.net) and [phpunit](https://phpunit.de) to test this library.
+We try to follow TDD by using [phpunit](https://phpunit.de) to test this library.
 
 ```bash
 $ composer test

@@ -258,6 +258,37 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @psalm-param positive-int $left
+     * @psalm-param positive-int $right
+     * @psalm-param numeric-string $expected
+     *
+     * @dataProvider modExamples
+     * @test
+     */
+    public function itCalculatesTheModulusOfNumber($left, $right, $expected): void
+    {
+        $money = new Money($left, new Currency(self::CURRENCY));
+
+        $money = $money->mod($right);
+
+        self::assertInstanceOf(Money::class, $money);
+        self::assertEquals($expected, $money->getAmount());
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsWhenDivisorIsInvalidStringArgument(): void
+    {
+        $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress UnusedMethodCall this method throws */
+        $money->mod('test');
+    }
+
+    /**
      * @test
      */
     public function itThrowsWhenCalculatingModulusOfDifferentCurrencies(): void
@@ -398,6 +429,26 @@ final class MoneyTest extends TestCase
     public function itRoundsToUnit($amount, $unit, $expected, $roundingMode): void
     {
         self::assertEquals(Money::EUR($expected), Money::EUR($amount)->roundToUnit($unit, $roundingMode));
+    }
+
+    /** @test */
+    public function itThrowsWithDecimal(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new Money('5.1', new Currency(self::CURRENCY));
+    }
+
+    /**
+     * @test
+     */
+    public function itThrowsWhenComparingDifferentCurrencies(): void
+    {
+        $money = new Money('5', new Currency(self::CURRENCY));
+
+        $this->expectException(InvalidArgumentException::class);
+
+        /** @psalm-suppress UnusedMethodCall */
+        $money->compare(new Money('5', new Currency('SOME')));
     }
 
     /**

@@ -16,54 +16,64 @@ final class CurrencyPairTest extends TestCase
     /**
      * @test
      */
-    public function itConvertsToJson(): void
-    {
-        $expectedJson = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":"1.25"}';
-        $actualJson   = json_encode(new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.25'));
-
-        self::assertEquals($expectedJson, $actualJson);
-    }
-
-    /** @test */
-    public function it_parses_an_iso_string(): void
-    {
-        self::assertEquals(
-            new CurrencyPair(new Currency('EUR'), new Currency('USD'), '1.250000'),
-            CurrencyPair::createFromIso('EUR/USD 1.250000')
-        );
-    }
-
-    /** @test */
-    public function it_equals_to_another_currency_pair(): void
+    public function itProvidesGetters(): void
     {
         $pair = new CurrencyPair(
-            new Currency('EUR'),
             new Currency('USD'),
-            '1.250000'
+            new Currency('EUR'),
+            '1.0'
         );
 
-        self::assertFalse($pair->equals(new CurrencyPair(
-            new Currency('GBP'),
-            new Currency('USD'),
-            '1.250000'
-        )));
+        self::assertEquals('USD', $pair->getBaseCurrency()->getCode());
+        self::assertEquals('EUR', $pair->getCounterCurrency()->getCode());
+        self::assertEquals('1.0', $pair->getConversionRatio());
+    }
 
-        self::assertFalse($pair->equals(new CurrencyPair(
-            new Currency('EUR'),
-            new Currency('GBP'),
-            '1.250000'
-        )));
-
-        self::assertFalse($pair->equals(new CurrencyPair(
-            new Currency('EUR'),
+    /**
+     * @test
+     */
+    public function itProvidesEquality(): void
+    {
+        $pair1 = new CurrencyPair(
             new Currency('USD'),
-            '1.5000'
-        )));
-
-        self::assertTrue($pair->equals(new CurrencyPair(
             new Currency('EUR'),
+            '1.0'
+        );
+
+        self::assertTrue($pair1->equals(new CurrencyPair(
             new Currency('USD'),
-            '1.250000'
+            new Currency('EUR'),
+            '1.0'
         )));
+        self::assertFalse($pair1->equals(new CurrencyPair(
+            new Currency('USD'),
+            new Currency('EUR'),
+            '2.0'
+        )));
+    }
+
+    /**
+     * @test
+     */
+    public function itConvertsToJson(): void
+    {
+        $pair = new CurrencyPair(
+            new Currency('USD'),
+            new Currency('EUR'),
+            '1.0'
+        );
+
+        self::assertEquals('{"baseCurrency":"USD","counterCurrency":"EUR","ratio":"1.0"}', json_encode($pair));
+    }
+
+    /**
+     * @test
+     */
+    public function itCanBeCreatedWithAnIsoString(): void
+    {
+        $pair = CurrencyPair::createFromIso('EUR/USD 1.2500');
+        self::assertEquals('EUR', $pair->getBaseCurrency()->getCode());
+        self::assertEquals('USD', $pair->getCounterCurrency()->getCode());
+        self::assertEquals('1.2500', $pair->getConversionRatio());
     }
 }
