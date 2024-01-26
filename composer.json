@@ -37,7 +37,7 @@
         "doctrine/instantiator": "^1.5.0 || ^2.0",
         "florianv/exchanger": "^2.8.1",
         "florianv/swap": "^4.3.0",
-        "moneyphp/iso-currencies": "^3.3 || ^4.0",
+        "moneyphp/iso-currencies": "^3.4",
         "moneyphp/crypto-currencies": "^1.1.0",
         "php-http/message": "^1.16.0",
         "php-http/mock-client": "^1.6.0",
