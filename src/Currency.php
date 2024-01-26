@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Money;
 
 use JsonSerializable;
+use Serializable;
 
 use function strtoupper;
 
@@ -15,7 +16,7 @@ use function strtoupper;
  *
  * @psalm-immutable
  */
-final class Currency implements JsonSerializable
+final class Currency implements JsonSerializable, Serializable
 {
     /**
      * Currency code.
@@ -66,8 +67,23 @@ final class Currency implements JsonSerializable
         return ['code' => $this->code];
     }
 
+    # TODO Correct PSALM?
     public function __unserialize(array $data): void
     {
         $this->code = (string) $data['code'];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function serialize(): array
+    {
+        return $this->__serialize();
+    }
+
+    # TODO Correct PSALM?
+    public function unserialize(string $data)
+    {
+        return $this->__unserialize($data);
     }
 }
