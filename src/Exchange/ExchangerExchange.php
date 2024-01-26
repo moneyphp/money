@@ -22,18 +22,15 @@ use function sprintf;
  */
 final class ExchangerExchange implements Exchange
 {
-    private ExchangeRateProvider $exchanger;
-
-    public function __construct(ExchangeRateProvider $exchanger)
+    public function __construct(private ExchangeRateProvider $exchanger)
     {
-        $this->exchanger = $exchanger;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
     {
         try {
             $query = new ExchangeRateQuery(
-                new ExchangerCurrencyPair($baseCurrency->getCode(), $counterCurrency->getCode())
+                new ExchangerCurrencyPair($baseCurrency->getCode(), $counterCurrency->getCode()),
             );
             $rate  = $this->exchanger->getExchangeRate($query);
         } catch (ExchangerException) {

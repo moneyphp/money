@@ -52,7 +52,7 @@ final class Number
 
         return new self(
             $portions[0],
-            rtrim($portions[1] ?? '', '0')
+            rtrim($portions[1] ?? '', '0'),
         );
     }
 
@@ -163,7 +163,7 @@ final class Number
 
             return new self(
                 $sign . substr($integerPart, 0, $integers),
-                rtrim(str_pad('', $zeroPad, '0') . substr($integerPart, $integers) . $this->fractionalPart, '0')
+                rtrim(str_pad('', $zeroPad, '0') . substr($integerPart, $integers) . $this->fractionalPart, '0'),
             );
         }
 
@@ -174,7 +174,7 @@ final class Number
 
         return new self(
             $sign . ltrim($integerPart . substr($this->fractionalPart, 0, $lengthFractionalPart - $fractions) . str_pad('', $zeroPad, '0'), '0'),
-            substr($this->fractionalPart, $lengthFractionalPart - $fractions)
+            substr($this->fractionalPart, $lengthFractionalPart - $fractions),
         );
     }
 

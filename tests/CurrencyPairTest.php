@@ -13,15 +13,13 @@ use function json_encode;
 /** @covers \Money\CurrencyPair */
 final class CurrencyPairTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function itProvidesGetters(): void
     {
         $pair = new CurrencyPair(
             new Currency('USD'),
             new Currency('EUR'),
-            '1.0'
+            '1.0',
         );
 
         self::assertEquals('USD', $pair->getBaseCurrency()->getCode());
@@ -29,46 +27,40 @@ final class CurrencyPairTest extends TestCase
         self::assertEquals('1.0', $pair->getConversionRatio());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itProvidesEquality(): void
     {
         $pair1 = new CurrencyPair(
             new Currency('USD'),
             new Currency('EUR'),
-            '1.0'
+            '1.0',
         );
 
         self::assertTrue($pair1->equals(new CurrencyPair(
             new Currency('USD'),
             new Currency('EUR'),
-            '1.0'
+            '1.0',
         )));
         self::assertFalse($pair1->equals(new CurrencyPair(
             new Currency('USD'),
             new Currency('EUR'),
-            '2.0'
+            '2.0',
         )));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itConvertsToJson(): void
     {
         $pair = new CurrencyPair(
             new Currency('USD'),
             new Currency('EUR'),
-            '1.0'
+            '1.0',
         );
 
         self::assertEquals('{"baseCurrency":"USD","counterCurrency":"EUR","ratio":"1.0"}', json_encode($pair));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itCanBeCreatedWithAnIsoString(): void
     {
         $pair = CurrencyPair::createFromIso('EUR/USD 1.2500');

@@ -12,33 +12,25 @@ use function json_encode;
 /** @covers \Money\Currency */
 final class CurrencyTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function itConvertsToJson(): void
     {
         self::assertEquals('"USD"', json_encode(new Currency('USD')));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itAppliesUppercase(): void
     {
         self::assertEquals('USD', (new Currency('usd'))->getCode());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itIsStringable(): void
     {
         self::assertEquals('USD', (string) new Currency('usd'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itProvidesEqualityComparison(): void
     {
         $currency = new Currency('usd');

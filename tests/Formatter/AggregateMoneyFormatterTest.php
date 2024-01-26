@@ -27,7 +27,7 @@ final class AggregateMoneyFormatterTest extends TestCase
         self::assertEquals(
             'FIRST',
             (new AggregateMoneyFormatter(['EUR' => $eurFormatter]))
-                ->format($money)
+                ->format($money),
         );
     }
 

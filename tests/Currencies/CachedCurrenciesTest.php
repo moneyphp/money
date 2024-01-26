@@ -47,7 +47,7 @@ final class CachedCurrenciesTest extends TestCase
 
         self::assertTrue(
             (new CachedCurrencies($wrappedCurrencies, $cache))
-                ->contains($currency)
+                ->contains($currency),
         );
     }
 
@@ -78,7 +78,7 @@ final class CachedCurrenciesTest extends TestCase
 
         self::assertTrue(
             (new CachedCurrencies($wrappedCurrencies, $cache))
-                ->contains($currency)
+                ->contains($currency),
         );
     }
 
@@ -119,7 +119,7 @@ final class CachedCurrenciesTest extends TestCase
                 new Currency('EUR'),
                 new Currency('USD'),
             ],
-            iterator_to_array(new CachedCurrencies($wrappedCurrencies, $cache))
+            iterator_to_array(new CachedCurrencies($wrappedCurrencies, $cache)),
         );
     }
 
@@ -151,7 +151,7 @@ final class CachedCurrenciesTest extends TestCase
         self::assertEquals(
             2,
             (new CachedCurrencies($wrappedCurrencies, $cache))
-                ->subunitFor($currency)
+                ->subunitFor($currency),
         );
     }
 
@@ -186,7 +186,7 @@ final class CachedCurrenciesTest extends TestCase
         self::assertEquals(
             2,
             (new CachedCurrencies($wrappedCurrencies, $cache))
-                ->subunitFor($currency)
+                ->subunitFor($currency),
         );
     }
 }

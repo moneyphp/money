@@ -41,9 +41,7 @@ final class ISOCurrenciesTest extends TestCase
         self::assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsAnExceptionWhenProvidingSubunitAndCurrencyIsUnknown(): void
     {
         $this->expectException(UnknownCurrencyException::class);
@@ -66,9 +64,7 @@ final class ISOCurrenciesTest extends TestCase
         self::assertIsInt($currencies->numericCodeFor(new Currency($currency)));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsAnExceptionWhenProvidingNumericCodeAndCurrencyIsUnknown(): void
     {
         $this->expectException(UnknownCurrencyException::class);
@@ -78,9 +74,7 @@ final class ISOCurrenciesTest extends TestCase
         $currencies->numericCodeFor(new Currency('XXXXXX'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itIsIterable(): void
     {
         $currencies = new ISOCurrencies();
@@ -90,9 +84,7 @@ final class ISOCurrenciesTest extends TestCase
         self::assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
-    /**
-     * @psalm-return non-empty-list<array{non-empty-string}>
-     */
+    /** @psalm-return non-empty-list<array{non-empty-string}> */
     public function currencyCodeExamples(): array
     {
         /** @psalm-var non-empty-array<non-empty-string, array> $currencies */

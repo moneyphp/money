@@ -77,7 +77,7 @@ abstract class CalculatorTestCase extends TestCase
         $resultNumericString   = substr(
             $this->getCalculator()::divide((string) $value1, (string) $value2),
             0,
-            12
+            12,
         );
 
         self::assertIsNumeric($expectedNumericString);
@@ -405,9 +405,7 @@ abstract class CalculatorTestCase extends TestCase
         ];
     }
 
-    /**
-     * @psalm-return array<int,array<int|numeric-string>>
-     */
+    /** @psalm-return array<int,array<int|numeric-string>> */
     public function compareLessExamples(): array
     {
         return [

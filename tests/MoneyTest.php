@@ -94,9 +94,7 @@ final class MoneyTest extends TestCase
         self::assertEquals($result, $money->getAmount());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator(): void
     {
         $this->setLocale(LC_ALL, 'es_ES.utf8');
@@ -125,7 +123,7 @@ final class MoneyTest extends TestCase
                 ->multiply($divisor, $roundingMode)
                 ->divide($divisor, $roundingMode)
                 ->getAmount(),
-            'Our dataset does not contain a lot of data around divisions: we abuse multiplication to verify inverse function properties'
+            'Our dataset does not contain a lot of data around divisions: we abuse multiplication to verify inverse function properties',
         );
     }
 
@@ -275,9 +273,7 @@ final class MoneyTest extends TestCase
         self::assertEquals($expected, $money->getAmount());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsWhenDivisorIsInvalidStringArgument(): void
     {
         $money = new Money(self::AMOUNT, new Currency(self::CURRENCY));
@@ -288,9 +284,7 @@ final class MoneyTest extends TestCase
         $money->mod('test');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsWhenCalculatingModulusOfDifferentCurrencies(): void
     {
         $money      = new Money(self::AMOUNT, new Currency(self::CURRENCY));
@@ -302,25 +296,21 @@ final class MoneyTest extends TestCase
         $money->mod($rightMoney);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itConvertsToJson(): void
     {
         self::assertEquals(
             '{"amount":"350","currency":"EUR"}',
-            json_encode(Money::EUR(350))
+            json_encode(Money::EUR(350)),
         );
 
         self::assertEquals(
             ['amount' => '350', 'currency' => 'EUR'],
-            Money::EUR(350)->jsonSerialize()
+            Money::EUR(350)->jsonSerialize(),
         );
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itSupportsMaxInt(): void
     {
         $one = new Money(1, new Currency('EUR'));
@@ -330,9 +320,7 @@ final class MoneyTest extends TestCase
         self::assertInstanceOf(Money::class, (new Money(PHP_INT_MAX, new Currency('EUR')))->subtract($one));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itReturnsRatioOf(): void
     {
         $currency = new Currency('EUR');
@@ -346,9 +334,7 @@ final class MoneyTest extends TestCase
         self::assertEquals(2, $six->ratioOf($three));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsWhenCalculatingRatioOfZero(): void
     {
         $currency = new Currency('EUR');
@@ -360,9 +346,7 @@ final class MoneyTest extends TestCase
         $six->ratioOf($zero);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsWhenCalculatingRatioOfDifferentCurrencies(): void
     {
         $money      = new Money(self::AMOUNT, new Currency(self::CURRENCY));
@@ -438,9 +422,7 @@ final class MoneyTest extends TestCase
         new Money('5.1', new Currency(self::CURRENCY));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsWhenComparingDifferentCurrencies(): void
     {
         $money = new Money('5', new Currency(self::CURRENCY));

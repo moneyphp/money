@@ -15,15 +15,9 @@ use Traversable;
  */
 final class AggregateCurrencies implements Currencies
 {
-    /** @var Currencies[] */
-    private array $currencies;
-
-    /**
-     * @param Currencies[] $currencies
-     */
-    public function __construct(array $currencies)
+    /** @param Currencies[] $currencies */
+    public function __construct(private array $currencies)
     {
-        $this->currencies = $currencies;
     }
 
     public function contains(Currency $currency): bool

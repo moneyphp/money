@@ -28,7 +28,7 @@ final class ReversedCurrenciesExchangeTest extends TestCase
         self::assertEquals(
             new CurrencyPair($base, $counter, '1.25'),
             (new ReversedCurrenciesExchange($wrappedExchange))
-                ->quote($base, $counter)
+                ->quote($base, $counter),
         );
     }
 
@@ -40,7 +40,7 @@ final class ReversedCurrenciesExchangeTest extends TestCase
         $wrappedExchange = $this->createMock(Exchange::class);
 
         $wrappedExchange->method('quote')
-            ->willReturnCallback(static function (Currency $givenBase, Currency $givenCounter) use ($base
+            ->willReturnCallback(static function (Currency $givenBase, Currency $givenCounter) use ($base,
             ): CurrencyPair {
                 if ($givenBase->equals($base)) {
                     throw new UnresolvableCurrencyPairException();
@@ -52,7 +52,7 @@ final class ReversedCurrenciesExchangeTest extends TestCase
         self::assertEquals(
             new CurrencyPair($base, $counter, '0.80000000000000'),
             (new ReversedCurrenciesExchange($wrappedExchange))
-                ->quote($base, $counter)
+                ->quote($base, $counter),
         );
     }
 
@@ -66,7 +66,7 @@ final class ReversedCurrenciesExchangeTest extends TestCase
         $wrappedExchange = $this->createMock(Exchange::class);
 
         $wrappedExchange->method('quote')
-            ->willReturnCallback(static function (Currency $givenBase) use ($exception2, $exception1, $base
+            ->willReturnCallback(static function (Currency $givenBase) use ($exception2, $exception1, $base,
             ): CurrencyPair {
                 if ($givenBase->equals($base)) {
                     throw $exception1;

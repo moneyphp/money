@@ -54,7 +54,7 @@ final class Comparator extends \SebastianBergmann\Comparator\Comparator
         $actual,
         $delta = 0.0,
         $canonicalize = false,
-        $ignoreCase = false
+        $ignoreCase = false,
     ): void {
         assert($expected instanceof Money);
         assert($actual instanceof Money);

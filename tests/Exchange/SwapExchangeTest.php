@@ -56,7 +56,7 @@ final class SwapExchangeTest extends TestCase
         self::assertEquals(
             new CurrencyPair($base, $counter, $expectedConversionRatio),
             (new SwapExchange($swapExchange))
-                ->quote($base, $counter)
+                ->quote($base, $counter),
         );
     }
 

@@ -23,41 +23,31 @@ class GmpCalculatorTest extends CalculatorTestCase
         return GmpCalculator::class;
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itMultipliesZero(): void
     {
         self::assertSame('0', $this->getCalculator()::multiply('0', '0.8'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itFloorsZero(): void
     {
         self::assertSame('0', $this->getCalculator()::floor('0'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesZeroWithFraction(): void
     {
         self::assertSame(1, $this->getCalculator()::compare('0.5', '0'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_divides_bug538(): void
     {
         self::assertSame('-4.54545454545455', $this->getCalculator()::divide('-500', '110'));
     }
 
-    /**
-     * @psalm-return array<int,array<int|numeric-string>>
-     */
+    /** @psalm-return array<int,array<int|numeric-string>> */
     public function compareLessExamples(): array
     {
         return array_merge(
@@ -65,7 +55,7 @@ class GmpCalculatorTest extends CalculatorTestCase
             [
                 // Slightly below PHP_INT_MIN on 64 bit systems (does not work with the PhpCalculator)
                 ['-9223372036854775810', '-9223372036854775809', -1],
-            ]
+            ],
         );
     }
 }

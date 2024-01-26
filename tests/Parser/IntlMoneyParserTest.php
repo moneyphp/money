@@ -30,7 +30,7 @@ final class IntlMoneyParserTest extends TestCase
         $currencies = $this->createMock(Currencies::class);
 
         $currencies->method('subunitFor')
-            ->with(self::callback(static fn (Currency $givenCurrency): bool => 'USD' === $givenCurrency->getCode()))
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => $givenCurrency->getCode() === 'USD'))
             ->willReturn(2);
 
         $currencyCode = 'USD';
@@ -40,9 +40,7 @@ final class IntlMoneyParserTest extends TestCase
         self::assertEquals($units, $parser->parse($string, $currency)->getAmount());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itCannotConvertStringToUnits(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
@@ -56,9 +54,7 @@ final class IntlMoneyParserTest extends TestCase
         $parser->parse('THIS_IS_NOT_CONVERTABLE_TO_UNIT', $currency);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itWorksWithAllKindsOfLocales(): void
     {
         $formatter = new NumberFormatter('en_CA', NumberFormatter::CURRENCY);
@@ -70,9 +66,7 @@ final class IntlMoneyParserTest extends TestCase
         self::assertTrue(Money::CAD(100000)->equals($money));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itAcceptsAForcedCurrency(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
@@ -87,9 +81,7 @@ final class IntlMoneyParserTest extends TestCase
         self::assertEquals('CAD', $money->getCurrency()->getCode());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itSupportsFractionDigits(): void
     {
         $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);

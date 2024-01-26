@@ -33,7 +33,7 @@ final class BitcoinMoneyFormatterTest extends TestCase
         self::assertSame(
             $formatted,
             (new BitcoinMoneyFormatter($fractionDigits, $currencies))
-                ->format(new Money($value, $currency))
+                ->format(new Money($value, $currency)),
         );
     }
 

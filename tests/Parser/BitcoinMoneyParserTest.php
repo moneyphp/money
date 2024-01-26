@@ -31,9 +31,7 @@ final class BitcoinMoneyParserTest extends TestCase
         self::assertEquals(BitcoinCurrencies::CODE, $money->getCurrency()->getCode());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function forceCurrencyWorks(): void
     {
         $moneyParser = new BitcoinMoneyParser(2);

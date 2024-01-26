@@ -27,7 +27,7 @@ final class AggregateMoneyParserTest extends TestCase
         self::assertEquals(
             $money,
             (new AggregateMoneyParser([$wrappedParser]))
-                ->parse('€ 100')
+                ->parse('€ 100'),
         );
     }
 
@@ -77,7 +77,7 @@ final class AggregateMoneyParserTest extends TestCase
         self::assertEquals(
             $money,
             (new AggregateMoneyParser([$wrappedParser1, $wrappedParser2, $wrappedParser3]))
-                ->parse('€ 100')
+                ->parse('€ 100'),
         );
     }
 }

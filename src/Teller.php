@@ -39,28 +39,16 @@ final class Teller
             $currency,
             $parser,
             $formatter,
-            $roundingMode
+            $roundingMode,
         );
     }
 
-    private Currency $currency;
-
-    private MoneyFormatter $formatter;
-
-    private MoneyParser $parser;
-
-    private int $roundingMode = Money::ROUND_HALF_UP;
-
     public function __construct(
-        Currency $currency,
-        MoneyParser $parser,
-        MoneyFormatter $formatter,
-        int $roundingMode = Money::ROUND_HALF_UP
+        private Currency $currency,
+        private MoneyParser $parser,
+        private MoneyFormatter $formatter,
+        private int $roundingMode = Money::ROUND_HALF_UP,
     ) {
-        $this->currency     = $currency;
-        $this->parser       = $parser;
-        $this->formatter    = $formatter;
-        $this->roundingMode = $roundingMode;
     }
 
     /**
@@ -72,7 +60,7 @@ final class Teller
     public function equals(mixed $amount, mixed $other): bool
     {
         return $this->convertToMoney($amount)->equals(
-            $this->convertToMoney($other)
+            $this->convertToMoney($other),
         );
     }
 
@@ -87,7 +75,7 @@ final class Teller
     public function compare(mixed $amount, mixed $other): int
     {
         return $this->convertToMoney($amount)->compare(
-            $this->convertToMoney($other)
+            $this->convertToMoney($other),
         );
     }
 
@@ -100,7 +88,7 @@ final class Teller
     public function greaterThan(mixed $amount, mixed $other): bool
     {
         return $this->convertToMoney($amount)->greaterThan(
-            $this->convertToMoney($other)
+            $this->convertToMoney($other),
         );
     }
 
@@ -113,7 +101,7 @@ final class Teller
     public function greaterThanOrEqual(mixed $amount, mixed $other): bool
     {
         return $this->convertToMoney($amount)->greaterThanOrEqual(
-            $this->convertToMoney($other)
+            $this->convertToMoney($other),
         );
     }
 
@@ -126,7 +114,7 @@ final class Teller
     public function lessThan(mixed $amount, mixed $other): bool
     {
         return $this->convertToMoney($amount)->lessThan(
-            $this->convertToMoney($other)
+            $this->convertToMoney($other),
         );
     }
 
@@ -139,7 +127,7 @@ final class Teller
     public function lessThanOrEqual(mixed $amount, mixed $other): bool
     {
         return $this->convertToMoney($amount)->lessThanOrEqual(
-            $this->convertToMoney($other)
+            $this->convertToMoney($other),
         );
     }
 
@@ -157,8 +145,8 @@ final class Teller
         return $this->convertToString(
             $this->convertToMoney($amount)->add(
                 $this->convertToMoney($other),
-                ...$this->convertToMoneyArray($others)
-            )
+                ...$this->convertToMoneyArray($others),
+            ),
         );
     }
 
@@ -174,8 +162,8 @@ final class Teller
         return $this->convertToString(
             $this->convertToMoney($amount)->subtract(
                 $this->convertToMoney($other),
-                ...$this->convertToMoneyArray($others)
-            )
+                ...$this->convertToMoneyArray($others),
+            ),
         );
     }
 
@@ -192,8 +180,8 @@ final class Teller
         return $this->convertToString(
             $this->convertToMoney($amount)->multiply(
                 (string) $multiplier,
-                $this->roundingMode
-            )
+                $this->roundingMode,
+            ),
         );
     }
 
@@ -210,8 +198,8 @@ final class Teller
         return $this->convertToString(
             $this->convertToMoney($amount)->divide(
                 (string) $divisor,
-                $this->roundingMode
-            )
+                $this->roundingMode,
+            ),
         );
     }
 
@@ -227,8 +215,8 @@ final class Teller
 
         return $this->convertToString(
             $this->convertToMoney($amount)->mod(
-                $this->convertToMoney((string) $divisor)
-            )
+                $this->convertToMoney((string) $divisor),
+            ),
         );
     }
 
@@ -243,7 +231,7 @@ final class Teller
     public function allocate(mixed $amount, array $ratios): array
     {
         return $this->convertToStringArray(
-            $this->convertToMoney($amount)->allocate($ratios)
+            $this->convertToMoney($amount)->allocate($ratios),
         );
     }
 
@@ -258,7 +246,7 @@ final class Teller
     public function allocateTo(mixed $amount, int $n): array
     {
         return $this->convertToStringArray(
-            $this->convertToMoney($amount)->allocateTo($n)
+            $this->convertToMoney($amount)->allocateTo($n),
         );
     }
 
@@ -272,8 +260,8 @@ final class Teller
     {
         return $this->convertToString(
             $this->convertToMoney($amount)->ratioOf(
-                $this->convertToMoney($other)
-            )
+                $this->convertToMoney($other),
+            ),
         );
     }
 
@@ -285,7 +273,7 @@ final class Teller
     public function absolute(mixed $amount): string
     {
         return $this->convertToString(
-            $this->convertToMoney($amount)->absolute()
+            $this->convertToMoney($amount)->absolute(),
         );
     }
 
@@ -298,7 +286,7 @@ final class Teller
     public function negative(mixed $amount): string
     {
         return $this->convertToString(
-            $this->convertToMoney($amount)->negative()
+            $this->convertToMoney($amount)->negative(),
         );
     }
 
@@ -343,8 +331,8 @@ final class Teller
         return $this->convertToString(
             Money::min(
                 $this->convertToMoney($amount),
-                ...$this->convertToMoneyArray($amounts)
-            )
+                ...$this->convertToMoneyArray($amounts),
+            ),
         );
     }
 
@@ -359,8 +347,8 @@ final class Teller
         return $this->convertToString(
             Money::max(
                 $this->convertToMoney($amount),
-                ...$this->convertToMoneyArray($amounts)
-            )
+                ...$this->convertToMoneyArray($amounts),
+            ),
         );
     }
 
@@ -375,8 +363,8 @@ final class Teller
         return $this->convertToString(
             Money::sum(
                 $this->convertToMoney($amount),
-                ...$this->convertToMoneyArray($amounts)
-            )
+                ...$this->convertToMoneyArray($amounts),
+            ),
         );
     }
 
@@ -391,8 +379,8 @@ final class Teller
         return $this->convertToString(
             Money::avg(
                 $this->convertToMoney($amount),
-                ...$this->convertToMoneyArray($amounts)
-            )
+                ...$this->convertToMoneyArray($amounts),
+            ),
         );
     }
 

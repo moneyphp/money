@@ -30,7 +30,7 @@ final class ISOCurrencies implements Currencies
      *     numericCode: positive-int
      * }>|null
      */
-    private static ?array $currencies = null;
+    private static array|null $currencies = null;
 
     public function contains(Currency $currency): bool
     {
@@ -60,9 +60,7 @@ final class ISOCurrencies implements Currencies
         return $this->getCurrencies()[$currency->getCode()]['numericCode'];
     }
 
-    /**
-     * @psalm-return Traversable<int, Currency>
-     */
+    /** @psalm-return Traversable<int, Currency> */
     public function getIterator(): Traversable
     {
         return new ArrayIterator(
@@ -70,8 +68,8 @@ final class ISOCurrencies implements Currencies
                 static function ($code) {
                     return new Currency($code);
                 },
-                array_keys($this->getCurrencies())
-            )
+                array_keys($this->getCurrencies()),
+            ),
         );
     }
 

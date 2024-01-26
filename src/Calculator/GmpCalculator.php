@@ -159,8 +159,8 @@ final class GmpCalculator implements Calculator
             gmp_div_q(
                 gmp_mul($remainder, gmp_init('1' . str_pad('', self::SCALE, '0'))),
                 gmp_init((string) $divisor),
-                GMP_ROUND_MINUSINF
-            )
+                GMP_ROUND_MINUSINF,
+            ),
         );
 
         if ($divisionOfRemainder[0] === '-') {
@@ -237,7 +237,7 @@ final class GmpCalculator implements Calculator
         if ($roundingMode === Money::ROUND_HALF_UP) {
             return self::add(
                 $number->getIntegerPart(),
-                $number->getIntegerRoundingMultiplier()
+                $number->getIntegerRoundingMultiplier(),
             );
         }
 
@@ -252,7 +252,7 @@ final class GmpCalculator implements Calculator
 
             return self::add(
                 $number->getIntegerPart(),
-                $number->getIntegerRoundingMultiplier()
+                $number->getIntegerRoundingMultiplier(),
             );
         }
 
@@ -260,7 +260,7 @@ final class GmpCalculator implements Calculator
             if ($number->isCurrentEven()) {
                 return self::add(
                     $number->getIntegerPart(),
-                    $number->getIntegerRoundingMultiplier()
+                    $number->getIntegerRoundingMultiplier(),
                 );
             }
 
@@ -271,13 +271,13 @@ final class GmpCalculator implements Calculator
             if ($number->isNegative()) {
                 return self::add(
                     $number->getIntegerPart(),
-                    '0'
+                    '0',
                 );
             }
 
             return self::add(
                 $number->getIntegerPart(),
-                $number->getIntegerRoundingMultiplier()
+                $number->getIntegerRoundingMultiplier(),
             );
         }
 
@@ -285,13 +285,13 @@ final class GmpCalculator implements Calculator
             if ($number->isNegative()) {
                 return self::add(
                     $number->getIntegerPart(),
-                    $number->getIntegerRoundingMultiplier()
+                    $number->getIntegerRoundingMultiplier(),
                 );
             }
 
             return self::add(
                 $number->getIntegerPart(),
-                '0'
+                '0',
             );
         }
 
@@ -308,7 +308,7 @@ final class GmpCalculator implements Calculator
         if ($number->isCloserToNext()) {
             return self::add(
                 $number->getIntegerPart(),
-                $number->getIntegerRoundingMultiplier()
+                $number->getIntegerRoundingMultiplier(),
             );
         }
 

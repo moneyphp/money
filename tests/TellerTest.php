@@ -17,9 +17,7 @@ final class TellerTest extends TestCase
         $this->teller = Teller::USD();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itDemonstratesThePenniesProblem(): void
     {
         $amount1 = 1.23;
@@ -31,9 +29,7 @@ final class TellerTest extends TestCase
         $actual = $amount1 * $amount2;
         $expect = 5.6088;
 
-        /**
-         * @psalm-suppress RedundantCondition
-         */
+        /** @psalm-suppress RedundantCondition */
         $this->assertSame($expect, $actual);
 
         // instead, use the Teller to do monetary math.
@@ -42,9 +38,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesEqualAmounts(): void
     {
         $this->assertTrue($this->teller->equals('7.00', 7.00));
@@ -52,9 +46,7 @@ final class TellerTest extends TestCase
         $this->assertTrue($this->teller->equals(7, 7.00));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesTwoAmounts(): void
     {
         $amount = 1.23;
@@ -65,17 +57,13 @@ final class TellerTest extends TestCase
         $this->assertSame(+1, $this->teller->compare($other, $amount));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesGreaterThanAmounts(): void
     {
         $this->assertTrue($this->teller->greaterThan('45.67', '9.01'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesGreaterThanOrEqualAmounts(): void
     {
         $this->assertTrue($this->teller->greaterThanOrEqual('45.67', '9.01'));
@@ -85,17 +73,13 @@ final class TellerTest extends TestCase
         $this->assertFalse($this->teller->greaterThanOrEqual(7, 7.01));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesLessThanAmounts(): void
     {
         $this->assertTrue($this->teller->lessThan('9.01', '45.67'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesLessThanOrEqualAmounts(): void
     {
         $this->assertTrue($this->teller->lessThanOrEqual('9.01', '45.67'));
@@ -105,9 +89,7 @@ final class TellerTest extends TestCase
         $this->assertFalse($this->teller->lessThanOrEqual(7, 6.99));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itAddsAmounts(): void
     {
         $actual = $this->teller->add(1.1, '2.2', 3, 4.44, '5.55');
@@ -115,9 +97,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itSubtractsAmounts(): void
     {
         $actual = $this->teller->subtract(1.1, '2.2', 3, 4.44, '5.55');
@@ -125,9 +105,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itMultipliesAmounts(): void
     {
         $amount     = 1.23;
@@ -138,9 +116,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itMultipliesNegativeAmounts(): void
     {
         $amount     = '-0.09';
@@ -180,9 +156,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itDividesAmounts(): void
     {
         $amount  = 1.23;
@@ -193,9 +167,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itDividesNegativeAmounts(): void
     {
         $amount  = '-0.09';
@@ -229,9 +201,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itModsAmounts(): void
     {
         $amount  = '10';
@@ -241,9 +211,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itAllocatesAmountsAcrossRatios(): void
     {
         $amount = '100.00';
@@ -257,9 +225,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itAllocatesAmountsAmongTargets(): void
     {
         $amount = '100.00';
@@ -273,9 +239,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itCalculatesRatiosOfAmounts(): void
     {
         $amount = '100.00';
@@ -285,36 +249,28 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itCalculatesAbsoluteAmount(): void
     {
         $this->assertSame('7.00', $this->teller->absolute(-7));
         $this->assertSame('7.00', $this->teller->absolute(7.0));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itCalculatesNegativeAmount(): void
     {
         $this->assertSame('-7.00', $this->teller->negative(7));
         $this->assertSame('7.00', $this->teller->negative(-7));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesAnAmountToZero(): void
     {
         $this->assertTrue($this->teller->isZero(0.00));
         $this->assertFalse($this->teller->isZero(0.01));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itTellsIfAnAmountIsPositive(): void
     {
         $this->assertTrue($this->teller->isPositive(1));
@@ -322,9 +278,7 @@ final class TellerTest extends TestCase
         $this->assertFalse($this->teller->isPositive(-1));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itTellsIfAnAmountIsNegative(): void
     {
         $this->assertFalse($this->teller->isNegative(1));
@@ -332,9 +286,7 @@ final class TellerTest extends TestCase
         $this->assertTrue($this->teller->isNegative(-1));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itFindsTheMinimumAmount(): void
     {
         $amounts = [
@@ -349,9 +301,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itFindsTheMaximumAmount(): void
     {
         $amounts = [
@@ -366,9 +316,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itSumsAmounts(): void
     {
         $amounts = [
@@ -383,9 +331,7 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itAveragesAmounts(): void
     {
         $amounts = [
@@ -400,17 +346,13 @@ final class TellerTest extends TestCase
         $this->assertSame($expect, $actual);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itReturnsAZeroString(): void
     {
         $this->assertSame('0.00', $this->teller->zero());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itConvertsMonetaryAmounts(): void
     {
         $money = $this->teller->convertToMoney('1.23');

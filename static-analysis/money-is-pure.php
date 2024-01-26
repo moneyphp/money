@@ -17,8 +17,8 @@ function consumeMoney(Money $money): Money
             Money::min(
                 new Money(10000, new Currency('USD')),
                 Money::sum(new Money(123, new Currency('USD')), $money)
-                    ->subtract(new Money(456, new Currency('USD')))
-            )
-        )
+                    ->subtract(new Money(456, new Currency('USD'))),
+            ),
+        ),
     );
 }

@@ -14,13 +14,9 @@ use Money\Exchange;
  */
 final class FixedExchange implements Exchange
 {
-    /** @psalm-var array<non-empty-string, array<non-empty-string, numeric-string>> */
-    private array $list;
-
     /** @psalm-param array<non-empty-string, array<non-empty-string, numeric-string>> $list */
-    public function __construct(array $list)
+    public function __construct(private array $list)
     {
-        $this->list = $list;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
@@ -29,7 +25,7 @@ final class FixedExchange implements Exchange
             return new CurrencyPair(
                 $baseCurrency,
                 $counterCurrency,
-                $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()]
+                $this->list[$baseCurrency->getCode()][$counterCurrency->getCode()],
             );
         }
 

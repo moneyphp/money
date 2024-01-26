@@ -47,9 +47,7 @@ final class CurrencyListTest extends TestCase
         self::assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsAnExceptionWhenProvidingSubunitAndCurrencyIsUnknown(): void
     {
         $currencies = new CurrencyList(self::CORRECT_CURRENCIES);
@@ -59,9 +57,7 @@ final class CurrencyListTest extends TestCase
         $currencies->subunitFor(new Currency('XXXXXX'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itIsIterable(): void
     {
         $currencies = new CurrencyList(self::CORRECT_CURRENCIES);

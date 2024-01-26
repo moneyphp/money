@@ -14,9 +14,7 @@ use PHPUnit\Framework\TestCase;
 /** @covers \Money\Exchange\IndirectExchange */
 final class IndirectExchangeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    /** @test */
     public function itCalculatesAMinimalChain(): void
     {
         $exchange = $this->createExchange();
@@ -51,9 +49,7 @@ final class IndirectExchangeTest extends TestCase
         return new IndirectExchange($baseExchange, new ISOCurrencies());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itCalculatesAdjacentNodes(): void
     {
         $exchange = $this->createExchange();
@@ -65,9 +61,7 @@ final class IndirectExchangeTest extends TestCase
         self::assertEquals(4, $pair->getConversionRatio());
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsWhenNoChainIsFound(): void
     {
         $exchange = $this->createExchange();

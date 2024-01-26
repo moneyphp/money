@@ -81,7 +81,7 @@ final class NumberTest extends TestCase
     {
         self::assertEquals(
             Number::fromString('123.456789'),
-            Number::fromFloat(123.456789)
+            Number::fromFloat(123.456789),
         );
     }
 

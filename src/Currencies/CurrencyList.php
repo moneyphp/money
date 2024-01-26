@@ -53,8 +53,8 @@ final class CurrencyList implements Currencies
                 static function ($code) {
                     return new Currency($code);
                 },
-                array_keys($this->currencies)
-            )
+                array_keys($this->currencies),
+            ),
         );
     }
 }

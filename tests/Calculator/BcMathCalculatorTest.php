@@ -68,26 +68,20 @@ class BcMathCalculatorTest extends CalculatorTestCase
         self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesNumbersCloseToZero(): void
     {
         self::assertEquals(1, $this->getCalculator()::compare('1', '0.0005'));
         self::assertEquals(1, $this->getCalculator()::compare('1', '0.000000000000000000000000005'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itUsesScaleForAdd(): void
     {
         self::assertEquals('0.00130154000000', $this->getCalculator()::add('0.00125148', '0.00005006'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itUsesScaleForSubtract(): void
     {
         self::assertEqualNumber('0.00120142', $this->getCalculator()::subtract('0.00125148', '0.00005006'));
@@ -113,9 +107,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
         $calculator::mod('1', '0.0000000000000000000000000000000000000000001');
     }
 
-    /**
-     * @psalm-return array<int,array<int|numeric-string>>
-     */
+    /** @psalm-return array<int,array<int|numeric-string>> */
     public function compareLessExamples(): array
     {
         return array_merge(
@@ -123,7 +115,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
             [
                 // Slightly below PHP_INT_MIN on 64 bit systems (does not work with the PhpCalculator)
                 ['-9223372036854775810', '-9223372036854775809', -1],
-            ]
+            ],
         );
     }
 }

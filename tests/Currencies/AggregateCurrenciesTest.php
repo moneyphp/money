@@ -32,7 +32,7 @@ final class AggregateCurrenciesTest extends TestCase
 
         self::assertTrue(
             (new AggregateCurrencies([$currencies, $otherCurrencies]))
-                ->contains($currency)
+                ->contains($currency),
         );
     }
 
@@ -52,7 +52,7 @@ final class AggregateCurrenciesTest extends TestCase
 
         self::assertFalse(
             (new AggregateCurrencies([$currencies, $otherCurrencies]))
-                ->contains($currency)
+                ->contains($currency),
         );
     }
 
@@ -78,7 +78,7 @@ final class AggregateCurrenciesTest extends TestCase
         self::assertSame(
             2,
             (new AggregateCurrencies([$currencies, $otherCurrencies]))
-                ->subunitFor($currency)
+                ->subunitFor($currency),
         );
     }
 
@@ -122,7 +122,7 @@ final class AggregateCurrenciesTest extends TestCase
                 new Currency('EUR'),
                 new Currency('USD'),
             ],
-            iterator_to_array(new AggregateCurrencies([$currencies, $otherCurrencies]), false)
+            iterator_to_array(new AggregateCurrencies([$currencies, $otherCurrencies]), false),
         );
     }
 
@@ -146,12 +146,12 @@ final class AggregateCurrenciesTest extends TestCase
 
         self::assertEquals(
             $expectedCurrencies,
-            iterator_to_array($iterator, false)
+            iterator_to_array($iterator, false),
         );
         self::assertEquals(
             $expectedCurrencies,
             iterator_to_array($iterator, false),
-            'Can re-use the previous iteration'
+            'Can re-use the previous iteration',
         );
     }
 }

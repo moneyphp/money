@@ -19,9 +19,7 @@ final class ComparatorTest extends TestCase
         $this->comparator = new Comparator();
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itAcceptsOnlyMoney(): void
     {
         $money_a = Money::EUR(1);
@@ -32,9 +30,7 @@ final class ComparatorTest extends TestCase
         self::assertTrue($this->comparator->accepts($money_a, $money_b));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesUnequalValues(): void
     {
         $money_a = Money::EUR(1);
@@ -50,7 +46,7 @@ final class ComparatorTest extends TestCase
 @@ @@
 -€0.01
 +$0.01',
-                $e->getDiff()
+                $e->getDiff(),
             );
 
             return;
@@ -59,9 +55,7 @@ final class ComparatorTest extends TestCase
         self::fail('ComparisonFailure should have been thrown.');
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itComparesEqualValues(): void
     {
         $money_a = Money::EUR(1);
@@ -72,7 +66,7 @@ final class ComparatorTest extends TestCase
         self::assertEquals(
             $money_a,
             $money_b,
-            'This is only here to increment the assertion counter, since we are testing an assertion'
+            'This is only here to increment the assertion counter, since we are testing an assertion',
         );
     }
 }

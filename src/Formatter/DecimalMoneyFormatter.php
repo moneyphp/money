@@ -18,11 +18,8 @@ use function substr;
  */
 final class DecimalMoneyFormatter implements MoneyFormatter
 {
-    private Currencies $currencies;
-
-    public function __construct(Currencies $currencies)
+    public function __construct(private Currencies $currencies)
     {
-        $this->currencies = $currencies;
     }
 
     /** @psalm-return numeric-string */

@@ -41,9 +41,7 @@ final class CryptoCurrenciesTest extends TestCase
         self::assertIsInt($currencies->subunitFor(new Currency($currency)));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsAnExceptionWhenProvidingSubunitAndCurrencyIsUnknown(): void
     {
         $this->expectException(UnknownCurrencyException::class);
@@ -53,9 +51,7 @@ final class CryptoCurrenciesTest extends TestCase
         $currencies->subunitFor(new Currency('XXXXXX'));
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itIsIterable(): void
     {
         $currencies = new CryptoCurrencies();
@@ -65,9 +61,7 @@ final class CryptoCurrenciesTest extends TestCase
         self::assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
-    /**
-     * @psalm-return non-empty-list<array{non-empty-string}>
-     */
+    /** @psalm-return non-empty-list<array{non-empty-string}> */
     public function currencyCodeExamples(): array
     {
         /** @psalm-var non-empty-array<non-empty-string, array> $currencies */

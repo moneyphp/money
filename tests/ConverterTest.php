@@ -39,7 +39,7 @@ final class ConverterTest extends TestCase
         int $subunitCounter,
         int|float $ratio,
         int|string $amount,
-        int $expectedAmount
+        int $expectedAmount,
     ): void {
         $baseCurrency    = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
@@ -64,7 +64,7 @@ final class ConverterTest extends TestCase
 
         $money = $converter->convert(
             new Money($amount, new Currency($baseCurrencyCode)),
-            $counterCurrency
+            $counterCurrency,
         );
 
         self::assertEquals($expectedAmount, $money->getAmount());
@@ -90,7 +90,7 @@ final class ConverterTest extends TestCase
         int $subunitCounter,
         int|float $ratio,
         int|string $amount,
-        int $expectedAmount
+        int $expectedAmount,
     ): void {
         $baseCurrency    = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
@@ -115,7 +115,7 @@ final class ConverterTest extends TestCase
 
         [$money, $currencyPair] = $converter->convertAndReturnWithCurrencyPair(
             new Money($amount, new Currency($baseCurrencyCode)),
-            $counterCurrency
+            $counterCurrency,
         );
 
         self::assertEquals($expectedAmount, $money->getAmount());
@@ -143,7 +143,7 @@ final class ConverterTest extends TestCase
         int $subunitCounter,
         int|float $ratio,
         int|string $amount,
-        int $expectedAmount
+        int $expectedAmount,
     ): void {
         $baseCurrency    = new Currency($baseCurrencyCode);
         $counterCurrency = new Currency($counterCurrencyCode);
@@ -164,7 +164,7 @@ final class ConverterTest extends TestCase
 
         $money = $converter->convertAgainstCurrencyPair(
             new Money($amount, new Currency($baseCurrencyCode)),
-            $pair
+            $pair,
         );
 
         self::assertEquals($expectedAmount, $money->getAmount());
@@ -190,7 +190,7 @@ final class ConverterTest extends TestCase
         $subunitCounter,
         $ratio,
         $amount,
-        $expectedAmount
+        $expectedAmount,
     ): void {
         $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
 
@@ -201,13 +201,11 @@ final class ConverterTest extends TestCase
             $subunitCounter,
             $ratio,
             $amount,
-            $expectedAmount
+            $expectedAmount,
         );
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function itThrowsWhenConvertingAgainstTheWrongBaseCurrency(): void
     {
         $this->expectException(InvalidArgumentException::class);

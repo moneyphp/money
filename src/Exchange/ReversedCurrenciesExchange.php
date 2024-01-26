@@ -17,11 +17,8 @@ use Money\Money;
  */
 final class ReversedCurrenciesExchange implements Exchange
 {
-    private Exchange $exchange;
-
-    public function __construct(Exchange $exchange)
+    public function __construct(private Exchange $exchange)
     {
-        $this->exchange = $exchange;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
@@ -37,7 +34,7 @@ final class ReversedCurrenciesExchange implements Exchange
                 return new CurrencyPair(
                     $baseCurrency,
                     $counterCurrency,
-                    $calculator::divide('1', $currencyPair->getConversionRatio())
+                    $calculator::divide('1', $currencyPair->getConversionRatio()),
                 );
             } catch (UnresolvableCurrencyPairException) {
                 throw $exception;

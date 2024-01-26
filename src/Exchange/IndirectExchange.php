@@ -20,14 +20,8 @@ use function array_reverse;
  */
 final class IndirectExchange implements Exchange
 {
-    private Currencies $currencies;
-
-    private Exchange $exchange;
-
-    public function __construct(Exchange $exchange, Currencies $currencies)
+    public function __construct(private Exchange $exchange, private Currencies $currencies)
     {
-        $this->exchange   = $exchange;
-        $this->currencies = $currencies;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
@@ -47,7 +41,7 @@ final class IndirectExchange implements Exchange
 
                     return $calculator::multiply($carry, $pair->getConversionRatio());
                 },
-                '1.0'
+                '1.0',
             );
 
             return new CurrencyPair($baseCurrency, $counterCurrency, $rate);
@@ -99,7 +93,7 @@ final class IndirectExchange implements Exchange
                     $node->parent     = $currentNode;
 
                     $frontier->enqueue($node);
-                } catch (UnresolvableCurrencyPairException $exception) {
+                } catch (UnresolvableCurrencyPairException) {
                     // Not a neighbor. Move on.
                 }
             }

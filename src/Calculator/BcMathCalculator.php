@@ -129,7 +129,7 @@ final class BcMathCalculator implements Calculator
             return bcadd(
                 $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
-                0
+                0,
             );
         }
 
@@ -145,7 +145,7 @@ final class BcMathCalculator implements Calculator
             return bcadd(
                 $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
-                0
+                0,
             );
         }
 
@@ -154,7 +154,7 @@ final class BcMathCalculator implements Calculator
                 return bcadd(
                     $number->__toString(),
                     $number->getIntegerRoundingMultiplier(),
-                    0
+                    0,
                 );
             }
 
@@ -169,7 +169,7 @@ final class BcMathCalculator implements Calculator
             return bcadd(
                 $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
-                0
+                0,
             );
         }
 
@@ -178,14 +178,14 @@ final class BcMathCalculator implements Calculator
                 return bcadd(
                     $number->__toString(),
                     $number->getIntegerRoundingMultiplier(),
-                    0
+                    0,
                 );
             }
 
             return bcadd(
                 $number->__toString(),
                 '0',
-                0
+                0,
             );
         }
 
@@ -203,7 +203,7 @@ final class BcMathCalculator implements Calculator
             return bcadd(
                 $number->__toString(),
                 $number->getIntegerRoundingMultiplier(),
-                0
+                0,
             );
         }
 

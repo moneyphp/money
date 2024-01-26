@@ -28,7 +28,7 @@ final class CryptoCurrencies implements Currencies
      *     minorUnit: positive-int|0
      * }>|null
      */
-    private static ?array $currencies = null;
+    private static array|null $currencies = null;
 
     public function contains(Currency $currency): bool
     {
@@ -44,9 +44,7 @@ final class CryptoCurrencies implements Currencies
         return $this->getCurrencies()[$currency->getCode()]['minorUnit'];
     }
 
-    /**
-     * @psalm-return Traversable<int, Currency>
-     */
+    /** @psalm-return Traversable<int, Currency> */
     public function getIterator(): Traversable
     {
         return new ArrayIterator(
@@ -54,8 +52,8 @@ final class CryptoCurrencies implements Currencies
                 static function ($code) {
                     return new Currency($code);
                 },
-                array_keys($this->getCurrencies())
-            )
+                array_keys($this->getCurrencies()),
+            ),
         );
     }
 
