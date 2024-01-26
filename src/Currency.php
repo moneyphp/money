@@ -67,7 +67,7 @@ final class Currency implements JsonSerializable, Serializable
         return ['code' => $this->code];
     }
 
-    # TODO Correct PSALM?
+    // TODO Correct PSALM?
     public function __unserialize(array $data): void
     {
         $this->code = (string) $data['code'];
@@ -81,9 +81,10 @@ final class Currency implements JsonSerializable, Serializable
         return $this->__serialize();
     }
 
-    # TODO Correct PSALM?
-    public function unserialize(string $data)
+    // TODO Correct PSALM?
+    // Correct CODE?
+    public function unserialize(string $data): void
     {
-        return $this->__unserialize($data);
+        $this->__unserialize((array) $data);
     }
 }
