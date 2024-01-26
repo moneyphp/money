@@ -39,7 +39,9 @@ The documentation is available at http://moneyphp.org
 This library requires the [BCMath PHP extension](https://www.php.net/manual/en/book.bc.php). There might be additional dependencies for specific feature, e.g. the
 Swap exchange implementation, check the documentation for more information.
 
-Version 4 requires PHP 8.0. For older version of PHP, use version 3 of this library.
+Version 4 requires PHP 8.0. For older version of PHP, use version 3 of this library. From version 4.5 this package
+will only support [PHP versions that actually receive updates by PHP itself](https://www.php.net/supported-versions.php).
+If you want to use the package with older PHP versions, you can of course use older versions of this package.
 
 
 ## Install
