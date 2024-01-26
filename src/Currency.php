@@ -57,4 +57,17 @@ final class Currency implements JsonSerializable
     {
         return $this->code;
     }
+
+    /**
+     * @return array<string, string>
+     */
+    public function __serialize(): array
+    {
+        return ['code' => $this->code];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->code = (string) $data['code'];
+    }
 }
