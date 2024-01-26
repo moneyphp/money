@@ -99,7 +99,11 @@ final class MoneyTest extends TestCase
      */
     public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator(): void
     {
-        $this->setLocale(LC_ALL, 'es_ES.utf8');
+        try {
+            $this->setLocale(LC_ALL, 'es_ES.utf8');
+        } catch (\Throwable) {
+            $this->markTestSkipped('The locale es_ES.utf8 is not available.');
+        }
 
         $money = new Money(100, new Currency(self::CURRENCY));
         $money = $money->multiply('0.1');
