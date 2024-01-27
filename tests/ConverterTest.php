@@ -13,6 +13,7 @@ use Money\Exchange;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
+use function setlocale;
 use function sprintf;
 
 use const LC_ALL;
@@ -192,7 +193,7 @@ final class ConverterTest extends TestCase
         $amount,
         $expectedAmount
     ): void {
-        $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
+        setlocale(LC_ALL, 'ru_RU.UTF-8');
 
         $this->itConvertsToADifferentCurrency(
             $baseCurrencyCode,

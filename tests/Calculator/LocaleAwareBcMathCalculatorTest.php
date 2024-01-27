@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Money\Calculator;
 
+use function setlocale;
+
 use const LC_ALL;
 
 /** @covers \Money\Calculator\BcMathCalculator */
@@ -13,6 +15,6 @@ final class LocaleAwareBcMathCalculatorTest extends BcMathCalculatorTest
     {
         parent::setUp();
 
-        $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
+        setlocale(LC_ALL, 'ru_RU.UTF-8');
     }
 }

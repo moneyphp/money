@@ -10,6 +10,7 @@ use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 use function json_encode;
+use function setlocale;
 
 use const LC_ALL;
 use const PHP_INT_MAX;
@@ -99,7 +100,7 @@ final class MoneyTest extends TestCase
      */
     public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator(): void
     {
-        $this->setLocale(LC_ALL, 'es_ES.utf8');
+        setlocale(LC_ALL, 'es_ES.utf8');
 
         $money = new Money(100, new Currency(self::CURRENCY));
         $money = $money->multiply('0.1');
