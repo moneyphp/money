@@ -131,7 +131,7 @@ final class MoneyTest extends TestCase
 
     /**
      * @psalm-param int $amount
-     * @psalm-param non-empty-array<positive-int|0|float> $ratios
+     * @psalm-param non-empty-array<non-negative-int|float> $ratios
      * @psalm-param non-empty-array<int> $results
      *
      * @dataProvider allocationExamples
@@ -208,7 +208,7 @@ final class MoneyTest extends TestCase
 
     /**
      * @psalm-param int|numeric-string $amount
-     * @psalm-param positive-int|0 $result
+     * @psalm-param non-negative-int $result
      *
      * @dataProvider absoluteExamples
      * @test
@@ -419,7 +419,7 @@ final class MoneyTest extends TestCase
 
     /**
      * @psalm-param int $amount
-     * @psalm-param positive-int|0 $unit
+     * @psalm-param non-negative-int $unit
      * @psalm-param int $expected
      * @psalm-param int $roundingMode
      *
@@ -487,7 +487,7 @@ final class MoneyTest extends TestCase
     /**
      * @psalm-return non-empty-list<array{
      *     int,
-     *     non-empty-array<int|string, positive-int|0|float>,
+     *     non-empty-array<int|string, non-negative-int|float>,
      *     non-empty-array<int|string, int>
      * }>
      */
@@ -554,7 +554,7 @@ final class MoneyTest extends TestCase
     /**
      * @psalm-return non-empty-list<array{
      *     int|numeric-string,
-     *     positive-int|0
+     *     non-negative-int
      * }>
      */
     public function absoluteExamples(): array
@@ -607,7 +607,7 @@ final class MoneyTest extends TestCase
     /**
      * @psalm-return non-empty-list<array{
      *     int,
-     *     positive-int|0,
+     *     non-negative-int,
      *     int,
      *     int
      * }>

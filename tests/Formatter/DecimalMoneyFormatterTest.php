@@ -15,7 +15,7 @@ final class DecimalMoneyFormatterTest extends TestCase
 {
     /**
      * @psalm-param non-empty-string $currency
-     * @psalm-param positive-int|0 $subunit
+     * @psalm-param non-negative-int $subunit
      * @psalm-param numeric-string $result
      *
      * @dataProvider moneyExamples
@@ -39,7 +39,7 @@ final class DecimalMoneyFormatterTest extends TestCase
      * @psalm-return non-empty-list<array{
      *     int,
      *     non-empty-string,
-     *     positive-int|0,
+     *     non-negative-int,
      *     numeric-string
      * }>
      */
