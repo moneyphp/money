@@ -264,7 +264,7 @@ final class Number
 
         if ($shouldRound && $moneyValue[$valueLength - $havingDigits + $targetDigits] >= 5) {
             $position = $valueLength - $havingDigits + $targetDigits;
-            /** @psalm-var positive-int|0 $addend */
+            /** @psalm-var non-negative-int $addend */
             $addend = 1;
 
             while ($position > 0) {

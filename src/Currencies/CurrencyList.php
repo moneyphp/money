@@ -25,7 +25,7 @@ final class CurrencyList implements Currencies
      */
     private array $currencies;
 
-    /** @psalm-param array<non-empty-string, positive-int|0> $currencies */
+    /** @psalm-param array<non-empty-string, non-negative-int> $currencies */
     public function __construct(array $currencies)
     {
         $this->currencies = $currencies;
