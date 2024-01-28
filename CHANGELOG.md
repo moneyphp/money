@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - PHP 8.0 support
 
+### Fixed
+
+- Updated currencies: removed SLL.
+- Updated cryptocurrencies: added and removed various cryptocurrencies.
+
 ## [4.4.0] - 2024-01-24
 
 ### Added

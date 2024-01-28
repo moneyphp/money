@@ -902,13 +902,6 @@
     'minorUnit' => 2,
     'numericCode' => 925,
   ),
-  'SLL' => 
-  array (
-    'alphabeticCode' => 'SLL',
-    'currency' => 'Leone',
-    'minorUnit' => 2,
-    'numericCode' => 694,
-  ),
   'SOS' => 
   array (
     'alphabeticCode' => 'SOS',
