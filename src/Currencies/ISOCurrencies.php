@@ -26,7 +26,7 @@ final class ISOCurrencies implements Currencies
      * @psalm-var non-empty-array<non-empty-string, array{
      *     alphabeticCode: non-empty-string,
      *     currency: non-empty-string,
-     *     minorUnit: positive-int|0,
+     *     minorUnit: non-negative-int,
      *     numericCode: positive-int
      * }>|null
      */
@@ -81,7 +81,7 @@ final class ISOCurrencies implements Currencies
      * @psalm-return non-empty-array<non-empty-string, array{
      *     alphabeticCode: non-empty-string,
      *     currency: non-empty-string,
-     *     minorUnit: positive-int|0,
+     *     minorUnit: non-negative-int,
      *     numericCode: positive-int
      * }>
      */
@@ -98,7 +98,7 @@ final class ISOCurrencies implements Currencies
      * @psalm-return non-empty-array<non-empty-string, array{
      *     alphabeticCode: non-empty-string,
      *     currency: non-empty-string,
-     *     minorUnit: positive-int|0,
+     *     minorUnit: non-negative-int,
      *     numericCode: positive-int
      * }>
      */
