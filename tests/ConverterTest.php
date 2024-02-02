@@ -23,11 +23,11 @@ final class ConverterTest extends TestCase
     /**
      * @psalm-param non-empty-string $baseCurrencyCode
      * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param positive-int|0 $subunitBase
-     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param non-negative-int $subunitBase
+     * @psalm-param non-negative-int $subunitCounter
      * @psalm-param int|float $ratio
      * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param positive-int|0 $expectedAmount
+     * @psalm-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -74,11 +74,11 @@ final class ConverterTest extends TestCase
     /**
      * @psalm-param non-empty-string $baseCurrencyCode
      * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param positive-int|0 $subunitBase
-     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param non-negative-int $subunitBase
+     * @psalm-param non-negative-int $subunitCounter
      * @psalm-param int|float $ratio
      * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param positive-int|0 $expectedAmount
+     * @psalm-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -127,11 +127,11 @@ final class ConverterTest extends TestCase
     /**
      * @psalm-param non-empty-string $baseCurrencyCode
      * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param positive-int|0 $subunitBase
-     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param non-negative-int $subunitBase
+     * @psalm-param non-negative-int $subunitCounter
      * @psalm-param int|float $ratio
      * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param positive-int|0 $expectedAmount
+     * @psalm-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -174,11 +174,11 @@ final class ConverterTest extends TestCase
     /**
      * @psalm-param non-empty-string $baseCurrencyCode
      * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param positive-int|0 $subunitBase
-     * @psalm-param positive-int|0 $subunitCounter
+     * @psalm-param non-negative-int $subunitBase
+     * @psalm-param non-negative-int $subunitCounter
      * @psalm-param int|float $ratio
      * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param positive-int|0 $expectedAmount
+     * @psalm-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -222,11 +222,11 @@ final class ConverterTest extends TestCase
      * @psalm-return non-empty-list<array{
      *     non-empty-string,
      *     non-empty-string,
-     *     positive-int|0,
-     *     positive-int|0,
+     *     non-negative-int,
+     *     non-negative-int,
      *     int|float,
      *     positive-int|numeric-string,
-     *     positive-int|0
+     *     non-negative-int
      * }>
      */
     public function convertExamples(): array

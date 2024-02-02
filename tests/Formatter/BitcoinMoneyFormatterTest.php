@@ -16,7 +16,7 @@ final class BitcoinMoneyFormatterTest extends TestCase
     /**
      * @psalm-param positive-int $value
      * @psalm-param non-empty-string $formatted
-     * @psalm-param positive-int|0 $fractionDigits
+     * @psalm-param non-negative-int $fractionDigits
      *
      * @dataProvider bitcoinExamples
      * @test
@@ -41,7 +41,7 @@ final class BitcoinMoneyFormatterTest extends TestCase
      * @psalm-return non-empty-list<array{
      *     positive-int,
      *     non-empty-string,
-     *     positive-int|0
+     *     non-negative-int
      * }>
      */
     public function bitcoinExamples(): array

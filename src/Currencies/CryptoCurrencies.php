@@ -25,7 +25,7 @@ final class CryptoCurrencies implements Currencies
      *
      * @psalm-var non-empty-array<non-empty-string, array{
      *     symbol: non-empty-string,
-     *     minorUnit: positive-int|0
+     *     minorUnit: non-negative-int
      * }>|null
      */
     private static array|null $currencies = null;
@@ -62,7 +62,7 @@ final class CryptoCurrencies implements Currencies
      *
      * @psalm-return non-empty-array<non-empty-string, array{
      *     symbol: non-empty-string,
-     *     minorUnit: positive-int|0
+     *     minorUnit: non-negative-int
      * }>
      */
     private function getCurrencies(): array
@@ -77,7 +77,7 @@ final class CryptoCurrencies implements Currencies
     /**
      * @psalm-return non-empty-array<non-empty-string, array{
      *     symbol: non-empty-string,
-     *     minorUnit: positive-int|0
+     *     minorUnit: non-negative-int
      * }>
      */
     private function loadCurrencies(): array
