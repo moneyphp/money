@@ -13,7 +13,6 @@ use Money\Exchange;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
-use function setlocale;
 use function sprintf;
 
 use const LC_ALL;
@@ -21,6 +20,8 @@ use const LC_ALL;
 /** @covers \Money\Converter */
 final class ConverterTest extends TestCase
 {
+    use Locale;
+
     /**
      * @psalm-param non-empty-string $baseCurrencyCode
      * @psalm-param non-empty-string $counterCurrencyCode
@@ -193,17 +194,17 @@ final class ConverterTest extends TestCase
         $amount,
         $expectedAmount
     ): void {
-        setlocale(LC_ALL, 'ru_RU.UTF-8');
-
-        $this->itConvertsToADifferentCurrency(
-            $baseCurrencyCode,
-            $counterCurrencyCode,
-            $subunitBase,
-            $subunitCounter,
-            $ratio,
-            $amount,
-            $expectedAmount
-        );
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($expectedAmount, $amount, $ratio, $subunitCounter, $subunitBase, $counterCurrencyCode, $baseCurrencyCode): void {
+            $this->itConvertsToADifferentCurrency(
+                $baseCurrencyCode,
+                $counterCurrencyCode,
+                $subunitBase,
+                $subunitCounter,
+                $ratio,
+                $amount,
+                $expectedAmount
+            );
+        });
     }
 
     /**

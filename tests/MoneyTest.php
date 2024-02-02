@@ -10,7 +10,6 @@ use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 use function json_encode;
-use function setlocale;
 
 use const LC_ALL;
 use const PHP_INT_MAX;
@@ -20,6 +19,7 @@ final class MoneyTest extends TestCase
 {
     use AggregateExamples;
     use RoundExamples;
+    use Locale;
 
     public const AMOUNT = 10;
 
@@ -100,13 +100,13 @@ final class MoneyTest extends TestCase
      */
     public function itMultipliesTheAmountWithLocaleThatUsesCommaSeparator(): void
     {
-        setlocale(LC_ALL, 'es_ES.utf8');
+        self::runLocaleAware(LC_ALL, 'es_ES.utf8', static function (): void {
+            $money = new Money(100, new Currency(self::CURRENCY));
+            $money = $money->multiply('0.1');
 
-        $money = new Money(100, new Currency(self::CURRENCY));
-        $money = $money->multiply('0.1');
-
-        self::assertInstanceOf(Money::class, $money);
-        self::assertEquals('10', $money->getAmount());
+            self::assertInstanceOf(Money::class, $money);
+            self::assertEquals('10', $money->getAmount());
+        });
     }
 
     /**
