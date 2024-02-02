@@ -18,7 +18,7 @@ final class IntlLocalizedDecimalFormatterTest extends TestCase
      * @psalm-param non-empty-string $currency
      * @psalm-param positive-int $subunit
      * @psalm-param non-empty-string $result
-     * @psalm-param positive-int|0 $fractionDigits
+     * @psalm-param non-negative-int $fractionDigits
      *
      * @dataProvider moneyExamples
      * @test
@@ -48,7 +48,7 @@ final class IntlLocalizedDecimalFormatterTest extends TestCase
      *     positive-int,
      *     non-empty-string,
      *     int,
-     *     positive-int|0
+     *     non-negative-int
      * }>
      */
     public static function moneyExamples(): array

@@ -19,7 +19,7 @@ final class IntlMoneyFormatterTest extends TestCase
      * @psalm-param positive-int $subunit
      * @psalm-param non-empty-string $result
      * @psalm-param positive-int $mode
-     * @psalm-param positive-int|0 $fractionDigits
+     * @psalm-param non-negative-int $fractionDigits
      *
      * @dataProvider moneyExamples
      * @test
@@ -54,7 +54,7 @@ final class IntlMoneyFormatterTest extends TestCase
      *     non-empty-string,
      *     positive-int,
      *     bool,
-     *     positive-int|0
+     *     non-negative-int
      * }>
      */
     public static function moneyExamples(): array
