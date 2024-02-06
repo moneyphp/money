@@ -28,7 +28,7 @@ final class CryptoCurrencies implements Currencies
      *     minorUnit: non-negative-int
      * }>|null
      */
-    private static ?array $currencies = null;
+    private static array|null $currencies = null;
 
     public function contains(Currency $currency): bool
     {

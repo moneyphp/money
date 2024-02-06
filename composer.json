@@ -33,7 +33,7 @@
         "ext-gmp": "*",
         "ext-intl": "*",
         "cache/taggable-cache": "^1.1.0",
-        "doctrine/coding-standard": "^9.0",
+        "doctrine/coding-standard": "^12.0",
         "doctrine/instantiator": "^1.5.0 || ^2.0",
         "florianv/exchanger": "^2.8.1",
         "florianv/swap": "^4.3.0",

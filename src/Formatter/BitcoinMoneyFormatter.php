@@ -21,14 +21,8 @@ use function substr;
  */
 final class BitcoinMoneyFormatter implements MoneyFormatter
 {
-    private int $fractionDigits;
-
-    private Currencies $currencies;
-
-    public function __construct(int $fractionDigits, Currencies $currencies)
+    public function __construct(private readonly int $fractionDigits, private readonly Currencies $currencies)
     {
-        $this->fractionDigits = $fractionDigits;
-        $this->currencies     = $currencies;
     }
 
     public function format(Money $money): string

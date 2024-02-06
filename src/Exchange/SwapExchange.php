@@ -20,11 +20,8 @@ use function sprintf;
  */
 final class SwapExchange implements Exchange
 {
-    private Swap $swap;
-
-    public function __construct(Swap $swap)
+    public function __construct(private readonly Swap $swap)
     {
-        $this->swap = $swap;
     }
 
     public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair

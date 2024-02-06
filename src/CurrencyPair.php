@@ -20,26 +20,13 @@ use function sprintf;
 final class CurrencyPair implements JsonSerializable
 {
     /**
-     * Currency to convert from.
-     */
-    private Currency $baseCurrency;
-
-    /**
-     * Currency to convert to.
-     */
-    private Currency $counterCurrency;
-
-    /** @psalm-var numeric-string */
-    private string $conversionRatio;
-
-    /**
      * @psalm-param numeric-string $conversionRatio
      */
-    public function __construct(Currency $baseCurrency, Currency $counterCurrency, string $conversionRatio)
-    {
-        $this->counterCurrency = $counterCurrency;
-        $this->baseCurrency    = $baseCurrency;
-        $this->conversionRatio = $conversionRatio;
+    public function __construct(
+        private readonly Currency $baseCurrency,
+        private readonly Currency $counterCurrency,
+        private readonly string $conversionRatio
+    ) {
     }
 
     /**
@@ -95,7 +82,7 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * Checks if an other CurrencyPair has the same parameters as this.
+     * Checks if another CurrencyPair has the same parameters as this.
      */
     public function equals(CurrencyPair $other): bool
     {
@@ -105,7 +92,7 @@ final class CurrencyPair implements JsonSerializable
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @psalm-return array{baseCurrency: Currency, counterCurrency: Currency, ratio: numeric-string}
      */

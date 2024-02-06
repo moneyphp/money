@@ -13,14 +13,8 @@ use function sprintf;
  */
 final class Converter
 {
-    private Currencies $currencies;
-
-    private Exchange $exchange;
-
-    public function __construct(Currencies $currencies, Exchange $exchange)
+    public function __construct(private readonly Currencies $currencies, private readonly Exchange $exchange)
     {
-        $this->currencies = $currencies;
-        $this->exchange   = $exchange;
     }
 
     public function convert(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): Money

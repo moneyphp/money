@@ -26,11 +26,8 @@ final class DecimalMoneyParser implements MoneyParser
 {
     public const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>\d+)?\.?(?P<fraction>\d+)?$/';
 
-    private Currencies $currencies;
-
-    public function __construct(Currencies $currencies)
+    public function __construct(private readonly Currencies $currencies)
     {
-        $this->currencies = $currencies;
     }
 
     public function parse(string $money, Currency|null $fallbackCurrency = null): Money

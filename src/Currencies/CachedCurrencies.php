@@ -19,14 +19,8 @@ use function iterator_to_array;
  */
 final class CachedCurrencies implements Currencies
 {
-    private Currencies $currencies;
-
-    private CacheItemPoolInterface $pool;
-
-    public function __construct(Currencies $currencies, CacheItemPoolInterface $pool)
+    public function __construct(private readonly Currencies $currencies, private readonly CacheItemPoolInterface $pool)
     {
-        $this->currencies = $currencies;
-        $this->pool       = $pool;
     }
 
     public function contains(Currency $currency): bool
