@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Fixed
+
+- PHPUnit 10 support
+- Update currencies
+- Updated doctrine/coding-standard
+- Updated other dev dependencies
+
 ### Removed
 
 - PHP 8.0 support
