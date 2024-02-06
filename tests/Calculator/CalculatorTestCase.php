@@ -8,15 +8,19 @@ use Money\Calculator;
 use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use Tests\Money\Locale;
 use Tests\Money\RoundExamples;
 
 use function preg_replace;
 use function rtrim;
 use function substr;
 
+use const LC_ALL;
+
 abstract class CalculatorTestCase extends TestCase
 {
     use RoundExamples;
+    use Locale;
 
     /**
      * @return Calculator
@@ -35,6 +39,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itAddsTwoValues(int $value1, int $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::add((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::add((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -48,6 +56,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itSubtractsAValueFromAnother(int $value1, int $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -61,6 +73,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itMultipliesAValueByAnother(int|string $value1, float $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::multiply((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::multiply((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -96,6 +112,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itDividesAValueByAnotherExact(int $value1, int|float $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::divide((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::divide((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -108,6 +128,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itCeilsAValue(float $value, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::ceil((string) $value));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::ceil((string) $value));
+        });
     }
 
     /**
@@ -120,6 +144,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itFloorsAValue(float $value, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::floor((string) $value));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::floor((string) $value));
+        });
     }
 
     /**
@@ -132,6 +160,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itCalculatesTheAbsoluteValue(int $value, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::absolute((string) $value));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::absolute((string) $value));
+        });
     }
 
     /**
@@ -159,6 +191,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itRoundsAValue(int|string $value, int $mode, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::round((string) $value, $mode));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $mode, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::round((string) $value, $mode));
+        });
     }
 
     /**
@@ -201,6 +237,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itCalculatesTheModulusOfAValue(int $left, int $right, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::mod((string) $left, (string) $right));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($left, $right, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::mod((string) $left, (string) $right));
+        });
     }
 
     /** @test */
@@ -250,7 +290,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function additionExamples(): array
+    public static function additionExamples(): array
     {
         return [
             [1, 1, '2'],
@@ -265,7 +305,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function subtractionExamples(): array
+    public static function subtractionExamples(): array
     {
         return [
             [1, 1, '0'],
@@ -280,7 +320,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function multiplicationExamples(): array
+    public static function multiplicationExamples(): array
     {
         return [
             [1, 1.5, '1.5'],
@@ -306,7 +346,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function divisionExamples(): array
+    public static function divisionExamples(): array
     {
         return [
             [6, 3, '2'],
@@ -333,7 +373,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function divisionExactExamples(): array
+    public static function divisionExactExamples(): array
     {
         return [
             [6, 3, '2'],
@@ -352,7 +392,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function ceilExamples(): array
+    public static function ceilExamples(): array
     {
         return [
             [1.2, '2'],
@@ -367,7 +407,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function floorExamples(): array
+    public static function floorExamples(): array
     {
         return [
             [2.7, '2'],
@@ -382,7 +422,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function absoluteExamples(): array
+    public static function absoluteExamples(): array
     {
         return [
             [2, '2'],
@@ -398,7 +438,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function shareExamples(): array
+    public static function shareExamples(): array
     {
         return [
             [10, 2, 4, '5'],
@@ -408,7 +448,7 @@ abstract class CalculatorTestCase extends TestCase
     /**
      * @psalm-return array<int,array<int|numeric-string>>
      */
-    public function compareLessExamples(): array
+    public static function compareLessExamples(): array
     {
         return [
             [0, 1],
@@ -427,7 +467,7 @@ abstract class CalculatorTestCase extends TestCase
      *     int|numeric-string
      * }>
      */
-    public function compareEqualExamples(): array
+    public static function compareEqualExamples(): array
     {
         return [
             [1, 1],
@@ -443,7 +483,7 @@ abstract class CalculatorTestCase extends TestCase
      *     numeric-string
      * }>
      */
-    public function modExamples(): array
+    public static function modExamples(): array
     {
         return [
             [11, 5, '1'],

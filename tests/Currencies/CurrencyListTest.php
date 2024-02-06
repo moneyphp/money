@@ -72,7 +72,7 @@ final class CurrencyListTest extends TestCase
     }
 
     /** @psalm-return non-empty-list<array{non-empty-string}> */
-    public function currencyCodeExamples(): array
+    public static function currencyCodeExamples(): array
     {
         $currencies = array_keys(self::CORRECT_CURRENCIES);
 

@@ -20,7 +20,7 @@ trait RoundExamples
      *     2: numeric-string
      * }>
      */
-    public function roundingExamples(): array
+    public static function roundingExamples(): array
     {
         return [
             ['2.6', Money::ROUND_HALF_EVEN, '3'],

@@ -44,7 +44,7 @@ final class BitcoinMoneyFormatterTest extends TestCase
      *     non-negative-int
      * }>
      */
-    public function bitcoinExamples(): array
+    public static function bitcoinExamples(): array
     {
         return [
             [100000000000, "\xC9\x831000.00", 2],

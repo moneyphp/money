@@ -42,7 +42,7 @@
         "php-http/message": "^1.16.0",
         "php-http/mock-client": "^1.6.0",
         "phpbench/phpbench": "^1.2.5",
-        "phpunit/phpunit": "^9.5.4",
+        "phpunit/phpunit": "^10.5.9",
         "psalm/plugin-phpunit": "^0.18.4",
         "psr/cache": "^1.0.1 || ^2.0 || ^3.0",
         "vimeo/psalm": "~5.20.0"
@@ -88,13 +88,13 @@
         ],
         "clean": "rm -rf build/ vendor/",
         "test": [
-            "vendor/bin/phpunit -v",
             "vendor/bin/phpbench run",
+            "vendor/bin/phpunit",
             "vendor/bin/psalm",
             "vendor/bin/phpcs"
         ],
         "test-coverage": [
-            "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
+            "vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": [
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",

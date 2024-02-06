@@ -20,6 +20,8 @@ use const LC_ALL;
 /** @covers \Money\Converter */
 final class ConverterTest extends TestCase
 {
+    use Locale;
+
     /**
      * @psalm-param non-empty-string $baseCurrencyCode
      * @psalm-param non-empty-string $counterCurrencyCode
@@ -192,17 +194,17 @@ final class ConverterTest extends TestCase
         $amount,
         $expectedAmount
     ): void {
-        $this->setLocale(LC_ALL, 'ru_RU.UTF-8');
-
-        $this->itConvertsToADifferentCurrency(
-            $baseCurrencyCode,
-            $counterCurrencyCode,
-            $subunitBase,
-            $subunitCounter,
-            $ratio,
-            $amount,
-            $expectedAmount
-        );
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($expectedAmount, $amount, $ratio, $subunitCounter, $subunitBase, $counterCurrencyCode, $baseCurrencyCode): void {
+            $this->itConvertsToADifferentCurrency(
+                $baseCurrencyCode,
+                $counterCurrencyCode,
+                $subunitBase,
+                $subunitCounter,
+                $ratio,
+                $amount,
+                $expectedAmount
+            );
+        });
     }
 
     /**
@@ -231,7 +233,7 @@ final class ConverterTest extends TestCase
      *     non-negative-int
      * }>
      */
-    public function convertExamples(): array
+    public static function convertExamples(): array
     {
         return [
             ['USD', 'JPY', 2, 0, 101, 100, 101],

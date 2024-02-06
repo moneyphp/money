@@ -62,7 +62,7 @@ final class DecimalMoneyParserTest extends TestCase
      *     int
      * }>
      */
-    public function formattedMoneyExamples(): array
+    public static function formattedMoneyExamples(): array
     {
         return [
             ['1000.50', 'USD', 2, 100050],
