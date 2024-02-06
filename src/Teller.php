@@ -43,24 +43,12 @@ final class Teller
         );
     }
 
-    private Currency $currency;
-
-    private MoneyFormatter $formatter;
-
-    private MoneyParser $parser;
-
-    private int $roundingMode = Money::ROUND_HALF_UP;
-
     public function __construct(
-        Currency $currency,
-        MoneyParser $parser,
-        MoneyFormatter $formatter,
-        int $roundingMode = Money::ROUND_HALF_UP
+        private readonly Currency $currency,
+        private readonly MoneyParser $parser,
+        private readonly MoneyFormatter $formatter,
+        private readonly int $roundingMode = Money::ROUND_HALF_UP
     ) {
-        $this->currency     = $currency;
-        $this->parser       = $parser;
-        $this->formatter    = $formatter;
-        $this->roundingMode = $roundingMode;
     }
 
     /**

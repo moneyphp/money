@@ -17,18 +17,11 @@ use function sprintf;
 final class AggregateMoneyParser implements MoneyParser
 {
     /**
-     * @var MoneyParser[]
-     * @psalm-var non-empty-array<MoneyParser>
-     */
-    private array $parsers;
-
-    /**
      * @param MoneyParser[] $parsers
      * @psalm-param non-empty-array<MoneyParser> $parsers
      */
-    public function __construct(array $parsers)
+    public function __construct(private readonly array $parsers)
     {
-        $this->parsers = $parsers;
     }
 
     public function parse(string $money, Currency|null $fallbackCurrency = null): Money
@@ -36,7 +29,7 @@ final class AggregateMoneyParser implements MoneyParser
         foreach ($this->parsers as $parser) {
             try {
                 return $parser->parse($money, $fallbackCurrency);
-            } catch (Exception\ParserException $e) {
+            } catch (Exception\ParserException) {
             }
         }
 

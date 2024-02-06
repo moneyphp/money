@@ -20,14 +20,8 @@ use function substr;
  */
 final class IntlLocalizedDecimalFormatter implements MoneyFormatter
 {
-    private NumberFormatter $formatter;
-
-    private Currencies $currencies;
-
-    public function __construct(NumberFormatter $formatter, Currencies $currencies)
+    public function __construct(private readonly NumberFormatter $formatter, private readonly Currencies $currencies)
     {
-        $this->formatter  = $formatter;
-        $this->currencies = $currencies;
     }
 
     public function format(Money $money): string

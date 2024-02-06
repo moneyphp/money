@@ -28,5 +28,12 @@
         <!-- language-level non-strict comparison is (consciously) used in the codebase for performance reasons -->
         <exclude name="SlevomatCodingStandard.Operators.DisallowEqualOperators.DisallowedEqualOperator"/>
         <exclude name="SlevomatCodingStandard.Operators.DisallowEqualOperators.DisallowedNotEqualOperator"/>
+
+        <!-- We do not want trailing commas -->
+        <exclude name="SlevomatCodingStandard.Commenting.RequireOneLineDocComment"/>
+        <exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
+        <exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
+        <exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
+        <exclude name="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
     </rule>
 </ruleset>
