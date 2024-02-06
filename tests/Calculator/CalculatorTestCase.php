@@ -8,15 +8,19 @@ use Money\Calculator;
 use Money\Exception\InvalidArgumentException;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
+use Tests\Money\Locale;
 use Tests\Money\RoundExamples;
 
 use function preg_replace;
 use function rtrim;
 use function substr;
 
+use const LC_ALL;
+
 abstract class CalculatorTestCase extends TestCase
 {
     use RoundExamples;
+    use Locale;
 
     /**
      * @return Calculator
@@ -35,6 +39,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itAddsTwoValues(int $value1, int $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::add((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::add((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -48,6 +56,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itSubtractsAValueFromAnother(int $value1, int $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::subtract((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -61,6 +73,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itMultipliesAValueByAnother(int|string $value1, float $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::multiply((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::multiply((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -96,6 +112,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itDividesAValueByAnotherExact(int $value1, int|float $value2, string $expected): void
     {
         self::assertEqualNumber($expected, $this->getCalculator()::divide((string) $value1, (string) $value2));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value1, $value2, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::divide((string) $value1, (string) $value2));
+        });
     }
 
     /**
@@ -108,6 +128,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itCeilsAValue(float $value, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::ceil((string) $value));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::ceil((string) $value));
+        });
     }
 
     /**
@@ -120,6 +144,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itFloorsAValue(float $value, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::floor((string) $value));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::floor((string) $value));
+        });
     }
 
     /**
@@ -132,6 +160,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itCalculatesTheAbsoluteValue(int $value, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::absolute((string) $value));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::absolute((string) $value));
+        });
     }
 
     /**
@@ -159,6 +191,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itRoundsAValue(int|string $value, int $mode, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::round((string) $value, $mode));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($value, $mode, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::round((string) $value, $mode));
+        });
     }
 
     /**
@@ -201,6 +237,10 @@ abstract class CalculatorTestCase extends TestCase
     public function itCalculatesTheModulusOfAValue(int $left, int $right, string $expected): void
     {
         self::assertEquals($expected, $this->getCalculator()::mod((string) $left, (string) $right));
+
+        self::runLocaleAware(LC_ALL, 'ru_RU.UTF-8', function () use ($left, $right, $expected): void {
+            self::assertEqualNumber($expected, $this->getCalculator()::mod((string) $left, (string) $right));
+        });
     }
 
     /** @test */
