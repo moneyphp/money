@@ -54,6 +54,7 @@ final class Money implements JsonSerializable
 
     /**
      * Internal value.
+     * Amount, expressed in the smallest currency units (eg cents).
      *
      * @psalm-var numeric-string
      */
@@ -164,7 +165,7 @@ final class Money implements JsonSerializable
     }
 
     /**
-     * Returns the value represented by this object.
+     * Returns the value represented by this object - amount, expressed in the smallest currency units (eg cents).
      *
      * @psalm-return numeric-string
      */
