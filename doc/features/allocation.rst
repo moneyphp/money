@@ -36,6 +36,6 @@ An amount of money can be allocated to N targets using ``allocateTo()``.
 
 .. code-block:: php
 
-    $value = Money::EUR(800);           // $8.00
+    $value = Money::EUR(800);           // €8.00
 
-    $result = $value->allocateTo(3);    // $result = [$2.67, $2.67, $2.66]
+    $result = $value->allocateTo(3);    // $result = [€2.67, €2.67, €2.66]
