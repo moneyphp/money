@@ -571,7 +571,6 @@ trait MoneyFactory
      * $fiveDollar = Money::USD(500);
      * </code>
      *
-     * @param array $arguments
      * @psalm-param non-empty-string          $method
      * @psalm-param array{numeric-string|int} $arguments
      *
