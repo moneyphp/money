@@ -1,0 +1,11 @@
+version: 2
+
+build:
+    os: "ubuntu-22.04"
+
+python:
+    install:
+        - requirements: doc/requirements.txt
+
+sphinx:
+    configuration: doc/conf.py
