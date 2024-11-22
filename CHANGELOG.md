@@ -508,6 +508,7 @@ convert a float to string (e.g. `sprintf('%.14F', $float)`) before calling the c
 - 2012-12-10 Renamed Money::getUnits() to Money::getAmount()
 
 [Unreleased]: https://github.com/moneyphp/money/compare/v4.4.0...HEAD
+[4.6.0]: https://github.com/moneyphp/money/compare/v4.5.0...v4.6.0
 [4.5.0]: https://github.com/moneyphp/money/compare/v4.4.0...v4.5.0
 [4.4.0]: https://github.com/moneyphp/money/compare/v4.3.0...v4.4.0
 [4.3.0]: https://github.com/moneyphp/money/compare/v4.2.0...v4.3.0
