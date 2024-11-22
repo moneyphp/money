@@ -67,7 +67,7 @@ jobs:
       - uses: "ramsey/composer-install@v3"
 
       - name: Run tests
-        run: composer test
+        run: vendor/bin/phpunit
 
   psalm:
     name: Psalm
