@@ -20,7 +20,7 @@ use function sprintf;
 final class CurrencyPair implements JsonSerializable
 {
     /**
-     * @psalm-param numeric-string $conversionRatio
+     * @phpstan-param numeric-string $conversionRatio
      */
     public function __construct(
         private readonly Currency $baseCurrency,
@@ -48,8 +48,6 @@ final class CurrencyPair implements JsonSerializable
             throw new InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
         }
 
-        assert($matches[1] !== '');
-        assert($matches[2] !== '');
         assert(is_numeric($matches[3]));
 
         return new self(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
@@ -74,7 +72,7 @@ final class CurrencyPair implements JsonSerializable
     /**
      * Returns the conversion ratio.
      *
-     * @psalm-return numeric-string
+     * @phpstan-return numeric-string
      */
     public function getConversionRatio(): string
     {
@@ -94,7 +92,7 @@ final class CurrencyPair implements JsonSerializable
     /**
      * {@inheritDoc}
      *
-     * @psalm-return array{baseCurrency: Currency, counterCurrency: Currency, ratio: numeric-string}
+     * @phpstan-return array{baseCurrency: Currency, counterCurrency: Currency, ratio: numeric-string}
      */
     public function jsonSerialize(): array
     {

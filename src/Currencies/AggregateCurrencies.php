@@ -47,12 +47,12 @@ final class AggregateCurrencies implements Currencies
     /** {@inheritDoc} */
     public function getIterator(): Traversable
     {
-        /** @psalm-var AppendIterator&Traversable<int|string, Currency> $iterator */
+        /** @phpstan-var AppendIterator&Traversable<int|string, Currency> $iterator */
         $iterator = new AppendIterator();
 
         foreach ($this->currencies as $currencies) {
             $currencyIterator = $currencies->getIterator();
-            /** @psalm-var AppendIterator&Traversable<int|string, Currency> $currencyIterator */
+            /** @phpstan-var AppendIterator&Traversable<int|string, Currency> $currencyIterator */
             $iterator->append($currencyIterator);
         }
 

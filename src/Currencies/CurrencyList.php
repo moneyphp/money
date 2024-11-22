@@ -21,11 +21,11 @@ final class CurrencyList implements Currencies
     /**
      * Map of currencies and their sub-units indexed by code.
      *
-     * @psalm-var array<non-empty-string, int>
+     * @phpstan-var array<non-empty-string, int>
      */
     private array $currencies;
 
-    /** @psalm-param array<non-empty-string, non-negative-int> $currencies */
+    /** @phpstan-param array<non-empty-string, non-negative-int> $currencies */
     public function __construct(array $currencies)
     {
         $this->currencies = $currencies;

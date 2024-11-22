@@ -22,7 +22,7 @@ final class CurrencyListTest extends TestCase
     ];
 
     /**
-     * @psalm-param non-empty-string $currency
+     * @phpstan-param non-empty-string $currency
      *
      * @dataProvider currencyCodeExamples
      * @test
@@ -35,7 +35,7 @@ final class CurrencyListTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-string $currency
+     * @phpstan-param non-empty-string $currency
      *
      * @dataProvider currencyCodeExamples
      * @test
@@ -71,7 +71,7 @@ final class CurrencyListTest extends TestCase
         self::assertContainsOnlyInstancesOf(Currency::class, $iterator);
     }
 
-    /** @psalm-return non-empty-list<array{non-empty-string}> */
+    /** @phpstan-return non-empty-list<array{non-empty-string}> */
     public static function currencyCodeExamples(): array
     {
         $currencies = array_keys(self::CORRECT_CURRENCIES);

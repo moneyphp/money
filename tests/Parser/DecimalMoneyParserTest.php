@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 final class DecimalMoneyParserTest extends TestCase
 {
     /**
-     * @psalm-param non-empty-string $currency
-     * @psalm-param non-negative-int $subunit
-     * @psalm-param int $result
+     * @phpstan-param non-empty-string $currency
+     * @phpstan-param non-negative-int $subunit
+     * @phpstan-param int $result
      *
      * @dataProvider formattedMoneyExamples
      * @test
@@ -35,7 +35,7 @@ final class DecimalMoneyParserTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-string $input
+     * @phpstan-param non-empty-string $input
      *
      * @dataProvider invalidMoneyExamples
      * @test
@@ -55,7 +55,7 @@ final class DecimalMoneyParserTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     string,
      *     non-empty-string,
      *     non-negative-int,
@@ -123,7 +123,7 @@ final class DecimalMoneyParserTest extends TestCase
         ];
     }
 
-    /** @psalm-return non-empty-list<array{non-empty-string}> */
+    /** @phpstan-return non-empty-list<array{non-empty-string}> */
     public static function invalidMoneyExamples()
     {
         return [

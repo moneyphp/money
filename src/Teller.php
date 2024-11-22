@@ -206,7 +206,7 @@ final class Teller
      * Allocates a monetary amount among N targets.
      *
      * @param mixed $amount a monetary amount
-     * @psalm-param positive-int $n the number of targets
+     * @phpstan-param positive-int $n the number of targets
      *
      * @return string[] the calculated monetary amounts
      */

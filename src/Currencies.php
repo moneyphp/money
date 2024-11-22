@@ -26,7 +26,7 @@ interface Currencies extends IteratorAggregate
     public function subunitFor(Currency $currency): int;
 
     /**
-     * @psalm-return Traversable<int|string, Currency>
+     * @phpstan-return Traversable<int|string, Currency>
      */
     public function getIterator(): Traversable;
 }

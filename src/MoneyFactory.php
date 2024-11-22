@@ -560,7 +560,7 @@ use InvalidArgumentException;
  * @method static Money ZMW(numeric-string|int $amount)
  * @method static Money ZRX(numeric-string|int $amount)
  * @method static Money ZWL(numeric-string|int $amount)
- * @psalm-immutable
+ * @phpstan-immutable
  */
 trait MoneyFactory
 {
@@ -571,12 +571,12 @@ trait MoneyFactory
      * $fiveDollar = Money::USD(500);
      * </code>
      *
-     * @psalm-param non-empty-string          $method
-     * @psalm-param array{numeric-string|int} $arguments
+     * @phpstan-param non-empty-string          $method
+     * @phpstan-param array{numeric-string|int} $arguments
      *
      * @throws InvalidArgumentException If amount is not integer(ish).
      *
-     * @psalm-pure
+     * @phpstan-pure
      */
     public static function __callStatic(string $method, array $arguments): Money
     {

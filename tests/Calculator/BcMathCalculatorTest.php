@@ -21,7 +21,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
 
     /**
      * @return BcMathCalculator
-     * @psalm-return class-string<BcMathCalculator>
+     * @phpstan-return class-string<BcMathCalculator>
      */
     protected function getCalculator(): string
     {
@@ -39,9 +39,9 @@ class BcMathCalculatorTest extends CalculatorTestCase
     }
 
     /**
-     * @psalm-param positive-int   $value1
-     * @psalm-param positive-int   $value2
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int   $value1
+     * @phpstan-param positive-int   $value2
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider additionExamples
      * @test
@@ -54,9 +54,9 @@ class BcMathCalculatorTest extends CalculatorTestCase
     }
 
     /**
-     * @psalm-param positive-int   $value1
-     * @psalm-param positive-int   $value2
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int   $value1
+     * @phpstan-param positive-int   $value2
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider subtractionExamples
      * @test
@@ -114,7 +114,7 @@ class BcMathCalculatorTest extends CalculatorTestCase
     }
 
     /**
-     * @psalm-return array<int,array<int|numeric-string>>
+     * @phpstan-return array<int,array<int|numeric-string>>
      */
     public static function compareLessExamples(): array
     {

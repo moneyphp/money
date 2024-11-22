@@ -15,13 +15,13 @@ final class AggregateMoneyFormatter implements MoneyFormatter
 {
     /**
      * @var MoneyFormatter[] indexed by currency code
-     * @psalm-var non-empty-array<non-empty-string, MoneyFormatter> indexed by currency code
+     * @phpstan-var non-empty-array<non-empty-string, MoneyFormatter> indexed by currency code
      */
     private array $formatters;
 
     /**
      * @param MoneyFormatter[] $formatters indexed by currency code
-     * @psalm-param non-empty-array<non-empty-string, MoneyFormatter> $formatters indexed by currency code
+     * @phpstan-param non-empty-array<non-empty-string, MoneyFormatter> $formatters indexed by currency code
      */
     public function __construct(array $formatters)
     {

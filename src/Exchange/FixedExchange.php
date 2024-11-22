@@ -14,7 +14,7 @@ use Money\Exchange;
  */
 final class FixedExchange implements Exchange
 {
-    /** @psalm-param array<non-empty-string, array<non-empty-string, numeric-string>> $list */
+    /** @phpstan-param array<non-empty-string, array<non-empty-string, numeric-string>> $list */
     public function __construct(private readonly array $list)
     {
     }
