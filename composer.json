@@ -99,7 +99,8 @@
         "update-currencies": [
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
             "cp vendor/moneyphp/crypto-currencies/resources/binance.php resources/binance.php",
-            "php resources/generate-money-factory.php"
+            "php resources/generate-money-factory.php",
+            "php resources/generate-teller-factory.php"
         ]
     }
 }
