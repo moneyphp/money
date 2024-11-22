@@ -24,7 +24,7 @@
     ],
     "homepage": "http://moneyphp.org",
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0",
         "ext-bcmath": "*",
         "ext-filter": "*",
         "ext-json": "*"
@@ -43,9 +43,7 @@
         "php-http/mock-client": "^1.6.0",
         "phpbench/phpbench": "^1.2.5",
         "phpunit/phpunit": "^10.5.9",
-        "psalm/plugin-phpunit": "^0.18.4",
-        "psr/cache": "^1.0.1 || ^2.0 || ^3.0",
-        "vimeo/psalm": "~5.20.0"
+        "psr/cache": "^1.0.1 || ^2.0 || ^3.0"
     },
     "suggest": {
         "ext-gmp": "Calculate without integer limits",
@@ -90,7 +88,6 @@
         "test": [
             "vendor/bin/phpbench run",
             "vendor/bin/phpunit",
-            "vendor/bin/psalm",
             "vendor/bin/phpcs"
         ],
         "test-coverage": [
