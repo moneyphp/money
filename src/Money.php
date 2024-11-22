@@ -66,8 +66,10 @@ final class Money implements JsonSerializable
     /**
      * @param int|string $amount Amount, expressed in the smallest units of $currency (eg cents)
      * @phpstan-param int|numeric-string $amount
-     * @phpstan-pure
+     *
      * @throws InvalidArgumentException If amount is not integer(ish).
+     *
+     * @phpstan-pure
      */
     public function __construct(int|string $amount, private readonly Currency $currency)
     {
@@ -264,6 +266,7 @@ final class Money implements JsonSerializable
      *
      * @phpstan-param int|numeric-string $divisor
      * @phpstan-param self::ROUND_*  $roundingMode
+     *
      * @phpstan-pure
      */
     public function divide(int|string $divisor, int $roundingMode = self::ROUND_HALF_UP): Money
@@ -391,9 +394,10 @@ final class Money implements JsonSerializable
     /**
      * @phpstan-param numeric-string $amount
      * @phpstan-param self::ROUND_*  $roundingMode
-     * @phpstan-pure
      *
      * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
     private function round(string $amount, int $roundingMode): string
     {

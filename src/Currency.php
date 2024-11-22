@@ -25,8 +25,9 @@ final class Currency implements JsonSerializable
     private string $code;
 
     /**
-     * @phpstan-pure
      * @phpstan-param non-empty-string $code
+     *
+     * @phpstan-pure
      */
     public function __construct(string $code)
     {

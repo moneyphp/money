@@ -22,7 +22,6 @@ use function assert;
  * \SebastianBergmann\Comparator\Factory::getInstance()->register(new \Money\PHPUnit\Comparator());
  *
  * @internal do not use within your sources: this comparator is only to be used within the test suite of this library
- *
  */
 final class Comparator extends \SebastianBergmann\Comparator\Comparator
 {

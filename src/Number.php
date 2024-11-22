@@ -122,8 +122,9 @@ final class Number
     }
 
     /**
-     * @phpstan-pure
      * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
     public function __toString(): string
     {
@@ -143,8 +144,9 @@ final class Number
     }
 
     /**
-     * @phpstan-pure
      * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
     public function getIntegerPart(): string
     {
@@ -152,8 +154,9 @@ final class Number
     }
 
     /**
-     * @phpstan-pure
      * @phpstan-return numeric-string|''
+     *
+     * @phpstan-pure
      */
     public function getFractionalPart(): string
     {
@@ -161,8 +164,9 @@ final class Number
     }
 
     /**
-     * @phpstan-pure
      * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
     public function getIntegerRoundingMultiplier(): string
     {
@@ -214,7 +218,6 @@ final class Number
      * @phpstan-return numeric-string
      *
      * @phpstan-pure
-     *
      */
     private static function parseIntegerPart(string $number): string
     {
@@ -291,7 +294,7 @@ final class Number
 
         if ($shouldRound && $moneyValue[$valueLength - $havingDigits + $targetDigits] >= 5) {
             $position = $valueLength - $havingDigits + $targetDigits;
-            $addend = 1;
+            $addend   = 1;
 
             while ($position > 0) {
                 // @phpstan-ignore possiblyImpure.methodCall (no idea what it thinks this)
@@ -299,6 +302,7 @@ final class Number
 
                 if ($newValue >= 10) {
                     $moneyValue[$position - 1] = $newValue[1];
+
                     $addend = $newValue[0];
                     --$position;
                     if ($position === 0) {

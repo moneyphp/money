@@ -34,6 +34,7 @@ final class Converter
 
     /**
      * @param Money::ROUND_* $roundingMode
+     *
      * @return array{0: Money, 1: CurrencyPair}
      */
     public function convertAndReturnWithCurrencyPair(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): array
