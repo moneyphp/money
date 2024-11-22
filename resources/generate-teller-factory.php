@@ -40,7 +40,7 @@ trait TellerFactory
      * </code>
      *
      * @param non-empty-string $method
-     * @param array{0?: int}   $arguments
+     * @param array{0?: Money::ROUND_*}   $arguments
      */
     public static function __callStatic(string $method, array $arguments): Teller
     {

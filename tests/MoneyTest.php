@@ -418,7 +418,7 @@ final class MoneyTest extends TestCase
      * @phpstan-param int $amount
      * @phpstan-param non-negative-int $unit
      * @phpstan-param int $expected
-     * @phpstan-param int $roundingMode
+     * @phpstan-param Money::ROUND_* $roundingMode
      *
      * @test
      * @dataProvider roundToUnitExamples
