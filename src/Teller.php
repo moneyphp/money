@@ -4,44 +4,11 @@ declare(strict_types=1);
 
 namespace Money;
 
-use Money\Currencies\ISOCurrencies;
-use Money\Formatter\DecimalMoneyFormatter;
-use Money\Parser\DecimalMoneyParser;
-
-use function array_shift;
 use function is_float;
 
 final class Teller
 {
-    /**
-     * Convenience factory method for a Teller object.
-     *
-     * <code>
-     * $teller = Teller::USD();
-     * </code>
-     *
-     * @param non-empty-string $method
-     * @param array{0?: int}   $arguments
-     *
-     * @return Teller
-     */
-    public static function __callStatic(string $method, array $arguments): self
-    {
-        $currency     = new Currency($method);
-        $currencies   = new ISOCurrencies();
-        $parser       = new DecimalMoneyParser($currencies);
-        $formatter    = new DecimalMoneyFormatter($currencies);
-        $roundingMode = empty($arguments)
-            ? Money::ROUND_HALF_UP
-            : (int) array_shift($arguments);
-
-        return new self(
-            $currency,
-            $parser,
-            $formatter,
-            $roundingMode
-        );
-    }
+    use TellerFactory;
 
     public function __construct(
         private readonly Currency $currency,
