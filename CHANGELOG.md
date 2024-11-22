@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 
+## [4.6.0] - 2024-11-22
+
+### Added
+
+- PHP 8.4 support
+
+
 ## [4.5.0] - 2024-02-15
 
 ### Fixed
@@ -22,6 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 
 - PHP 8.0 support
+
 
 ## [4.4.0] - 2024-01-24
 
