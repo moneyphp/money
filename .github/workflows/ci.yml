@@ -25,8 +25,9 @@ jobs:
       - name: Set up locales
         run: ./hack/setup-locales.sh
 
-      - name: Download dependencies
-        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest --classmap-authoritative
+      - uses: "ramsey/composer-install@v3"
+        with:
+          dependency-versions: "lowest"
 
       - name: Run tests
         run: composer test
@@ -58,8 +59,7 @@ jobs:
       - name: Set up locales
         run: ./hack/setup-locales.sh
 
-      - name: Download dependencies
-        run: composer install --classmap-authoritative
+      - uses: "ramsey/composer-install@v3"
 
       - name: Run tests
         run: composer test
@@ -78,8 +78,7 @@ jobs:
           php-version: '8.1'
           extensions: bcmath, gmp, intl, dom, mbstring
 
-      - name: Download dependencies
-        run: composer install --classmap-authoritative
+      - uses: "ramsey/composer-install@v3"
 
       - name: Psalm
         run: vendor/bin/psalm
