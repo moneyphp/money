@@ -25,8 +25,9 @@ jobs:
       - name: Set up locales
         run: ./hack/setup-locales.sh
 
-      - name: Download dependencies
-        run: composer update --prefer-stable --prefer-dist --no-interaction --no-progress --no-suggest --prefer-lowest --classmap-authoritative
+      - uses: "ramsey/composer-install@v3"
+        with:
+          dependency-versions: "lowest"
 
       - name: Run tests
         run: composer test
@@ -35,11 +36,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         php:
           - '8.1'
           - '8.2'
           - '8.3'
+          - '8.4'
 
     steps:
       - name: Set up PHP
@@ -58,11 +61,14 @@ jobs:
       - name: Set up locales
         run: ./hack/setup-locales.sh
 
-      - name: Download dependencies
-        run: composer install --classmap-authoritative
+      - name: Remove Psalm when on PHP 8.4
+        if: ${{ matrix.php == '8.4' }}
+        run: composer remove --dev psalm/plugin-phpunit vimeo/psalm
+
+      - uses: "ramsey/composer-install@v3"
 
       - name: Run tests
-        run: composer test
+        run: vendor/bin/phpunit
 
   psalm:
     name: Psalm
@@ -75,11 +81,10 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           extensions: bcmath, gmp, intl, dom, mbstring
 
-      - name: Download dependencies
-        run: composer install --classmap-authoritative
+      - uses: "ramsey/composer-install@v3"
 
       - name: Psalm
         run: vendor/bin/psalm
