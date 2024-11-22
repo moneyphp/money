@@ -93,7 +93,7 @@
         "test": [
             "vendor/bin/phpbench run",
             "vendor/bin/phpunit",
-            "vendor/bin/psalm",
+            "vendor/bin/phpstan",
             "vendor/bin/phpcs"
         ],
         "test-coverage": [
