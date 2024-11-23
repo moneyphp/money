@@ -17,6 +17,9 @@ final class Converter
     {
     }
 
+    /**
+     * @param Money::ROUND_* $roundingMode
+     */
     public function convert(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): Money
     {
         return $this->convertAgainstCurrencyPair(
@@ -29,7 +32,11 @@ final class Converter
         );
     }
 
-    /** @return array{0: Money, 1: CurrencyPair} */
+    /**
+     * @param Money::ROUND_* $roundingMode
+     *
+     * @return array{0: Money, 1: CurrencyPair}
+     */
     public function convertAndReturnWithCurrencyPair(Money $money, Currency $counterCurrency, int $roundingMode = Money::ROUND_HALF_UP): array
     {
         $pair = $this->exchange->quote(
@@ -40,6 +47,9 @@ final class Converter
         return [$this->convertAgainstCurrencyPair($money, $pair, $roundingMode), $pair];
     }
 
+    /**
+     * @param Money::ROUND_* $roundingMode
+     */
     public function convertAgainstCurrencyPair(Money $money, CurrencyPair $currencyPair, int $roundingMode = Money::ROUND_HALF_UP): Money
     {
         if (! $money->getCurrency()->equals($currencyPair->getBaseCurrency())) {

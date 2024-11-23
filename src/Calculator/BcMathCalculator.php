@@ -23,13 +23,13 @@ final class BcMathCalculator implements Calculator
 {
     private const SCALE = 14;
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function compare(string $a, string $b): int
     {
         return bccomp($a, $b, self::SCALE);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function add(string $amount, string $addend): string
     {
         $scale = str_contains($amount . $addend, '.') ? self::SCALE : 0;
@@ -37,7 +37,7 @@ final class BcMathCalculator implements Calculator
         return bcadd($amount, $addend, $scale);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function subtract(string $amount, string $subtrahend): string
     {
         $scale = str_contains($amount . $subtrahend, '.') ? self::SCALE : 0;
@@ -45,15 +45,14 @@ final class BcMathCalculator implements Calculator
         return bcsub($amount, $subtrahend, $scale);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function multiply(string $amount, string $multiplier): string
     {
         return bcmul($amount, $multiplier, self::SCALE);
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     * @psalm-pure
+     * @phpstan-pure
      */
     public static function divide(string $amount, string $divisor): string
     {
@@ -64,7 +63,7 @@ final class BcMathCalculator implements Calculator
         return bcdiv($amount, $divisor, self::SCALE);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function ceil(string $number): string
     {
         $number = Number::fromString($number);
@@ -80,7 +79,7 @@ final class BcMathCalculator implements Calculator
         return bcadd($number->__toString(), '1', 0);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function floor(string $number): string
     {
         $number = Number::fromString($number);
@@ -97,9 +96,7 @@ final class BcMathCalculator implements Calculator
     }
 
     /**
-     * @psalm-suppress MoreSpecificReturnType we know that trimming `-` produces a positive numeric-string here
-     * @psalm-suppress LessSpecificReturnStatement we know that trimming `-` produces a positive numeric-string here
-     * @psalm-pure
+     * @phpstan-pure
      */
     public static function absolute(string $number): string
     {
@@ -107,11 +104,11 @@ final class BcMathCalculator implements Calculator
     }
 
     /**
-     * @psalm-param Money::ROUND_* $roundingMode
+     * @phpstan-param Money::ROUND_* $roundingMode
      *
-     * @psalm-return numeric-string
+     * @phpstan-return numeric-string
      *
-     * @psalm-pure
+     * @phpstan-pure
      */
     public static function round(string $number, int $roundingMode): string
     {
@@ -193,9 +190,9 @@ final class BcMathCalculator implements Calculator
     }
 
     /**
-     * @psalm-return numeric-string
+     * @phpstan-return numeric-string
      *
-     * @psalm-pure
+     * @phpstan-pure
      */
     private static function roundDigit(Number $number): string
     {
@@ -210,15 +207,14 @@ final class BcMathCalculator implements Calculator
         return bcadd($number->__toString(), '0', 0);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function share(string $amount, string $ratio, string $total): string
     {
         return self::floor(bcdiv(bcmul($amount, $ratio, self::SCALE), $total, self::SCALE));
     }
 
     /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     * @psalm-pure
+     * @phpstan-pure
      */
     public static function mod(string $amount, string $divisor): string
     {

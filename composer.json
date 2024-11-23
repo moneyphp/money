@@ -37,15 +37,17 @@
         "doctrine/instantiator": "^1.5.0 || ^2.0",
         "florianv/exchanger": "^2.8.1",
         "florianv/swap": "^4.3.0",
-        "moneyphp/iso-currencies": "^3.4",
         "moneyphp/crypto-currencies": "^1.1.0",
+        "moneyphp/iso-currencies": "^3.4",
         "php-http/message": "^1.16.0",
         "php-http/mock-client": "^1.6.0",
         "phpbench/phpbench": "^1.2.5",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^10.5.9",
-        "psalm/plugin-phpunit": "^0.18.4",
         "psr/cache": "^1.0.1 || ^2.0 || ^3.0",
-        "vimeo/psalm": "~5.20.0"
+        "ticketswap/phpstan-error-formatter": "^1.1"
     },
     "suggest": {
         "ext-gmp": "Calculate without integer limits",
@@ -73,7 +75,8 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "ergebnis/composer-normalize": true,
             "infection/extension-installer": true,
-            "php-http/discovery": false
+            "php-http/discovery": false,
+            "phpstan/extension-installer": true
         },
         "sort-packages": true
     },
@@ -90,7 +93,7 @@
         "test": [
             "vendor/bin/phpbench run",
             "vendor/bin/phpunit",
-            "vendor/bin/psalm",
+            "vendor/bin/phpstan",
             "vendor/bin/phpcs"
         ],
         "test-coverage": [

@@ -27,7 +27,7 @@ final class MoneyFactoryTest extends TestCase
         self::assertEquals(new Money(20, $currency), $money);
     }
 
-    /** @psalm-return list<array{Currency}> */
+    /** @phpstan-return list<array{Currency}> */
     public static function currencyExamples(): array
     {
         $currencies = new AggregateCurrencies([

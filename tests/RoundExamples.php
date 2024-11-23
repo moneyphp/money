@@ -14,7 +14,7 @@ use Money\Money;
 trait RoundExamples
 {
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     0: int|numeric-string,
      *     1: Money::ROUND_*,
      *     2: numeric-string

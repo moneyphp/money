@@ -10,6 +10,9 @@ final class Teller
 {
     use TellerFactory;
 
+    /**
+     * @param Money::ROUND_* $roundingMode
+     */
     public function __construct(
         private readonly Currency $currency,
         private readonly MoneyParser $parser,
@@ -101,9 +104,9 @@ final class Teller
     /**
      * Adds a series of monetary amounts to each other in sequence.
      *
-     * @param mixed   $amount a monetary amount
-     * @param mixed   $other  another monetary amount
-     * @param mixed[] $others subsequent other monetary amounts
+     * @param mixed $amount a monetary amount
+     * @param mixed $other  another monetary amount
+     * @param mixed $others subsequent other monetary amounts
      *
      * @return string the calculated monetary amount
      */
@@ -120,9 +123,9 @@ final class Teller
     /**
      * Subtracts a series of monetary amounts from each other in sequence.
      *
-     * @param mixed   $amount a monetary amount
-     * @param mixed   $other  another monetary amount
-     * @param mixed[] $others subsequent monetary amounts
+     * @param mixed $amount a monetary amount
+     * @param mixed $other  another monetary amount
+     * @param mixed $others subsequent monetary amounts
      */
     public function subtract(mixed $amount, mixed $other, mixed ...$others): string
     {
@@ -206,7 +209,7 @@ final class Teller
      * Allocates a monetary amount among N targets.
      *
      * @param mixed $amount a monetary amount
-     * @psalm-param positive-int $n the number of targets
+     * @phpstan-param positive-int $n the number of targets
      *
      * @return string[] the calculated monetary amounts
      */

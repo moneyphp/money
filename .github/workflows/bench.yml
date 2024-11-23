@@ -28,10 +28,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Remove Psalm when on PHP 8.4
-        if: ${{ matrix.php == '8.4' }}
-        run: composer remove --dev psalm/plugin-phpunit vimeo/psalm
-
       - uses: "ramsey/composer-install@v3"
 
       - name: Run phpbench

@@ -23,7 +23,7 @@ final class CryptoCurrencies implements Currencies
     /**
      * Map of known currencies indexed by code.
      *
-     * @psalm-var non-empty-array<non-empty-string, array{
+     * @phpstan-var non-empty-array<non-empty-string, array{
      *     symbol: non-empty-string,
      *     minorUnit: non-negative-int
      * }>|null
@@ -45,7 +45,7 @@ final class CryptoCurrencies implements Currencies
     }
 
     /**
-     * @psalm-return Traversable<int, Currency>
+     * @phpstan-return Traversable<int, Currency>
      */
     public function getIterator(): Traversable
     {
@@ -62,7 +62,7 @@ final class CryptoCurrencies implements Currencies
     /**
      * Returns a map of known currencies indexed by code.
      *
-     * @psalm-return non-empty-array<non-empty-string, array{
+     * @phpstan-return non-empty-array<non-empty-string, array{
      *     symbol: non-empty-string,
      *     minorUnit: non-negative-int
      * }>
@@ -77,7 +77,7 @@ final class CryptoCurrencies implements Currencies
     }
 
     /**
-     * @psalm-return non-empty-array<non-empty-string, array{
+     * @phpstan-return non-empty-array<non-empty-string, array{
      *     symbol: non-empty-string,
      *     minorUnit: non-negative-int
      * }>

@@ -16,7 +16,7 @@ use function array_map;
 final class CryptoCurrenciesTest extends TestCase
 {
     /**
-     * @psalm-param non-empty-string $currency
+     * @phpstan-param non-empty-string $currency
      *
      * @dataProvider currencyCodeExamples
      * @test
@@ -29,7 +29,7 @@ final class CryptoCurrenciesTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-string $currency
+     * @phpstan-param non-empty-string $currency
      *
      * @dataProvider currencyCodeExamples
      * @test
@@ -66,11 +66,11 @@ final class CryptoCurrenciesTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{non-empty-string}>
+     * @phpstan-return non-empty-list<array{non-empty-string}>
      */
     public static function currencyCodeExamples(): array
     {
-        /** @psalm-var non-empty-array<non-empty-string, array> $currencies */
+        /** @phpstan-var non-empty-array<non-empty-string, array> $currencies */
         $currencies = require __DIR__ . '/../../resources/binance.php';
 
         return array_map(static function (string $currency) {

@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 final class IntlMoneyParserTest extends TestCase
 {
     /**
-     * @psalm-param non-empty-string $string
+     * @phpstan-param non-empty-string $string
      *
      * @dataProvider formattedMoneyExamples
      * @test
@@ -121,7 +121,7 @@ final class IntlMoneyParserTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     non-empty-string,
      *     int
      * }>

@@ -16,7 +16,7 @@ class GmpCalculatorTest extends CalculatorTestCase
 {
     /**
      * @return GmpCalculator
-     * @psalm-return class-string<GmpCalculator>
+     * @phpstan-return class-string<GmpCalculator>
      */
     protected function getCalculator(): string
     {
@@ -56,7 +56,7 @@ class GmpCalculatorTest extends CalculatorTestCase
     }
 
     /**
-     * @psalm-return array<int,array<int|numeric-string>>
+     * @phpstan-return array<int,array<int|numeric-string>>
      */
     public static function compareLessExamples(): array
     {

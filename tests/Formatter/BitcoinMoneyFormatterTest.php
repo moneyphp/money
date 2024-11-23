@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 final class BitcoinMoneyFormatterTest extends TestCase
 {
     /**
-     * @psalm-param positive-int $value
-     * @psalm-param non-empty-string $formatted
-     * @psalm-param non-negative-int $fractionDigits
+     * @phpstan-param positive-int $value
+     * @phpstan-param non-empty-string $formatted
+     * @phpstan-param non-negative-int $fractionDigits
      *
      * @dataProvider bitcoinExamples
      * @test
@@ -38,7 +38,7 @@ final class BitcoinMoneyFormatterTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int,
      *     non-empty-string,
      *     non-negative-int

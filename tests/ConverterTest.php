@@ -23,13 +23,13 @@ final class ConverterTest extends TestCase
     use Locale;
 
     /**
-     * @psalm-param non-empty-string $baseCurrencyCode
-     * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param non-negative-int $subunitBase
-     * @psalm-param non-negative-int $subunitCounter
-     * @psalm-param int|float $ratio
-     * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param non-negative-int $expectedAmount
+     * @phpstan-param non-empty-string $baseCurrencyCode
+     * @phpstan-param non-empty-string $counterCurrencyCode
+     * @phpstan-param non-negative-int $subunitBase
+     * @phpstan-param non-negative-int $subunitCounter
+     * @phpstan-param int|float $ratio
+     * @phpstan-param positive-int|numeric-string $amount
+     * @phpstan-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -74,13 +74,13 @@ final class ConverterTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-string $baseCurrencyCode
-     * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param non-negative-int $subunitBase
-     * @psalm-param non-negative-int $subunitCounter
-     * @psalm-param int|float $ratio
-     * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param non-negative-int $expectedAmount
+     * @phpstan-param non-empty-string $baseCurrencyCode
+     * @phpstan-param non-empty-string $counterCurrencyCode
+     * @phpstan-param non-negative-int $subunitBase
+     * @phpstan-param non-negative-int $subunitCounter
+     * @phpstan-param int|float $ratio
+     * @phpstan-param positive-int|numeric-string $amount
+     * @phpstan-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -127,13 +127,13 @@ final class ConverterTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-string $baseCurrencyCode
-     * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param non-negative-int $subunitBase
-     * @psalm-param non-negative-int $subunitCounter
-     * @psalm-param int|float $ratio
-     * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param non-negative-int $expectedAmount
+     * @phpstan-param non-empty-string $baseCurrencyCode
+     * @phpstan-param non-empty-string $counterCurrencyCode
+     * @phpstan-param non-negative-int $subunitBase
+     * @phpstan-param non-negative-int $subunitCounter
+     * @phpstan-param int|float $ratio
+     * @phpstan-param positive-int|numeric-string $amount
+     * @phpstan-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -174,13 +174,13 @@ final class ConverterTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-string $baseCurrencyCode
-     * @psalm-param non-empty-string $counterCurrencyCode
-     * @psalm-param non-negative-int $subunitBase
-     * @psalm-param non-negative-int $subunitCounter
-     * @psalm-param int|float $ratio
-     * @psalm-param positive-int|numeric-string $amount
-     * @psalm-param non-negative-int $expectedAmount
+     * @phpstan-param non-empty-string $baseCurrencyCode
+     * @phpstan-param non-empty-string $counterCurrencyCode
+     * @phpstan-param non-negative-int $subunitBase
+     * @phpstan-param non-negative-int $subunitCounter
+     * @phpstan-param int|float $ratio
+     * @phpstan-param positive-int|numeric-string $amount
+     * @phpstan-param non-negative-int $expectedAmount
      *
      * @dataProvider convertExamples
      * @test
@@ -223,7 +223,7 @@ final class ConverterTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     non-empty-string,
      *     non-empty-string,
      *     non-negative-int,

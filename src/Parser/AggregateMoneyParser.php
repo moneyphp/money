@@ -18,7 +18,7 @@ final class AggregateMoneyParser implements MoneyParser
 {
     /**
      * @param MoneyParser[] $parsers
-     * @psalm-param non-empty-array<MoneyParser> $parsers
+     * @phpstan-param non-empty-array<MoneyParser> $parsers
      */
     public function __construct(private readonly array $parsers)
     {

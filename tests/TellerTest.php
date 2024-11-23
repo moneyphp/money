@@ -31,9 +31,6 @@ final class TellerTest extends TestCase
         $actual = $amount1 * $amount2;
         $expect = 5.6088;
 
-        /**
-         * @psalm-suppress RedundantCondition
-         */
         $this->assertSame($expect, $actual);
 
         // instead, use the Teller to do monetary math.

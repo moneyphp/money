@@ -22,7 +22,9 @@ final class DecimalMoneyFormatter implements MoneyFormatter
     {
     }
 
-    /** @psalm-return numeric-string */
+    /**
+     * @phpstan-return numeric-string
+     */
     public function format(Money $money): string
     {
         $valueBase = $money->getAmount();
@@ -52,7 +54,6 @@ final class DecimalMoneyFormatter implements MoneyFormatter
 
         assert($formatted !== '');
 
-        /** @psalm-var numeric-string $formatted */
         return $formatted;
     }
 }

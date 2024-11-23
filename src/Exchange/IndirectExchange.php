@@ -32,9 +32,9 @@ final class IndirectExchange implements Exchange
             $rate = array_reduce(
                 $this->getConversions($baseCurrency, $counterCurrency),
                 /**
-                 * @psalm-param numeric-string $carry
+                 * @phpstan-param numeric-string $carry
                  *
-                 * @psalm-return numeric-string
+                 * @phpstan-return numeric-string
                  */
                 static function (string $carry, CurrencyPair $pair) {
                     $calculator = Money::getCalculator();
@@ -58,7 +58,7 @@ final class IndirectExchange implements Exchange
         $startNode             = new IndirectExchangeQueuedItem($baseCurrency);
         $startNode->discovered = true;
 
-        /** @psalm-var array<non-empty-string, IndirectExchangeQueuedItem> $nodes */
+        /** @phpstan-var array<non-empty-string, IndirectExchangeQueuedItem> $nodes */
         $nodes = [$baseCurrency->getCode() => $startNode];
 
         /** @psam-var SplQueue<IndirectExchangeQueuedItem> $frontier */
@@ -66,7 +66,7 @@ final class IndirectExchange implements Exchange
         $frontier->enqueue($startNode);
 
         while ($frontier->count()) {
-            /** @psalm-var IndirectExchangeQueuedItem $currentNode */
+            /** @phpstan-var IndirectExchangeQueuedItem $currentNode */
             $currentNode     = $frontier->dequeue();
             $currentCurrency = $currentNode->currency;
 
@@ -103,10 +103,10 @@ final class IndirectExchange implements Exchange
     }
 
     /**
-     * @psalm-param array<non-empty-string, IndirectExchangeQueuedItem> $currencies
+     * @phpstan-param array<non-empty-string, IndirectExchangeQueuedItem> $currencies
      *
      * @return CurrencyPair[]
-     * @psalm-return list<CurrencyPair>
+     * @phpstan-return list<CurrencyPair>
      */
     private function reconstructConversionChain(array $currencies, IndirectExchangeQueuedItem $goalNode): array
     {

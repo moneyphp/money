@@ -15,10 +15,10 @@ use PHPUnit\Framework\TestCase;
 final class IntlLocalizedDecimalFormatterTest extends TestCase
 {
     /**
-     * @psalm-param non-empty-string $currency
-     * @psalm-param positive-int $subunit
-     * @psalm-param non-empty-string $result
-     * @psalm-param non-negative-int $fractionDigits
+     * @phpstan-param non-empty-string $currency
+     * @phpstan-param positive-int $subunit
+     * @phpstan-param non-empty-string $result
+     * @phpstan-param non-negative-int $fractionDigits
      *
      * @dataProvider moneyExamples
      * @test
@@ -42,7 +42,7 @@ final class IntlLocalizedDecimalFormatterTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     non-empty-string,
      *     positive-int,

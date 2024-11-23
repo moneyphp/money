@@ -75,7 +75,6 @@ final class IntlMoneyParser implements MoneyParser
             $decimal = '0';
         }
 
-        /** @psalm-var numeric-string $decimal */
         return new Money($decimal, $fallbackCurrency);
     }
 }

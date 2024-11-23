@@ -8,7 +8,7 @@ use Money\Money;
 
 trait AggregateExamples
 {
-    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
     public static function sumExamples(): array
     {
         return [
@@ -18,7 +18,7 @@ trait AggregateExamples
         ];
     }
 
-    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
     public static function minExamples(): array
     {
         return [
@@ -28,7 +28,7 @@ trait AggregateExamples
         ];
     }
 
-    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
     public static function maxExamples(): array
     {
         return [
@@ -38,7 +38,7 @@ trait AggregateExamples
         ];
     }
 
-    /** @psalm-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
     public static function avgExamples(): array
     {
         return [
