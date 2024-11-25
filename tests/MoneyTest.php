@@ -30,7 +30,7 @@ final class MoneyTest extends TestCase
     public const OTHER_CURRENCY = 'USD';
 
     /**
-     * @psalm-param int|numeric-string $amount
+     * @phpstan-param int|numeric-string $amount
      *
      * @dataProvider equalityExamples
      * @test
@@ -78,9 +78,9 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $multiplier
-     * @psalm-param Money::ROUND_* $roundingMode
-     * @psalm-param numeric-string $result
+     * @phpstan-param int|numeric-string $multiplier
+     * @phpstan-param Money::ROUND_* $roundingMode
+     * @phpstan-param numeric-string $result
      *
      * @dataProvider roundingExamples
      * @test
@@ -110,9 +110,9 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $divisor
-     * @psalm-param Money::ROUND_* $roundingMode
-     * @psalm-param numeric-string $result
+     * @phpstan-param int|numeric-string $divisor
+     * @phpstan-param Money::ROUND_* $roundingMode
+     * @phpstan-param numeric-string $result
      *
      * @dataProvider roundingExamples
      * @test
@@ -131,9 +131,9 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param int $amount
-     * @psalm-param non-empty-array<non-negative-int|float> $ratios
-     * @psalm-param non-empty-array<int> $results
+     * @phpstan-param int $amount
+     * @phpstan-param non-empty-array<non-negative-int|float> $ratios
+     * @phpstan-param non-empty-array<int> $results
      *
      * @dataProvider allocationExamples
      * @test
@@ -157,7 +157,6 @@ final class MoneyTest extends TestCase
         $money = new Money(100, new Currency(self::CURRENCY));
 
         $this->expectException(InvalidArgumentException::class);
-        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
         $money->allocate([-1]);
     }
 
@@ -167,14 +166,13 @@ final class MoneyTest extends TestCase
         $money = new Money(100, new Currency(self::CURRENCY));
 
         $this->expectException(InvalidArgumentException::class);
-        /** @psalm-suppress UnusedMethodCall this method throws, but is also considered pure. It's unused by design. */
         $money->allocate([0, 0]);
     }
 
     /**
-     * @psalm-param positive-int $amount
-     * @psalm-param positive-int $target
-     * @psalm-param non-empty-list<positive-int> $results
+     * @phpstan-param positive-int $amount
+     * @phpstan-param positive-int $target
+     * @phpstan-param non-empty-list<positive-int> $results
      *
      * @dataProvider allocationTargetExamples
      * @test
@@ -193,7 +191,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $amount
+     * @phpstan-param int|numeric-string $amount
      *
      * @dataProvider comparatorExamples
      * @test
@@ -208,8 +206,8 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $amount
-     * @psalm-param non-negative-int $result
+     * @phpstan-param int|numeric-string $amount
+     * @phpstan-param non-negative-int $result
      *
      * @dataProvider absoluteExamples
      * @test
@@ -224,8 +222,8 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $amount
-     * @psalm-param int $result
+     * @phpstan-param int|numeric-string $amount
+     * @phpstan-param int $result
      *
      * @dataProvider negativeExamples
      * @test
@@ -240,9 +238,9 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param positive-int $left
-     * @psalm-param positive-int $right
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int $left
+     * @phpstan-param positive-int $right
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider modExamples
      * @test
@@ -259,9 +257,9 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param positive-int $left
-     * @psalm-param positive-int $right
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int $left
+     * @phpstan-param positive-int $right
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider modExamples
      * @test
@@ -285,7 +283,6 @@ final class MoneyTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        /** @psalm-suppress UnusedMethodCall this method throws */
         $money->mod('test');
     }
 
@@ -299,7 +296,6 @@ final class MoneyTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        /** @psalm-suppress UnusedMethodCall this method throws */
         $money->mod($rightMoney);
     }
 
@@ -375,7 +371,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-list<Money> $values
+     * @phpstan-param non-empty-list<Money> $values
      *
      * @dataProvider sumExamples
      * @test
@@ -386,7 +382,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-list<Money> $values
+     * @phpstan-param non-empty-list<Money> $values
      *
      * @dataProvider minExamples
      * @test
@@ -397,7 +393,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-list<Money> $values
+     * @phpstan-param non-empty-list<Money> $values
      *
      * @dataProvider maxExamples
      * @test
@@ -408,7 +404,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param non-empty-list<Money> $values
+     * @phpstan-param non-empty-list<Money> $values
      *
      * @dataProvider avgExamples
      * @test
@@ -419,10 +415,10 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-param int $amount
-     * @psalm-param non-negative-int $unit
-     * @psalm-param int $expected
-     * @psalm-param int $roundingMode
+     * @phpstan-param int $amount
+     * @phpstan-param non-negative-int $unit
+     * @phpstan-param int $expected
+     * @phpstan-param Money::ROUND_* $roundingMode
      *
      * @test
      * @dataProvider roundToUnitExamples
@@ -448,12 +444,11 @@ final class MoneyTest extends TestCase
 
         $this->expectException(InvalidArgumentException::class);
 
-        /** @psalm-suppress UnusedMethodCall */
         $money->compare(new Money('5', new Currency('SOME')));
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int|numeric-string,
      *     Currency,
      *     bool
@@ -471,7 +466,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     int
      * }>
@@ -486,7 +481,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     non-empty-array<int|string, non-negative-int|float>,
      *     non-empty-array<int|string, int>
@@ -516,7 +511,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int,
      *     positive-int,
      *     non-empty-list<positive-int>
@@ -533,7 +528,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int|numeric-string,
      *     bool,
      *     bool,
@@ -553,7 +548,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int|numeric-string,
      *     non-negative-int
      * }>
@@ -571,7 +566,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int|numeric-string,
      *     int
      * }>
@@ -589,7 +584,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int,
      *     positive-int,
      *     numeric-string
@@ -606,7 +601,7 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     non-negative-int,
      *     int,

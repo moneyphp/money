@@ -14,8 +14,8 @@ use PHPUnit\Framework\TestCase;
 final class BitcoinMoneyParserTest extends TestCase
 {
     /**
-     * @psalm-param non-empty-string $string
-     * @psalm-param int|numeric-string $units
+     * @phpstan-param non-empty-string $string
+     * @phpstan-param int|numeric-string $units
      *
      * @dataProvider bitcoinExamples
      * @test
@@ -46,7 +46,7 @@ final class BitcoinMoneyParserTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     non-empty-string,
      *     int|numeric-string
      * }>

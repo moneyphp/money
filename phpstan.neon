@@ -1,0 +1,14 @@
+parameters:
+	level: 6
+	paths:
+		- src
+		- tests
+	errorFormat: ticketswap
+	editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+	ignoreErrors:
+		-
+			identifier: staticMethod.alreadyNarrowedType
+			path: tests/*
+		-
+			identifier: method.alreadyNarrowedType
+			path: tests/*

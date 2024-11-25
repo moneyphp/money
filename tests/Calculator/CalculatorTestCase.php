@@ -24,14 +24,14 @@ abstract class CalculatorTestCase extends TestCase
 
     /**
      * @return Calculator
-     * @psalm-return class-string<Calculator>
+     * @phpstan-return class-string<Calculator>
      */
     abstract protected function getCalculator(): string;
 
     /**
-     * @psalm-param positive-int $value1
-     * @psalm-param positive-int $value2
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int $value1
+     * @phpstan-param positive-int $value2
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider additionExamples
      * @test
@@ -46,9 +46,9 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param positive-int $value1
-     * @psalm-param positive-int $value2
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int $value1
+     * @phpstan-param positive-int $value2
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider subtractionExamples
      * @test
@@ -63,9 +63,9 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param positive-int|numeric-string $value1
-     * @psalm-param float $value2
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int|numeric-string $value1
+     * @phpstan-param float $value2
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider multiplicationExamples
      * @test
@@ -80,9 +80,9 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param positive-int|numeric-string $value1
-     * @psalm-param positive-int|float $value2
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int|numeric-string $value1
+     * @phpstan-param positive-int|float $value2
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider divisionExamples
      * @test
@@ -102,9 +102,9 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param positive-int $value1
-     * @psalm-param positive-int|float $value2
-     * @psalm-param numeric-string $expected
+     * @phpstan-param positive-int $value1
+     * @phpstan-param positive-int|float $value2
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider divisionExactExamples
      * @test
@@ -119,8 +119,8 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param float $value
-     * @psalm-param numeric-string $expected
+     * @phpstan-param float $value
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider ceilExamples
      * @test
@@ -135,8 +135,8 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param float $value
-     * @psalm-param numeric-string $expected
+     * @phpstan-param float $value
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider floorExamples
      * @test
@@ -151,8 +151,8 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param int $value
-     * @psalm-param numeric-string $expected
+     * @phpstan-param int $value
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider absoluteExamples
      * @test
@@ -167,10 +167,10 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param int $value
-     * @psalm-param int $ratio
-     * @psalm-param int $total
-     * @psalm-param numeric-string $expected
+     * @phpstan-param int $value
+     * @phpstan-param int $ratio
+     * @phpstan-param int $total
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider shareExamples
      * @test
@@ -181,9 +181,9 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $value
-     * @psalm-param Money::ROUND_* $mode
-     * @psalm-param numeric-string $expected
+     * @phpstan-param int|numeric-string $value
+     * @phpstan-param Money::ROUND_* $mode
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider roundingExamples
      * @test
@@ -198,8 +198,8 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $left
-     * @psalm-param int|numeric-string $right
+     * @phpstan-param int|numeric-string $left
+     * @phpstan-param int|numeric-string $right
      *
      * @dataProvider compareLessExamples
      * @test
@@ -213,8 +213,8 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $left
-     * @psalm-param int|numeric-string $right
+     * @phpstan-param int|numeric-string $left
+     * @phpstan-param int|numeric-string $right
      *
      * @dataProvider compareEqualExamples
      * @test
@@ -227,9 +227,9 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-param int $left
-     * @psalm-param int $right
-     * @psalm-param numeric-string $expected
+     * @phpstan-param int $left
+     * @phpstan-param int $right
+     * @phpstan-param numeric-string $expected
      *
      * @dataProvider modExamples
      * @test
@@ -284,7 +284,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int,
      *     positive-int,
      *     numeric-string
@@ -299,7 +299,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int,
      *     positive-int,
      *     numeric-string
@@ -314,7 +314,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int|numeric-string,
      *     float,
      *     numeric-string
@@ -340,7 +340,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int|numeric-string,
      *     positive-int|float,
      *     numeric-string
@@ -367,7 +367,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     positive-int,
      *     positive-int|float,
      *     numeric-string
@@ -387,7 +387,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     float,
      *     numeric-string
      * }>
@@ -402,7 +402,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     float,
      *     numeric-string
      * }>
@@ -417,7 +417,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     numeric-string
      * }>
@@ -431,7 +431,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     int,
      *     int,
@@ -446,7 +446,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return array<int,array<int|numeric-string>>
+     * @phpstan-return array<int,array<int|numeric-string>>
      */
     public static function compareLessExamples(): array
     {
@@ -462,7 +462,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int|numeric-string,
      *     int|numeric-string
      * }>
@@ -477,7 +477,7 @@ abstract class CalculatorTestCase extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     int,
      *     numeric-string
@@ -500,8 +500,8 @@ abstract class CalculatorTestCase extends TestCase
      * Fixed point precision operations sometimes retrieve trailing zeroes due to higher precision than requested:
      * this is acceptable for us, and we are OK with ignoring trailing zero fractional digits during test comparisons.
      *
-     * @psalm-param numeric-string $expected
-     * @psalm-param numeric-string $result
+     * @phpstan-param numeric-string $expected
+     * @phpstan-param numeric-string $result
      */
     final protected static function assertEqualNumber(string $expected, string $result): void
     {

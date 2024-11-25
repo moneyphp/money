@@ -24,17 +24,20 @@ use function substr;
  *           that a number is represented at digits, but by improving type system integration, we may be able to completely
  *           get rid of it.
  *
- * @psalm-immutable
+ * @phpstan-immutable
  */
 final class Number
 {
-    /** @psalm-var numeric-string */
+    /** @phpstan-var numeric-string */
     private string $integerPart;
 
-    /** @psalm-var numeric-string|'' */
+    /** @phpstan-var numeric-string|'' */
     private string $fractionalPart;
     private const NUMBERS = [0 => 1, 1 => 1, 2 => 1, 3 => 1, 4 => 1, 5 => 1, 6 => 1, 7 => 1, 8 => 1, 9 => 1];
 
+    /**
+     * @phpstan-pure
+     */
     public function __construct(string $integerPart, string $fractionalPart = '')
     {
         if ($integerPart === '' && $fractionalPart === '') {
@@ -45,7 +48,7 @@ final class Number
         $this->fractionalPart = self::parseFractionalPart($fractionalPart);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function fromString(string $number): self
     {
         $portions = explode('.', $number, 2);
@@ -56,13 +59,13 @@ final class Number
         );
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function fromFloat(float $number): self
     {
         return self::fromString(sprintf('%.14F', $number));
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function fromNumber(int|string $number): self
     {
         if (is_int($number)) {
@@ -72,21 +75,33 @@ final class Number
         return self::fromString($number);
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function isDecimal(): bool
     {
         return $this->fractionalPart !== '';
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function isInteger(): bool
     {
         return $this->fractionalPart === '';
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function isHalf(): bool
     {
         return $this->fractionalPart === '5';
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function isCurrentEven(): bool
     {
         $lastIntegerPartNumber = (int) $this->integerPart[strlen($this->integerPart) - 1];
@@ -94,6 +109,9 @@ final class Number
         return $lastIntegerPartNumber % 2 === 0;
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function isCloserToNext(): bool
     {
         if ($this->fractionalPart === '') {
@@ -103,35 +121,53 @@ final class Number
         return $this->fractionalPart[0] >= 5;
     }
 
-    /** @psalm-return numeric-string */
+    /**
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
+     */
     public function __toString(): string
     {
         if ($this->fractionalPart === '') {
             return $this->integerPart;
         }
 
-        /** @psalm-suppress LessSpecificReturnStatement this operation is guaranteed to pruduce a numeric-string, but inference can't understand it */
         return $this->integerPart . '.' . $this->fractionalPart;
     }
 
+    /**
+     * @phpstan-pure
+     */
     public function isNegative(): bool
     {
         return $this->integerPart[0] === '-';
     }
 
-    /** @psalm-return numeric-string */
+    /**
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
+     */
     public function getIntegerPart(): string
     {
         return $this->integerPart;
     }
 
-    /** @psalm-return numeric-string|'' */
+    /**
+     * @phpstan-return numeric-string|''
+     *
+     * @phpstan-pure
+     */
     public function getFractionalPart(): string
     {
         return $this->fractionalPart;
     }
 
-    /** @psalm-return numeric-string */
+    /**
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
+     */
     public function getIntegerRoundingMultiplier(): string
     {
         if ($this->integerPart[0] === '-') {
@@ -179,12 +215,9 @@ final class Number
     }
 
     /**
-     * @psalm-return numeric-string
+     * @phpstan-return numeric-string
      *
-     * @psalm-pure
-     *
-     * @psalm-suppress MoreSpecificReturnType      this operation is guaranteed to pruduce a numeric-string, but inference can't understand it
-     * @psalm-suppress LessSpecificReturnStatement this operation is guaranteed to pruduce a numeric-string, but inference can't understand it
+     * @phpstan-pure
      */
     private static function parseIntegerPart(string $number): string
     {
@@ -207,7 +240,6 @@ final class Number
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
 
-            /** @psalm-suppress InvalidArrayOffset we are, on purpose, checking if the digit is valid against a fixed structure */
             if (! isset(self::NUMBERS[$digit]) && ! ($position === 0 && $digit === '-')) {
                 throw new InvalidArgumentException(sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit));
             }
@@ -223,9 +255,9 @@ final class Number
     }
 
     /**
-     * @psalm-return numeric-string|''
+     * @phpstan-return numeric-string|''
      *
-     * @psalm-pure
+     * @phpstan-pure
      */
     private static function parseFractionalPart(string $number): string
     {
@@ -244,7 +276,6 @@ final class Number
         for ($position = 0, $characters = strlen($number); $position < $characters; ++$position) {
             $digit = $number[$position];
 
-            /** @psalm-suppress InvalidArrayOffset we are, on purpose, checking if the digit is valid against a fixed structure */
             if (! isset(self::NUMBERS[$digit])) {
                 throw new InvalidArgumentException(sprintf('Invalid fractional part %1$s. Invalid digit %2$s found', $number, $digit));
             }
@@ -254,8 +285,7 @@ final class Number
     }
 
     /**
-     * @psalm-pure
-     * @psalm-suppress InvalidOperand string and integers get concatenated here - that is by design, as we're computing remainders
+     * @phpstan-pure
      */
     public static function roundMoneyValue(string $moneyValue, int $targetDigits, int $havingDigits): string
     {
@@ -264,15 +294,15 @@ final class Number
 
         if ($shouldRound && $moneyValue[$valueLength - $havingDigits + $targetDigits] >= 5) {
             $position = $valueLength - $havingDigits + $targetDigits;
-            /** @psalm-var non-negative-int $addend */
-            $addend = 1;
+            $addend   = 1;
 
             while ($position > 0) {
+                // @phpstan-ignore possiblyImpure.methodCall (no idea what it thinks this)
                 $newValue = (string) ((int) $moneyValue[$position - 1] + $addend);
 
                 if ($newValue >= 10) {
                     $moneyValue[$position - 1] = $newValue[1];
-                    /** @psalm-var numeric-string $addend */
+
                     $addend = $newValue[0];
                     --$position;
                     if ($position === 0) {

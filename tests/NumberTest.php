@@ -18,9 +18,9 @@ use const PHP_INT_MAX;
 final class NumberTest extends TestCase
 {
     /**
-     * @psalm-param numeric-string $number
-     * @psalm-param numeric-string $integerPart
-     * @psalm-param string $fractionalPart
+     * @phpstan-param numeric-string $number
+     * @phpstan-param numeric-string $integerPart
+     * @phpstan-param string $fractionalPart
      *
      * @dataProvider numberExamples
      * @test
@@ -46,12 +46,13 @@ final class NumberTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
+        // @phpstan-ignore staticMethod.resultUnused
         Number::fromString($number);
     }
 
     /**
-     * @psalm-param numeric-string $numberString
-     * @psalm-param numeric-string $expectedResult
+     * @phpstan-param numeric-string $numberString
+     * @phpstan-param numeric-string $expectedResult
      *
      * @dataProvider base10Examples
      * @test
@@ -64,7 +65,7 @@ final class NumberTest extends TestCase
     }
 
     /**
-     * @psalm-param int|numeric-string $number
+     * @phpstan-param int|numeric-string $number
      *
      * @dataProvider numericExamples
      * @test
@@ -86,7 +87,7 @@ final class NumberTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     numeric-string,
      *     bool,
      *     bool,
@@ -96,9 +97,6 @@ final class NumberTest extends TestCase
      *     string
      * }>
      *
-     * @psalm-suppress InvalidOperand
-     * @psalm-suppress LessSpecificReturnStatement
-     * @psalm-suppress MoreSpecificReturnType
      *
      * the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
      * the {@see PHP_INT_MAX} operations below cannot be inferred to numeric-string
@@ -161,7 +159,7 @@ final class NumberTest extends TestCase
         ];
     }
 
-    /** @psalm-return non-empty-list<array{string}> */
+    /** @phpstan-return non-empty-list<array{string}> */
     public static function invalidNumberExamples(): array
     {
         return [
@@ -181,7 +179,7 @@ final class NumberTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     numeric-string,
      *     int,
      *     numeric-string
@@ -207,7 +205,7 @@ final class NumberTest extends TestCase
         ];
     }
 
-    /** @psalm-return non-empty-list<array{int|numeric-string}> */
+    /** @phpstan-return non-empty-list<array{int|numeric-string}> */
     public static function numericExamples(): array
     {
         return [

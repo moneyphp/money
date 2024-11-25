@@ -17,8 +17,8 @@ use PHPUnit\Framework\TestCase;
 final class IntlLocalizedDecimalParserTest extends TestCase
 {
     /**
-     * @psalm-param non-empty-string $string
-     * @psalm-param non-empty-string $locale
+     * @phpstan-param non-empty-string $string
+     * @phpstan-param non-empty-string $locale
      *
      * @dataProvider formattedMoneyExamples
      * @test
@@ -112,7 +112,7 @@ final class IntlLocalizedDecimalParserTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     non-empty-string,
      *     int,
      *     non-empty-string

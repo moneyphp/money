@@ -30,7 +30,7 @@ use const GMP_ROUND_MINUSINF;
 use const STR_PAD_LEFT;
 
 /**
- * @psalm-immutable
+ * @phpstan-immutable
  *
  * Important: the {@see GmpCalculator} is not optimized for decimal operations, as GMP
  *            is designed to operate on large integers. Consider using this only if your
@@ -40,7 +40,7 @@ final class GmpCalculator implements Calculator
 {
     private const SCALE = 14;
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function compare(string $a, string $b): int
     {
         $aNum = Number::fromString($a);
@@ -61,19 +61,19 @@ final class GmpCalculator implements Calculator
         return gmp_cmp($a, $b);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function add(string $amount, string $addend): string
     {
         return gmp_strval(gmp_add($amount, $addend));
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function subtract(string $amount, string $subtrahend): string
     {
         return gmp_strval(gmp_sub($amount, $subtrahend));
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function multiply(string $amount, string $multiplier): string
     {
         $multiplier = Number::fromString($multiplier);
@@ -102,17 +102,13 @@ final class GmpCalculator implements Calculator
             $result       = substr($resultBase, $decimalPlaces * -1);
             $resultLength = strlen($result);
             if ($decimalPlaces > $resultLength) {
-                /** @psalm-var numeric-string $finalResult */
-                $finalResult = '0.' . str_pad('', $decimalPlaces - $resultLength, '0') . $result;
-
-                return $finalResult;
+                return '0.' . str_pad('', $decimalPlaces - $resultLength, '0') . $result;
             }
 
-            /** @psalm-var numeric-string $finalResult */
             $finalResult = substr($resultBase, 0, $decimalPlaces * -1) . '.' . $result;
 
             if ($negativeZero) {
-                /** @psalm-var numeric-string $finalResult */
+                // @phpstan-ignore possiblyImpure.functionCall (see https://github.com/phpstan/phpstan/issues/11884)
                 $finalResult = str_replace('-.', '-0.', $finalResult);
             }
 
@@ -122,7 +118,7 @@ final class GmpCalculator implements Calculator
         return gmp_strval(gmp_mul(gmp_init($amount), gmp_init((string) $multiplier)));
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function divide(string $amount, string $divisor): string
     {
         if (self::compare($divisor, '0') === 0) {
@@ -167,13 +163,10 @@ final class GmpCalculator implements Calculator
             $divisionOfRemainder = substr($divisionOfRemainder, 1);
         }
 
-        /** @psalm-var numeric-string $finalResult */
-        $finalResult = gmp_strval($integer) . '.' . str_pad($divisionOfRemainder, self::SCALE, '0', STR_PAD_LEFT);
-
-        return $finalResult;
+        return gmp_strval($integer) . '.' . str_pad($divisionOfRemainder, self::SCALE, '0', STR_PAD_LEFT);
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function ceil(string $number): string
     {
         $number = Number::fromString($number);
@@ -189,7 +182,7 @@ final class GmpCalculator implements Calculator
         return self::add($number->getIntegerPart(), '1');
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function floor(string $number): string
     {
         $number = Number::fromString($number);
@@ -206,9 +199,7 @@ final class GmpCalculator implements Calculator
     }
 
     /**
-     * @psalm-suppress MoreSpecificReturnType we know that trimming `-` produces a positive numeric-string here
-     * @psalm-suppress LessSpecificReturnStatement we know that trimming `-` produces a positive numeric-string here
-     * @psalm-pure
+     * @phpstan-pure
      */
     public static function absolute(string $number): string
     {
@@ -216,11 +207,11 @@ final class GmpCalculator implements Calculator
     }
 
     /**
-     * @psalm-param Money::ROUND_* $roundingMode
+     * @phpstan-param Money::ROUND_* $roundingMode
      *
-     * @psalm-return numeric-string
+     * @phpstan-return numeric-string
      *
-     * @psalm-pure
+     * @phpstan-pure
      */
     public static function round(string $number, int $roundingMode): string
     {
@@ -299,9 +290,9 @@ final class GmpCalculator implements Calculator
     }
 
     /**
-     * @psalm-return numeric-string
+     * @phpstan-return numeric-string
      *
-     * @psalm-pure
+     * @phpstan-pure
      */
     private static function roundDigit(Number $number): string
     {
@@ -315,13 +306,13 @@ final class GmpCalculator implements Calculator
         return self::add($number->getIntegerPart(), '0');
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function share(string $amount, string $ratio, string $total): string
     {
         return self::floor(self::divide(self::multiply($amount, $ratio), $total));
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function mod(string $amount, string $divisor): string
     {
         if (self::compare($divisor, '0') === 0) {

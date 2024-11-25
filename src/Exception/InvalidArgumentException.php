@@ -9,13 +9,13 @@ use Money\Exception;
 
 final class InvalidArgumentException extends CoreInvalidArgumentException implements Exception
 {
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function divisionByZero(): self
     {
         return new self('Cannot compute division with a zero divisor');
     }
 
-    /** @psalm-pure */
+    /** @phpstan-pure */
     public static function moduloByZero(): self
     {
         return new self('Cannot compute modulo with a zero divisor');

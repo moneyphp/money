@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 final class DecimalMoneyFormatterTest extends TestCase
 {
     /**
-     * @psalm-param non-empty-string $currency
-     * @psalm-param non-negative-int $subunit
-     * @psalm-param numeric-string $result
+     * @phpstan-param non-empty-string $currency
+     * @phpstan-param non-negative-int $subunit
+     * @phpstan-param numeric-string $result
      *
      * @dataProvider moneyExamples
      * @test
@@ -36,7 +36,7 @@ final class DecimalMoneyFormatterTest extends TestCase
     }
 
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     int,
      *     non-empty-string,
      *     non-negative-int,

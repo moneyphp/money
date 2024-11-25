@@ -17,7 +17,7 @@ use Swap\Swap;
 final class SwapExchangeTest extends TestCase
 {
     /**
-     * @psalm-return non-empty-list<array{
+     * @phpstan-return non-empty-list<array{
      *     float,
      *     numeric-string
      * }>
@@ -32,8 +32,8 @@ final class SwapExchangeTest extends TestCase
     }
 
     /**
-     * @psalm-param float $exchangeRateValue
-     * @psalm-param numeric-string $expectedConversionRatio
+     * @phpstan-param float $exchangeRateValue
+     * @phpstan-param numeric-string $expectedConversionRatio
      *
      * @dataProvider exchangeRateExamples
      * @test
