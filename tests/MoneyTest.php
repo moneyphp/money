@@ -6,6 +6,7 @@ namespace Tests\Money;
 
 use InvalidArgumentException;
 use Money\Currency;
+use Money\Exception\CurrencyMismatchException;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
@@ -294,7 +295,7 @@ final class MoneyTest extends TestCase
         $money      = new Money(self::AMOUNT, new Currency(self::CURRENCY));
         $rightMoney = new Money(self::OTHER_AMOUNT, new Currency(self::OTHER_CURRENCY));
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(CurrencyMismatchException::class);
 
         $money->mod($rightMoney);
     }
@@ -442,7 +443,7 @@ final class MoneyTest extends TestCase
     {
         $money = new Money('5', new Currency(self::CURRENCY));
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(CurrencyMismatchException::class);
 
         $money->compare(new Money('5', new Currency('SOME')));
     }

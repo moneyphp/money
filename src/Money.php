@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Money;
 
-use InvalidArgumentException;
 use JsonSerializable;
 use Money\Calculator\BcMathCalculator;
+use Money\Exception\InvalidArgumentException;
 
 use function array_fill;
 use function array_keys;
@@ -135,7 +135,7 @@ final class Money implements JsonSerializable
     {
         // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
         if ($this->currency != $other->currency) {
-            throw new InvalidArgumentException('Currencies must be identical');
+            throw InvalidArgumentException::currencyMismatch();
         }
 
         // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
@@ -209,7 +209,7 @@ final class Money implements JsonSerializable
         foreach ($addends as $addend) {
             // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
             if ($this->currency != $addend->currency) {
-                throw new InvalidArgumentException('Currencies must be identical');
+                throw InvalidArgumentException::currencyMismatch();
             }
 
             // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
@@ -232,7 +232,7 @@ final class Money implements JsonSerializable
         foreach ($subtrahends as $subtrahend) {
             // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
             if ($this->currency != $subtrahend->currency) {
-                throw new InvalidArgumentException('Currencies must be identical');
+                throw InvalidArgumentException::currencyMismatch();
             }
 
             // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
@@ -291,7 +291,7 @@ final class Money implements JsonSerializable
         if ($divisor instanceof self) {
             // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
             if ($this->currency != $divisor->currency) {
-                throw new InvalidArgumentException('Currencies must be identical');
+                throw InvalidArgumentException::currencyMismatch();
             }
 
             $divisor = $divisor->amount;
@@ -385,7 +385,7 @@ final class Money implements JsonSerializable
 
         // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
         if ($this->currency != $money->currency) {
-            throw new InvalidArgumentException('Currencies must be identical');
+            throw InvalidArgumentException::currencyMismatch();
         }
 
         return self::$calculator::divide($this->amount, $money->amount);
