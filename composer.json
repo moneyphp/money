@@ -43,7 +43,7 @@
         "php-http/mock-client": "^1.6.0",
         "phpbench/phpbench": "^1.2.5",
         "phpstan/extension-installer": "^1.4",
-        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan": "^2.1.9",
         "phpstan/phpstan-phpunit": "^2.0",
         "phpunit/phpunit": "^10.5.9",
         "psr/cache": "^1.0.1 || ^2.0 || ^3.0",
