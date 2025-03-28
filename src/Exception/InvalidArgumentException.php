@@ -19,9 +19,9 @@ class InvalidArgumentException extends CoreInvalidArgumentException implements E
     }
 
     /** @phpstan-pure */
-    public static function moduloByZero(): ModuleByZeroException
+    public static function moduloByZero(): ModuloByZeroException
     {
-        return new ModuleByZeroException('Cannot compute modulo with a zero divisor');
+        return new ModuloByZeroException('Cannot compute modulo with a zero divisor');
     }
 
     /** @phpstan-pure */
