@@ -138,7 +138,7 @@ final class Money implements JsonSerializable
             throw new InvalidArgumentException('Currencies must be identical');
         }
 
-        // @phpstan-ignore possiblyImpure.methodCall
+        // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
         return self::$calculator::compare($this->amount, $other->amount);
     }
 
@@ -212,7 +212,7 @@ final class Money implements JsonSerializable
                 throw new InvalidArgumentException('Currencies must be identical');
             }
 
-            // @phpstan-ignore possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             $amount = self::$calculator::add($amount, $addend->amount);
         }
 
@@ -235,7 +235,7 @@ final class Money implements JsonSerializable
                 throw new InvalidArgumentException('Currencies must be identical');
             }
 
-            // @phpstan-ignore possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             $amount = self::$calculator::subtract($amount, $subtrahend->amount);
         }
 
@@ -275,7 +275,7 @@ final class Money implements JsonSerializable
             $divisor = (string) $divisor;
         }
 
-        // @phpstan-ignore possiblyImpure.methodCall
+        // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
         $quotient = $this->round(self::$calculator::divide($this->amount, $divisor), $roundingMode);
 
         return new self($quotient, $this->currency);
@@ -402,16 +402,16 @@ final class Money implements JsonSerializable
     private function round(string $amount, int $roundingMode): string
     {
         if ($roundingMode === self::ROUND_UP) {
-            // @phpstan-ignore possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             return self::$calculator::ceil($amount);
         }
 
         if ($roundingMode === self::ROUND_DOWN) {
-            // @phpstan-ignore possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             return self::$calculator::floor($amount);
         }
 
-        // @phpstan-ignore possiblyImpure.methodCall
+        // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
         return self::$calculator::round($amount, $roundingMode);
     }
 
