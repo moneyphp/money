@@ -449,6 +449,50 @@ final class MoneyTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function itComparesAndCalculatesZeroAmountsOfDifferentCurrencies(): void
+    {
+        $first  = new Money('0', new Currency(self::CURRENCY));
+        $second = new Money('0', new Currency(self::OTHER_CURRENCY));
+
+        $this->assertTrue($first->equals($second));
+        $this->assertTrue($first->greaterThanOrEqual($second));
+        $this->assertTrue($first->lessThanOrEqual($second));
+        $this->assertFalse($first->greaterThan($second));
+        $this->assertFalse($first->lessThan($second));
+        $this->assertEquals(0, $first->compare($second));
+        $this->assertFalse($first->isSameCurrency($second));
+        $this->assertEquals($first, $first->add($second));
+        $this->assertEquals($second, $second->add($first));
+        $this->assertEquals($first, $first->subtract($second));
+        $this->assertEquals($second, $second->subtract($first));
+    }
+
+    /**
+     * @test
+     */
+    public function itComparesAndCalculatesOneZeroAmountOfDifferentCurrency(): void
+    {
+        $first  = new Money(self::AMOUNT, new Currency(self::CURRENCY));
+        $second = new Money('0', new Currency(self::OTHER_CURRENCY));
+
+        $this->assertFalse($first->equals($second));
+        $this->assertTrue($first->greaterThanOrEqual($second));
+        $this->assertFalse($first->lessThanOrEqual($second));
+        $this->assertTrue($first->greaterThan($second));
+        $this->assertFalse($first->lessThan($second));
+        $this->assertEquals(1, $first->compare($second));
+        $this->assertFalse($first->isSameCurrency($second));
+        $this->assertEquals($first, $first->add($second));
+        $this->assertEquals($first, $second->add($first));
+        $this->assertEquals($first, $first->subtract($second));
+        $this->assertEquals($first->negative(), $second->subtract($first));
+        // Can't divide by zero, so we test "second mod first" instead of "first mod second"
+        $this->assertEquals($second, $second->mod($first));
+    }
+
+    /**
      * @phpstan-return non-empty-list<array{
      *     int|numeric-string,
      *     Currency,
