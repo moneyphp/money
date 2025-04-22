@@ -216,7 +216,6 @@ final class Money implements JsonSerializable
         $currency = $this->currency;
 
         foreach ($addends as $addend) {
-            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
             if (! $this->isCompatibleCurrency($addend)) {
                 throw InvalidArgumentException::currencyMismatch();
             }
