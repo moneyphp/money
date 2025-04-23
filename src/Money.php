@@ -212,25 +212,25 @@ final class Money implements JsonSerializable
      */
     public function add(Money ...$addends): Money
     {
-        $amount   = $this->amount;
-        $currency = $this->currency;
+        $amount            = $this->amount;
+        $currencyReference = $this;
 
         foreach ($addends as $addend) {
-            if (! $this->isCompatibleCurrency($addend)) {
+            if (! $currencyReference->isCompatibleCurrency($addend)) {
                 throw InvalidArgumentException::currencyMismatch();
             }
 
             // We need to use the currency from the non-zero Money object
             if (! $addend->isZero()) {
-                // @phpstan-ignore possiblyImpure.methodCall
-                $currency = $addend->getCurrency();
+                $currencyReference = $addend;
             }
 
             // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             $amount = self::$calculator::add($amount, $addend->amount);
         }
 
-        return new self($amount, $currency);
+        // @phpstan-ignore possiblyImpure.methodCall
+        return new self($amount, $currencyReference->getCurrency());
     }
 
     /**
@@ -241,25 +241,25 @@ final class Money implements JsonSerializable
      */
     public function subtract(Money ...$subtrahends): Money
     {
-        $amount   = $this->amount;
-        $currency = $this->currency;
+        $amount            = $this->amount;
+        $currencyReference = $this;
 
         foreach ($subtrahends as $subtrahend) {
-            if (! $this->isCompatibleCurrency($subtrahend)) {
+            if (! $currencyReference->isCompatibleCurrency($subtrahend)) {
                 throw InvalidArgumentException::currencyMismatch();
             }
 
             // We need to use the currency from the non-zero Money object
             if (! $subtrahend->isZero()) {
-                // @phpstan-ignore possiblyImpure.methodCall
-                $currency = $subtrahend->getCurrency();
+                $currencyReference = $subtrahend;
             }
 
             // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             $amount = self::$calculator::subtract($amount, $subtrahend->amount);
         }
 
-        return new self($amount, $currency);
+        // @phpstan-ignore possiblyImpure.methodCall
+        return new self($amount, $currencyReference->getCurrency());
     }
 
     /**
