@@ -93,13 +93,23 @@ final class Money implements JsonSerializable
     public function isSameCurrency(Money ...$others): bool
     {
         foreach ($others as $other) {
-            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-            if ($this->currency != $other->currency) {
+            if (! $this->currency->equals($other->currency)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    /**
+     * Checks whether a Money object has a Currency that is compatible for the sake of comparisons and calculations.
+     *
+     * @phpstan-pure
+     */
+    private function isCompatibleCurrency(Money $other): bool
+    {
+        // @phpstan-ignore possiblyImpure.methodCall
+        return $this->isZero() || $other->isZero() || $this->currency->equals($other->currency);
     }
 
     /**
@@ -109,8 +119,7 @@ final class Money implements JsonSerializable
      */
     public function equals(Money $other): bool
     {
-        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-        if ($this->currency != $other->currency) {
+        if (! $this->isCompatibleCurrency($other)) {
             return false;
         }
 
@@ -133,8 +142,7 @@ final class Money implements JsonSerializable
      */
     public function compare(Money $other): int
     {
-        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-        if ($this->currency != $other->currency) {
+        if (! $this->isCompatibleCurrency($other)) {
             throw InvalidArgumentException::currencyMismatch();
         }
 
@@ -204,19 +212,25 @@ final class Money implements JsonSerializable
      */
     public function add(Money ...$addends): Money
     {
-        $amount = $this->amount;
+        $amount            = $this->amount;
+        $currencyReference = $this;
 
         foreach ($addends as $addend) {
-            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-            if ($this->currency != $addend->currency) {
+            if (! $currencyReference->isCompatibleCurrency($addend)) {
                 throw InvalidArgumentException::currencyMismatch();
+            }
+
+            // We need to use the currency from the non-zero Money object
+            if (! $addend->isZero()) {
+                $currencyReference = $addend;
             }
 
             // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             $amount = self::$calculator::add($amount, $addend->amount);
         }
 
-        return new self($amount, $this->currency);
+        // @phpstan-ignore possiblyImpure.methodCall
+        return new self($amount, $currencyReference->getCurrency());
     }
 
     /**
@@ -227,19 +241,25 @@ final class Money implements JsonSerializable
      */
     public function subtract(Money ...$subtrahends): Money
     {
-        $amount = $this->amount;
+        $amount            = $this->amount;
+        $currencyReference = $this;
 
         foreach ($subtrahends as $subtrahend) {
-            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-            if ($this->currency != $subtrahend->currency) {
+            if (! $currencyReference->isCompatibleCurrency($subtrahend)) {
                 throw InvalidArgumentException::currencyMismatch();
+            }
+
+            // We need to use the currency from the non-zero Money object
+            if (! $subtrahend->isZero()) {
+                $currencyReference = $subtrahend;
             }
 
             // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
             $amount = self::$calculator::subtract($amount, $subtrahend->amount);
         }
 
-        return new self($amount, $this->currency);
+        // @phpstan-ignore possiblyImpure.methodCall
+        return new self($amount, $currencyReference->getCurrency());
     }
 
     /**
@@ -289,8 +309,7 @@ final class Money implements JsonSerializable
     public function mod(Money|int|string $divisor): Money
     {
         if ($divisor instanceof self) {
-            // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-            if ($this->currency != $divisor->currency) {
+            if (! $this->isCompatibleCurrency($divisor)) {
                 throw InvalidArgumentException::currencyMismatch();
             }
 
@@ -383,8 +402,7 @@ final class Money implements JsonSerializable
             throw new InvalidArgumentException('Cannot calculate a ratio of zero');
         }
 
-        // Note: non-strict equality is intentional here, since `Currency` is `final` and reliable.
-        if ($this->currency != $money->currency) {
+        if (! $this->isCompatibleCurrency($money)) {
             throw InvalidArgumentException::currencyMismatch();
         }
 
@@ -458,9 +476,12 @@ final class Money implements JsonSerializable
 
     /**
      * Checks if the value represented by this object is zero.
+     *
+     * @phpstan-pure
      */
     public function isZero(): bool
     {
+        // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
         return self::$calculator::compare($this->amount, '0') === 0;
     }
 

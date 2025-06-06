@@ -10,6 +10,7 @@ use Money\Exception\CurrencyMismatchException;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
 
+use function array_shift;
 use function json_encode;
 
 use const LC_ALL;
@@ -446,6 +447,132 @@ final class MoneyTest extends TestCase
         $this->expectException(CurrencyMismatchException::class);
 
         $money->compare(new Money('5', new Currency('SOME')));
+    }
+
+    /**
+     * @test
+     */
+    public function itComparesZeroAmountsOfDifferentCurrencies(): void
+    {
+        $first  = new Money('0', new Currency(self::CURRENCY));
+        $second = new Money('0', new Currency(self::OTHER_CURRENCY));
+
+        $this->assertTrue($first->equals($second));
+        $this->assertTrue($first->greaterThanOrEqual($second));
+        $this->assertTrue($first->lessThanOrEqual($second));
+        $this->assertFalse($first->greaterThan($second));
+        $this->assertFalse($first->lessThan($second));
+        $this->assertEquals(0, $first->compare($second));
+        $this->assertFalse($first->isSameCurrency($second));
+    }
+
+    /**
+     * @test
+     */
+    public function itComparesOneZeroAmountOfDifferentCurrency(): void
+    {
+        $first  = new Money(self::AMOUNT, new Currency(self::CURRENCY));
+        $second = new Money('0', new Currency(self::OTHER_CURRENCY));
+
+        $this->assertFalse($first->equals($second));
+        $this->assertTrue($first->greaterThanOrEqual($second));
+        $this->assertFalse($first->lessThanOrEqual($second));
+        $this->assertTrue($first->greaterThan($second));
+        $this->assertFalse($first->lessThan($second));
+        $this->assertEquals(1, $first->compare($second));
+        $this->assertFalse($first->isSameCurrency($second));
+    }
+
+    /**
+     * @param Money[] $values
+     *
+     * @test
+     * @dataProvider additionExamples
+     */
+    public function itAddsMultipleValues(array $values, bool $currencyMismatchExpected, Money|null $expectedResult): void
+    {
+        if ($currencyMismatchExpected) {
+            $this->expectException(CurrencyMismatchException::class);
+        }
+
+        $value  = array_shift($values);
+        $actual = $value->add(...$values);
+
+        $this->assertEquals($expectedResult, $actual);
+    }
+
+    /**
+     * @param Money[] $values
+     *
+     * @test
+     * @dataProvider subtractionExamples
+     */
+    public function itSubtractsMultipleValues(array $values, bool $currencyMismatchExpected, Money|null $expectedResult): void
+    {
+        if ($currencyMismatchExpected) {
+            $this->expectException(CurrencyMismatchException::class);
+        }
+
+        $value  = array_shift($values);
+        $actual = $value->subtract(...$values);
+
+        $this->assertEquals($expectedResult, $actual);
+    }
+
+    /**
+     * @phpstan-return non-empty-list<array{
+     *     non-empty-list<Money>,
+     *     bool,
+     *     Money|null
+     * }>
+     */
+    public static function additionExamples(): array
+    {
+        return [
+            [[Money::USD(0), Money::USD(0)], false, Money::USD(0)],
+            [[Money::USD(0), Money::EUR(0)], false, Money::USD(0)],
+            [[Money::USD(0), Money::USD(100)], false, Money::USD(100)],
+            [[Money::USD(0), Money::EUR(100)], false, Money::EUR(100)],
+            [[Money::USD(100), Money::USD(0)], false, Money::USD(100)],
+            [[Money::USD(100), Money::EUR(0)], false, Money::USD(100)],
+            [[Money::USD(100), Money::USD(100)], false, Money::USD(200)],
+            [[Money::USD(100), Money::EUR(100)], true, null],
+            [[Money::USD(0), Money::USD(100), Money::USD(100)], false, Money::USD(200)],
+            [[Money::EUR(0), Money::USD(100), Money::USD(100)], false, Money::USD(200)],
+            [[Money::USD(0), Money::USD(100), Money::EUR(100)], true, null],
+            [[Money::USD(0), Money::EUR(100), Money::EUR(100)], false, Money::EUR(200)],
+            [[Money::USD(0), Money::EUR(100), Money::USD(100)], true, null],
+            [[Money::USD(100), Money::USD(100), Money::USD(100)], false, Money::USD(300)],
+            [[Money::USD(100), Money::USD(100), Money::EUR(100)], true, null],
+        ];
+    }
+
+    /**
+     * @phpstan-return non-empty-list<array{
+     *     non-empty-list<Money>,
+     *     bool,
+     *     Money|null
+     * }>
+     */
+    public static function subtractionExamples(): array
+    {
+        return [
+            [[Money::USD(0), Money::USD(0)], false, Money::USD(0)],
+            [[Money::USD(0), Money::EUR(0)], false, Money::USD(0)],
+            [[Money::USD(0), Money::USD(100)], false, Money::USD(-100)],
+            [[Money::USD(0), Money::EUR(100)], false, Money::EUR(-100)],
+            [[Money::USD(100), Money::USD(0)], false, Money::USD(100)],
+            [[Money::USD(100), Money::EUR(0)], false, Money::USD(100)],
+            [[Money::USD(100), Money::USD(100)], false, Money::USD(0)],
+            [[Money::USD(100), Money::EUR(100)], true, null],
+            [[Money::USD(0), Money::USD(100), Money::USD(100)], false, Money::USD(-200)],
+            [[Money::EUR(0), Money::USD(100), Money::USD(100)], false, Money::USD(-200)],
+            [[Money::USD(0), Money::USD(100), Money::EUR(100)], true, null],
+            [[Money::USD(0), Money::EUR(100), Money::EUR(100)], false, Money::EUR(-200)],
+            [[Money::USD(0), Money::EUR(100), Money::USD(100)], true, null],
+            [[Money::USD(100), Money::USD(100), Money::USD(100)], false, Money::USD(-100)],
+            [[Money::USD(100), Money::USD(100), Money::EUR(100)], true, null],
+        ];
     }
 
     /**
