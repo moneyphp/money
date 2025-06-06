@@ -225,7 +225,7 @@ final class Number
             return '0';
         }
 
-        if ($number === '-') {
+        if ($number === '-' || $number === '-0') {
             return '-0';
         }
 
@@ -242,6 +242,10 @@ final class Number
 
             if (! isset(self::NUMBERS[$digit]) && ! ($position === 0 && $digit === '-')) {
                 throw new InvalidArgumentException(sprintf('Invalid integer part %1$s. Invalid digit %2$s found', $number, $digit));
+            }
+
+            if ($digit === '-') {
+                continue;
             }
 
             if ($nonZero === false && $digit === '0') {
