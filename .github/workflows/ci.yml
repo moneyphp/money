@@ -32,7 +32,7 @@ jobs:
       - name: Run tests
         run: composer test
 
-  early-support-upcoming-php-version:
+  early-test-php-next:
     name: Build with upcoming PHP version
     runs-on: ubuntu-latest
 
