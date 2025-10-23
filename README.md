@@ -12,7 +12,7 @@ PHP library to make working with money safer, easier, and fun!
 
 > "If I had a dime for every time I've seen someone use FLOAT to store currency, I'd have $999.997634" -- [Bill Karwin](https://twitter.com/billkarwin/status/347561901460447232)
 
-In short: You shouldn't represent monetary values by a float. Wherever
+In short: You shouldn't represent monetary values by a float Wherever
 you need to represent money, use this Money value object. Since version
 3.0 this library uses [strings internally](https://github.com/moneyphp/money/pull/136)
 in order to support unlimited integers.
