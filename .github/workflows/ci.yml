@@ -32,6 +32,33 @@ jobs:
       - name: Run tests
         run: composer test
 
+  early-test-php-next:
+    name: Build with upcoming PHP version
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: bcmath, gmp, intl, dom, mbstring
+
+      - name: Setup Problem Matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up locales
+        run: ./hack/setup-locales.sh
+
+      - uses: "ramsey/composer-install@v3"
+        with:
+          composer-options: "--ignore-platform-req=php+"
+
+      - name: Run tests
+        run: composer test || true
+
   tests:
     name: Build
     runs-on: ubuntu-latest

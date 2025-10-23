@@ -13,7 +13,7 @@ trait Locale
     public static function runLocaleAware(int $category, string $locale, Closure $callback): void
     {
         // @phpstan-ignore-next-line
-        $currentLocale = setlocale($category, 0);
+        $currentLocale = setlocale($category, '0');
         try {
             // @phpstan-ignore-next-line
             setlocale($category, $locale);
