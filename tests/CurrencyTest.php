@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Money;
 
 use Money\Currency;
+use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 use function json_encode;
@@ -43,5 +44,13 @@ final class CurrencyTest extends TestCase
     {
         $currency = new Currency('usd');
         self::assertTrue($currency->equals(new Currency('USD')));
+    }
+
+    /**
+     * @test
+     */
+    public function itCreatesZeroMoney(): void
+    {
+        self::assertTrue((new Currency('USD'))->zero()->equals(new Money(0, new Currency('USD'))));
     }
 }

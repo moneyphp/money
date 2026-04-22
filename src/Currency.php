@@ -52,6 +52,14 @@ final class Currency implements JsonSerializable
         return $this->code === $other->code;
     }
 
+    /**
+     * Returns a new Money with zero amount in this currency.
+     */
+    public function zero(): Money
+    {
+        return new Money(0, $this);
+    }
+
     public function __toString(): string
     {
         return $this->code;
