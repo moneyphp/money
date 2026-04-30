@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money\Formatter;
 
 use Money\Currencies;
@@ -7,29 +9,40 @@ use Money\Currency;
 use Money\Formatter\DecimalMoneyFormatter;
 use Money\Money;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 
+/** @covers \Money\Formatter\DecimalMoneyFormatter */
 final class DecimalMoneyFormatterTest extends TestCase
 {
     /**
+     * @phpstan-param non-empty-string $currency
+     * @phpstan-param non-negative-int $subunit
+     * @phpstan-param numeric-string $result
+     *
      * @dataProvider moneyExamples
      * @test
      */
-    public function it_formats_money($amount, $currency, $subunit, $result)
+    public function itFormatsMoney(int $amount, string $currency, int $subunit, string $result): void
     {
         $money = new Money($amount, new Currency($currency));
 
-        $currencies = $this->prophesize(Currencies::class);
+        $currencies = $this->createMock(Currencies::class);
 
-        $currencies->subunitFor(Argument::allOf(
-            Argument::type(Currency::class),
-            Argument::which('getCode', $currency)
-        ))->willReturn($subunit);
+        $currencies->method('subunitFor')
+            ->with(self::callback(static fn (Currency $givenCurrency): bool => $currency === $givenCurrency->getCode()))
+            ->willReturn($subunit);
 
-        $moneyFormatter = new DecimalMoneyFormatter($currencies->reveal());
-        $this->assertSame($result, $moneyFormatter->format($money));
+        $moneyFormatter = new DecimalMoneyFormatter($currencies);
+        self::assertSame($result, $moneyFormatter->format($money));
     }
 
+    /**
+     * @phpstan-return non-empty-list<array{
+     *     int,
+     *     non-empty-string,
+     *     non-negative-int,
+     *     numeric-string
+     * }>
+     */
     public static function moneyExamples()
     {
         return [

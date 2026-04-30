@@ -1,21 +1,79 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Currency;
 use Money\CurrencyPair;
 use PHPUnit\Framework\TestCase;
 
+use function json_encode;
+
+/** @covers \Money\CurrencyPair */
 final class CurrencyPairTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_converts_to_json()
+    public function itProvidesGetters(): void
     {
-        $expectedJson = '{"baseCurrency":"EUR","counterCurrency":"USD","ratio":1.25}';
-        $actualJson = json_encode(new CurrencyPair(new Currency('EUR'), new Currency('USD'), 1.25));
+        $pair = new CurrencyPair(
+            new Currency('USD'),
+            new Currency('EUR'),
+            '1.0'
+        );
 
-        $this->assertEquals($expectedJson, $actualJson);
+        self::assertEquals('USD', $pair->getBaseCurrency()->getCode());
+        self::assertEquals('EUR', $pair->getCounterCurrency()->getCode());
+        self::assertEquals('1.0', $pair->getConversionRatio());
+    }
+
+    /**
+     * @test
+     */
+    public function itProvidesEquality(): void
+    {
+        $pair1 = new CurrencyPair(
+            new Currency('USD'),
+            new Currency('EUR'),
+            '1.0'
+        );
+
+        self::assertTrue($pair1->equals(new CurrencyPair(
+            new Currency('USD'),
+            new Currency('EUR'),
+            '1.0'
+        )));
+        self::assertFalse($pair1->equals(new CurrencyPair(
+            new Currency('USD'),
+            new Currency('EUR'),
+            '2.0'
+        )));
+    }
+
+    /**
+     * @test
+     */
+    public function itConvertsToJson(): void
+    {
+        $pair = new CurrencyPair(
+            new Currency('USD'),
+            new Currency('EUR'),
+            '1.0'
+        );
+
+        self::assertEquals('{"baseCurrency":"USD","counterCurrency":"EUR","ratio":"1.0"}', json_encode($pair));
+    }
+
+    /**
+     * @test
+     */
+    public function itCanBeCreatedWithAnIsoString(): void
+    {
+        $pair = CurrencyPair::createFromIso('EUR/USD 1.2500');
+        self::assertEquals('EUR', $pair->getBaseCurrency()->getCode());
+        self::assertEquals('USD', $pair->getCounterCurrency()->getCode());
+        self::assertEquals('1.2500', $pair->getConversionRatio());
     }
 }

@@ -1,127 +1,152 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
+
+use Money\Exception\InvalidArgumentException;
 
 /**
  * Money calculations abstracted away from the Money value object.
  *
- * @author Frederik Bosch <f.bosch@genkgo.nl>
+ * @internal the calculator component is an internal detail of this library: it is only supposed to be replaced if
+ *           your system requires a custom architecture for operating on large numbers.
  */
 interface Calculator
 {
     /**
-     * Returns whether the calculator is supported in
-     * the current server environment.
-     *
-     * @return bool
-     */
-    public static function supported();
-
-    /**
      * Compare a to b.
      *
-     * @param string $a
-     * @param string $b
+     * Retrieves a negative value if $a < $b.
+     * Retrieves a positive value if $a > $b.
+     * Retrieves zero if $a == $b
      *
-     * @return int
+     * @phpstan-param numeric-string $a
+     * @phpstan-param numeric-string $b
+     *
+     * @phpstan-pure
      */
-    public function compare($a, $b);
+    public static function compare(string $a, string $b): int;
 
     /**
      * Add added to amount.
      *
-     * @param string $amount
-     * @param string $addend
+     * @phpstan-param numeric-string $amount
+     * @phpstan-param numeric-string $addend
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function add($amount, $addend);
+    public static function add(string $amount, string $addend): string;
 
     /**
      * Subtract subtrahend from amount.
      *
-     * @param string $amount
-     * @param string $subtrahend
+     * @phpstan-param numeric-string $amount
+     * @phpstan-param numeric-string $subtrahend
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function subtract($amount, $subtrahend);
+    public static function subtract(string $amount, string $subtrahend): string;
 
     /**
      * Multiply amount with multiplier.
      *
-     * @param string           $amount
-     * @param int|float|string $multiplier
+     * @phpstan-param numeric-string $amount
+     * @phpstan-param numeric-string $multiplier
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function multiply($amount, $multiplier);
+    public static function multiply(string $amount, string $multiplier): string;
 
     /**
      * Divide amount with divisor.
      *
-     * @param string           $amount
-     * @param int|float|string $divisor
+     * @phpstan-param numeric-string $amount
+     * @phpstan-param numeric-string $divisor
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @throws InvalidArgumentException when $divisor is zero.
+     *
+     * @phpstan-pure
      */
-    public function divide($amount, $divisor);
+    public static function divide(string $amount, string $divisor): string;
 
     /**
      * Round number to following integer.
      *
-     * @param string $number
+     * @phpstan-param numeric-string $number
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function ceil($number);
+    public static function ceil(string $number): string;
 
     /**
      * Round number to preceding integer.
      *
-     * @param string $number
+     * @phpstan-param numeric-string $number
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function floor($number);
+    public static function floor(string $number): string;
 
     /**
      * Returns the absolute value of the number.
      *
-     * @param string $number
+     * @phpstan-param numeric-string $number
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function absolute($number);
+    public static function absolute(string $number): string;
 
     /**
      * Round number, use rounding mode for tie-breaker.
      *
-     * @param int|float|string $number
-     * @param int              $roundingMode
+     * @phpstan-param numeric-string $number
+     * @phpstan-param Money::ROUND_* $roundingMode
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function round($number, $roundingMode);
+    public static function round(string $number, int $roundingMode): string;
 
     /**
      * Share amount among ratio / total portions.
      *
-     * @param string           $amount
-     * @param int|float|string $ratio
-     * @param int|float|string $total
+     * @phpstan-param numeric-string $amount
+     * @phpstan-param numeric-string $ratio
+     * @phpstan-param numeric-string $total
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @phpstan-pure
      */
-    public function share($amount, $ratio, $total);
+    public static function share(string $amount, string $ratio, string $total): string;
 
     /**
      * Get the modulus of an amount.
      *
-     * @param string           $amount
-     * @param int|float|string $divisor
+     * @phpstan-param numeric-string $amount
+     * @phpstan-param numeric-string $divisor
      *
-     * @return string
+     * @phpstan-return numeric-string
+     *
+     * @throws InvalidArgumentException when $divisor is zero.
+     *
+     * @phpstan-pure
      */
-    public function mod($amount, $divisor);
+    public static function mod(string $amount, string $divisor): string;
 }

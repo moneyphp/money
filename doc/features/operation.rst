@@ -97,6 +97,18 @@ A number of rounding modes are available for :ref:`multiplication_division` abov
 * ``Money::ROUND_HALF_POSITIVE_INFINITY``
 * ``Money::ROUND_HALF_NEGATIVE_INFINITY``
 
+Round to Unit
+-------------
+
+Amounts can be rounded to unit.
+
+.. code-block:: php
+
+    $value = Money::EUR(813);           // €8.13
+
+    $result = $value->roundToUnit(2);   // Money::EUR(800)
+    $result = $value->roundToUnit(1);   // Money::EUR(810)
+
 .. _absolute:
 
 Absolute Value

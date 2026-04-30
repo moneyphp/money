@@ -1,85 +1,71 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
+
+use JsonSerializable;
+
+use function strtoupper;
 
 /**
  * Currency Value Object.
  *
  * Holds Currency specific data.
  *
- * @author Mathias Verraes
- *
- * @psalm-immutable
+ * @phpstan-immutable
  */
-final class Currency implements \JsonSerializable
+final class Currency implements JsonSerializable
 {
     /**
      * Currency code.
      *
-     * @var string
+     * @phpstan-var non-empty-string
      */
-    private $code;
+    private string $code;
 
     /**
-     * @param string $code
+     * @phpstan-param non-empty-string $code
+     *
+     * @phpstan-pure
      */
-    public function __construct($code)
+    public function __construct(string $code)
     {
-        if (!is_string($code)) {
-            throw new \InvalidArgumentException('Currency code should be string');
-        }
-
-        if ($code === '') {
-            throw new \InvalidArgumentException('Currency code should not be empty string');
-        }
-
-        $this->code = $code;
+        $this->code = strtoupper($code);
     }
 
     /**
      * Returns the currency code.
      *
-     * @return string
+     * @phpstan-return non-empty-string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
     /**
      * Checks whether this currency is the same as an other.
-     *
-     * @return bool
      */
-    public function equals(Currency $other)
+    public function equals(Currency $other): bool
     {
         return $this->code === $other->code;
     }
 
     /**
-     * Checks whether this currency is available in the passed context.
-     *
-     * @return bool
+     * Returns a new Money with zero amount in this currency.
      */
-    public function isAvailableWithin(Currencies $currencies)
+    public function zero(): Money
     {
-        return $currencies->contains($this);
+        return new Money(0, $this);
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->code;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->code;
     }

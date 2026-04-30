@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Exception;
 
+use InvalidArgumentException;
 use Money\Currency;
 use Money\Exception;
 
+use function sprintf;
+
 /**
  * Thrown when there is no currency pair (rate) available for the given currencies.
- *
- * @author Márk Sági-Kazár <mark.sagikazar@gmail.com>
  */
-final class UnresolvableCurrencyPairException extends \InvalidArgumentException implements Exception
+final class UnresolvableCurrencyPairException extends InvalidArgumentException implements Exception
 {
     /**
      * Creates an exception from Currency objects.
-     *
-     * @return UnresolvableCurrencyPairException
      */
-    public static function createFromCurrencies(Currency $baseCurrency, Currency $counterCurrency)
+    public static function createFromCurrencies(Currency $baseCurrency, Currency $counterCurrency): UnresolvableCurrencyPairException
     {
         $message = sprintf(
             'Cannot resolve a currency pair for currencies: %s/%s',

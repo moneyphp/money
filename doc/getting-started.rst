@@ -52,3 +52,11 @@ Install the library using composer. Execute the following command in your comman
 .. code-block:: bash
 
     $ composer require moneyphp/money
+
+
+
+Upgrading 3 to 4
+----------------
+
+Many changes were introduced in version 4 of the library, see the
+[CHANGELOG](https://github.com/moneyphp/money/blob/master/CHANGELOG.md).

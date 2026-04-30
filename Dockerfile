@@ -1,4 +1,4 @@
-FROM php:7.2-cli
+FROM php:8.0-cli
 
 RUN set -xe \
 	&& apt-get update \

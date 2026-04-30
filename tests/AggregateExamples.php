@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Money;
 
 trait AggregateExamples
 {
-    public function sumExamples()
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public static function sumExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(30)],
@@ -15,7 +18,8 @@ trait AggregateExamples
         ];
     }
 
-    public function minExamples()
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public static function minExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(5)],
@@ -24,7 +28,8 @@ trait AggregateExamples
         ];
     }
 
-    public function maxExamples()
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public static function maxExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(15)],
@@ -33,7 +38,8 @@ trait AggregateExamples
         ];
     }
 
-    public function avgExamples()
+    /** @phpstan-return non-empty-list<array{non-empty-list<Money>, Money}> */
+    public static function avgExamples(): array
     {
         return [
             [[Money::EUR(5), Money::EUR(10), Money::EUR(15)], Money::EUR(10)],

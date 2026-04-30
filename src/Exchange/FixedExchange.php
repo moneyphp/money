@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money\Exchange;
 
 use Money\Currency;
@@ -9,25 +11,15 @@ use Money\Exchange;
 
 /**
  * Provides a way to get exchange rate from a static list (array).
- *
- * @author Frederik Bosch <f.bosch@genkgo.nl>
  */
 final class FixedExchange implements Exchange
 {
-    /**
-     * @var array
-     */
-    private $list;
-
-    public function __construct(array $list)
+    /** @phpstan-param array<non-empty-string, array<non-empty-string, numeric-string>> $list */
+    public function __construct(private readonly array $list)
     {
-        $this->list = $list;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function quote(Currency $baseCurrency, Currency $counterCurrency)
+    public function quote(Currency $baseCurrency, Currency $counterCurrency): CurrencyPair
     {
         if (isset($this->list[$baseCurrency->getCode()][$counterCurrency->getCode()])) {
             return new CurrencyPair(

@@ -1,49 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Money;
+
+use InvalidArgumentException;
+use JsonSerializable;
+
+use function assert;
+use function is_numeric;
+use function preg_match;
+use function sprintf;
 
 /**
  * Currency Pair holding a base, a counter currency and a conversion ratio.
  *
- * @author Mathias Verraes
- *
  * @see http://en.wikipedia.org/wiki/Currency_pair
  */
-final class CurrencyPair implements \JsonSerializable
+final class CurrencyPair implements JsonSerializable
 {
     /**
-     * Currency to convert from.
-     *
-     * @var Currency
+     * @phpstan-param numeric-string $conversionRatio
      */
-    private $baseCurrency;
-
-    /**
-     * Currency to convert to.
-     *
-     * @var Currency
-     */
-    private $counterCurrency;
-
-    /**
-     * @var float
-     */
-    private $conversionRatio;
-
-    /**
-     * @param float $conversionRatio
-     *
-     * @throws \InvalidArgumentException If conversion ratio is not numeric
-     */
-    public function __construct(Currency $baseCurrency, Currency $counterCurrency, $conversionRatio)
-    {
-        if (!is_numeric($conversionRatio)) {
-            throw new \InvalidArgumentException('Conversion ratio must be numeric');
-        }
-
-        $this->counterCurrency = $counterCurrency;
-        $this->baseCurrency = $baseCurrency;
-        $this->conversionRatio = (float) $conversionRatio;
+    public function __construct(
+        private readonly Currency $baseCurrency,
+        private readonly Currency $counterCurrency,
+        private readonly string $conversionRatio
+    ) {
     }
 
     /**
@@ -51,41 +34,37 @@ final class CurrencyPair implements \JsonSerializable
      *
      * @param string $iso String representation of the form "EUR/USD 1.2500"
      *
-     * @return CurrencyPair
-     *
-     * @throws \InvalidArgumentException Format of $iso is invalid
+     * @throws InvalidArgumentException Format of $iso is invalid.
      */
-    public static function createFromIso($iso)
+    public static function createFromIso(string $iso): CurrencyPair
     {
         $currency = '([A-Z]{2,3})';
-        $ratio = "([0-9]*\.?[0-9]+)"; // @see http://www.regular-expressions.info/floatingpoint.html
-        $pattern = '#'.$currency.'/'.$currency.' '.$ratio.'#';
+        $ratio    = '([0-9]*\.?[0-9]+)'; // @see http://www.regular-expressions.info/floatingpoint.html
+        $pattern  = '#' . $currency . '/' . $currency . ' ' . $ratio . '#';
 
         $matches = [];
 
-        if (!preg_match($pattern, $iso, $matches)) {
-            throw new \InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
+        if (! preg_match($pattern, $iso, $matches)) {
+            throw new InvalidArgumentException(sprintf('Cannot create currency pair from ISO string "%s", format of string is invalid', $iso));
         }
+
+        assert(is_numeric($matches[3]));
 
         return new self(new Currency($matches[1]), new Currency($matches[2]), $matches[3]);
     }
 
     /**
      * Returns the counter currency.
-     *
-     * @return Currency
      */
-    public function getCounterCurrency()
+    public function getCounterCurrency(): Currency
     {
         return $this->counterCurrency;
     }
 
     /**
      * Returns the base currency.
-     *
-     * @return Currency
      */
-    public function getBaseCurrency()
+    public function getBaseCurrency(): Currency
     {
         return $this->baseCurrency;
     }
@@ -93,33 +72,29 @@ final class CurrencyPair implements \JsonSerializable
     /**
      * Returns the conversion ratio.
      *
-     * @return float
+     * @phpstan-return numeric-string
      */
-    public function getConversionRatio()
+    public function getConversionRatio(): string
     {
         return $this->conversionRatio;
     }
 
     /**
-     * Checks if an other CurrencyPair has the same parameters as this.
-     *
-     * @return bool
+     * Checks if another CurrencyPair has the same parameters as this.
      */
-    public function equals(CurrencyPair $other)
+    public function equals(CurrencyPair $other): bool
     {
-        return
-            $this->baseCurrency->equals($other->baseCurrency)
+        return $this->baseCurrency->equals($other->baseCurrency)
             && $this->counterCurrency->equals($other->counterCurrency)
-            && $this->conversionRatio === $other->conversionRatio
-        ;
+            && $this->conversionRatio === $other->conversionRatio;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
-     * @return array
+     * @phpstan-return array{baseCurrency: Currency, counterCurrency: Currency, ratio: numeric-string}
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'baseCurrency' => $this->baseCurrency,

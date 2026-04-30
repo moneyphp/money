@@ -15,6 +15,7 @@
 import sys
 import os
 import shlex
+import sphinx_rtd_theme
 from sphinx.highlighting import lexers
 from pygments.lexers.web import PhpLexer
 
@@ -37,6 +38,7 @@ highlight_language = 'php'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinxcontrib.phpdomain',
     'sphinxcontrib.spelling'
 ]
 
@@ -60,7 +62,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Money'
-copyright = u'2011-2019, Mathias Verraes, 2019 The Money PHP Team'
+copyright = u'2011-2019, Mathias Verraes, 2019-2025 The Money PHP Team'
 author = u'The Money PHP Team'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -77,7 +79,7 @@ release = u'3.0.0'
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = None
+language = 'en'
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -119,11 +121,8 @@ todo_include_todos = False
 
 # -- Options for HTML output ---------------------------------------------------
 
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+html_theme = 'sphinx_rtd_theme'
+html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -155,8 +154,8 @@ html_favicon = 'favicon.ico'
 html_static_path = ['_static']
 
 def setup(app):
-    app.add_stylesheet('custom.css')
-    app.add_stylesheet('highlight.css')
+    app.add_css_file('custom.css')
+    app.add_css_file('highlight.css')
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

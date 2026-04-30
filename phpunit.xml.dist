@@ -1,22 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit colors="true" bootstrap="tests/bootstrap.php">
-    <testsuites>
-        <testsuite name="Money Test Suite">
-            <directory>tests/</directory>
-        </testsuite>
-    </testsuites>
+<?xml version="1.0"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="./vendor/autoload.php"
+    colors="true"
+    columns="max"
+    beStrictAboutChangesToGlobalState="true"
+>
 
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
+  <testsuites>
+    <testsuite name="Money Test Suite">
+      <directory>tests/</directory>
+    </testsuite>
+  </testsuites>
 
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
-    </listeners>
-
-    <php>
-        <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled=1"/>
-    </php>
+  <source>
+    <include>
+      <directory>src</directory>
+    </include>
+  </source>
 </phpunit>

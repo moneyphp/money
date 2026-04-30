@@ -1,19 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Money;
 
 use Money\Money;
 use Money\PHPUnit\Comparator;
 use PHPUnit\Framework\TestCase;
+use SebastianBergmann\Comparator\ComparisonFailure;
 
+/** @covers \Money\PHPUnit\Comparator */
 final class ComparatorTest extends TestCase
 {
-    /**
-     * @var Comparator
-     */
-    protected $comparator;
+    protected Comparator $comparator;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->comparator = new Comparator();
     }
@@ -21,50 +22,57 @@ final class ComparatorTest extends TestCase
     /**
      * @test
      */
-    public function it_accepts_only_money()
+    public function itAcceptsOnlyMoney(): void
     {
         $money_a = Money::EUR(1);
         $money_b = Money::EUR(2);
 
-        $this->assertFalse($this->comparator->accepts($money_a, false));
-        $this->assertFalse($this->comparator->accepts(false, $money_a));
-        $this->assertTrue($this->comparator->accepts($money_a, $money_b));
+        self::assertFalse($this->comparator->accepts($money_a, false));
+        self::assertFalse($this->comparator->accepts(false, $money_a));
+        self::assertTrue($this->comparator->accepts($money_a, $money_b));
     }
 
     /**
      * @test
      */
-    public function it_compares_unequal_values()
+    public function itComparesUnequalValues(): void
     {
         $money_a = Money::EUR(1);
         $money_b = Money::USD(1);
 
         try {
             $this->comparator->assertEquals($money_a, $money_b);
-        } catch (\SebastianBergmann\Comparator\ComparisonFailure $e) {
-            $this->assertEquals('Failed asserting that two Money objects are equal.', $e->getMessage());
-            $this->assertContains(
+        } catch (ComparisonFailure $e) {
+            self::assertSame('Failed asserting that two Money objects are equal.', $e->getMessage());
+            self::assertStringContainsString(
                 '--- Expected
 +++ Actual
 @@ @@
 -€0.01
-+$0.01', $e->getDiff()
++$0.01',
+                $e->getDiff()
             );
 
             return;
         }
 
-        $this->fail('ComparisonFailure should have been thrown.');
+        self::fail('ComparisonFailure should have been thrown.');
     }
 
     /**
      * @test
      */
-    public function it_compares_equal_values()
+    public function itComparesEqualValues(): void
     {
         $money_a = Money::EUR(1);
         $money_b = Money::EUR(1);
 
-        $this->assertNull($this->comparator->assertEquals($money_a, $money_b));
+        $this->comparator->assertEquals($money_a, $money_b);
+
+        self::assertEquals(
+            $money_a,
+            $money_b,
+            'This is only here to increment the assertion counter, since we are testing an assertion'
+        );
     }
 }

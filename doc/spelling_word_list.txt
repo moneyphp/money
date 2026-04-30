@@ -1,5 +1,7 @@
 amongst
 integrations
+codebases
+formatter
 formatters
 eg
 Bitcoin
@@ -12,6 +14,7 @@ Formatter
 unprobable
 Instantiation
 instantiation
+Exchanger
 
 Foemmel
 Hieatt

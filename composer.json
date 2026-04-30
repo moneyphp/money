@@ -1,13 +1,12 @@
 {
     "name": "moneyphp/money",
     "description": "PHP implementation of Fowler's Money pattern",
+    "license": "MIT",
     "keywords": [
         "money",
         "vo",
         "value object"
     ],
-    "homepage": "http://moneyphp.org",
-    "license": "MIT",
     "authors": [
         {
             "name": "Mathias Verraes",
@@ -23,43 +22,42 @@
             "email": "f.bosch@genkgo.nl"
         }
     ],
+    "homepage": "http://moneyphp.org",
     "require": {
-        "php": ">=5.6",
+        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "ext-bcmath": "*",
+        "ext-filter": "*",
         "ext-json": "*"
     },
     "require-dev": {
-        "ext-bcmath": "*",
         "ext-gmp": "*",
         "ext-intl": "*",
-        "cache/taggable-cache": "^0.4.0",
-        "doctrine/instantiator": "^1.0.5",
-        "florianv/exchanger": "^1.0",
-        "florianv/swap": "^3.0",
-        "friends-of-phpspec/phpspec-code-coverage": "^3.1.1 || ^4.3",
-        "moneyphp/iso-currencies": "^3.2.1",
-        "php-http/message": "^1.4",
-        "php-http/mock-client": "^1.0.0",
-        "phpspec/phpspec": "^3.4.3",
-        "phpunit/phpunit": "^5.7.27 || ^6.5.14 || ^7.5.18 || ^8.5",
-        "psr/cache": "^1.0",
-        "symfony/phpunit-bridge": "^4"
+        "cache/taggable-cache": "^1.1.0",
+        "doctrine/coding-standard": "^12.0",
+        "doctrine/instantiator": "^1.5.0 || ^2.0",
+        "florianv/exchanger": "^2.8.1",
+        "florianv/swap": "^4.3.0",
+        "moneyphp/crypto-currencies": "^1.1.0",
+        "moneyphp/iso-currencies": "^3.4",
+        "php-http/message": "^1.16.0",
+        "php-http/mock-client": "^1.6.0",
+        "phpbench/phpbench": "^1.2.5",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.1.9",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^10.5.9",
+        "psr/cache": "^1.0.1 || ^2.0 || ^3.0",
+        "ticketswap/phpstan-error-formatter": "^1.1"
     },
     "suggest": {
-        "ext-bcmath": "Calculate without integer limits",
         "ext-gmp": "Calculate without integer limits",
         "ext-intl": "Format Money objects with intl",
         "florianv/exchanger": "Exchange rates library for PHP",
         "florianv/swap": "Exchange rates library for PHP",
         "psr/cache-implementation": "Used for Currency caching"
     },
-    "config": {
-        "sort-packages": true
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.x-dev"
-        }
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Money\\": "src/"
@@ -67,25 +65,45 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Money\\": "tests/",
-            "spec\\Money\\": "spec/"
+            "Benchmark\\Money\\": "benchmark/",
+            "Tests\\Money\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "infection/extension-installer": true,
+            "php-http/discovery": false,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        }
+    },
     "scripts": {
+        "benchmark": [
+            "vendor/bin/phpbench run --retry-threshold=3 --iterations=15 --revs=1000  --warmup=2"
+        ],
         "clean": "rm -rf build/ vendor/",
         "test": [
-            "vendor/bin/phpspec run",
-            "vendor/bin/phpunit -v"
+            "vendor/bin/phpbench run",
+            "vendor/bin/phpunit",
+            "vendor/bin/phpstan",
+            "vendor/bin/phpcs"
         ],
         "test-coverage": [
-            "vendor/bin/phpspec run -c phpspec.ci.yml",
-            "vendor/bin/phpunit -v --coverage-text --coverage-clover=build/unit_coverage.xml"
+            "vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": [
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
-            "php resources/generate-money-factory.php"
+            "cp vendor/moneyphp/crypto-currencies/resources/binance.php resources/binance.php",
+            "php resources/generate-money-factory.php",
+            "php resources/generate-teller-factory.php"
         ]
     }
 }

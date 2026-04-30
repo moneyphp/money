@@ -1,5 +1,0 @@
-suites:
-    money_suite:
-        namespace: Money
-        psr4_prefix: Money
-formatter.name: pretty
