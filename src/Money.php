@@ -322,15 +322,19 @@ final class Money implements JsonSerializable
         $results   = [];
         $total     = array_sum($ratios);
 
-        if ($total <= 0) {
-            throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
+        $nonNegativeRatios = array_filter($ratios, function($ratio) {
+            return $ratio >= 0;
+        });
+
+        if (count($nonNegativeRatios) === 0) {
+            throw new \InvalidArgumentException('Cannot allocate to none, ratios must contain at least one non-negative value');
+        }
+
+        if ($total == 0) {
+            throw new \InvalidArgumentException('Cannot allocate to none, sum of ratios must not be zero');
         }
 
         foreach ($ratios as $key => $ratio) {
-            if ($ratio < 0) {
-                throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
-            }
-
             $share         = self::$calculator::share($this->amount, (string) $ratio, (string) $total);
             $results[$key] = new self($share, $this->currency);
             $remainder     = self::$calculator::subtract($remainder, $share);
