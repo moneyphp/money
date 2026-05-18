@@ -76,6 +76,8 @@ $ composer test
 
 Money requires a set of dependencies, so you might want to run it in Docker.
 
+The image is based on `php:7.2-cli`, which uses Debian Buster. That release is end-of-life, so the Dockerfile points `apt` at [archive.debian.org](https://archive.debian.org/debian/) before installing extensions. Without that step, `docker build` fails during `apt-get update` with errors such as `404 Not Found` on `security.debian.org` or missing Release files for Buster.
+
 First, build the image locally:
 
 ```bash

@@ -1,5 +1,11 @@
 FROM php:7.2-cli
 
+# Debian Buster (base of php:7.2-cli) is EOL; package indexes moved to archive.debian.org.
+RUN set -xe \
+	&& sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list \
+	&& sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list \
+	&& sed -i '/buster-updates/d' /etc/apt/sources.list
+
 RUN set -xe \
 	&& apt-get update \
 	&& apt-get install -qqy libicu-dev locales libgmp-dev \
