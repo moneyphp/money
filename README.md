@@ -76,7 +76,9 @@ $ composer test
 
 Money requires a set of dependencies, so you might want to run it in Docker.
 
-The image is based on `php:7.2-cli`, which uses Debian Buster. That release is end-of-life, so the Dockerfile points `apt` at [archive.debian.org](https://archive.debian.org/debian/) before installing extensions. Without that step, `docker build` fails during `apt-get update` with errors such as `404 Not Found` on `security.debian.org` or missing Release files for Buster.
+The image is based on `php:7.4-cli-buster`, which uses Debian Buster. That release is end-of-life, so the Dockerfile points `apt` at [archive.debian.org](https://archive.debian.org/debian/) before installing extensions. Without that step, `docker build` fails during `apt-get update` with errors such as `404 Not Found` on `security.debian.org` or missing Release files for Buster.
+
+Use the same PHP major version in Docker as the one you used for `composer install` on the host. The container mounts your local `vendor/` directory; if Docker runs an older PHP (for example 7.2 while dependencies were resolved on 7.4), PHPUnit can fail with hundreds of `ParseError`s in `vendor/` (often in packages used by Prophecy, such as `phpdocumentor/reflection-docblock`).
 
 First, build the image locally:
 

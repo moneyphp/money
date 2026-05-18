@@ -1,6 +1,6 @@
-FROM php:7.2-cli
+FROM php:7.4-cli-buster
 
-# Debian Buster (base of php:7.2-cli) is EOL; package indexes moved to archive.debian.org.
+# Debian Buster (base of php:7.4-cli-buster) is EOL; package indexes moved to archive.debian.org.
 RUN set -xe \
 	&& sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list \
 	&& sed -i 's|security.debian.org/debian-security|archive.debian.org/debian-security|g' /etc/apt/sources.list \
