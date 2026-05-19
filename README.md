@@ -86,6 +86,21 @@ First, build the image locally:
 $ docker build -t moneyphp .
 ```
 
+Optional: run composer install fully inside Docker
+The image doesn’t include Composer. 
+One-off install, (use single quotes around the whole script — not backticks):
+
+```bash
+docker run --rm -it -v $PWD:/app -w /app moneyphp bash -c '
+  apt-get update -qq &&
+  apt-get install -y -qq git unzip &&
+  curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer &&
+  git config --global --add safe.directory /app &&
+  composer config allow-plugins.php-http/discovery true &&
+  composer install --no-interaction
+'
+```
+
 Then run the tests:
 
 ```bash
