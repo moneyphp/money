@@ -17,9 +17,7 @@ use function filter_var;
 use function floor;
 use function is_int;
 use function max;
-use function str_pad;
-use function strlen;
-use function substr;
+use function pow;
 
 use const FILTER_VALIDATE_INT;
 use const PHP_ROUND_HALF_DOWN;
@@ -427,19 +425,9 @@ final class Money implements JsonSerializable
             return $this;
         }
 
-        $abs = self::$calculator::absolute($this->amount);
-        if (strlen($abs) < $unit) {
-            return new self('0', $this->currency);
-        }
+        $factor = (string) pow(10, $unit);
 
-        $toBeRounded = substr($this->amount, 0, strlen($this->amount) - $unit) . '.' . substr($this->amount, $unit * -1);
-
-        $result = $this->round($toBeRounded, $roundingMode);
-        if ($result !== '0') {
-            $result .= str_pad('', $unit, '0');
-        }
-
-        return new self($result, $this->currency);
+        return $this->divide($factor, $roundingMode)->multiply($factor);
     }
 
     public function absolute(): Money
