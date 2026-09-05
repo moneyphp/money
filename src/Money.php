@@ -9,13 +9,13 @@ use Money\Calculator\BcMathCalculator;
 use Money\Exception\InvalidArgumentException;
 
 use function array_fill;
-use function array_keys;
+use function array_key_first;
 use function array_map;
-use function array_sum;
 use function count;
 use function filter_var;
-use function floor;
+use function is_float;
 use function is_int;
+use function ltrim;
 use function max;
 use function str_pad;
 use function strlen;
@@ -320,18 +320,40 @@ final class Money implements JsonSerializable
     {
         $remainder = $this->amount;
         $results   = [];
-        $total     = array_sum($ratios);
+        $scale     = 0;
 
-        if ($total <= 0) {
-            throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
-        }
-
-        foreach ($ratios as $key => $ratio) {
+        foreach ($ratios as $ratio) {
             if ($ratio < 0) {
                 throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
 
-            $share         = self::$calculator::share($this->amount, (string) $ratio, (string) $total);
+            $ratio = is_float($ratio) ? Number::fromFloat($ratio) : Number::fromNumber($ratio);
+            $scale = max($scale, strlen($ratio->getFractionalPart()));
+        }
+
+        $total  = '0';
+        $ratios = array_map(static function (float|int $ratio) use ($scale): string {
+            $ratio      = is_float($ratio) ? Number::fromFloat($ratio) : Number::fromNumber($ratio);
+            $normalized = $ratio->getIntegerPart() . str_pad($ratio->getFractionalPart(), $scale, '0');
+
+            return ltrim($normalized, '0') ?: '0';
+        }, $ratios);
+
+        foreach ($ratios as $ratio) {
+            $total = self::$calculator::add($total, $ratio);
+        }
+
+        if (self::$calculator::compare($total, '0') <= 0) {
+            throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
+        }
+
+        $fractions = [];
+
+        foreach ($ratios as $key => $ratio) {
+            $product         = self::$calculator::multiply($this->amount, $ratio);
+            $share           = self::$calculator::share($this->amount, $ratio, $total);
+            $fractions[$key] = self::$calculator::subtract($product, self::$calculator::multiply($share, $total));
+
             $results[$key] = new self($share, $this->currency);
             $remainder     = self::$calculator::subtract($remainder, $share);
         }
@@ -340,15 +362,15 @@ final class Money implements JsonSerializable
             return $results;
         }
 
-        $amount    = $this->amount;
-        $fractions = array_map(static function (float|int $ratio) use ($total, $amount) {
-            $share = (float) $ratio / $total * (float) $amount;
-
-            return $share - floor($share);
-        }, $ratios);
-
         while (self::$calculator::compare($remainder, '0') > 0) {
-            $index           = $fractions !== [] ? array_keys($fractions, max($fractions))[0] : 0;
+            $index = array_key_first($fractions);
+
+            foreach ($fractions as $key => $fraction) {
+                if (self::$calculator::compare($fraction, $fractions[$index]) > 0) {
+                    $index = $key;
+                }
+            }
+
             $results[$index] = new self(self::$calculator::add($results[$index]->amount, '1'), $results[$index]->currency);
             $remainder       = self::$calculator::subtract($remainder, '1');
             unset($fractions[$index]);

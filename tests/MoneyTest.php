@@ -132,14 +132,14 @@ final class MoneyTest extends TestCase
     }
 
     /**
-     * @phpstan-param int $amount
+     * @phpstan-param int|numeric-string $amount
      * @phpstan-param non-empty-array<non-negative-int|float> $ratios
-     * @phpstan-param non-empty-array<int> $results
+     * @phpstan-param non-empty-array<int|numeric-string> $results
      *
      * @dataProvider allocationExamples
      * @test
      */
-    public function itAllocatesAmount(int $amount, array $ratios, array $results): void
+    public function itAllocatesAmount(int|string $amount, array $ratios, array $results): void
     {
         $money = new Money($amount, new Currency(self::CURRENCY));
 
@@ -483,9 +483,9 @@ final class MoneyTest extends TestCase
 
     /**
      * @phpstan-return non-empty-list<array{
-     *     int,
+     *     int|numeric-string,
      *     non-empty-array<int|string, non-negative-int|float>,
-     *     non-empty-array<int|string, int>
+     *     non-empty-array<int|string, int|numeric-string>
      * }>
      */
     public static function allocationExamples(): array
@@ -505,6 +505,7 @@ final class MoneyTest extends TestCase
             [2, [1, 1, 1], [1, 1, 0]],
             [1, [1, 1], [1, 0]],
             [1, [0.33, 0.66], [0, 1]],
+            ['7000000000000000', [1, 2], ['2333333333333333', '4666666666666667']],
             [101, [3, 7], [30, 71]],
             [101, [7, 3], [71, 30]],
             [101, ['foo' => 7, 'bar' => 3], ['foo' => 71, 'bar' => 30]],
