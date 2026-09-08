@@ -10,7 +10,6 @@ use Money\Exception\InvalidArgumentException;
 
 use function array_fill;
 use function array_key_first;
-use function array_map;
 use function count;
 use function filter_var;
 use function is_float;
@@ -321,27 +320,28 @@ final class Money implements JsonSerializable
         $remainder = $this->amount;
         $results   = [];
         $scale     = 0;
+        $numbers   = [];
 
-        foreach ($ratios as $ratio) {
+        foreach ($ratios as $key => $ratio) {
             if ($ratio < 0) {
                 throw new InvalidArgumentException('Cannot allocate to none, ratio must be zero or positive');
             }
 
-            $ratio = is_float($ratio) ? Number::fromFloat($ratio) : Number::fromNumber($ratio);
-            $scale = max($scale, strlen($ratio->getFractionalPart()));
+            $number        = is_float($ratio) ? Number::fromFloat($ratio) : Number::fromNumber($ratio);
+            $numbers[$key] = $number;
+            $scale         = max($scale, strlen($number->getFractionalPart()));
         }
 
-        $total  = '0';
-        $ratios = array_map(static function (float|int $ratio) use ($scale): string {
-            $ratio      = is_float($ratio) ? Number::fromFloat($ratio) : Number::fromNumber($ratio);
-            $normalized = $ratio->getIntegerPart() . str_pad($ratio->getFractionalPart(), $scale, '0');
+        $total             = '0';
+        $normalizedRatios  = [];
 
-            return ltrim($normalized, '0') ?: '0';
-        }, $ratios);
-
-        foreach ($ratios as $ratio) {
-            $total = self::$calculator::add($total, $ratio);
+        foreach ($numbers as $key => $number) {
+            $normalized            = $number->getIntegerPart() . str_pad($number->getFractionalPart(), $scale, '0');
+            $normalizedRatios[$key] = ltrim($normalized, '0') ?: '0';
+            $total                  = self::$calculator::add($total, $normalizedRatios[$key]);
         }
+
+        $ratios = $normalizedRatios;
 
         if (self::$calculator::compare($total, '0') <= 0) {
             throw new InvalidArgumentException('Cannot allocate to none, sum of ratios must be greater than zero');
