@@ -332,11 +332,11 @@ final class Money implements JsonSerializable
             $scale         = max($scale, strlen($number->getFractionalPart()));
         }
 
-        $total             = '0';
-        $normalizedRatios  = [];
+        $total            = '0';
+        $normalizedRatios = [];
 
         foreach ($numbers as $key => $number) {
-            $normalized            = $number->getIntegerPart() . str_pad($number->getFractionalPart(), $scale, '0');
+            $normalized             = $number->getIntegerPart() . str_pad($number->getFractionalPart(), $scale, '0');
             $normalizedRatios[$key] = ltrim($normalized, '0') ?: '0';
             $total                  = self::$calculator::add($total, $normalizedRatios[$key]);
         }
@@ -358,25 +358,25 @@ final class Money implements JsonSerializable
             $remainder     = self::$calculator::subtract($remainder, $share);
         }
 
-        if (self::$calculator::compare($remainder, '0') === 0) {
-            return $results;
-        }
+        while (true) {
+            if (self::$calculator::compare($remainder, '0') <= 0) {
+                return $results;
+            }
 
-        while (self::$calculator::compare($remainder, '0') > 0) {
             $index = array_key_first($fractions);
 
             foreach ($fractions as $key => $fraction) {
-                if (self::$calculator::compare($fraction, $fractions[$index]) > 0) {
-                    $index = $key;
+                if (self::$calculator::compare($fraction, $fractions[$index]) <= 0) {
+                    continue;
                 }
+
+                $index = $key;
             }
 
             $results[$index] = new self(self::$calculator::add($results[$index]->amount, '1'), $results[$index]->currency);
             $remainder       = self::$calculator::subtract($remainder, '1');
             unset($fractions[$index]);
         }
-
-        return $results;
     }
 
     /**
