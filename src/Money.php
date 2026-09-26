@@ -9,14 +9,11 @@ use Money\Calculator\BcMathCalculator;
 use Money\Exception\InvalidArgumentException;
 
 use function array_fill;
-use function array_keys;
 use function array_map;
 use function array_sum;
 use function count;
 use function filter_var;
-use function floor;
 use function is_int;
-use function max;
 use function str_pad;
 use function strlen;
 use function substr;
@@ -341,14 +338,29 @@ final class Money implements JsonSerializable
         }
 
         $amount    = $this->amount;
-        $fractions = array_map(static function (float|int $ratio) use ($total, $amount) {
-            $share = (float) $ratio / $total * (float) $amount;
+        $fractions = array_map(static function (float|int $ratio) use ($total, $amount): string {
+            // GMP subtraction rejects a decimal, and a float reorders these shares.
+            $share = BcMathCalculator::divide(
+                BcMathCalculator::multiply($amount, (string) $ratio),
+                (string) $total
+            );
 
-            return $share - floor($share);
+            return BcMathCalculator::subtract($share, BcMathCalculator::floor($share));
         }, $ratios);
 
         while (self::$calculator::compare($remainder, '0') > 0) {
-            $index           = $fractions !== [] ? array_keys($fractions, max($fractions))[0] : 0;
+            $index           = 0;
+            $largestFraction = null;
+
+            foreach ($fractions as $fractionIndex => $fraction) {
+                if ($largestFraction !== null && BcMathCalculator::compare($fraction, $largestFraction) <= 0) {
+                    continue;
+                }
+
+                $largestFraction = $fraction;
+                $index           = $fractionIndex;
+            }
+
             $results[$index] = new self(self::$calculator::add($results[$index]->amount, '1'), $results[$index]->currency);
             $remainder       = self::$calculator::subtract($remainder, '1');
             unset($fractions[$index]);
