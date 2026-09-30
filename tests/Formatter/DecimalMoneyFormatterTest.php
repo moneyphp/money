@@ -64,7 +64,7 @@ final class DecimalMoneyFormatterTest extends TestCase
             [50, 'JPY', 2, '0.50'],
             [500, 'JPY', 2, '5.00'],
             [-5055, 'JPY', 2, '-50.55'],
-            [50050050, 'USD', 2, '500500.50'],
+            [50_050_050, 'USD', 2, '500500.50'],
         ];
     }
 }
