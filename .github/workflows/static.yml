@@ -24,3 +24,6 @@ jobs:
 
       - name: PHP CS
         run: vendor/bin/phpcs
+
+      - name: StructArmed
+        run: vendor/bin/structarmed analyze

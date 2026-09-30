@@ -28,12 +28,12 @@ final class MoneyInstantiationBench
 
     public function benchConstructorWithPositiveIntegerAmount(): void
     {
-        new Money(1234567890, $this->currency);
+        new Money(1_234_567_890, $this->currency);
     }
 
     public function benchConstructorWithNegativeIntegerAmount(): void
     {
-        new Money(-1234567890, $this->currency);
+        new Money(-1_234_567_890, $this->currency);
     }
 
     public function benchConstructorWithZeroStringAmount(): void
