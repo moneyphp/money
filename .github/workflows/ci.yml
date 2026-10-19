@@ -7,7 +7,7 @@ on:
 jobs:
   lowest-version-tests:
     name: Build lowest version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Set up PHP
@@ -34,7 +34,7 @@ jobs:
 
   early-test-php-next:
     name: Build with upcoming PHP version
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Set up PHP
@@ -61,7 +61,7 @@ jobs:
 
   tests:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -96,7 +96,7 @@ jobs:
 
   phpstan:
     name: PHPStan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Checkout code
@@ -115,7 +115,7 @@ jobs:
 
   docs:
     name: Docs
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Set up Python
         uses: actions/setup-python@v5
