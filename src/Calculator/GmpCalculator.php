@@ -38,7 +38,7 @@ use const STR_PAD_LEFT;
  */
 final class GmpCalculator implements Calculator
 {
-    private const SCALE = 14;
+    private const int SCALE = 14;
 
     /** @phpstan-pure */
     public static function compare(string $a, string $b): int
@@ -108,7 +108,6 @@ final class GmpCalculator implements Calculator
             $finalResult = substr($resultBase, 0, $decimalPlaces * -1) . '.' . $result;
 
             if ($negativeZero) {
-                // @phpstan-ignore possiblyImpure.functionCall (see https://github.com/phpstan/phpstan/issues/11884)
                 $finalResult = str_replace('-.', '-0.', $finalResult);
             }
 

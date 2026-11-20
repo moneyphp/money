@@ -34,21 +34,21 @@ final class Money implements JsonSerializable
 {
     use MoneyFactory;
 
-    public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    public const int ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
-    public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    public const int ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
 
-    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    public const int ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
 
-    public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    public const int ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
-    public const ROUND_UP = 5;
+    public const int ROUND_UP = 5;
 
-    public const ROUND_DOWN = 6;
+    public const int ROUND_DOWN = 6;
 
-    public const ROUND_HALF_POSITIVE_INFINITY = 7;
+    public const int ROUND_HALF_POSITIVE_INFINITY = 7;
 
-    public const ROUND_HALF_NEGATIVE_INFINITY = 8;
+    public const int ROUND_HALF_NEGATIVE_INFINITY = 8;
 
     /**
      * Internal value.
