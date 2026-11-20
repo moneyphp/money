@@ -15,7 +15,7 @@ use function array_map;
 /** @covers \Money\Currencies\CurrencyList */
 final class CurrencyListTest extends TestCase
 {
-    private const CORRECT_CURRENCIES = [
+    private const array CORRECT_CURRENCIES = [
         'MY1' => 2,
         'MY2' => 0,
         'MY3' => 1,

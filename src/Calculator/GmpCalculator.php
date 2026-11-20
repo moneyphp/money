@@ -38,7 +38,7 @@ use const STR_PAD_LEFT;
  */
 final class GmpCalculator implements Calculator
 {
-    private const SCALE = 14;
+    private const int SCALE = 14;
 
     /** @phpstan-pure */
     public static function compare(string $a, string $b): int
