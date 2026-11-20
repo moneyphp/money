@@ -33,10 +33,9 @@ final class IntlMoneyParser implements MoneyParser
     {
         $currency = '';
         // phpcs:ignore
-        /** @var string|float|bool|null $decimal */
         $decimal = $this->formatter->parseCurrency($money, $currency);
 
-        if ($decimal === false || $decimal === null) {
+        if ($decimal === false) {
             throw new ParserException('Cannot parse ' . $money . ' to Money. ' . $this->formatter->getErrorMessage());
         }
 
