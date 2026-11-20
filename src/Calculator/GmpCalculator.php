@@ -108,7 +108,6 @@ final class GmpCalculator implements Calculator
             $finalResult = substr($resultBase, 0, $decimalPlaces * -1) . '.' . $result;
 
             if ($negativeZero) {
-                // @phpstan-ignore possiblyImpure.functionCall (see https://github.com/phpstan/phpstan/issues/11884)
                 $finalResult = str_replace('-.', '-0.', $finalResult);
             }
 
