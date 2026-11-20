@@ -13,7 +13,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.3'
           extensions: bcmath, gmp, intl, dom, mbstring
 
       - name: Setup Problem Matchers for PHPUnit
@@ -40,7 +40,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.6'
+          php-version: '8.7'
           extensions: bcmath, gmp, intl, dom, mbstring
 
       - name: Setup Problem Matchers for PHPUnit
@@ -66,11 +66,10 @@ jobs:
       fail-fast: false
       matrix:
         php:
-          - '8.1'
-          - '8.2'
           - '8.3'
           - '8.4'
           - '8.5'
+          - '8.6'
 
     steps:
       - name: Set up PHP
