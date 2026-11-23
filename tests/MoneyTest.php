@@ -22,13 +22,13 @@ final class MoneyTest extends TestCase
     use RoundExamples;
     use Locale;
 
-    public const AMOUNT = 10;
+    public const int AMOUNT = 10;
 
-    public const OTHER_AMOUNT = 5;
+    public const int OTHER_AMOUNT = 5;
 
-    public const CURRENCY = 'EUR';
+    public const string CURRENCY = 'EUR';
 
-    public const OTHER_CURRENCY = 'USD';
+    public const string OTHER_CURRENCY = 'USD';
 
     /**
      * @phpstan-param int|numeric-string $amount

@@ -21,7 +21,7 @@ use function str_contains;
 
 final class BcMathCalculator implements Calculator
 {
-    private const SCALE = 14;
+    private const int SCALE = 14;
 
     /** @phpstan-pure */
     public static function compare(string $a, string $b): int

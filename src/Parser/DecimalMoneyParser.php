@@ -24,7 +24,7 @@ use function trim;
  */
 final class DecimalMoneyParser implements MoneyParser
 {
-    public const DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>\d+)?\.?(?P<fraction>\d+)?$/';
+    public const string DECIMAL_PATTERN = '/^(?P<sign>-)?(?P<digits>\d+)?\.?(?P<fraction>\d+)?$/';
 
     public function __construct(private readonly Currencies $currencies)
     {
