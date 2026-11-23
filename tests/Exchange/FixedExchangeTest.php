@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Exchange;
+namespace Tests\Money\Exchange;
 
 use Money\Currency;
 use Money\Exception\UnresolvableCurrencyPairException;
