@@ -633,6 +633,14 @@ final class MoneyTest extends TestCase
             [1250, 2, 1300, Money::ROUND_HALF_POSITIVE_INFINITY],
             [1250, 2, 1200, Money::ROUND_HALF_NEGATIVE_INFINITY],
             [10, 2, 0, Money::ROUND_HALF_UP],
+            [-5, 2, -100, Money::ROUND_DOWN],
+            [5, 2, 100, Money::ROUND_UP],
+            [-5, 1, 0, Money::ROUND_HALF_DOWN],
+            [5, 1, 0, Money::ROUND_HALF_DOWN],
+            [-5, 1, -10, Money::ROUND_HALF_ODD],
+            [5, 1, 10, Money::ROUND_HALF_ODD],
+            [-5, 1, -10, Money::ROUND_HALF_NEGATIVE_INFINITY],
+            [5, 1, 10, Money::ROUND_HALF_POSITIVE_INFINITY],
         ];
     }
 }
