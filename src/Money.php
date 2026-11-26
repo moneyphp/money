@@ -35,21 +35,21 @@ final class Money implements JsonSerializable, Wireable
 {
     use MoneyFactory;
 
-    public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    public const int ROUND_HALF_UP = PHP_ROUND_HALF_UP;
 
-    public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    public const int ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
 
-    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    public const int ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
 
-    public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    public const int ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
-    public const ROUND_UP = 5;
+    public const int ROUND_UP = 5;
 
-    public const ROUND_DOWN = 6;
+    public const int ROUND_DOWN = 6;
 
-    public const ROUND_HALF_POSITIVE_INFINITY = 7;
+    public const int ROUND_HALF_POSITIVE_INFINITY = 7;
 
-    public const ROUND_HALF_NEGATIVE_INFINITY = 8;
+    public const int ROUND_HALF_NEGATIVE_INFINITY = 8;
 
     /**
      * Internal value.
@@ -139,7 +139,7 @@ final class Money implements JsonSerializable, Wireable
             throw InvalidArgumentException::currencyMismatch();
         }
 
-        // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
+        // @phpstan-ignore impure.staticPropertyAccess
         return self::$calculator::compare($this->amount, $other->amount);
     }
 
@@ -213,7 +213,7 @@ final class Money implements JsonSerializable, Wireable
                 throw InvalidArgumentException::currencyMismatch();
             }
 
-            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess
             $amount = self::$calculator::add($amount, $addend->amount);
         }
 
@@ -236,7 +236,7 @@ final class Money implements JsonSerializable, Wireable
                 throw InvalidArgumentException::currencyMismatch();
             }
 
-            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess
             $amount = self::$calculator::subtract($amount, $subtrahend->amount);
         }
 
@@ -276,7 +276,7 @@ final class Money implements JsonSerializable, Wireable
             $divisor = (string) $divisor;
         }
 
-        // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
+        // @phpstan-ignore impure.staticPropertyAccess
         $quotient = $this->round(self::$calculator::divide($this->amount, $divisor), $roundingMode);
 
         return new self($quotient, $this->currency);
@@ -403,16 +403,16 @@ final class Money implements JsonSerializable, Wireable
     private function round(string $amount, int $roundingMode): string
     {
         if ($roundingMode === self::ROUND_UP) {
-            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess
             return self::$calculator::ceil($amount);
         }
 
         if ($roundingMode === self::ROUND_DOWN) {
-            // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
+            // @phpstan-ignore impure.staticPropertyAccess
             return self::$calculator::floor($amount);
         }
 
-        // @phpstan-ignore impure.staticPropertyAccess, possiblyImpure.methodCall
+        // @phpstan-ignore impure.staticPropertyAccess
         return self::$calculator::round($amount, $roundingMode);
     }
 

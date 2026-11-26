@@ -12,9 +12,9 @@ use Traversable;
 
 final class BitcoinCurrencies implements Currencies
 {
-    public const CODE = 'XBT';
+    public const string CODE = 'XBT';
 
-    public const SYMBOL = "\xC9\x83";
+    public const string SYMBOL = "\xC9\x83";
 
     public function contains(Currency $currency): bool
     {

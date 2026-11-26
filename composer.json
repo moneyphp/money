@@ -28,7 +28,7 @@
     ],
     "homepage": "http://moneyphp.org",
     "require": {
-        "php": "~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "php": "~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
         "ext-bcmath": "*",
         "ext-filter": "*",
         "ext-json": "*",
@@ -38,7 +38,7 @@
         "ext-gmp": "*",
         "ext-intl": "*",
         "cache/taggable-cache": "^1.1.0",
-        "doctrine/coding-standard": "^12.0",
+        "doctrine/coding-standard": "^14.0",
         "doctrine/instantiator": "^1.5.0 || ^2.0",
         "florianv/exchanger": "^2.8.1",
         "florianv/swap": "^4.3.0",
@@ -47,9 +47,9 @@
         "php-http/message": "^1.16.0",
         "php-http/mock-client": "^1.6.0",
         "phpbench/phpbench": "^1.2.5",
-        "phpstan/extension-installer": "^1.4",
-        "phpstan/phpstan": "^2.1.9",
-        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/extension-installer": "^1.4.3",
+        "phpstan/phpstan": "^2.3.7",
+        "phpstan/phpstan-phpunit": "^2.1.2",
         "phpunit/phpunit": "^10.5.9",
         "psr/cache": "^1.0.1 || ^2.0 || ^3.0",
         "ticketswap/phpstan-error-formatter": "^1.1"
@@ -92,23 +92,23 @@
     },
     "scripts": {
         "benchmark": [
-            "vendor/bin/phpbench run --retry-threshold=3 --iterations=15 --revs=1000  --warmup=2"
+            "@php vendor/bin/phpbench run --retry-threshold=3 --iterations=15 --revs=1000  --warmup=2"
         ],
         "clean": "rm -rf build/ vendor/",
         "test": [
-            "vendor/bin/phpbench run",
-            "vendor/bin/phpunit",
-            "vendor/bin/phpstan",
-            "vendor/bin/phpcs"
+            "@php vendor/bin/phpbench run",
+            "@php vendor/bin/phpunit",
+            "@php vendor/bin/phpstan",
+            "@php vendor/bin/phpcs"
         ],
         "test-coverage": [
-            "vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml"
+            "@php vendor/bin/phpunit --coverage-text --coverage-clover=build/unit_coverage.xml"
         ],
         "update-currencies": [
             "cp vendor/moneyphp/iso-currencies/resources/current.php resources/currency.php",
             "cp vendor/moneyphp/crypto-currencies/resources/binance.php resources/binance.php",
-            "php resources/generate-money-factory.php",
-            "php resources/generate-teller-factory.php"
+            "@php resources/generate-money-factory.php",
+            "@php resources/generate-teller-factory.php"
         ]
     }
 }
